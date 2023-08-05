@@ -300,7 +300,94 @@ paths:
         '204':
           description: Resource deleted successfully
       
-    
+  '/data/':
+    parameters:
+      - name: resourceName
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: List mock data related to a resource
+      responses:
+        '200':
+          description: Processed response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ResourceMockData'
+
+    post:
+      summary: Process POST requests based on resource attributes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceMockData'
+      responses:
+        '201':
+          description: Resource mock data created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+
+    put:
+      summary: Process PUT requests to edit mock data for a resource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceMockData'
+      responses:
+        '200':
+          description: Resource updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+
+    delete:
+      summary: Process DELETE requests based on resource attributes
+      parameters:
+        - name: filter
+          in: query
+          schema:
+            type: boolean
+        - name: pagination
+          in: query
+          schema:
+            type: boolean
+        - name: search
+          in: query
+          schema:
+            type: boolean
+        - name: validation
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '204':
+          description: Resource deleted successfully
     
     
 components:
@@ -378,3 +465,12 @@ components:
       required:
         - resourceName
         - method
+        
+    ResourceMockData:
+      type: object
+      properties:
+        resource:
+          type: object
+        data:
+          type: object
+        
