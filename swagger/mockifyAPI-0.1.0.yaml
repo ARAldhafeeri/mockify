@@ -241,23 +241,6 @@ paths:
 
     put:
       summary: Process PUT requests based on resource attributes
-      parameters:
-        - name: filter
-          in: query
-          schema:
-            type: boolean
-        - name: pagination
-          in: query
-          schema:
-            type: boolean
-        - name: search
-          in: query
-          schema:
-            type: boolean
-        - name: validation
-          in: query
-          schema:
-            type: boolean
       requestBody:
         required: true
         content:
@@ -279,34 +262,11 @@ paths:
 
     delete:
       summary: Process DELETE requests based on resource attributes
-      parameters:
-        - name: filter
-          in: query
-          schema:
-            type: boolean
-        - name: pagination
-          in: query
-          schema:
-            type: boolean
-        - name: search
-          in: query
-          schema:
-            type: boolean
-        - name: validation
-          in: query
-          schema:
-            type: boolean
       responses:
         '204':
           description: Resource deleted successfully
-      
+  
   '/data/':
-    parameters:
-      - name: resourceName
-        in: path
-        required: true
-        schema:
-          type: string
     get:
       summary: List mock data related to a resource
       responses:
@@ -388,7 +348,75 @@ paths:
       responses:
         '204':
           description: Resource deleted successfully
-    
+          
+
+
+  '/project/':
+    get:
+      summary: List all user projects
+      responses:
+        '200':
+          description: Processed response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Project'
+
+    post:
+      summary: create user project
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '201':
+          description: project created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+
+    put:
+      summary: Process PUT requests to edit user projects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '200':
+          description: Resource updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+
+    delete:
+      summary: Process DELETE project
+      responses:
+        '204':
+          description: Resource deleted successfully
+      
     
 components:
   securitySchemes:
@@ -413,6 +441,8 @@ components:
     Resource:
       type: object
       properties:
+        project:
+          $ref: '#/components/schemas/Project'
         resourceName:
           type: string
         method:
@@ -470,7 +500,17 @@ components:
       type: object
       properties:
         resource:
-          type: object
+          $ref: '#/components/schemas/ResourceDescription'
         data:
           type: object
+          
+    Project:
+      type: object
+      properties:
+        name:
+          type: string
+        _id:
+          type: string
+        user:
+          type: string
         
