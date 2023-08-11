@@ -16,7 +16,7 @@ Mocking APIs is a very important step in API-first design. Allow development tea
 
 ## mockify roadmap: 
 - Security
-  + [ ] mock authentication and authorization by creating simple wrapper in mockify for keyclock for each authentication and authorization flow.
+  + [ ] mock jwt authentication & authorization
 - APIs:
   + [ ] mock rest apis endpoints & ui
   + [ ] mock graphql endpoints & ui 
