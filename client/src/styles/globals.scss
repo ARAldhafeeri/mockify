@@ -1,0 +1,72 @@
+// vars.scss
+
+// Colors
+$primary: #3498db;
+$primary-dark: #217dbb;
+$secondary: #e74c3c;
+$secondary-dark: #c0392b;
+$background: #f2f2f2;
+$text: #333;
+// colors 
+$white: #fff;
+$black: #000;
+$gray: #808080;
+$gray-light: #f2f2f2;
+$gray-dark: #333;
+$blue: #3498db;
+$blue-light: #5bc0de;
+$blue-dark: #217dbb;
+$green: #2ecc71;
+$green-light: #5cb85c;
+$green-dark: #2a9055;
+$orange: #f39c12;
+$orange-light: #f0ad4e;
+
+// Fonts
+$heading-font: 'Arial', sans-serif;
+$body-font: 'Helvetica', sans-serif;
+
+// Spacing
+$base-spacing: 1rem;
+$small-spacing: 0.5rem;
+$large-spacing: 2rem;
+
+// Breakpoints
+$mobile-breakpoint: 576px;
+$tablet-breakpoint: 768px;
+$desktop-breakpoint: 992px;
+$large-desktop-breakpoint: 1200px;
+
+// Z-Index
+$z-index-header: 100;
+$z-index-modal: 200;
+$z-index-dropdown: 300;
+
+// Other variables
+$border-radius: 4px;
+$box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+// Media queries
+@mixin mobile {
+  @media (max-width: $mobile-breakpoint) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: $tablet-breakpoint) and (max-width: calc($desktop-breakpoint - 1)) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $desktop-breakpoint) {
+    @content;
+  }
+}
+
+@mixin large-desktop {
+  @media (min-width: $large-desktop-breakpoint) {
+    @content;
+  }
+}

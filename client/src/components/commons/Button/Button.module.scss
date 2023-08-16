@@ -1,0 +1,31 @@
+@import "../../../styles/globals.scss";
+
+.mockify-btn {
+  background-color: $primary-dark;
+  color: $white;
+  border: none;
+  border-radius: 20px;
+  width: 200px;
+  height: 40px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  font-weight: 800;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: $primary-dark;
+  }
+}
+
+.button--secondary {
+  background-color: $secondary;
+  color: $white;
+
+  &:hover {
+    background-color: $secondary-dark;
+  }
+}
+

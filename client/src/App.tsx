@@ -1,13 +1,12 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 import UserList from './components/UserList';
-
-function App() {
+import MockifyButton from './components/commons/Button/Button';
+const  App : React.FC = () => {
   return (
-    <div className="App">
-      <UserList />
-      <h1>hello</h1>
-    </div>
+      <>
+        <MockifyButton classes={['mockify-btn']} text="Mockify" />
+      </>
   );
 }
 
