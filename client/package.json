@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@codemirror/lang-javascript": "^6.1.9",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -11,6 +12,8 @@
     "@types/node": "^16.18.40",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
+    "@uiw/codemirror-themes": "^4.21.9",
+    "@uiw/react-codemirror": "^4.21.9",
     "antd": "^5.8.3",
     "axios": "^1.4.0",
     "react": "^18.2.0",

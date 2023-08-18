@@ -1,11 +1,14 @@
 import React from 'react';
 import './App.scss';
-import UserList from './components/UserList';
-import MockifyButton from './components/commons/Button/Button';
+import MockifyCodeEditor from './components/commons/CodeEditor/CodeEditor';
+
 const  App : React.FC = () => {
+  const onChange = React.useCallback((value: any, viewUpdate: any) => {
+    console.log('value:', value);
+  }, []);
   return (
       <>
-        <MockifyButton classes={['mockify-btn']} text="Mockify" />
+       <MockifyCodeEditor value="console.log(1)" onChange={onChange} height='400px' width='400px' />
       </>
   );
 }
