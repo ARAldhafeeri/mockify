@@ -1,7 +1,2 @@
-const API_ROUTE : String = "/api/v1";
-const USERS_ROUTE : String = '/users';
-
-module.exports = {
-    API_ROUTE,
-    USERS_ROUTE
-}
+export const API_ROUTE : string = "/api/v1";
+export const USER_ROUTE : string = '/user';

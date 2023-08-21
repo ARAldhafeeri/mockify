@@ -27,3 +27,15 @@ Mocking APIs is a very important step in API-first design. Allow development tea
   + [ ] rpc endpoints & ui
 - Databases:
   + [ ] mongodb
+
+
+## running integration tests 
+1- build and run mockify docker container
+```bash
+docker-compose up -d --build
+```
+2- run integration tests
+```bash
+npm run test:integration
+```
+note: recommended ci/cd : with docker images build and run 
