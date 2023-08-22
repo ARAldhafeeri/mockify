@@ -13,7 +13,7 @@ const passwordService = new PasswordService();
     if (!superAdminDefaultData) {
         
         const {hashedPassword, salt} = await passwordService.createPassword(SUPER_ADMIN_PSWD)
-        
+        console.log(hashedPassword, salt)
         superAdminDefaultData = {
             username: SUPER_ADMIN_USERNAME,
             email: SUPER_ADMIN_EMAIL,

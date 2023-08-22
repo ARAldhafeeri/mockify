@@ -38,4 +38,5 @@ docker-compose up -d --build
 ```bash
 npm run test:integration
 ```
-note: recommended ci/cd : with docker images build and run 
+from within the docker container 
+note: recommended ci/cd : with docker images build and run

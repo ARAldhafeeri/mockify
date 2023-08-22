@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 import { Response, Request } from "express";
-import { SECRET_KEY } from "../getEnv";
-import PasswordService from "../services/password";
-import CryptoService from "../services/crypto";
-import UserModel from "../models/User";
+import { SECRET_KEY, JWT_EXPIRES_IN} from "getEnv";
+import PasswordService from "services/password";
+import CryptoService from "services/crypto";
+import UserModel from "models/User";
 
 const passwordService = new PasswordService(),
       cryptoService = new CryptoService();
@@ -21,7 +21,7 @@ export const userLoginController = async function(req : UserLoginRequest, res: R
     const { username , password } = req.body 
 
     const foundUser = await UserModel.findOne({ username: username })
-    
+
     if (!foundUser) return res.status(400).send({ status: false, message: "user or password is wrong"})
 
     const verifyPassword = await passwordService.verifyPassword(
@@ -38,7 +38,7 @@ export const userLoginController = async function(req : UserLoginRequest, res: R
 
     const token = jwt.sign({secret: secret},
         SECRET_KEY,  {
-      expiresIn: `${process.env.JWT_EXPIRES_IN}`,
+      expiresIn: JWT_EXPIRES_IN,
     });
 
     return res.status(200).json({ token: token, uid: foundUser._id})

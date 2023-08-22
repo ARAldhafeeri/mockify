@@ -1,7 +1,7 @@
 import React from "react";
 import MockifyTableTypes from "./Table.types";
 import { Table } from "antd";
-import { addtionalClasses } from "../../../utils";
+import { addtionalClasses } from "utils";
 
 const MockifyTable: React.FC<MockifyTableTypes> = ({ columns, data, classes}) => {
   return (

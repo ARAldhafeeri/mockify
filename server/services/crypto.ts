@@ -1,5 +1,5 @@
 import crypto from "crypto-js";
-import { SECRET_KEY, SECRET_KEY_FILES_256BIT } from '../getEnv';
+import { SECRET_KEY, SECRET_KEY_FILES_256BIT } from 'getEnv';
 
 
 interface Crypto {

@@ -1,7 +1,7 @@
 import React from "react";
 import "./TextArea.module.scss";
 import ITextAreaProps from "./TextArea.types";
-import { addtionalClasses } from "../../../utils";
+import { addtionalClasses } from "utils";
 import { Input } from 'antd';
 const { TextArea } = Input;
 

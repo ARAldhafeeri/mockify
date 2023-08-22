@@ -8,13 +8,17 @@ services:
     depends_on:
       - mongo
 
-  client:
-    build:
-      context: ./client
-    ports:
-      - '3000:3000'
+  # client:
+  #   build:
+  #     context: ./client
+  #   ports:
+  #     - '3000:3000'
 
   mongo:
     image: 'mongo:latest'
     ports:
       - '27017:27017'
+      
+networks:
+  default:
+    driver: bridge

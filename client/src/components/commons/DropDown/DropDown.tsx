@@ -2,7 +2,7 @@
 import React from 'react';
 import MockifyDropDownProps from './DropDown.types';
 import { Dropdown, Space, Button  } from 'antd';
-import { addtionalClasses } from '../../../utils';
+import { addtionalClasses } from 'utils';
 
 const MockifyDropDown: React.FC<MockifyDropDownProps> = ({ items, classes, menuBtnText, menuBtnClasses }) => {
   return (

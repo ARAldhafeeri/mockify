@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "antd";
-import { addtionalClasses } from "../../../utils/index";
+import { addtionalClasses } from "utils/index";
 import "./Button.module.scss";
 import ButtonProps from "./Button.types";
 
