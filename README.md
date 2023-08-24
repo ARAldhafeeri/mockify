@@ -5,7 +5,7 @@ Mockify is an open-source, low-code solution that allows development teams to cr
 Mocking APIs is a very important step in API-first design. Allow development teams frontend and backend to work in parallel. Instead of having backend developers finish endpoints first, frontend developers start with UI development activities. Backend developers or frontend developers can create mock API endpoints on mockify to speed up the development process and understand the business logic better.
 
 ## Mockify features v1.0.0:
-- [ ] admin portal to manage uers, endpoints (v0.1.0)
+- [ ] admin portal to manage uers, authentication, authorization, policies and users curds endpoints (v0.1.0)
 - [ ] Mock response (v0.2.0)
 - [ ] Project curd endpoints and ui on admin portal (v0.3.0)
 - [ ] Mock complex business logic via NodeJS serverless functions (v0.4.0)
