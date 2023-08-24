@@ -13,9 +13,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Resource'
+                $ref: '#/components/schemas/SuccessResponse'
     post:
       summary: Create a new resource ( user role required )
       requestBody:
@@ -44,7 +42,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Resource'
+                $ref: '#/components/schemas/SuccessResponse'
     put:
       summary: Update resource by ID ( user role required )
       security:
@@ -63,7 +61,11 @@ paths:
               $ref: '#/components/schemas/Resource'
       responses:
         '200':
-          description: Resource updated successfully
+          description: "edit resource"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
     delete:
       summary: Delete resource by ID ( user role required )
       parameters:
@@ -97,10 +99,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  token:
-                    type: string
+                $ref: '#/components/schemas/SuccessResponse'
   /api/users:
     get:
       summary: Get a list of users (Superadmin role required)
@@ -112,9 +111,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/SuccessResponse'
     post:
       summary: Create a new user (Superadmin role required)
       security:
@@ -145,7 +142,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/SuccessResponse'
     put:
       summary: Update user by ID (Superadmin role required)
       security:
@@ -210,12 +207,8 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  data:
-                    type: object
+                $ref: '#/components/schemas/SuccessResponse'
+               
       x-endpoint-facade: true
     
     post:
@@ -232,12 +225,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  data:
-                    type: object
+               $ref: '#/components/schemas/SuccessResponse'
 
     put:
       summary: Process PUT requests based on resource attributes
@@ -253,12 +241,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  data:
-                    type: object
+                 $ref: '#/components/schemas/SuccessResponse'
 
     delete:
       summary: Process DELETE requests based on resource attributes
@@ -275,14 +258,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/ResourceMockData'
+               $ref: '#/components/schemas/SuccessResponse'
 
     post:
       summary: Process POST requests based on resource attributes
@@ -298,13 +274,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  data:
-                    type: object
-
+                $ref: '#/components/schemas/SuccessResponse'
     put:
       summary: Process PUT requests to edit mock data for a resource
       requestBody:
@@ -319,12 +289,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  data:
-                    type: object
+                $ref: '#/components/schemas/SuccessResponse'
 
     delete:
       summary: Process DELETE requests based on resource attributes
@@ -383,12 +348,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  data:
-                    type: object
+                $ref: '#/components/schemas/SuccessResponse'
 
     put:
       summary: Process PUT requests to edit user projects
@@ -404,19 +364,70 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  data:
-                    type: object
+                $ref: '#/components/schemas/SuccessResponse'
 
     delete:
       summary: Process DELETE project
       responses:
         '204':
           description: Resource deleted successfully
-      
+  
+  
+  '/policy/':
+    get:
+      summary: List all policies
+      responses:
+        '200':
+          description: Processed response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Project'
+
+    post:
+      summary: create user project policy 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '201':
+          description: policy created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+    put:
+      summary: edit a policy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '200':
+          description: Resource updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+    delete:
+      summary: Process DELETE policy
+      responses:
+        '204':
+          description: Resource deleted successfully
     
 components:
   securitySchemes:
@@ -513,4 +524,59 @@ components:
           type: string
         user:
           type: string
+    Policy:
+      type: object
+      properties:
+        project:
+          $ref: '#/components/schemas/Project'
+        resources:
+          type: array
+          items: 
+            type: string
+        actions:
+          type: array
+          items:
+            type: string
+        roles:
+          type: array
+          items:
+            type: string 
+        policies:
+          type: array
+          items:
+            type:
+              object
+            properties:
+              role: 
+                type: string
+              can:
+                type: array
+                items:
+                  type:
+                    string
+              on:
+                type: array
+                items:
+                  type:
+                    string
+                  
+    SuccessResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        status:
+          type: boolean
+        data:
+          type: object
+            
+    FailResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        status:
+          type: boolean
+        data:
+          type: object
         
