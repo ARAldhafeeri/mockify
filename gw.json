@@ -1,0 +1,19 @@
+{
+    "resources": ["user", "resource", "resourceDescription", "resourceMockData", "project", "policy"],
+    "actions": ["delete", "create", "update", "read"],
+    "roles": ["user", "super-admin"],
+    "policies": [
+        {
+            "role": "user",
+            "can": ["delete", "create", "update", "read"],
+            "on": [ "resource", "resourceDescription", "resourceMockData", "project", "policy"]
+        },
+
+        {
+            "role": "super-admin",
+            "can": ["*"], 
+            "on": ["*"]
+        }
+        
+    ]
+}
