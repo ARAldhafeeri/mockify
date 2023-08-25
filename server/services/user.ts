@@ -28,6 +28,10 @@ class UserService implements IUserService  {
   }
 
   updateUser = async (user: IUser) => {
+    if (user.username === SUPER_ADMIN_USERNAME) {
+      throw new Error("super admin cannot be updated");
+    };
+    
     const updatedUser = await UserModel.findOneAndUpdate(
       { _id: user._id },
       user,

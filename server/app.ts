@@ -20,7 +20,7 @@ applyServerHardening(app)
 // catch errors 
 app.use(function(err : any, req : any, res : any , next : any) {
   console.error(err.stack)
-  res.status(500).send({status: false, message: `unexpected error ${err}`})
+  res.status(500).send({status: false, message: ` error ${err}`})
 })
 
 export default app;

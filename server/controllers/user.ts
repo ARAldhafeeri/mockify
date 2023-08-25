@@ -23,7 +23,7 @@ export const getUsers = async function(req : Request, res: Response) : Promise<a
   
   } catch (err){
 
-    res.status(400).send({status: false, message: `unexpected error ${err}`})
+    res.status(400).send({status: false, message: ` error ${err}`})
 
   }
  
@@ -54,7 +54,7 @@ export const createUser = async function(req : Request, res: Response) : Promise
   
   } catch (err){
 
-    res.status(400).send({status: false, message: `unexpected error ${err}`})
+    res.status(400).send({status: false, message: ` error ${err}`})
 
   }
  
@@ -74,7 +74,7 @@ export const updateUser = async function(req : any, res: Response) : Promise<any
   
   } catch (err){
 
-    res.status(400).send({status: false, message: `unexpected error ${err}`})
+    res.status(400).send({status: false, message: `error ${err}`})
 
   }
  
@@ -94,7 +94,7 @@ export const deleteUser = async function(req : any, res: Response) : Promise<any
   
   } catch (err){
 
-    res.status(400).send({status: false, message: `unexpected error ${err}`})
+    res.status(400).send({status: false, message: ` error ${err}`})
 
   }
  

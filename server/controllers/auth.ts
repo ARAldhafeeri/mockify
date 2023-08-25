@@ -45,7 +45,7 @@ export const userLoginController = async function(req : UserLoginRequest, res: R
   
   } catch (err){
 
-    res.status(400).send({status: false, message: `unexpected error ${err}`})
+    res.status(400).send({status: false, message: ` error ${err}`})
 
   }
  
