@@ -1,9 +1,9 @@
 import request, {Request} from 'supertest';
-import app from 'app';
-import { API_ROUTE, USER_LOGIN_ROUTE  } from 'config/routes';
+import app from '../../app';
+import { API_ROUTE, USER_LOGIN_ROUTE  } from '../../config/routes';
 import { SUPER_ADMIN_USERNAME, SUPER_ADMIN_PSWD, DATABASE_URL} from '../../getEnv';
 import mongoose from 'mongoose';
-import { DefaultData } from 'defaultData';
+import { DefaultData } from '../../defaultData';
 
 describe('end-to-end tests user endpoint', () => {
 

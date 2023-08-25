@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 import { Response, Request } from "express";
-import { SECRET_KEY, JWT_EXPIRES_IN} from "getEnv";
-import PasswordService from "services/password";
-import CryptoService from "services/crypto";
-import UserModel from "models/User";
+import { SECRET_KEY, JWT_EXPIRES_IN} from "../getEnv";
+import PasswordService from "../services/password";
+import CryptoService from "../services/crypto";
+import UserModel from "../models/User";
 
 const passwordService = new PasswordService(),
       cryptoService = new CryptoService();

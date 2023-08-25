@@ -1,4 +1,4 @@
-import CryptoService from 'services/crypto';
+import CryptoService from '../../services/crypto';
 
 describe('Crypto', () => {
   test('should encrypt and decrypt', async () => {

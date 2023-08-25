@@ -1,27 +1,24 @@
 import { Response, Request } from "express";
-import UserService from "services/user";
+import UserService from "../services/user";
+import { SUPER_ADMIN_USERNAME } from "../getEnv";
+import PasswordService from "../services/password";
 
 const userService = new UserService();
+const passwordService = new PasswordService();
 
-interface UserLoginRequest extends Request {
-  body: {
-    username: string;
-    password: string;
-  };
-}
 
-export const getUsers = async function(req : any, res: Response) : Promise<any> {
+export const getUsers = async function(req : Request, res: Response) : Promise<any> {
   try {
 
     const foundUsers = await userService.findAll(
-      {hashPassword: 0, salt: 0}
+      {hashedPassword: 0, salt: 0}
     )
 
     if (!foundUsers){
       res.status(400).send({status: false, message: `users not found`})
     }
 
-    return foundUsers;
+    return res.status(200).send({status: true, data: foundUsers});
     
   
   } catch (err){
@@ -32,16 +29,27 @@ export const getUsers = async function(req : any, res: Response) : Promise<any> 
  
 }
 
-export const createUser = async function(req : any, res: Response) : Promise<any> {
+export const createUser = async function(req : Request, res: Response) : Promise<any> {
   try {
 
-    const newUser = await userService.createUser(req.body)
+    const data = req.body;
+
+    data.createdBy  = SUPER_ADMIN_USERNAME;
+    data.createdAt = new Date() ;
+
+
+    const {salt, hashedPassword} = await passwordService.createPassword(data.password)
+
+    data.salt = salt as string;
+    data.hashedPassword = hashedPassword ;
+
+    const newUser = await userService.createUser(data)
 
     if (!newUser){
       res.status(400).send({status: false, message: `user not created`})
     }
 
-    return newUser;
+    return res.status(200).send({status: true, data: newUser});
     
   
   } catch (err){
@@ -61,7 +69,7 @@ export const updateUser = async function(req : any, res: Response) : Promise<any
       res.status(400).send({status: false, message: `user not updated`})
     }
 
-    return updatedUser;
+    return res.status(200).send({status: true, data: updatedUser});
     
   
   } catch (err){
@@ -81,7 +89,7 @@ export const deleteUser = async function(req : any, res: Response) : Promise<any
       res.status(400).send({status: false, message: `user not deleted`})
     }
 
-    return deletedUser;
+    return res.status(200).send({status: true, data: deletedUser})
     
   
   } catch (err){

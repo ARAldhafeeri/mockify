@@ -33,7 +33,7 @@ Mocking APIs is a very important step in API-first design. Allow development tea
 ## running integration tests 
 1- build and run mockify docker container
 ```bash
-docker-compose up -d --build
+docker-compose --env-file=./server/.env build
 ```
 2- run integration tests
 ```bash
@@ -41,3 +41,20 @@ npm run test:integration
 ```
 from within the docker container 
 note: recommended ci/cd : with docker images build and run
+
+
+### deployment 
+1- build and run mockify docker container
+```bash
+docker-compose --env-file=./server/.env build
+```
+2- run integration tests
+```bash
+npm run test:integration
+```
+from within the docker container
+3- run mockify docker container
+```bash
+docker-compose --env-file=./server/.env up -d
+```
+

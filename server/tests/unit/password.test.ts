@@ -1,4 +1,4 @@
-import PasswordService from "services/password";
+import PasswordService from "../../services/password";
 
 describe('Password', () => {
 

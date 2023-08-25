@@ -1,6 +1,6 @@
 import express from 'express';
-import {userLoginController} from 'controllers/auth';
-import { USER_LOGIN_ROUTE } from 'config/routes';
+import {userLoginController} from '../controllers/auth';
+import { USER_LOGIN_ROUTE } from '../config/routes';
 
 const authRouter = express.Router();
 
