@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   DesktopOutlined,
   FileOutlined,
@@ -6,68 +7,80 @@ import {
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Layout, Menu } from 'antd';
+import { useRoutes } from 'react-router-dom';
+import { Routes } from '../../../routes';
 
 const { Content, Footer, Sider } = Layout;
 
-type MenuItem = Required<MenuProps>['items'][number];
-
-function getItem(
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[],
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  } as MenuItem;
+interface MenuItem {
+  key: string;
+  icon: React.ReactNode;
+  label: string;
+  to?: string;
+  subItems?: MenuItem[];
 }
 
+interface ILoggedInLayoutProps {
+  children: React.ReactNode;
+}
 const items: MenuItem[] = [
-  getItem('Option 1', '1', <PieChartOutlined />),
-  getItem('Option 2', '2', <DesktopOutlined />),
-  getItem('User', 'sub1', <UserOutlined />, [
-    getItem('Tom', '3'),
-    getItem('Bill', '4'),
-    getItem('Alex', '5'),
-  ]),
-  getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-  getItem('Files', '9', <FileOutlined />),
+  {
+    key: 'users',
+    icon: <UserOutlined />,
+    label: 'Users',
+    to: '/user',
+  },
+  {
+    key: 'dashbaord',
+    icon: <DesktopOutlined />,
+    label: 'Dashboard',
+    to: '/dashboard',
+  }
+  // Add more menu items if needed
 ];
 
 
-interface LoggedInLayoutProps {
-  children: React.ReactNode;
-}
 
-const LoggedInLayout : React.FC<LoggedInLayoutProps> = ({children}) => {
-  
-  const [collapsed, setCollapsed] = useState(false);
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+const LoggedInLayout: React.FC<ILoggedInLayoutProps> = ({children}) => {
+  const [collapsed, setCollapsed] = useState(false as boolean);
+  const [current, setCurrent] = useState('1' as string);
+
+
+  const setActiveKeyBasedOnPath = () : void => {
+    // update the current active key based on the path
+    // path and to must match
+    const path = window.location.pathname;
+    const item = items.find(item => item.to === path);
+    if (item) {
+      setCurrent(item.key);
+    }
+  };
+
+  useEffect(() => {
+    setActiveKeyBasedOnPath();
+  }, []);
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+    <Layout hasSider={true} style={{ minHeight: '100vh' }}>
+      <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+        <Menu theme="dark" selectedKeys={[current]} mode="inline">
+          {items.map(item => (
+            <Menu.Item key={item.key} icon={item.icon}>
+              <Link to={item.to || '/'}>{item.label}</Link>
+            </Menu.Item>
+          ))}
+        </Menu>
       </Sider>
       <Layout>
         <Content style={{ margin: '0 16px' }}>
-          <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>
             {children}
-          </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>MOCKIFY.IO ©2023</Footer>
       </Layout>
     </Layout>
   );
-}
-
+};
 
 export default LoggedInLayout;
