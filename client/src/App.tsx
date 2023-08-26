@@ -3,7 +3,10 @@ import './App.scss';
 import { Space, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import MockifyTable from './components/commons/Table/Table';
-
+import { MOCKIFY_API } from 'constants/env';
+import LoggedInLayout from 'components/containers/Layout/LoggedInLayout';
+import NotLoggedInLayout from 'components/containers/Layout/NotLoggedInLayout';
+console.log(MOCKIFY_API)
 interface DataType {
   key: string;
   name: string;
@@ -89,7 +92,10 @@ const data: DataType[] = [
 
 const  App : React.FC = () => {
   return (
-    <MockifyTable columns={columns} data={data} classes={["mockify-table"]} />
+    // <LoggedInLayout>
+    //       <MockifyTable columns={columns} data={data} classes={["mockify-table"]} />
+    // </LoggedInLayout>
+    <NotLoggedInLayout />
     );
 }
 

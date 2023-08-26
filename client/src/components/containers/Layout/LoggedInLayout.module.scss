@@ -1,0 +1,64 @@
+@import '../../../styles/globals.scss';
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: $white;
+}
+
+.content {
+  flex: 1;
+  padding: 0 1rem;
+  margin: 0 auto;
+  max-width: 1200px;
+  width: 100%;
+  height: 100%;
+}
+
+.siderContent {
+  flex: 1;
+  padding: 0 1rem;
+  margin: 0 auto;
+  max-width: 1200px;
+  width: 100%;
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid $blue-light;
+}
+
+.sider {
+  flex: 1;
+  padding: 1rem 0;
+  border-right: 1px solid $blue-light;
+}
+
+.footer {
+  padding: 1rem 0;
+  border-top: 1px solid $blue-light;
+}
+
+.siderLayout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.siderMenu {
+  flex: 1;
+  padding: 0 1rem;
+  overflow-y: auto;
+}
+
+.siderMenuContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0;
+}

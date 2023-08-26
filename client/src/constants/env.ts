@@ -1,0 +1,1 @@
+export const MOCKIFY_API = process.env.REACT_APP_MOCKIFY_API || "http://localhost:5000/api/v1";

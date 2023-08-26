@@ -30,3 +30,19 @@
         border-color: $secondary-dark;
     }
 }
+
+.input-label {
+    position: absolute;
+    top: -2px;
+    left: 12px;
+    background-color: white;
+    padding: 0 4px;
+    font-size: 12px;
+    color: $blue-dark;
+    border-radius: 30px;
+    font-family:'Courier New', Courier, monospace;
+}
+
+.mockify-input {
+    position: relative;
+}

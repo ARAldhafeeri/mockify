@@ -14,44 +14,23 @@ $button-text-color: #ffffff;
   background-color: $card-bg-color;
   border-radius: $card-border-radius;
   box-shadow: $card-box-shadow;
-  overflow: hidden;
-  max-width: 300px;
-  margin: 20px auto;
+  display: flex;
   
   .card-header {
-    background-color: $card-header-bg;
     padding: 10px;
     text-align: center;
     font-size: 1.2rem;
     font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
   }
-  
+
   .card-content {
+    padding: 10px;
+    width: 100%;
     display: flex;
-    padding: $card-content-padding;
-    font-size: 1rem;
-    line-height: 1.5;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
   }
   
-  .card-buttons {
-    display: flex;
-    justify-content: center;
-    margin-top: 15px;
-    
-    button {
-      background-color: $button-bg;
-      color: $button-text-color;
-      border: none;
-      border-radius: 5px;
-      padding: 8px 15px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      
-      &:hover {
-        background-color: darken($button-bg, 10%);
-      }
-    }
-  }
 }
