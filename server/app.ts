@@ -5,6 +5,7 @@ import authRouter from "./routes/auth";
 import { API_ROUTE } from './config/routes';
 import applyServerHardening from './middleware/security';
 import userRouter from './routes/user';
+import policyRouter from './routes/policy';
 
 const app = express();
 
@@ -14,6 +15,8 @@ app.use(bodyParser.json());
 app.use(API_ROUTE, authRouter);
 
 app.use(API_ROUTE, userRouter);
+
+app.use(API_ROUTE, policyRouter)
 
 applyServerHardening(app)
 
