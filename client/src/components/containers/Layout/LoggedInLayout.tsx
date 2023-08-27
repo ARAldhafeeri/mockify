@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Routes, Route } from 'react-router-dom';
 import {
   DesktopOutlined,
   FileOutlined,
@@ -8,9 +8,8 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
-import { useRoutes } from 'react-router-dom';
-import { Routes } from '../../../routes';
-
+import User from '../User/User';
+import Dashboard from '../Dashboard/Dashboard';
 const { Content, Footer, Sider } = Layout;
 
 interface MenuItem {
@@ -19,47 +18,38 @@ interface MenuItem {
   label: string;
   to?: string;
   subItems?: MenuItem[];
+  element?: React.ReactNode;
 }
 
-interface ILoggedInLayoutProps {
-  children: React.ReactNode;
-}
 const items: MenuItem[] = [
   {
-    key: 'users',
+    key: 'user',
     icon: <UserOutlined />,
     label: 'Users',
     to: '/user',
+    element: <User />
   },
   {
     key: 'dashbaord',
     icon: <DesktopOutlined />,
     label: 'Dashboard',
     to: '/dashboard',
+    element: <Dashboard />
   }
   // Add more menu items if needed
 ];
 
 
 
-const LoggedInLayout: React.FC<ILoggedInLayoutProps> = ({children}) => {
+const LoggedInLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false as boolean);
-  const [current, setCurrent] = useState('1' as string);
+  const [current, setCurrent] = useState('user' as string);
 
-
-  const setActiveKeyBasedOnPath = () : void => {
-    // update the current active key based on the path
-    // path and to must match
-    const path = window.location.pathname;
-    const item = items.find(item => item.to === path);
-    if (item) {
-      setCurrent(item.key);
-    }
+  const handleClick = (e: any) => {
+    console.log('click ', e);
+    setCurrent(e.key);
   };
 
-  useEffect(() => {
-    setActiveKeyBasedOnPath();
-  }, []);
 
   return (
     <Layout hasSider={true} style={{ minHeight: '100vh' }}>
@@ -67,7 +57,7 @@ const LoggedInLayout: React.FC<ILoggedInLayoutProps> = ({children}) => {
         <div className="demo-logo-vertical" />
         <Menu theme="dark" selectedKeys={[current]} mode="inline">
           {items.map(item => (
-            <Menu.Item key={item.key} icon={item.icon}>
+            <Menu.Item key={item.key} onClick={handleClick} icon={item.icon}>
               <Link to={item.to || '/'}>{item.label}</Link>
             </Menu.Item>
           ))}
@@ -75,7 +65,13 @@ const LoggedInLayout: React.FC<ILoggedInLayoutProps> = ({children}) => {
       </Sider>
       <Layout>
         <Content style={{ margin: '0 16px' }}>
-            {children}
+          <Routes>
+            {
+              items.map(item => (
+                <Route key={item.key} path={item.to} element={item.element} />
+              ))
+            }
+          </Routes>        
         </Content>
         <Footer style={{ textAlign: 'center' }}>MOCKIFY.IO ©2023</Footer>
       </Layout>
