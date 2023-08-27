@@ -1,56 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Link, Routes, Route } from 'react-router-dom';
-import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
-import User from '../User/User';
-import Dashboard from '../Dashboard/Dashboard';
+import LoggedInLayoutController from 'controllers/LoggedIn';
 const { Content, Footer, Sider } = Layout;
 
-interface MenuItem {
-  key: string;
-  icon: React.ReactNode;
-  label: string;
-  to?: string;
-  subItems?: MenuItem[];
-  element?: React.ReactNode;
-}
-
-const items: MenuItem[] = [
-  {
-    key: 'user',
-    icon: <UserOutlined />,
-    label: 'Users',
-    to: '/user',
-    element: <User />
-  },
-  {
-    key: 'dashbaord',
-    icon: <DesktopOutlined />,
-    label: 'Dashboard',
-    to: '/dashboard',
-    element: <Dashboard />
-  }
-  // Add more menu items if needed
-];
 
 
 
 const LoggedInLayout: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false as boolean);
-  const [current, setCurrent] = useState('user' as string);
-
-  const handleClick = (e: any) => {
-    console.log('click ', e);
-    setCurrent(e.key);
-  };
-
-
+ const { items, collapsed, setCollapsed, current, handleClick } = LoggedInLayoutController();
   return (
     <Layout hasSider={true} style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
