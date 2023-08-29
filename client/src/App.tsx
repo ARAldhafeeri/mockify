@@ -1,23 +1,18 @@
 import React from 'react';
 import './App.scss';
-import {
-  BrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
 import LoggedInLayout from 'components/containers/Layout/LoggedInLayout';
+import AuthCheckController from 'controllers/AuthCheck';
 import NotLoggedInLayout from 'components/containers/Layout/NotLoggedInLayout';
 
 const  App : React.FC = () => {
-  const [authenticated, setAuthenticated] = React.useState(true);
-  if (authenticated){
+  const {auth } = AuthCheckController();
+  if (auth){
     return (
-      <BrowserRouter>
-        <LoggedInLayout />
-      </BrowserRouter>
+      <NotLoggedInLayout />
     )
   } else {
     return (
-      <NotLoggedInLayout />
+      <LoggedInLayout />
     )
   }
 }

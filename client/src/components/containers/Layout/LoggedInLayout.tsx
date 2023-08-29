@@ -9,7 +9,8 @@ const { Content, Footer, Sider } = Layout;
 
 const LoggedInLayout: React.FC = () => {
  const { items, collapsed, setCollapsed, current, handleClick } = LoggedInLayoutController();
-  return (
+
+ return (
     <Layout hasSider={true} style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
         <div className="demo-logo-vertical" />
