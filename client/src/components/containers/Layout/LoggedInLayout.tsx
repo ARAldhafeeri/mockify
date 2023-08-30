@@ -2,13 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { Link, Routes, Route } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import LoggedInLayoutController from 'controllers/LoggedIn';
+import { items } from 'routes';
+
 const { Content, Footer, Sider } = Layout;
 
+interface LoggedInLayoutProps {
+  children: React.ReactNode;
+}
 
-
-
-const LoggedInLayout: React.FC = () => {
- const { items, collapsed, setCollapsed, current, handleClick } = LoggedInLayoutController();
+const LoggedInLayout: React.FC<LoggedInLayoutProps> = (props) => {
+ const {
+    collapsed, 
+    setCollapsed, 
+    current, 
+    handleClick 
+  } = LoggedInLayoutController();
 
  return (
     <Layout hasSider={true} style={{ minHeight: '100vh' }}>
@@ -24,13 +32,7 @@ const LoggedInLayout: React.FC = () => {
       </Sider>
       <Layout>
         <Content style={{ margin: '0 16px' }}>
-          <Routes>
-            {
-              items.map(item => (
-                <Route key={item.key} path={item.to} element={item.element} />
-              ))
-            }
-          </Routes>        
+          {props.children}
         </Content>
         <Footer style={{ textAlign: 'center' }}>MOCKIFY.IO ©2023</Footer>
       </Layout>

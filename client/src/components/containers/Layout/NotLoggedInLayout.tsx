@@ -2,11 +2,16 @@ import React from 'react'
 import MockifyCard from 'components/commons/Card/Card';
 import LoginForm from '../Forms/LoginForm/LoginForm';
 import { Layout, theme } from 'antd';
+import AuthCheckController from 'controllers/Auth';
 
 const NotLoggedInLayout: React.FC = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  const {
+    auth 
+  } = AuthCheckController();
 
   return (
     <Layout

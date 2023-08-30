@@ -1,17 +1,19 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { login, logout } from "redux/features/auth/authThunk";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
+import { RootState } from "redux/store";
 
 
 const AuthController : any = () => {
-  const { auth } = useAppSelector((state) => state.auth);
+  const { auth } = useSelector((state : RootState) => state.auth);
   const [data, setData] = React.useState({
     username: "",
     password: "",
 
   });
 
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
   const handleChange = (e : any) => {
     setData({
@@ -23,7 +25,6 @@ const AuthController : any = () => {
   return {
     data,
     handleChange,
-    dispatch,
     login, 
     auth,
   };
