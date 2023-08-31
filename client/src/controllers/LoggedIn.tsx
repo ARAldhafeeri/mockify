@@ -7,7 +7,6 @@ const LoggedInLayoutController = () => {
   const [current, setCurrent] = React.useState('user' as string);
 
   const handleClick = (e: any) => {
-    console.log('click ', e);
     setCurrent(e.key);
   };
 
