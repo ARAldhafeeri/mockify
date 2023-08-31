@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Routes, Route } from 'react-router-dom';
+import { Link, Routes, Route, Navigate } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import LoggedInLayoutController from 'controllers/LoggedIn';
 import { items } from 'routes';
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+
 const { Content, Footer, Sider } = Layout;
 
 interface LoggedInLayoutProps {
@@ -18,6 +19,7 @@ const LoggedInLayout: React.FC<LoggedInLayoutProps> = (props) => {
     current, 
     handleClick 
   } = LoggedInLayoutController();
+
  return (
     <Layout hasSider={true} style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>

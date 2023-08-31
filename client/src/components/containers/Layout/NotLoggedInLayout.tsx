@@ -2,18 +2,22 @@ import React from 'react'
 import MockifyCard from 'components/commons/Card/Card';
 import LoginForm from '../Forms/LoginForm/LoginForm';
 import { Layout, theme } from 'antd';
-import AuthCheckController from 'controllers/Auth';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import AuthController from 'controllers/Auth';
+import { ROUTES_NAMES } from 'constants/routes';
+import { Navigate } from 'react-router';
 
 const NotLoggedInLayout: React.FC = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  const {
-    auth 
-  } = AuthCheckController();
+  const { auth } = AuthController();
+  
+    if (auth){
+      return <Navigate to={ROUTES_NAMES.DASHBOARD} />;
+    }
   return (
     <Layout
       style={{

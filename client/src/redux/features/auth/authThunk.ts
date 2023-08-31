@@ -44,11 +44,10 @@ interface IAuth {
 export const login = createAsyncThunk(
   "users/login",
   async (data : LoginData, thunkAPI) : Promise<IAuth> => {
-    console.log(data)
     try {
       const res : any = await instance.post("/login", data);
 
-      thunkAPI.dispatch(setCurrentUser( res.data.token));
+      thunkAPI.dispatch(setCurrentUser(res.data.token));
 
       return  res.data;
     } catch (error){

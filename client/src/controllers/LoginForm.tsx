@@ -15,7 +15,6 @@ const LoginFormController = () => {
   const dispatch = useAppDispatch();
 
   const handleFormChange = (e : any) => {
-    console.log(e.target.name, e.target.value)
     setData({
       ...data,
       [e.target.name]: e.target.value
