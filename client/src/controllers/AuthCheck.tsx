@@ -15,7 +15,7 @@ const AuthCheckController = () => {
       } else {
         dispatch(setCurrentUser(null));
       }
-    }, [dispatch]);
+    }, []);
   
     return {
         auth

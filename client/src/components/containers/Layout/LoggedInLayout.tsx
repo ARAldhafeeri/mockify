@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Routes, Route, Navigate } from 'react-router-dom';
+import { Link, Routes, Route } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import LoggedInLayoutController from 'controllers/LoggedIn';
 import { items } from 'routes';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import AuthCheckController from 'controllers/AuthCheck';
+import { ROUTES_NAMES } from 'constants/routes';
+import { Navigate } from 'react-router';
 
 const { Content, Footer, Sider } = Layout;
 
@@ -19,6 +22,15 @@ const LoggedInLayout: React.FC<LoggedInLayoutProps> = (props) => {
     current, 
     handleClick 
   } = LoggedInLayoutController();
+
+  const { auth } = AuthCheckController()
+
+  if (!auth){
+    // currently is normal cookie where token is stored
+    // but for security in the near future it's going to be
+    // http only cookie
+    return <Navigate to={ROUTES_NAMES.ROOT} />
+  }
 
  return (
     <Layout hasSider={true} style={{ minHeight: '100vh' }}>
