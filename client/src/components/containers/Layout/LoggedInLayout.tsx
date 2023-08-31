@@ -3,7 +3,8 @@ import { Link, Routes, Route } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import LoggedInLayoutController from 'controllers/LoggedIn';
 import { items } from 'routes';
-
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 const { Content, Footer, Sider } = Layout;
 
 interface LoggedInLayoutProps {
@@ -17,7 +18,6 @@ const LoggedInLayout: React.FC<LoggedInLayoutProps> = (props) => {
     current, 
     handleClick 
   } = LoggedInLayoutController();
-
  return (
     <Layout hasSider={true} style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
@@ -32,6 +32,12 @@ const LoggedInLayout: React.FC<LoggedInLayoutProps> = (props) => {
       </Sider>
       <Layout>
         <Content style={{ margin: '0 16px' }}>
+        <ToastContainer
+          position="top-right" autoClose={5000} 
+          hideProgressBar={false} newestOnTop={false} 
+          closeOnClick rtl={false} draggable pauseOnHover 
+          style={{ width: "450px" }}
+        />
           {props.children}
         </Content>
         <Footer style={{ textAlign: 'center' }}>MOCKIFY.IO ©2023</Footer>

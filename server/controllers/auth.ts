@@ -41,7 +41,9 @@ export const userLoginController = async function(req : UserLoginRequest, res: R
       expiresIn: JWT_EXPIRES_IN,
     });
 
-    return res.status(200).json({ token: token, uid: foundUser._id})
+    return res.status(200).json(
+      { token: token, uid: foundUser._id, status: true, message: "successful Login !"}
+      )
   
   } catch (err){
 

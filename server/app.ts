@@ -6,10 +6,12 @@ import { API_ROUTE } from './config/routes';
 import applyServerHardening from './middleware/security';
 import userRouter from './routes/user';
 import policyRouter from './routes/policy';
+import morgan from "morgan";
 
 const app = express();
 
 app.use(cors());
+app.use(morgan('combined'))
 app.use(bodyParser.json());
 
 app.use(API_ROUTE, authRouter);

@@ -3,7 +3,7 @@ import instance from "../../instance";
 import decode, {JwtPayload} from "jwt-decode";
 import Cookies from "js-cookie";
 import { createAction } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
+import { INCORRECT_LOGIN_MESSAGE } from "constants/messages";
 
 // import { toast } from "react-toastify";
 
@@ -28,33 +28,35 @@ export const setCurrentUser = createAction(
   }
 );
 
-interface loginProps {
-  data : {
-    email : string;
+interface LoginData {
+    username : string;
     password : string;
-  };
 }
 
 interface IAuth {
-  token: string;
+  token?: string;
+  message?: string;
+  status?: boolean;
 }
+
 
 
 export const login = createAsyncThunk(
   "users/login",
-  async (props : loginProps, thunkAPI) : Promise<IAuth> => {
-    console.log("login", props.data);
-    const response = await instance.post("/login", props.data)
-    .then((response) => {
-      thunkAPI.dispatch(setCurrentUser( response.data.token));
-      toast.success("Login Successful");
-      return  response.data.token;
-    }).catch((error) => {
-      console.log(error);
-      toast.error(error.response.data.message);
-    });
+  async (data : LoginData, thunkAPI) : Promise<IAuth> => {
+    console.log(data)
+    try {
+      const res : any = await instance.post("/login", data);
 
-    return response;
+      thunkAPI.dispatch(setCurrentUser( res.data.token));
+
+      return  res.data;
+    } catch (error){
+      return {
+        status: false,
+        message: INCORRECT_LOGIN_MESSAGE
+      }
+    }
 
   }
 );
