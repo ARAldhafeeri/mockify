@@ -15,20 +15,6 @@ Mocking APIs is a very important step in API-first design. Allow development tea
 - [ ] Deployable docker container for mockify self managed (v0.9.0) beta release
 - [ ] use gateWatchJs [to](https://github.com/ARAldhafeeri/gatewatch/tree/main) to mock dynmaic Role based Access control
 
-## mockify roadmap: 
-- Security
-  + [ ] mock jwt authentication & authorization
-  + [ ] mock role based access control
-- APIs:
-  + [ ] mock rest apis endpoints & ui
-  + [ ] mock graphql endpoints & ui 
-  + [ ] mock websockets endpoints & ui
-  + [ ] mock soap endpoints & ui
-  + [ ] web hook endpoints & ui
-  + [ ] rpc endpoints & ui
-- Databases:
-  + [ ] mongodb
-
 
 ## running integration tests 
 1- build and run mockify docker container
