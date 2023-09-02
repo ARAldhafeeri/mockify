@@ -14,10 +14,9 @@ const NotLoggedInLayout: React.FC = () => {
   } = theme.useToken();
 
   const { auth } = AuthController();
-  
-    if (auth){
-      return <Navigate to={ROUTES_NAMES.DASHBOARD} />;
-    }
+  if (auth){
+    return <Navigate to={ROUTES_NAMES.DASHBOARD} />;
+  }
   return (
     <Layout
       style={{

@@ -4,7 +4,7 @@ const LoggedInLayoutController = () => {
 
   
   const [collapsed, setCollapsed] = React.useState(false as boolean);
-  const [current, setCurrent] = React.useState('user' as string);
+  const [current, setCurrent] = React.useState('dashbaord' as string);
 
   const handleClick = (e: any) => {
     setCurrent(e.key);

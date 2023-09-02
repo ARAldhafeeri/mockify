@@ -30,3 +30,47 @@
   }
 }
 
+.table-action-primary {
+  background-color: $primary-dark;
+  color: $white;
+  border: none;
+  border-radius: 20px;
+  width: auto;
+  height: auto;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  font-weight: 400;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+
+  &:hover {
+    background-color: $primary-dark;
+  }
+}
+
+.table-action-secondary {
+  background-color: $secondary;
+  color: $white;
+  border: none;
+  border-radius: 20px;
+  width: auto;
+  height: auto;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  font-weight: 400;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+
+  &:hover {
+    background-color: $secondary-dark;
+  }
+}
+

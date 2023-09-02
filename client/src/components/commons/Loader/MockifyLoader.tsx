@@ -9,13 +9,14 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 const MockifyLoader: React.FC<MockifyLoaderTypes> = (props) => {
  const { delay, indicator, size, spinning, tip, wrapperClassName } = props;
   return (
-    <Spin 
-      delay={delay} 
-      size={size}
-      indicator={antIcon} 
-      spinning={spinning} 
-      tip={tip} 
-      wrapperClassName={wrapperClassName} />
+      <Spin 
+        delay={delay} 
+        size={size}
+        indicator={antIcon} 
+        spinning={spinning} 
+        tip={tip} 
+        className="loader"
+        wrapperClassName={wrapperClassName} />
   );
 }
 

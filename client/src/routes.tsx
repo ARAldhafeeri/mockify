@@ -31,18 +31,18 @@ interface MenuItem {
 
 export const items: MenuItem[] = [
   {
-    key: 'user',
-    icon: <UserOutlined />,
-    label: 'Users',
-    to: '/user',
-    element: <User />
-  },
-  {
     key: 'dashbaord',
     icon: <DesktopOutlined />,
     label: 'Dashboard',
     to: '/dashboard',
     element:  <Dashboard />
+  },
+  {
+    key: 'user',
+    icon: <UserOutlined />,
+    label: 'Users',
+    to: '/user',
+    element: <User />
   }
   // Add more menu items if needed
 ];

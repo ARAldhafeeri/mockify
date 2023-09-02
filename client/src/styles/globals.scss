@@ -70,3 +70,12 @@ $box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     @content;
   }
 }
+
+.loader {
+  display: block;
+  position: fixed;
+  z-index: auto; /* High z-index so it is on top of the page */
+  top: 50%;
+  right: 40%; /* or: left: 50%; */
+  font-size: 60px;
+}

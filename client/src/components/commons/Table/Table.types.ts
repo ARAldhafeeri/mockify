@@ -1,5 +1,7 @@
+import { IFetchUserResponse } from "types/User";
+
 interface MockifyTableTypes {
-    data: any[];
+    data: any ;
     columns: any[];
     classes: Array<string>;
 }
