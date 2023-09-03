@@ -2,10 +2,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import instance from "../../instance";
 import { FAILED_TO_FETCH_USERS } from "constants/messages";
 import { 
-  IFetchUserResponse
+  IFetchUserResponse,
+  IDeleteUserData
 } from "types/User";
 import { ENDPOINTS } from "constants/endpoints";
-
+import { IAPINormalizedResponse } from "types/global";
 
 export const fetchUsers = createAsyncThunk(
   "user/fetch",
@@ -15,3 +16,11 @@ export const fetchUsers = createAsyncThunk(
 
   }
 );
+
+export const deleteUser = createAsyncThunk(
+  "user/delete",
+  async(id : string, thunkAPI): Promise<IAPINormalizedResponse> => {
+    const res : any = await instance.delete(ENDPOINTS.USER_DELETE(id));
+    return res.data.data;
+  }
+)

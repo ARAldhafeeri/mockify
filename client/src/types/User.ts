@@ -1,10 +1,12 @@
+import { ReactNode } from "react";
+
 export interface IFetchedUserData {
   _id: string;
   username: string;
   email: string;
   role: string;
-  createdAt: string;
-  createdBy: string;
+  createdAt?: string;
+  createdBy?: string;
 }
 
 export interface IPostedUserData {
@@ -14,7 +16,7 @@ export interface IPostedUserData {
 }
 
 export interface IDeleteUserData {
-  _id: string;
+  id: string;
 }
 
 export interface IUpdateUserData {
@@ -33,4 +35,15 @@ export interface IUserInitState {
   user: [] | IFetchUserResponse
   loading: 'loading' | 'pending' | 'rejected' | true | false;
   error: string | null;
+}
+
+export interface IUserTableActions {
+  icon: ReactNode;
+  classes: string[];
+  onclick: () => void;
+}
+
+export interface IUserTableActionsProps {
+  record: IFetchedUserData;
+  actions: IUserTableActions[];
 }

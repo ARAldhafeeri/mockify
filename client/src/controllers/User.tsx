@@ -1,21 +1,51 @@
 import React from "react";
 import { IFetchedUserData } from "types/User";
 import { toast } from "react-toastify";
-import { fetchUsers } from "redux/features/user/userThunk";
+import { fetchUsers, deleteUser } from "redux/features/user/userThunk";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { ToastifyMockify } from "utils";
 
 const UserController = () => {
   const { user, loading } = useAppSelector((state) => state.user);
 
+  const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
+  const [selectedUser, setSelectedUser ] = React.useState<IFetchedUserData>({
+    username: "",
+    _id: "",
+    role: "", 
+    email: "",
+  });
   const dispatch = useAppDispatch();
+
+  const handleDeleteUser = (id : string) => {
+    dispatch(deleteUser(id))
+  }
+
+  const handleShowDeleteModal = (record : IFetchedUserData) => {
+    setSelectedUser(record);
+    setShowDeleteModal(true);
+  }
+
+  const handleHideDeleteModal = () => {
+    setShowDeleteModal(false);
+  }
 
   React.useEffect(() =>{
     const dispatched = dispatch(fetchUsers());
     ToastifyMockify(dispatched);
-  }, [])
+  }, [dispatch])
+
   return {
-    user, loading
+    // globals
+    user, 
+    loading,
+    selectedUser, 
+    setSelectedUser,
+    // delete event
+    handleDeleteUser,
+    showDeleteModal,
+    handleShowDeleteModal,
+    handleHideDeleteModal
   }
 }
 
