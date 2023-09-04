@@ -1,3 +1,4 @@
+import { DefaultData } from "../defaultData";
 import { SUPER_ADMIN_USERNAME } from "../getEnv";
 import UserModel, {IUser} from "../models/User";
 
@@ -30,9 +31,6 @@ class UserService implements IUserService  {
   }
 
   updateUser = async (user: IUser) : Promise<any> => {
-    if (user.username === SUPER_ADMIN_USERNAME) {
-      throw new Error("super admin cannot be updated");
-    };
     
     const updatedUser = await UserModel.findOneAndUpdate(
       { _id: user._id },
@@ -43,10 +41,9 @@ class UserService implements IUserService  {
     return updatedUser;
   }
 
-  deleteUser = async (userId: string) : Promise<any> => {
-    const deletedUser = await UserModel.findOneAndDelete(
-      { _id: userId }
-    );
+  deleteUser = async (id: string) : Promise<any> => {
+    
+    const deletedUser = await UserModel.findByIdAndDelete(id);
 
     return deletedUser;
   }

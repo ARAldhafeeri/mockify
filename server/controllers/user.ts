@@ -8,7 +8,6 @@ const passwordService = new PasswordService();
 
 
 export const getUsers = async function(req : Request, res: Response) : Promise<any> {
-  try {
 
     const foundUsers = await userService.findAll(
       {hashedPassword: 0, salt: 0}
@@ -20,17 +19,9 @@ export const getUsers = async function(req : Request, res: Response) : Promise<a
 
     return res.status(200).send({status: true, data: foundUsers});
     
-  
-  } catch (err){
-
-    res.status(400).send({status: false, message: ` error ${err}`})
-
-  }
- 
 }
 
 export const createUser = async function(req : Request, res: Response) : Promise<any> {
-  try {
 
     const data = req.body;
 
@@ -50,18 +41,10 @@ export const createUser = async function(req : Request, res: Response) : Promise
     }
 
     return res.status(200).send({status: true, data: newUser});
-    
-  
-  } catch (err){
-
-    res.status(400).send({status: false, message: ` error ${err}`})
-
-  }
  
 }
 
 export const updateUser = async function(req : any, res: Response) : Promise<any> {
-  try {
 
     const updatedUser = await userService.updateUser(req.body)
 
@@ -70,32 +53,20 @@ export const updateUser = async function(req : any, res: Response) : Promise<any
     }
 
     return res.status(200).send({status: true, data: updatedUser});
-    
-  
-  } catch (err){
-
-    res.status(400).send({status: false, message: `error ${err}`})
-
-  }
  
 }
 
 export const deleteUser = async function(req : any, res: Response) : Promise<any> {
-  try {
+    
+    let id : string = req.query.id;
 
-    const deletedUser = await userService.deleteUser(req.params.userId)
+    const deletedUser = await userService.deleteUser(id)
 
+    console.log('deletedUser', deletedUser, id)
     if (!deletedUser){
       res.status(400).send({status: false, message: `user not deleted`})
     }
 
     return res.status(200).send({status: true, data: deletedUser})
-    
-  
-  } catch (err){
-
-    res.status(400).send({status: false, message: ` error ${err}`})
-
-  }
  
 }
