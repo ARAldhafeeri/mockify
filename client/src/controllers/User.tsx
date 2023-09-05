@@ -10,6 +10,7 @@ const UserController = () => {
 
   console.log(user)
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
+  const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
   const [selectedUser, setSelectedUser ] = React.useState<IFetchedUserData>({
     username: "",
     _id: "",
@@ -18,6 +19,7 @@ const UserController = () => {
   });
   const dispatch = useAppDispatch();
 
+  // delete user event
   const handleDeleteUser = (id : string) => {
     ToastifyMockify(
       dispatch(
@@ -36,6 +38,29 @@ const UserController = () => {
     setShowDeleteModal(false);
   }
 
+  // update user event
+  const handleShowEditModal = (record: IFetchedUserData) => {
+    setSelectedUser(selectedUser);
+    setShowEditModal(true);
+  }
+
+  const handleHideEditModal = () => {
+    setShowEditModal(false);
+  }
+
+  const handleSubmitUserForm = () => {
+    console.log('submit user form')
+    // dispatch(updateUser(data))
+  }
+
+  const handleFormChange = (e : any) => {
+    setSelectedUser({
+      ...selectedUser,
+      [e.target.name]: e.target.value
+    })
+  };
+  
+
   React.useEffect(() =>{
     const dispatched = dispatch(fetchUsers());
     ToastifyMockify(dispatched);
@@ -51,7 +76,14 @@ const UserController = () => {
     handleDeleteUser,
     showDeleteModal,
     handleShowDeleteModal,
-    handleHideDeleteModal
+    handleHideDeleteModal,
+    // update event
+    showEditModal,
+    handleShowEditModal,
+    handleHideEditModal,
+    handleSubmitUserForm,
+    handleFormChange
+
   }
 }
 

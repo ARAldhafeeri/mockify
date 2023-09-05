@@ -4,6 +4,9 @@ interface MockifyModalProps {
     children?: React.ReactNode;
     onOk: () => void;
     onCancel: () => void;
+    okButtonProps?: {}
+    cancelButtonProps?: {}
+
 }
 
 

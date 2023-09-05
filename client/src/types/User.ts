@@ -7,6 +7,7 @@ export interface IFetchedUserData {
   role: string;
   createdAt?: string;
   createdBy?: string;
+  password?: string;
 }
 
 export interface IPostedUserData {

@@ -6,25 +6,32 @@ import ColumnsWithActions from "./presentational/UserData";
 import MockifyLoader from "components/commons/Loader/MockifyLoader";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import MockifyModal from "components/commons/Modal/Modal";
+import { IFetchedUserData } from "types/User";
+import UserForm from "../Forms/User/UserForm";
 
 const User : React.FC = () => {
   const { 
     user, loading, handleDeleteUser,
+    // delete
     showDeleteModal, handleShowDeleteModal,
     selectedUser, setSelectedUser,
-    handleHideDeleteModal
+    handleHideDeleteModal, 
+    // update
+    handleShowEditModal,
+    handleHideEditModal, showEditModal,
+    handleFormChange, handleSubmitUserForm
   } = UserController();
 
   const actions = [
     {
       icon: <EditOutlined />,
       classes: ['table-action-primary'],
-      onclick: (record : any) => handleShowDeleteModal(record) 
+      onclick: (record : any) => handleShowEditModal(record) 
     }, 
     {
       icon:<DeleteOutlined />,
       classes: ['table-action-secondary'],
-      onclick: handleShowDeleteModal
+      onclick: (record: IFetchedUserData) => handleShowDeleteModal(record)
     }
   ]
   return (
@@ -44,6 +51,20 @@ const User : React.FC = () => {
             onOk={() => handleDeleteUser(selectedUser._id)}
             onCancel={() => handleHideDeleteModal()}
             children={<p>Are you sure delete {selectedUser.username} ?</p>}
+            />
+          <MockifyModal
+            show={showEditModal}
+            title="Update user"
+            onOk={() => (selectedUser._id)}
+            onCancel={() => handleHideEditModal()}
+            okButtonProps={{ style: { display: 'none' } }}
+            cancelButtonProps={{ style: { display: 'none' } }}
+            children={
+            <UserForm 
+              handleFormChange={handleFormChange} 
+              handleFormSubmit={handleSubmitUserForm} 
+              data={selectedUser} 
+              />}
             />
           <MockifyTable 
             columns={ColumnsWithActions(actions)} 
