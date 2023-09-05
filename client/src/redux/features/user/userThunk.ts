@@ -21,6 +21,6 @@ export const deleteUser = createAsyncThunk(
   "user/delete",
   async(id : string, thunkAPI): Promise<IAPINormalizedResponse> => {
     const res : any = await instance.delete(ENDPOINTS.USER_DELETE(id));
-    return res.data.data;
+    return res.data;
   }
 )
