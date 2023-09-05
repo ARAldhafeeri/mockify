@@ -1,5 +1,5 @@
 export interface IAPINormalizedResponse {
-  data?: any[];
+  data?: Array<any>;
   message: string;
   status: boolean;
 }

@@ -8,6 +8,7 @@ import { ToastifyMockify } from "utils";
 const UserController = () => {
   const { user, loading } = useAppSelector((state) => state.user);
 
+  console.log(user)
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
   const [selectedUser, setSelectedUser ] = React.useState<IFetchedUserData>({
     username: "",
@@ -18,7 +19,12 @@ const UserController = () => {
   const dispatch = useAppDispatch();
 
   const handleDeleteUser = (id : string) => {
-    dispatch(deleteUser(id))
+    ToastifyMockify(
+      dispatch(
+        deleteUser(id)
+        )
+    );
+    setShowDeleteModal(false);
   }
 
   const handleShowDeleteModal = (record : IFetchedUserData) => {

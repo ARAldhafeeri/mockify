@@ -2,15 +2,14 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import instance from "../../instance";
 import { FAILED_TO_FETCH_USERS } from "constants/messages";
 import { 
-  IFetchUserResponse,
-  IDeleteUserData
+  IFetchUserResponse
 } from "types/User";
 import { ENDPOINTS } from "constants/endpoints";
 import { IAPINormalizedResponse } from "types/global";
 
 export const fetchUsers = createAsyncThunk(
   "user/fetch",
-  async (_ , thunkAPI) : Promise<IFetchUserResponse> => {
+  async (_ , thunkAPI) : Promise<IAPINormalizedResponse> => {
       const res : any = await instance.get(ENDPOINTS.USER);
       return  res.data.data;
 

@@ -32,7 +32,7 @@ export interface IFetchUserResponse {
 }
 
 export interface IUserInitState {
-  user: [] | IFetchUserResponse
+  user: Array<IFetchUserResponse> | [] ;
   loading: 'loading' | 'pending' | 'rejected' | true | false;
   error: string | null;
 }
