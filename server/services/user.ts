@@ -1,12 +1,13 @@
 import { DefaultData } from "../defaultData";
 import { SUPER_ADMIN_USERNAME } from "../getEnv";
 import UserModel, {IUser} from "../models/User";
+import {Types} from "mongoose";
 
 interface IUserService {
   findAll(projection: Object): Promise<any>;
   createUser(user: IUser): Promise<any>;
   updateUser(user: IUser): Promise<any>;
-  deleteUser(userId: string): Promise<any>;
+  deleteUser(id: Types.ObjectId): Promise<any>;
 }
 
 class UserService implements IUserService  {
@@ -41,7 +42,7 @@ class UserService implements IUserService  {
     return updatedUser;
   }
 
-  deleteUser = async (id: string) : Promise<any> => {
+  deleteUser = async (id: Types.ObjectId) : Promise<any> => {
     
     const deletedUser = await UserModel.findByIdAndDelete(id);
 

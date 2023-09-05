@@ -2,6 +2,8 @@ import { Response, Request } from "express";
 import UserService from "../services/user";
 import { SUPER_ADMIN_USERNAME } from "../getEnv";
 import PasswordService from "../services/password";
+import { Types } from "mongoose";
+const { ObjectId } = Types;
 
 const userService = new UserService();
 const passwordService = new PasswordService();
@@ -58,13 +60,15 @@ export const updateUser = async function(req : any, res: Response) : Promise<any
 
 export const deleteUser = async function(req : any, res: Response) : Promise<any> {
     
-    let id : string = req.query.id;
+    let id :  Types.ObjectId = req.query.id;
+
+    id = new ObjectId(id);
 
     const deletedUser = await userService.deleteUser(id)
 
     console.log('deletedUser', deletedUser, id)
     if (!deletedUser){
-      res.status(400).send({status: false, message: `user not deleted`})
+      res.status(400).send({status: false, message: `${deletedUser} not deleted`})
     }
 
     return res.status(200).send({status: true, data: deletedUser})
