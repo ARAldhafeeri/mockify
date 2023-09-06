@@ -55,8 +55,18 @@ export const createUser = async function(req : Request, res: Response) : Promise
 
 export const updateUser = async function(req : any, res: Response) : Promise<any> {
   try {
-    const updatedUser = await userService.updateUser(req.body)
+    
+    const data = req.body;
 
+    if (data?.password){
+     const {salt, hashedPassword} = await passwordService.createPassword(data.password);
+     data.salt = salt;
+     data.hashedPassword = hashedPassword;
+    }
+    
+    const updatedUser = await userService.updateUser(data);
+
+    console.log(updatedUser)
     if (!updatedUser) return ErrorResponse(res, 'user not updated', 400);
 
     return res.status(200).send({status: true, data: updatedUser, message: 'user updated'});

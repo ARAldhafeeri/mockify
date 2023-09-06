@@ -1,14 +1,13 @@
 import React from "react";
 import { IFetchedUserData } from "types/User";
 import { toast } from "react-toastify";
-import { fetchUsers, deleteUser } from "redux/features/user/userThunk";
+import { fetchUsers, deleteUser, updateUser } from "redux/features/user/userThunk";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { ToastifyMockify } from "utils";
-
+import { Form } from "antd";
 const UserController = () => {
   const { user, loading } = useAppSelector((state) => state.user);
 
-  console.log(user)
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
   const [selectedUser, setSelectedUser ] = React.useState<IFetchedUserData>({
@@ -18,6 +17,9 @@ const UserController = () => {
     email: "",
   });
   const dispatch = useAppDispatch();
+
+  // antd form 
+  const [form] = Form.useForm();
 
   // delete user event
   const handleDeleteUser = (id : string) => {
@@ -40,7 +42,7 @@ const UserController = () => {
 
   // update user event
   const handleShowEditModal = (record: IFetchedUserData) => {
-    setSelectedUser(selectedUser);
+    setSelectedUser(record);
     setShowEditModal(true);
   }
 
@@ -48,9 +50,10 @@ const UserController = () => {
     setShowEditModal(false);
   }
 
-  const handleSubmitUserForm = () => {
-    console.log('submit user form')
-    // dispatch(updateUser(data))
+  const handleSubmitUserForm = (e : any) => {
+    e.preventDefault();
+    const dispatched = dispatch(updateUser(selectedUser))
+    ToastifyMockify(dispatched);
   }
 
   const handleFormChange = (e : any) => {
@@ -64,6 +67,7 @@ const UserController = () => {
   React.useEffect(() =>{
     const dispatched = dispatch(fetchUsers());
     ToastifyMockify(dispatched);
+    setShowEditModal(false);
   }, [dispatch])
 
   return {
@@ -82,7 +86,8 @@ const UserController = () => {
     handleShowEditModal,
     handleHideEditModal,
     handleSubmitUserForm,
-    handleFormChange
+    handleFormChange,
+    form
 
   }
 }

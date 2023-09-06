@@ -5,11 +5,15 @@ import React from 'react';
 import { IUserForm } from 'types/forms';
 
 
-const UserForm : React.FC<IUserForm> = ({ handleFormSubmit, handleFormChange, data }) => {
+const UserForm : React.FC<IUserForm> = (
+  { handleFormSubmit, handleFormChange, data, form, onFinish }
+  ) => {
     return (
       <Form
       name="basic"
       labelCol={{ span: 8 }}
+      form={form}
+      onFinish={onFinish}
       wrapperCol={{ span: 16 }}
       style={{ maxWidth: 600 }}
       initialValues={{ remember: true }}

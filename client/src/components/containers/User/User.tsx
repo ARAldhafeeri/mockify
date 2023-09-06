@@ -19,14 +19,15 @@ const User : React.FC = () => {
     // update
     handleShowEditModal,
     handleHideEditModal, showEditModal,
-    handleFormChange, handleSubmitUserForm
+    handleFormChange, handleSubmitUserForm,
+    form
   } = UserController();
 
   const actions = [
     {
       icon: <EditOutlined />,
       classes: ['table-action-primary'],
-      onclick: (record : any) => handleShowEditModal(record) 
+      onclick: (record : IFetchedUserData) => handleShowEditModal(record) 
     }, 
     {
       icon:<DeleteOutlined />,
@@ -55,16 +56,19 @@ const User : React.FC = () => {
           <MockifyModal
             show={showEditModal}
             title="Update user"
-            onOk={() => (selectedUser._id)}
+            onOk={ () => handleHideEditModal()}
             onCancel={() => handleHideEditModal()}
             okButtonProps={{ style: { display: 'none' } }}
             cancelButtonProps={{ style: { display: 'none' } }}
             children={
-            <UserForm 
-              handleFormChange={handleFormChange} 
-              handleFormSubmit={handleSubmitUserForm} 
-              data={selectedUser} 
-              />}
+                <UserForm 
+                  handleFormChange={handleFormChange} 
+                  handleFormSubmit={handleSubmitUserForm}
+                  data={selectedUser} 
+                  form={form}
+                  onFinish={() => handleHideEditModal()}
+                  />
+              }
             />
           <MockifyTable 
             columns={ColumnsWithActions(actions)} 

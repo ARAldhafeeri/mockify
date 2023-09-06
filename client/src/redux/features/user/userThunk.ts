@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import instance from "../../instance";
 import { FAILED_TO_FETCH_USERS } from "constants/messages";
 import { 
-  IFetchUserResponse
+  IFetchedUserData
 } from "types/User";
 import { ENDPOINTS } from "constants/endpoints";
 import { IAPINormalizedResponse } from "types/global";
@@ -20,6 +20,15 @@ export const deleteUser = createAsyncThunk(
   "user/delete",
   async(id : string, thunkAPI): Promise<IAPINormalizedResponse> => {
     const res : any = await instance.delete(ENDPOINTS.USER_DELETE(id));
+    return res.data;
+  }
+)
+
+export const updateUser = createAsyncThunk(
+  "user/update", 
+  async(data : IFetchedUserData, thunkAPI): Promise<IAPINormalizedResponse> => {
+    console.log('data in redux', data)
+    const res : any = await instance.put(ENDPOINTS.USER, data);
     return res.data;
   }
 )

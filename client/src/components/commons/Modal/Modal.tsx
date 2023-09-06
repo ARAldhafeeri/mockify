@@ -5,7 +5,6 @@ import MockifyModelProps from "./Modal.types";
 
 const MockifyModal : React.FC<MockifyModelProps> = (props: MockifyModelProps) => {
     const { show, title, children, onOk, onCancel, okButtonProps, cancelButtonProps } = props;
-    console.log("show", show)
     return (
         <Modal 
             title={title} 

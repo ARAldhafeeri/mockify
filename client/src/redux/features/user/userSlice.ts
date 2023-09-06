@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { deleteUser, fetchUsers } from "./userThunk";
+import { deleteUser, fetchUsers, updateUser } from "./userThunk";
 import { IFetchUserResponse, IFetchedUserData, IUserInitState } from "types/User";
 
 const initialState : IUserInitState = {
@@ -22,7 +22,9 @@ const userSlice = createSlice({
       .addCase(fetchUsers.rejected, (state, _) => {
         state.loading = false;
       })
-      .addCase(fetchUsers.fulfilled, (state, action : PayloadAction<  IFetchUserResponse | any>) => {
+      .addCase(fetchUsers.fulfilled, (
+        state, action : PayloadAction<  IFetchUserResponse | any>
+        ) => {
         state.loading = false;
         state.user = action.payload;
       })
@@ -35,13 +37,32 @@ const userSlice = createSlice({
       .addCase(deleteUser.rejected, (state, _) => {
         state.loading = false;
       })
-      .addCase(deleteUser.fulfilled, (state, action : PayloadAction< any | IFetchUserResponse>) => {
+      .addCase(deleteUser.fulfilled, (
+        state, action : PayloadAction< any | IFetchUserResponse>
+        ) => {
         state.loading = false;
-        console.log(action.payload)
         state.user = state.user.filter((user: any) => user._id !== action.payload.data._id);
       })
 
+      builder
+      // fetch users
+      .addCase(updateUser.pending, (state, _ ) => {
+        state.loading = true;
+      })
+      .addCase(updateUser.rejected, (state, _) => {
+        state.loading = false;
+      })
+      .addCase(updateUser.fulfilled, (
+        state, action : PayloadAction<  IFetchUserResponse | any>
+        ) => {
+        state.loading = false;
+        const index = state.user.findIndex(
+          (user: any) => user._id === action.payload.data._id);
+        state.user[index] = {
+          ...action.payload.data
+        }
 
+      })
   },
 });
 
