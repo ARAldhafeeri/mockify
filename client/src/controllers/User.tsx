@@ -1,6 +1,5 @@
 import React from "react";
 import { IFetchedUserData } from "types/User";
-import { toast } from "react-toastify";
 import { fetchUsers, deleteUser, updateUser, createUser } from "redux/features/user/userThunk";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { ToastifyMockify } from "utils";
