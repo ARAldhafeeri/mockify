@@ -59,7 +59,7 @@ const UserForm : React.FC<IUserForm> = (
         />
         <MockifyButton 
           classes={['mockify-btn']}
-          text="update user"
+          text="send"
           htmlType="submit"
           />
       </Form>  

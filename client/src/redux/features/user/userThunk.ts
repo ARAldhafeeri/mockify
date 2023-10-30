@@ -32,3 +32,11 @@ export const updateUser = createAsyncThunk(
     return res.data;
   }
 )
+
+export const createUser = createAsyncThunk(
+  "user/create",
+  async(data : IFetchedUserData, _): Promise<IAPINormalizedResponse> =>{
+    const res : any = await instance.post(ENDPOINTS.USER, data);
+    return res.data;
+  }
+)

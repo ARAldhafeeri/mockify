@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 export interface IFetchedUserData {
-  _id: string;
+  _id?: string;
   username: string;
   email: string;
   role: string;
@@ -33,7 +33,7 @@ export interface IFetchUserResponse {
 }
 
 export interface IUserInitState {
-  user: Array<IFetchUserResponse> | [] ;
+  user: IFetchUserResponse[];
   loading: 'loading' | 'pending' | 'rejected' | true | false;
   error: string | null;
 }
