@@ -7,6 +7,7 @@ interface Crypto {
     decrypt(toDecrypt: string): Promise<string>;
     decryptObj(encryptedObj: string): Promise<any>;
     encryptObj(obj: any): Promise<string>;
+    generateAPIKey(): Promise<string>;
 }
 
 class CryptoService implements Crypto {
@@ -45,6 +46,17 @@ class CryptoService implements Crypto {
         let encode = JSON.stringify(obj)
         const secret = await this.encrypt(encode)
         return secret
+    }
+
+    async generateAPIKey(): Promise<string> {
+        const key = SECRET_KEY;
+        const iv = crypto.lib.WordArray.random(16);
+        const salt = crypto.lib.WordArray.random(128 / 8);
+        const iterations = 1000;
+        const hash = crypto.PBKDF2(key, salt, { keySize: 128 / 32, iterations: iterations });
+        const encrypted = crypto.AES.encrypt(key, hash, { iv: iv });
+        const transitmessage = salt.toString() + iv.toString() + encrypted.toString();
+        return transitmessage
     }
 }
 

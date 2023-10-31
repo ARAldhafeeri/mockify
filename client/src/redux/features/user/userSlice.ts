@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { deleteUser, fetchUsers, updateUser } from "./userThunk";
+import { createUser, deleteUser, fetchUsers, updateUser } from "./userThunk";
 import { IFetchUserResponse, IFetchedUserData, IUserInitState } from "types/User";
 
 const initialState : IUserInitState = {
@@ -45,7 +45,7 @@ const userSlice = createSlice({
       })
 
       builder
-      // fetch users
+      // update users
       .addCase(updateUser.pending, (state, _ ) => {
         state.loading = true;
       })
@@ -62,6 +62,21 @@ const userSlice = createSlice({
           ...action.payload.data
         }
 
+      })
+
+      // create users
+      .addCase(createUser.pending, (state, _ ) => {
+        state.loading = true;
+      })
+      .addCase(createUser.rejected, (state, _) => {
+        state.loading = false;
+      })
+      .addCase(createUser.fulfilled, (
+        state, action : PayloadAction<  IFetchUserResponse[] | any >
+        ) => {
+        state.loading = false;
+
+         state.user.push(action.payload.data);
       })
   },
 });

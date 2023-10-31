@@ -4,9 +4,12 @@ import bodyParser from 'body-parser';
 import authRouter from "./routes/auth";
 import { API_ROUTE } from './config/routes';
 import applyServerHardening from './middleware/security';
-import userRouter from './routes/user';
 import policyRouter from './routes/policy';
 import morgan from "morgan";
+
+// routes 
+import userRouter from './routes/user';
+import projectRouter from './routes/project';
 
 const app = express();
 
@@ -19,6 +22,8 @@ app.use(API_ROUTE, authRouter);
 app.use(API_ROUTE, userRouter);
 
 app.use(API_ROUTE, policyRouter)
+
+app.use(API_ROUTE, projectRouter)
 
 applyServerHardening(app)
 

@@ -11,15 +11,24 @@ import UserForm from "../Forms/User/UserForm";
 
 const User : React.FC = () => {
   const { 
-    user, loading, handleDeleteUser,
+    user, 
+    loading, 
+    handleDeleteUser,
     // delete
-    showDeleteModal, handleShowDeleteModal,
-    selectedUser, setSelectedUser,
+    showDeleteModal, 
+    handleShowDeleteModal,
+    selectedUser, 
+    setSelectedUser,
     handleHideDeleteModal, 
     // update
     handleShowEditModal,
-    handleHideEditModal, showEditModal,
-    handleFormChange, handleSubmitUserForm,
+    handleHideEditModal, 
+    showEditModal,
+    handleFormChange, 
+    handleSubmitUserForm,
+    showCreateModal, 
+    handleShowCreateUserModal,
+    handleHideCreateUserModal,
     form
   } = UserController();
 
@@ -44,12 +53,12 @@ const User : React.FC = () => {
           <MockifyButton 
             text="Create new user" 
             classes={['mockify-btn']}
-            onClick={() => console.log('create ew user')}
+            onClick={handleShowCreateUserModal}
             />
           <MockifyModal 
             show={showDeleteModal}
             title="Delete user"
-            onOk={() => handleDeleteUser(selectedUser._id)}
+            onOk={() => handleDeleteUser(selectedUser._id || '')}
             onCancel={() => handleHideDeleteModal()}
             children={<p>Are you sure delete {selectedUser.username} ?</p>}
             />
@@ -70,7 +79,23 @@ const User : React.FC = () => {
                   />
               }
             />
-
+          <MockifyModal
+            show={showCreateModal}
+            title="Create user"
+            onOk={ () => handleShowCreateUserModal()}
+            onCancel={() => handleHideCreateUserModal()}
+            okButtonProps={{ style: { display: 'none' } }}
+            cancelButtonProps={{ style: { display: 'none' } }}
+            children={
+                <UserForm 
+                  handleFormChange={handleFormChange} 
+                  handleFormSubmit={handleSubmitUserForm}
+                  data={selectedUser} 
+                  form={form}
+                  onFinish={() => handleHideEditModal()}
+                  />
+              }
+            />
           <MockifyTable 
             columns={ColumnsWithActions(actions)} 
             data={user} 

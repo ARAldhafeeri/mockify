@@ -1,7 +1,6 @@
 import React from "react";
 import { IFetchedUserData } from "types/User";
-import { toast } from "react-toastify";
-import { fetchUsers, deleteUser, updateUser } from "redux/features/user/userThunk";
+import { fetchUsers, deleteUser, updateUser, createUser } from "redux/features/user/userThunk";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { ToastifyMockify } from "utils";
 import { Form } from "antd";
@@ -10,6 +9,7 @@ const UserController = () => {
 
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
+  const [ showCreateModal, setShowCreateModal ] = React.useState<boolean>(false);
   const [selectedUser, setSelectedUser ] = React.useState<IFetchedUserData>({
     username: "",
     _id: "",
@@ -52,7 +52,14 @@ const UserController = () => {
 
   const handleSubmitUserForm = (e : any) => {
     e.preventDefault();
-    const dispatched = dispatch(updateUser(selectedUser))
+    let dispatched;
+    if (showEditModal) {
+      dispatched = dispatch(updateUser(selectedUser))
+    } else {
+      delete selectedUser._id;
+      dispatched = dispatch(createUser(selectedUser))
+    }
+
     ToastifyMockify(dispatched);
   }
 
@@ -62,6 +69,15 @@ const UserController = () => {
       [e.target.name]: e.target.value
     })
   };
+
+  // create events
+  const handleShowCreateUserModal = () => {
+    setShowCreateModal(true);
+  }
+
+  const handleHideCreateUserModal = () => {
+    setShowCreateModal(false);
+  }
   
 
   React.useEffect(() =>{
@@ -87,6 +103,10 @@ const UserController = () => {
     handleHideEditModal,
     handleSubmitUserForm,
     handleFormChange,
+    // create event
+    showCreateModal, 
+    handleShowCreateUserModal,
+    handleHideCreateUserModal,
     form
 
   }
