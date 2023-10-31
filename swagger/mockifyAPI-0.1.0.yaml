@@ -467,6 +467,16 @@ components:
           type: boolean
         validation:
           type: boolean
+        webhook:
+          type: boolean
+        sse:
+          type: boolean
+        wss:
+          type: boolean
+        consumer:
+          type: string
+        producer:
+          type: string
         filterFunc:
           type: string
         paginationFunc:
@@ -475,33 +485,15 @@ components:
           type: string
         validationFunc:
           type: string
-      required:
-        - resourceName
-        - method
-        
-    ResourceDescription:
-      type: object
-      properties:
-        resourceName:
+        webhookFunc:
           type: string
-        method:
+        sseFunc:
           type: string
-          enum: [GET, POST, DELETE, PUT]
-        filter:
-          type: boolean
-        pagination:
-          type: boolean
-        search:
-          type: boolean
-        validation:
-          type: boolean
-        filterFunc:
+        wssFunc:
           type: string
-        paginationFunc:
+        consumerFunc:
           type: string
-        searchFunc:
-          type: string
-        validationFunc:
+        producerFunc:
           type: string
       required:
         - resourceName

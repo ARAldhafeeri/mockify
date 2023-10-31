@@ -1,11 +1,10 @@
 import React from "react";
 import { Space } from 'antd';
 import MockifyButton from "components/commons/Button/Button";
-import {  IUserTableActionsProps } from "types/User";
 
 
 
-const UserTableActions= (props: IUserTableActionsProps) => {
+const TableActions= (props: any) => {
   const { record , actions } = props;
   return (
   <Space size="middle">
@@ -23,4 +22,4 @@ const UserTableActions= (props: IUserTableActionsProps) => {
   )
 }
 
-export default UserTableActions;
+export default TableActions;

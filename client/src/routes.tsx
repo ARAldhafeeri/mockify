@@ -18,6 +18,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { ROUTES_NAMES } from "constants/routes";
+import Project from "components/containers/Project/Project";
 
 
 interface MenuItem {
@@ -43,7 +44,27 @@ export const items: MenuItem[] = [
     label: 'Users',
     to: '/user',
     element: <User />
-  }
+  }, 
+  {
+    key: 'project',
+    icon: <FileOutlined />,
+    label: 'Projects',
+    to: '/project',
+    element: <Project />
+  }, 
+  {
+    key: "resources", 
+    icon: <TeamOutlined />,
+    label: 'Resources',
+    to: '/resource',
+    element: <div>Resources</div>
+  },
+  {
+    key: "mockData",
+    icon: <TeamOutlined />,
+    label: 'Mock Data',
+    to: '/mockData',
+  }, 
   // Add more menu items if needed
 ];
 
@@ -64,6 +85,18 @@ const MainRouter = createBrowserRouter([
     path: ROUTES_NAMES.USER,
     element: withLoggedInLayout(<User />)
   },
+  {
+    path: ROUTES_NAMES.PROJECT,
+    element: withLoggedInLayout(<Project />)
+  },
+  {
+    path: ROUTES_NAMES.RESOURCE,
+    element: withLoggedInLayout(<div>Resources</div>)
+  },
+  {
+    path: ROUTES_NAMES.MOCKDATA,
+    element: withLoggedInLayout(<div>Mock Data</div>)
+  }
 ]);
 
 export default MainRouter;

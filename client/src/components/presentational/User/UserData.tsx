@@ -1,6 +1,6 @@
 import { Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import UserTableActions from "./UserTableActions";
+import TableActions from 'components/commons/TableActions/TableActions';
 
 
 const ColumnsWithActions = (actions : any) : ColumnsType => {
@@ -39,7 +39,7 @@ const ColumnsWithActions = (actions : any) : ColumnsType => {
       title: 'Action'.toUpperCase(),
       key: 'action',
       render: (_ : any, record : any) => (
-        <UserTableActions record={record} actions={actions} />
+        <TableActions record={record} actions={actions} />
       ),
     },
   ];
