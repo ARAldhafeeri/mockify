@@ -70,6 +70,7 @@ const User : React.FC = () => {
                   />
               }
             />
+
           <MockifyTable 
             columns={ColumnsWithActions(actions)} 
             data={user} 
