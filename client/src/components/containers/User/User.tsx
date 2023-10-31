@@ -2,7 +2,7 @@ import React from "react";
 import MockifyTable from "../../commons/Table/Table";
 import UserController from "controllers/User";
 import MockifyButton from "components/commons/Button/Button";
-import ColumnsWithActions from "./presentational/UserData";
+import ColumnsWithActions from "../../presentational/User/UserData";
 import MockifyLoader from "components/commons/Loader/MockifyLoader";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import MockifyModal from "components/commons/Modal/Modal";
