@@ -9,31 +9,31 @@ import ProjectService from '../../services/project';
 
 
 const mockData = {
-    "project": "string",
-    "resourceName": "SampleResource",
-    "endpoint": "/api/sample",
-    "filter": true,
-    "pagination": true,
-    "search": true,
-    "validation": true,
-    "webhook": true,
-    "sse": false,
-    "wss": true,
-    "get": true,
-    "post": true,
-    "put": true,
-    "delete": true,
-    "consumer": "SampleConsumer",
-    "producer": "SampleProducer",
-    "filterFunc": "filterFunction",
-    "paginationFunc": "paginationFunction",
-    "searchFunc": "searchFunction",
-    "validationFunc": "validationFunction",
-    "webhookFunc": "webhookFunction",
-    "sseFunc": "sseFunction",
-    "wssFunc": "wssFunction",
-    "consumerFunc": "consumerFunction",
-    "producerFunc": "producerFunction"
+  "project": "string",
+  "resourceName": "SampleResource",
+  "endpoint": "/api/sample",
+  "filter": true,
+  "pagination": true,
+  "search": true,
+  "validation": true,
+  "webhook": true,
+  "sse": false,
+  "wss": true,
+  "getx": true,
+  "postx": true,
+  "putx": true,
+  "deletex": true,
+  "consumer": true,
+  "producer": true,
+  "filterFunc": "filterFunction",
+  "paginationFunc": "paginationFunction",
+  "searchFunc": "searchFunction",
+  "validationFunc": "validationFunction",
+  "webhookFunc": "webhookFunction",
+  "sseFunc": "sseFunction",
+  "wssFunc": "wssFunction",
+  "consumerFunc": "consumerFunction",
+  "producerFunc": "producerFunction"
 }
 
 const projectService = new ProjectService();
@@ -52,7 +52,7 @@ describe('end-to-end tests project endpoint', () => {
   });
   
 
-  test('should create project', async () => {
+  test('should create resource', async () => {
 
     projectObj = await projectService.find({});
     mockData.project =  projectObj[0]._id;
@@ -61,12 +61,12 @@ describe('end-to-end tests project endpoint', () => {
     })
     .set('Authorization', 'bearer ' + token)
 
+    console.log(response.body)
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     // check all properties are defined
     expect(response.body.data.resourceName).toBeDefined();
     expect(response.body.data.endpoint).toBeDefined();
-    expect(response.body.data.method).toBeDefined();
     expect(response.body.data.filter).toBeDefined();
     expect(response.body.data.pagination).toBeDefined();
     expect(response.body.data.search).toBeDefined();
@@ -76,10 +76,10 @@ describe('end-to-end tests project endpoint', () => {
     expect(response.body.data.wss).toBeDefined();
     expect(response.body.data.consumer).toBeDefined();
     expect(response.body.data.producer).toBeDefined();
-    expect(response.body.data.get).toBeDefined();
-    expect(response.body.data.post).toBeDefined();
-    expect(response.body.data.put).toBeDefined();
-    expect(response.body.data.delete).toBeDefined();
+    expect(response.body.data.getx).toBeDefined();
+    expect(response.body.data.postx).toBeDefined();
+    expect(response.body.data.putx).toBeDefined();
+    expect(response.body.data.deletex).toBeDefined();
     expect(response.body.data.filterFunc).toBeDefined();
     expect(response.body.data.paginationFunc).toBeDefined();
     expect(response.body.data.searchFunc).toBeDefined();

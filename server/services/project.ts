@@ -33,7 +33,7 @@ class ProjectService implements IProjectService  {
     const pUpdated = await ProjectModel.findOneAndUpdate(
       { _id: p._id },
       p,
-      { new: false }
+      { new: true }
     );
 
     return pUpdated;

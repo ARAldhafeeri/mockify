@@ -481,9 +481,9 @@ components:
         delete:
           type: boolean
         consumer:
-          type: string
+          type: boolean
         producer:
-          type: string
+          type: boolean
         filterFunc:
           type: string
         paginationFunc:
