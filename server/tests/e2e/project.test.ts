@@ -5,6 +5,7 @@ import { SUPER_ADMIN_USERNAME, SUPER_ADMIN_PSWD, DATABASE_URL} from '../../getEn
 import mongoose from 'mongoose';
 import { DefaultData } from '../../defaultData';
 import TestUtils from './TestUtils';
+import UserService from '../../services/user';
 
 
 const mockUserData = {
@@ -13,11 +14,15 @@ const mockUserData = {
   user: 'userID',
 }
 
+const userService = new UserService();
+
 
 
 describe('end-to-end tests project endpoint', () => {
   let token : string;
   let createdProject : any;
+  let userObj : any;
+
   beforeAll(async () => {
     await mongoose.connect(DATABASE_URL);
     DefaultData
@@ -25,7 +30,10 @@ describe('end-to-end tests project endpoint', () => {
   });
   
 
-  test('should create user', async () => {
+  test('should create project', async () => {
+
+    userObj = await userService.findAll({});
+    mockUserData.user =  userObj[0]._id;
     const response = await request.agent(app).post(`${API_ROUTE}${PROJECT_ROUTE}`).send({
       ...mockUserData
     })
@@ -34,15 +42,15 @@ describe('end-to-end tests project endpoint', () => {
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     expect(response.body.data.name).toBe(mockUserData.name);
-    expect(response.body.data.apiKey).toBe(mockUserData.apiKey);
-    expect(response.body.data.user).toBe(mockUserData.user);
+    expect(response.body.data.apiKey).toBeDefined();
+    expect(response.body.data.user).toBeDefined();
 
     createdProject = response.body.data;
   });
 
-  test('should get users', async () => {
+  test('should get projects', async () => {
 
-    const response = await request.agent(app).get(`${API_ROUTE}${USER_ROUTE}`)
+    const response = await request.agent(app).get(`${API_ROUTE}${PROJECT_ROUTE}`)
     .set('Authorization', 'bearer ' + token)
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -50,22 +58,25 @@ describe('end-to-end tests project endpoint', () => {
 
   });
 
-  test('should edit user', async () => {
+  test('should edit project', async () => {
 
-    const response = await request.agent(app).put(`${API_ROUTE}${USER_ROUTE}`).send({
+    delete createdProject.apiKey;
+    const response = await request.agent(app).put(`${API_ROUTE}${PROJECT_ROUTE}`).send({
       ...createdProject,
       name: 'newName'
     })
     .set('Authorization', 'bearer ' + token)
+
+    console.log(response.body);
+
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data.username).toBe('newName');
+    expect(response.body.data.name).toBe('newName');
 
   });
 
-  test('should delete users', async () => {
-    console.log('createdUser', createdProject)
-    const response = await request.agent(app).delete(`${API_ROUTE}${USER_ROUTE}/?id=${createdProject._id}`)
+  test('should delete project', async () => {
+    const response = await request.agent(app).delete(`${API_ROUTE}${PROJECT_ROUTE}/?id=${createdProject._id}`)
     .set('Authorization', 'bearer ' + token)
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);

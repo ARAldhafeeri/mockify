@@ -456,9 +456,8 @@ components:
           $ref: '#/components/schemas/Project'
         resourceName:
           type: string
-        method:
+        endpoint:
           type: string
-          enum: [GET, POST, DELETE, PUT]
         filter:
           type: boolean
         pagination:
@@ -472,6 +471,14 @@ components:
         sse:
           type: boolean
         wss:
+          type: boolean
+        get:
+          type: boolean
+        post:
+          type: boolean
+        put:
+          type: boolean
+        delete:
           type: boolean
         consumer:
           type: string
