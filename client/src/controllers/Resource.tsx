@@ -101,7 +101,10 @@ const ResourceController = () => {
     if (name && typeof e === "boolean") {
       setSelectedResource({
         ...selectedResource,
-        [name]: e
+        features: {
+          ...selectedResource.features,
+          [name]: e
+        }
       })
     } else if (typeof e === "string") {
       setSelectedResource({

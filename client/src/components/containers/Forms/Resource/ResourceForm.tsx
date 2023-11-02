@@ -32,7 +32,7 @@ const ResourceForm : React.FC<IResourceForm> = (
               <Switch 
                 checkedChildren={name} 
                 unCheckedChildren={name} 
-                defaultChecked={false}
+                defaultChecked={data.features[name as keyof typeof data.features]}
                 onChange={(checked : boolean) => handleFormChange(checked, name)}
                 />
             </Col>
