@@ -61,10 +61,10 @@ export const items: MenuItem[] = [
     element: <Resource />
   },
   {
-    key: "mockData",
+    key: "data",
     icon: <TeamOutlined />,
-    label: 'Mock Data',
-    to: '/mockData',
+    label: 'Data',
+    to: '/data',
   }, 
   // Add more menu items if needed
 ];
