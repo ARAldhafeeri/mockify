@@ -17,7 +17,7 @@ export interface IResource extends Document {
   deletex: boolean;
   consumer: boolean;
   producer: boolean;
-  funcs: Array<Object>;
+  funcs: Array<string>;
 }
 
 const resourceSchema = new Schema<IResource>({
@@ -37,7 +37,7 @@ const resourceSchema = new Schema<IResource>({
   producer: {type: Boolean, default: false},
   consumer: {type: Boolean, default: false},
   project: {type: Schema.Types.ObjectId , ref: "Project", required: true},
-  funcs: {type: [Object], required: true},
+  funcs: {type: [String], required: true},
 })
 
 export default model<IResource>("Resource", resourceSchema);
