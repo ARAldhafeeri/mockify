@@ -80,15 +80,7 @@ describe('end-to-end tests project endpoint', () => {
     expect(response.body.data.postx).toBeDefined();
     expect(response.body.data.putx).toBeDefined();
     expect(response.body.data.deletex).toBeDefined();
-    expect(response.body.data.filterFunc).toBeDefined();
-    expect(response.body.data.paginationFunc).toBeDefined();
-    expect(response.body.data.searchFunc).toBeDefined();
-    expect(response.body.data.validationFunc).toBeDefined();
-    expect(response.body.data.webhookFunc).toBeDefined();
-    expect(response.body.data.sseFunc).toBeDefined();
-    expect(response.body.data.wssFunc).toBeDefined();
-    expect(response.body.data.consumerFunc).toBeDefined();
-    expect(response.body.data.producerFunc).toBeDefined();
+    expect(response.body.data.funcs).toBeDefined();
 
     createdResource = response.body.data;
 

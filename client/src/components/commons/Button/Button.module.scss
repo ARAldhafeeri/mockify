@@ -21,6 +21,16 @@
   }
 }
 
+.copy-api-key-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: .5;
+
+  &:hover {
+    opacity: .75;
+  }
+}
 .button--secondary {
   background-color: $secondary;
   color: $white;

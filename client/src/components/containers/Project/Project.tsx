@@ -29,7 +29,7 @@ const Project : React.FC = () => {
     showCreateModal, 
     handleShowCreateProjectModal,
     handleHideCreateProjectModal,
-    form
+    form,
   } = ProjectController();
 
   const actions = [

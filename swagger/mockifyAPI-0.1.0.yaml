@@ -484,24 +484,14 @@ components:
           type: boolean
         producer:
           type: boolean
-        filterFunc:
-          type: string
-        paginationFunc:
-          type: string
-        searchFunc:
-          type: string
-        validationFunc:
-          type: string
-        webhookFunc:
-          type: string
-        sseFunc:
-          type: string
-        wssFunc:
-          type: string
-        consumerFunc:
-          type: string
-        producerFunc:
-          type: string
+        funcs:
+          type: object
+          properties:
+            name:
+              type: string
+            code:
+              type: string
+
       required:
         - resourceName
         - method

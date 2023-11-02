@@ -17,15 +17,7 @@ export interface IResource extends Document {
   deletex: boolean;
   consumer: boolean;
   producer: boolean;
-  filterFunc: string;
-  paginationFunc: string;
-  searchFunc: string;
-  validationFunc: string;
-  webhookFunc: string;
-  sseFunc: string;
-  wssFunc: string;
-  consumerFunc: string;
-  producerFunc: string;
+  funcs: Array<Object>;
 }
 
 const resourceSchema = new Schema<IResource>({
@@ -45,15 +37,7 @@ const resourceSchema = new Schema<IResource>({
   producer: {type: Boolean, default: false},
   consumer: {type: Boolean, default: false},
   project: {type: Schema.Types.ObjectId , ref: "Project", required: true},
-  filterFunc: {type: String, required: true},
-  paginationFunc: {type: String, required: true},
-  searchFunc: {type: String, required: true},
-  validationFunc: {type: String, required: true},
-  webhookFunc: {type: String, required: true},
-  sseFunc: {type: String, required: true},
-  wssFunc: {type: String, required: true},
-  consumerFunc: {type: String, required: true},
-  producerFunc: {type: String, required: true},
+  funcs: {type: [Object], required: true},
 })
 
 export default model<IResource>("Resource", resourceSchema);
