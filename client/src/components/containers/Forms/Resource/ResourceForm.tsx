@@ -1,5 +1,5 @@
 import { MinusCircleFilled, PlusCircleFilled } from '@ant-design/icons';
-import { Form, Switch, Row, Col, Typography, Divider, Space, Badge, } from 'antd';
+import { Form, Switch, Row, Col, Typography, Divider, Space, Badge, Tabs, } from 'antd';
 import MockifyButton from 'components/commons/Button/Button';
 import MockifyCodeEditor from 'components/commons/CodeEditor/CodeEditor';
 import React from 'react';
@@ -32,7 +32,7 @@ const ResourceForm : React.FC<IResourceForm> = (
               <Switch 
                 checkedChildren={name} 
                 unCheckedChildren={name} 
-                defaultChecked 
+                defaultChecked={false}
                 onChange={(checked : boolean) => handleFormChange(checked, name)}
                 />
             </Col>
@@ -43,40 +43,47 @@ const ResourceForm : React.FC<IResourceForm> = (
       }
       </Row>
       <Divider />
-      <Typography style={{fontFamily: "fantasy", fontSize:"18px"}}>Functions</Typography>
-      <Space direction="vertical" style={{width: "100%"}}>
-        {
-          data.funcs.map((func : any, index : number) => {
-            return (
-             <>
-              <Space direction="horizontal" style={{width: "100%"}}>
-                <Badge count={index + 1} key={index} />
-                <MockifyButton
-                  classes={['']}
-                  icon={<MinusCircleFilled />}
-                  onClick={() => handleRemoveFunction(index)}
-                />
-              </Space>
-              <MockifyCodeEditor
-                key={index}
-                value={func}
-                width={"100%"}
-                height={"200px"}
-                onChange={(value : string) => handleFormChange(value, index)}
-                />
-                <Divider />
-
-             </>
-            )
-          })
-        }
+      <Space direction='horizontal'>
+        <Typography style={{fontFamily: "fantasy", fontSize:"18px"}}>Functions</Typography>
+        <MockifyButton
+            classes={['editor-func-btn']}
+            icon={<PlusCircleFilled />}
+            onClick={() => handleAddFunction("")}
+          />
       </Space>
-      <Divider />
-      <MockifyButton
-          classes={['mockify-btn']}
-          icon={<PlusCircleFilled />}
-          onClick={() => handleAddFunction("")}
-        />
+
+      <Tabs
+        defaultActiveKey="1"
+        tabPosition="top"
+        style={{ height: "100%" }}
+        items={data.funcs.map((func : any, index : number) => {
+          return {
+            label: `Function-${index}`,
+            key: `${index}`,
+            disabled: false,
+            children: (
+              <>
+                <Space direction="horizontal" style={{width: "100%"}}>
+                  <Badge count={index + 1} key={index} />
+                  <MockifyButton
+                    classes={['editor-func-btn']}
+                    icon={<MinusCircleFilled />}
+                    onClick={() => handleRemoveFunction(index)}
+                  />
+                </Space>
+                <MockifyCodeEditor
+                  key={index}
+                  value={func}
+                  width={"100%"}
+                  height={"200px"}
+                  onChange={(value : string) => handleFormChange(value, index)}
+                  />
+                  <Divider />
+              </>
+            ),
+          };
+        })}
+      />
       <MockifyButton 
           classes={['mockify-btn']}
           text="send"
