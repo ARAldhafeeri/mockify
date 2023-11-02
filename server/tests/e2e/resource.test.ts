@@ -1,7 +1,7 @@
 import request, {Request} from 'supertest';
 import app from '../../app';
 import { API_ROUTE, RESOURCE_ROUTE  } from '../../config/routes';
-import { SUPER_ADMIN_USERNAME, SUPER_ADMIN_PSWD, DATABASE_URL} from '../../getEnv';
+import { DATABASE_URL } from '../../getEnv';
 import mongoose from 'mongoose';
 import { DefaultData } from '../../defaultData';
 import TestUtils from './TestUtils';
@@ -12,33 +12,27 @@ const mockData = {
   "project": "string",
   "resourceName": "SampleResource",
   "endpoint": "/api/sample",
-  "filter": true,
-  "pagination": true,
-  "search": true,
-  "validation": true,
-  "webhook": true,
-  "sse": false,
-  "wss": true,
-  "getx": true,
-  "postx": true,
-  "putx": true,
-  "deletex": true,
-  "consumer": true,
-  "producer": true,
-  "filterFunc": "filterFunction",
-  "paginationFunc": "paginationFunction",
-  "searchFunc": "searchFunction",
-  "validationFunc": "validationFunction",
-  "webhookFunc": "webhookFunction",
-  "sseFunc": "sseFunction",
-  "wssFunc": "wssFunction",
-  "consumerFunc": "consumerFunction",
-  "producerFunc": "producerFunction"
+  "features": {
+    "filter": true,
+    "pagination": true,
+    "search": true,
+    "validation": true,
+    "webhook": true,
+    "sse": false,
+    "wss": true,
+    "getx": true,
+    "postx": true,
+    "putx": true,
+    "deletex": true,
+    "consumer": true,
+    "producer": true,
+  },
+  "funcs": [
+    "string"
+  ]
 }
 
 const projectService = new ProjectService();
-
-
 
 describe('end-to-end tests project endpoint', () => {
   let token : string;
@@ -67,19 +61,7 @@ describe('end-to-end tests project endpoint', () => {
     // check all properties are defined
     expect(response.body.data.resourceName).toBeDefined();
     expect(response.body.data.endpoint).toBeDefined();
-    expect(response.body.data.filter).toBeDefined();
-    expect(response.body.data.pagination).toBeDefined();
-    expect(response.body.data.search).toBeDefined();
-    expect(response.body.data.validation).toBeDefined();
-    expect(response.body.data.webhook).toBeDefined();
-    expect(response.body.data.sse).toBeDefined();
-    expect(response.body.data.wss).toBeDefined();
-    expect(response.body.data.consumer).toBeDefined();
-    expect(response.body.data.producer).toBeDefined();
-    expect(response.body.data.getx).toBeDefined();
-    expect(response.body.data.postx).toBeDefined();
-    expect(response.body.data.putx).toBeDefined();
-    expect(response.body.data.deletex).toBeDefined();
+    expect(response.body.data.features).toBeDefined();
     expect(response.body.data.funcs).toBeDefined();
 
     createdResource = response.body.data;
