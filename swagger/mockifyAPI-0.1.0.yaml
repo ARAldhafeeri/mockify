@@ -315,7 +315,15 @@ paths:
           description: Resource deleted successfully
           
 
-
+  '/project/refresh':
+      POST:
+      summary: refresh API key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
   '/project/':
     get:
       summary: List all user projects
@@ -351,13 +359,14 @@ paths:
                 $ref: '#/components/schemas/SuccessResponse'
 
     put:
-      summary: Process PUT requests to edit user projects
+      summary: Process PUT requests to edit user projects, can't update API key
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Project'
+      
       responses:
         '200':
           description: Resource updated successfully

@@ -4,7 +4,7 @@ import UserController from "controllers/User";
 import MockifyButton from "components/commons/Button/Button";
 import ColumnsWithActions from "../../presentational/User/UserData";
 import MockifyLoader from "components/commons/Loader/MockifyLoader";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import MockifyModal from "components/commons/Modal/Modal";
 import { IFetchedUserData } from "types/User";
 import UserForm from "../Forms/User/UserForm";
@@ -51,8 +51,8 @@ const User : React.FC = () => {
       : (
         <>
           <MockifyButton 
-            text="Create new user" 
-            classes={['mockify-btn']}
+            classes={['mockify-icon-btn']}
+            icon={<PlusCircleOutlined style={{fontSize: '33px'}}/>}
             onClick={handleShowCreateUserModal}
             />
           <MockifyModal 

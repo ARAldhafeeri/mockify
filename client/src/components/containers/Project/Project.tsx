@@ -4,7 +4,7 @@ import ProjectController from "controllers/Project";
 import MockifyButton from "components/commons/Button/Button";
 import ColumnsWithActions from "../../presentational/Project/ProjectData";
 import MockifyLoader from "components/commons/Loader/MockifyLoader";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import MockifyModal from "components/commons/Modal/Modal";
 import { IFetchedProjectData } from "types/Project";
 import ProjectForm from "../Forms/Project/ProjectForm";
@@ -51,8 +51,8 @@ const Project : React.FC = () => {
       : (
         <>
           <MockifyButton 
-            text="Create new project" 
-            classes={['mockify-btn']}
+            classes={['mockify-icon-btn']}
+            icon={<PlusCircleOutlined style={{fontSize: '33px'}}/>}
             onClick={handleShowCreateProjectModal}
             />
           <MockifyModal 

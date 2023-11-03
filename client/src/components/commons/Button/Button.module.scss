@@ -29,6 +29,19 @@
     background-color: $secondary-dark;
   }
 }
+.mockify-icon-btn {
+  background-color: $primary-dark;
+  color: $white;
+  margin-bottom: 10px;
+  width: auto;
+  height: auto;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  font-weight: 400;
+  align-items: center;
+  justify-content: center;
+}
 
 .table-action-primary {
   background-color: $primary-dark;

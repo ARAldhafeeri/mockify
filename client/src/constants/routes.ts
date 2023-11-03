@@ -5,5 +5,6 @@ export const ROUTES_NAMES = {
    PROJECT: '/project',
    RESOURCE: '/resource',
    MOCKDATA: '/mockdata',
+   POLICY: '/policy',
    ROOT: '/',
 }

@@ -16,6 +16,13 @@ import {
   PieChartOutlined,
   TeamOutlined,
   UserOutlined,
+  SlackCircleFilled, 
+  CloudDownloadOutlined,
+  DatabaseTwoTone,
+  DatabaseFilled,
+  DeploymentUnitOutlined,
+  ControlOutlined
+  
 } from '@ant-design/icons';
 import { ROUTES_NAMES } from "constants/routes";
 import Project from "components/containers/Project/Project";
@@ -33,7 +40,7 @@ interface MenuItem {
 export const items: MenuItem[] = [
   {
     key: 'dashbaord',
-    icon: <DesktopOutlined />,
+    icon: <PieChartOutlined />,
     label: 'Dashboard',
     to: '/dashboard',
     element:  <Dashboard />
@@ -47,24 +54,30 @@ export const items: MenuItem[] = [
   }, 
   {
     key: 'project',
-    icon: <FileOutlined />,
+    icon: <SlackCircleFilled />,
     label: 'Projects',
     to: '/project',
     element: <Project />
   }, 
   {
     key: "resources", 
-    icon: <TeamOutlined />,
+    icon: <DatabaseFilled />,
     label: 'Resources',
     to: '/resource',
     element: <div>Resources</div>
   },
   {
     key: "mockData",
-    icon: <TeamOutlined />,
+    icon: <FileOutlined />,
     label: 'Mock Data',
     to: '/mockData',
-  }, 
+  },
+  {
+    key: "policy",
+    icon: <ControlOutlined />,
+    label: 'Policy',
+    to: '/policy',
+  }
   // Add more menu items if needed
 ];
 
@@ -96,6 +109,10 @@ const MainRouter = createBrowserRouter([
   {
     path: ROUTES_NAMES.MOCKDATA,
     element: withLoggedInLayout(<div>Mock Data</div>)
+  },
+  {
+    path: ROUTES_NAMES.POLICY,
+    element: withLoggedInLayout(<div>Policy</div>)
   }
 ]);
 
