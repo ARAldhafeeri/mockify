@@ -1,13 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import authRouter from "./routes/auth";
 import { API_ROUTE } from './config/routes';
 import applyServerHardening from './middleware/security';
 import policyRouter from './routes/policy';
 import morgan from "morgan";
 
 // routes 
+import authRouter from "./routes/auth";
 import userRouter from './routes/user';
 import projectRouter from './routes/project';
 import resourceRouter from './routes/resource';

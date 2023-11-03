@@ -4,7 +4,7 @@ import ResourceController from "controllers/Resource";
 import MockifyButton from "components/commons/Button/Button";
 import ColumnsWithActions from "../../presentational/Resource/ResourceData";
 import MockifyLoader from "components/commons/Loader/MockifyLoader";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import MockifyModal from "components/commons/Modal/Modal";
 import { IFetchedResourceData } from "types/Resource";
 import ResourceForm from "../Forms/Resource/ResourceForm";
@@ -53,8 +53,8 @@ const Resource : React.FC = () => {
       : (
         <>
           <MockifyButton 
-            text="Create new resource" 
-            classes={['mockify-btn']}
+            classes={['mockify-icon-btn']}
+            icon={<PlusCircleOutlined style={{fontSize: '33px'}}/>}
             onClick={handleShowCreateResourceModal}
             />
           <MockifyModal 

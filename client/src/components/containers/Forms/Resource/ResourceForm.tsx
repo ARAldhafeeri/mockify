@@ -1,4 +1,4 @@
-import { MinusCircleFilled, PlusCircleFilled } from '@ant-design/icons';
+import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { Form, Switch, Row, Col, Typography, Divider, Space, Badge, Tabs, } from 'antd';
 import MockifyButton from 'components/commons/Button/Button';
 import MockifyCodeEditor from 'components/commons/CodeEditor/CodeEditor';
@@ -43,11 +43,11 @@ const ResourceForm : React.FC<IResourceForm> = (
       }
       </Row>
       <Divider />
-      <Space direction='horizontal'>
+      <Space direction='horizontal' style={{width: "100%", justifyContent: "space-between"}}>
         <Typography style={{fontFamily: "fantasy", fontSize:"18px"}}>Functions</Typography>
         <MockifyButton
-            classes={['editor-func-btn']}
-            icon={<PlusCircleFilled />}
+            classes={['mockify-icon-btn']}
+            icon={<PlusCircleOutlined style={{fontSize: '33px'}}/>}
             onClick={() => handleAddFunction("")}
           />
       </Space>
@@ -63,11 +63,11 @@ const ResourceForm : React.FC<IResourceForm> = (
             disabled: false,
             children: (
               <>
-                <Space direction="horizontal" style={{width: "100%"}}>
+                <Space direction="horizontal" style={{width: "100%", justifyContent: "space-between"}}>
                   <Badge count={index + 1} key={index} />
                   <MockifyButton
-                    classes={['editor-func-btn']}
-                    icon={<MinusCircleFilled />}
+                    classes={['mockify-icon-btn']}
+                    icon={<MinusCircleOutlined />}
                     onClick={() => handleRemoveFunction(index)}
                   />
                 </Space>
