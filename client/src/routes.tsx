@@ -26,6 +26,7 @@ import {
 } from '@ant-design/icons';
 import { ROUTES_NAMES } from "constants/routes";
 import Project from "components/containers/Project/Project";
+import Resource from "components/containers/Resource/Resource";
 
 
 interface MenuItem {
@@ -64,20 +65,14 @@ export const items: MenuItem[] = [
     icon: <DatabaseFilled />,
     label: 'Resources',
     to: '/resource',
-    element: <div>Resources</div>
+    element: <Resource />
   },
   {
-    key: "mockData",
-    icon: <FileOutlined />,
-    label: 'Mock Data',
-    to: '/mockData',
-  },
-  {
-    key: "policy",
-    icon: <ControlOutlined />,
-    label: 'Policy',
-    to: '/policy',
-  }
+    key: "data",
+    icon: <TeamOutlined />,
+    label: 'Data',
+    to: '/data',
+  }, 
   // Add more menu items if needed
 ];
 
@@ -104,7 +99,7 @@ const MainRouter = createBrowserRouter([
   },
   {
     path: ROUTES_NAMES.RESOURCE,
-    element: withLoggedInLayout(<div>Resources</div>)
+    element: withLoggedInLayout(<Resource />)
   },
   {
     path: ROUTES_NAMES.MOCKDATA,

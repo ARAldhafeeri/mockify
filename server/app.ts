@@ -10,6 +10,7 @@ import morgan from "morgan";
 // routes 
 import userRouter from './routes/user';
 import projectRouter from './routes/project';
+import resourceRouter from './routes/resource';
 
 const app = express();
 
@@ -24,6 +25,8 @@ app.use(API_ROUTE, userRouter);
 app.use(API_ROUTE, policyRouter)
 
 app.use(API_ROUTE, projectRouter)
+
+app.use(API_ROUTE, resourceRouter)
 
 applyServerHardening(app)
 

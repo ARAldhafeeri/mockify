@@ -1,47 +1,49 @@
 import React from "react"; 
 import MockifyTable from "../../commons/Table/Table";
-import ProjectController from "controllers/Project";
+import ResourceController from "controllers/Resource";
 import MockifyButton from "components/commons/Button/Button";
-import ColumnsWithActions from "../../presentational/Project/ProjectData";
+import ColumnsWithActions from "../../presentational/Resource/ResourceData";
 import MockifyLoader from "components/commons/Loader/MockifyLoader";
-import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import MockifyModal from "components/commons/Modal/Modal";
-import { IFetchedProjectData } from "types/Project";
-import ProjectForm from "../Forms/Project/ProjectForm";
+import { IFetchedResourceData } from "types/Resource";
+import ResourceForm from "../Forms/Resource/ResourceForm";
 
-const Project : React.FC = () => {
+const Resource : React.FC = () => {
   const { 
-    project, 
+    resource, 
     loading, 
-    handleDeleteProject,
+    handleDeleteResource,
     // delete
     showDeleteModal, 
     handleShowDeleteModal,
-    selectedProject, 
-    setSelectedProject,
+    selectedResource, 
+    setSelectedResource,
     handleHideDeleteModal, 
     // update
     handleShowEditModal,
     handleHideEditModal, 
     showEditModal,
     handleFormChange, 
-    handleSubmitProjectForm,
+    handleSubmitResourceForm,
     showCreateModal, 
-    handleShowCreateProjectModal,
-    handleHideCreateProjectModal,
+    handleShowCreateResourceModal,
+    handleHideCreateResourceModal,
     form,
-  } = ProjectController();
+    handleAddFunction,
+    handleRemoveFunction,
+  } = ResourceController();
 
   const actions = [
     {
       icon: <EditOutlined />,
       classes: ['table-action-primary'],
-      onclick: (record : IFetchedProjectData) => handleShowEditModal(record) 
+      onclick: (record : IFetchedResourceData) => handleShowEditModal(record) 
     }, 
     {
       icon:<DeleteOutlined />,
       classes: ['table-action-secondary'],
-      onclick: (record: IFetchedProjectData) => handleShowDeleteModal(record)
+      onclick: (record: IFetchedResourceData) => handleShowDeleteModal(record)
     }
   ]
   return (
@@ -51,29 +53,31 @@ const Project : React.FC = () => {
       : (
         <>
           <MockifyButton 
-            classes={['mockify-icon-btn']}
-            icon={<PlusCircleOutlined style={{fontSize: '33px'}}/>}
-            onClick={handleShowCreateProjectModal}
+            text="Create new resource" 
+            classes={['mockify-btn']}
+            onClick={handleShowCreateResourceModal}
             />
           <MockifyModal 
             show={showDeleteModal}
-            title="Delete project"
-            onOk={() => handleDeleteProject(selectedProject._id || '')}
+            title="Delete resource"
+            onOk={() => handleDeleteResource(selectedResource._id || '')}
             onCancel={() => handleHideDeleteModal()}
-            children={<p>Are you sure delete {selectedProject.name} ?</p>}
+            children={<p>Are you sure delete {selectedResource.resourceName} ?</p>}
             />
           <MockifyModal
             show={showEditModal}
-            title="Update project"
+            title="Update resource"
             onOk={ () => handleHideEditModal()}
             onCancel={() => handleHideEditModal()}
             okButtonProps={{ style: { display: 'none' } }}
             cancelButtonProps={{ style: { display: 'none' } }}
             children={
-                <ProjectForm 
+                <ResourceForm 
                   handleFormChange={handleFormChange} 
-                  handleFormSubmit={handleSubmitProjectForm}
-                  data={selectedProject} 
+                  handleFormSubmit={handleSubmitResourceForm}
+                  handleAddFunction={handleAddFunction}
+                  handleRemoveFunction={handleRemoveFunction}
+                  data={selectedResource} 
                   form={form}
                   onFinish={() => handleHideEditModal()}
                   />
@@ -81,16 +85,18 @@ const Project : React.FC = () => {
             />
           <MockifyModal
             show={showCreateModal}
-            title="Create project"
-            onOk={ () => handleShowCreateProjectModal()}
-            onCancel={() => handleHideCreateProjectModal()}
+            title="Create resource"
+            onOk={ () => handleShowCreateResourceModal()}
+            onCancel={() => handleHideCreateResourceModal()}
             okButtonProps={{ style: { display: 'none' } }}
             cancelButtonProps={{ style: { display: 'none' } }}
             children={
-                <ProjectForm 
+                <ResourceForm 
                   handleFormChange={handleFormChange} 
-                  handleFormSubmit={handleSubmitProjectForm}
-                  data={selectedProject} 
+                  handleFormSubmit={handleSubmitResourceForm}
+                  handleAddFunction={handleAddFunction}
+                  handleRemoveFunction={handleRemoveFunction}
+                  data={selectedResource} 
                   form={form}
                   onFinish={() => handleHideEditModal()}
                   />
@@ -98,7 +104,7 @@ const Project : React.FC = () => {
             />
           <MockifyTable 
             columns={ColumnsWithActions(actions)} 
-            data={project} 
+            data={resource} 
             classes={["mockify-table"]} />
         </>
       )
@@ -108,4 +114,4 @@ const Project : React.FC = () => {
 
 }
 
-export default Project;
+export default Resource;

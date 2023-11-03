@@ -10,15 +10,9 @@ import TestUtils from './TestUtils';
 const mockUserData = {
   username: 'testUser',
   password: 'testPassword',
-  email: 'test@test.com',
+  email: 'tko@tko2.com',
   role: 'user',
 }
-
-const mockUserData2 = {
-  username: 'testUser2',
-  password: 'testPassword2',
-  email: 'test2@at.com',  
-};
 
 
 describe('end-to-end tests user endpoint', () => {
@@ -32,11 +26,13 @@ describe('end-to-end tests user endpoint', () => {
   
 
   test('should create user', async () => {
+    
     const response = await request.agent(app).post(`${API_ROUTE}${USER_ROUTE}`).send({
       ...mockUserData
     })
     .set('Authorization', 'bearer ' + token)
 
+    console.log(response.body);
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     expect(response.body.data.username).toBe(mockUserData.username);
@@ -70,7 +66,7 @@ describe('end-to-end tests user endpoint', () => {
   });
 
   test('should delete users', async () => {
-    console.log('createdUser', createdUser)
+
     const response = await request.agent(app).delete(`${API_ROUTE}${USER_ROUTE}/?id=${createdUser._id}`)
     .set('Authorization', 'bearer ' + token)
     expect(response.status).toBe(200);
