@@ -1,6 +1,6 @@
 import request, {Request} from 'supertest';
 import app from '../../app';
-import { API_ROUTE, RESOURCE_ROUTE  } from '../../config/routes';
+import { API_ROUTE, DATA_ROUTE  } from '../../config/routes';
 import { DATABASE_URL } from '../../getEnv';
 import mongoose from 'mongoose';
 import { DefaultData } from '../../defaultData';
@@ -36,7 +36,7 @@ describe('end-to-end tests data endpoint', () => {
 
     dataObj = await resourceService.find({});
     mockData.resource =  dataObj[0]._id;
-    const response = await request.agent(app).post(`${API_ROUTE}${RESOURCE_ROUTE}`).send({
+    const response = await request.agent(app).post(`${API_ROUTE}${DATA_ROUTE}`).send({
       ...mockData
     })
     .set('Authorization', 'bearer ' + token)
@@ -45,10 +45,8 @@ describe('end-to-end tests data endpoint', () => {
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     // check all properties are defined
-    expect(response.body.data.resourceName).toBeDefined();
-    expect(response.body.data.endpoint).toBeDefined();
-    expect(response.body.data.features).toBeDefined();
-    expect(response.body.data.funcs).toBeDefined();
+    expect(response.body.data.resource).toBeDefined();
+    expect(response.body.data.data).toBeDefined();
 
     createdResource = response.body.data;
 
@@ -56,7 +54,7 @@ describe('end-to-end tests data endpoint', () => {
 
   test('should get resource data', async () => {
 
-    const response = await request.agent(app).get(`${API_ROUTE}${RESOURCE_ROUTE}`)
+    const response = await request.agent(app).get(`${API_ROUTE}${DATA_ROUTE}`)
     .set('Authorization', 'bearer ' + token)
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -66,23 +64,24 @@ describe('end-to-end tests data endpoint', () => {
 
   test('should edit resource data', async () => {
 
-    delete createdResource.apiKey;
-    const response = await request.agent(app).put(`${API_ROUTE}${RESOURCE_ROUTE}`).send({
+    const response = await request.agent(app).put(`${API_ROUTE}${DATA_ROUTE}`).send({
       ...createdResource,
-      resourceName: 'newName'
-    })
+      data: {
+        field3: 'value333',
+      },
+      })
     .set('Authorization', 'bearer ' + token)
 
     console.log(response.body);
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data.resourceName).toBe('newName');
+    expect(response.body.data.data.field3).toBe('value333');
 
   });
 
   test('should delete resource data', async () => {
-    const response = await request.agent(app).delete(`${API_ROUTE}${RESOURCE_ROUTE}/?id=${createdResource._id}`)
+    const response = await request.agent(app).delete(`${API_ROUTE}${DATA_ROUTE}/?id=${createdResource._id}`)
     .set('Authorization', 'bearer ' + token)
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);

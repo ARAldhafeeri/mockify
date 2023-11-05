@@ -11,6 +11,7 @@ import authRouter from "./routes/auth";
 import userRouter from './routes/user';
 import projectRouter from './routes/project';
 import resourceRouter from './routes/resource';
+import dataRouter from './routes/data';
 
 const app = express();
 
@@ -27,6 +28,8 @@ app.use(API_ROUTE, policyRouter)
 app.use(API_ROUTE, projectRouter)
 
 app.use(API_ROUTE, resourceRouter)
+
+app.use(API_ROUTE, dataRouter)
 
 applyServerHardening(app)
 
