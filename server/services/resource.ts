@@ -15,9 +15,9 @@ class ResourceService implements IResService  {
   }
 
   find = async ( projection: Object) : Promise<any> => {
-    const foundRes = ResourceModel.find( 
+    const foundRes = await ResourceModel.find( 
        projection
-       )
+       ).lean();
     
     return foundRes;
   }

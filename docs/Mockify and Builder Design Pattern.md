@@ -8,7 +8,8 @@ In mockify.io , builder design pattern is used to build endpoints based on resou
 For example if GET, POST, DELETE, PUT method is enabled for a resource as generic CURD,filteration, pagination, search then the following endpoints will be generated for the resource:
 - GET -> domainName.com/resourceName?filter=filterValue&sort=sortValue&search=searchValue&page=pageNumber&size=pageSize
 - POST, GET ( without any pagination, sort , filter, search params ) -> domainName.com/resourceName
-- DELETE, PUT -> domainName.com/resourceName?id=idValue
+- DELETE, PUT -> domainName.com/resourceName/:id
+- GET -> domainName.com/resourceName/:id
 
 Therefore the builder design pattern will generate the following endpoints:
 - domainName.com/resourceName?filter=filterValue&sort=sortValue&search=searchValue&page=pageNumber&size=pageSize

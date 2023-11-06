@@ -12,7 +12,6 @@ import { makeRandomString } from '../utils';
 const mockData = {
   "project": "string",
   "resourceName": makeRandomString(10),
-  "endpoint": "/api/sample",
   "features": {
     "filter": true,
     "pagination": true,
@@ -65,7 +64,6 @@ describe('end-to-end tests project endpoint', () => {
     expect(response.body.status).toBe(true);
     // check all properties are defined
     expect(response.body.data.resourceName).toBeDefined();
-    expect(response.body.data.endpoint).toBeDefined();
     expect(response.body.data.features).toBeDefined();
     expect(response.body.data.funcs).toBeDefined();
     expect(response.body.data.fields).toBeDefined();
