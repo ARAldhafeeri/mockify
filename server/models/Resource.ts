@@ -4,6 +4,7 @@ export interface IResource extends Document {
   resourceName: string;
   project: Schema.Types.ObjectId;
   endpoint: string;
+  fields: Array<Object>;
   features: {
     filter: boolean;
     pagination: boolean;
@@ -27,6 +28,7 @@ const resourceSchema = new Schema<IResource>({
   endpoint: {type: String, required: true},
   features: {type: Object, required: true},
   funcs: {type: [String], required: true},
+  fields: {type: [Object], required: true},
 })
 
 export default model<IResource>("Resource", resourceSchema);

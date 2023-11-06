@@ -30,6 +30,10 @@ const mockData = {
   },
   "funcs": [
     "string"
+  ],
+  "fields": [
+    {name: "name", type: "string", required: true},
+    {name: "age", type: "number", required: true},
   ]
 }
 
@@ -64,7 +68,7 @@ describe('end-to-end tests project endpoint', () => {
     expect(response.body.data.endpoint).toBeDefined();
     expect(response.body.data.features).toBeDefined();
     expect(response.body.data.funcs).toBeDefined();
-
+    expect(response.body.data.fields).toBeDefined();
     createdResource = response.body.data;
 
   });
