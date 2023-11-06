@@ -6,11 +6,12 @@ import mongoose from 'mongoose';
 import { DefaultData } from '../../defaultData';
 import TestUtils from './TestUtils';
 import ProjectService from '../../services/project';
+import { makeRandomString } from '../utils';
 
 
 const mockData = {
   "project": "string",
-  "resourceName": "SampleResource",
+  "resourceName": makeRandomString(10),
   "endpoint": "/api/sample",
   "features": {
     "filter": true,

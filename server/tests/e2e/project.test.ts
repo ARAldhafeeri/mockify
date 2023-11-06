@@ -6,10 +6,11 @@ import mongoose from 'mongoose';
 import { DefaultData } from '../../defaultData';
 import TestUtils from './TestUtils';
 import UserService from '../../services/user';
+import { makeRandomString } from '../utils';
 
 
 const mockUserData = {
-  name: 'testUser',
+  name: makeRandomString(10),
   apiKey: 'secret',
   user: 'userID',
 }
