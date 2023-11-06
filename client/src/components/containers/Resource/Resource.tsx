@@ -24,7 +24,12 @@ const Resource : React.FC = () => {
     handleShowEditModal,
     handleHideEditModal, 
     showEditModal,
-    handleFormChange, 
+    // form change
+    handleFormChange,
+    handleFormChangeFuncs,
+    handleFormChangeFeatures,
+    handleFormChangeFields,
+
     handleSubmitResourceForm,
     showCreateModal, 
     handleShowCreateResourceModal,
@@ -32,6 +37,8 @@ const Resource : React.FC = () => {
     form,
     handleAddFunction,
     handleRemoveFunction,
+    handleAddField,
+    handleRemoveField,
   } = ResourceController();
 
   const actions = [
@@ -73,10 +80,16 @@ const Resource : React.FC = () => {
             cancelButtonProps={{ style: { display: 'none' } }}
             children={
                 <ResourceForm 
-                  handleFormChange={handleFormChange} 
+                  handleFormChange={handleFormChange}
+                  handleFormChangeFeatures={handleFormChangeFeatures}
+                  handleFormChangeFuncs={handleFormChangeFuncs}
+                  handleFormChangeFields={handleFormChangeFields}
+
                   handleFormSubmit={handleSubmitResourceForm}
                   handleAddFunction={handleAddFunction}
                   handleRemoveFunction={handleRemoveFunction}
+                  handleAddField={handleAddField}
+                  handleRemoveField={handleRemoveField}
                   data={selectedResource} 
                   form={form}
                   onFinish={() => handleHideEditModal()}
@@ -93,9 +106,14 @@ const Resource : React.FC = () => {
             children={
                 <ResourceForm 
                   handleFormChange={handleFormChange} 
+                  handleFormChangeFeatures={handleFormChangeFeatures}
+                  handleFormChangeFuncs={handleFormChangeFuncs}
+                  handleFormChangeFields={handleFormChangeFields}
                   handleFormSubmit={handleSubmitResourceForm}
                   handleAddFunction={handleAddFunction}
                   handleRemoveFunction={handleRemoveFunction}
+                  handleAddField={handleAddField}
+                  handleRemoveField={handleRemoveField}
                   data={selectedResource} 
                   form={form}
                   onFinish={() => handleHideEditModal()}

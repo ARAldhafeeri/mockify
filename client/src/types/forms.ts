@@ -23,8 +23,13 @@ export interface IProjectForm {
 export interface IResourceForm {
   handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   handleFormChange: (e: React.ChangeEvent<HTMLInputElement> | boolean | String, name: String | null  | number) => void;
+  handleFormChangeFuncs: (e: React.ChangeEvent<HTMLInputElement> | boolean | String, name: String | null  | number) => void;
+  handleFormChangeFeatures: (e: React.ChangeEvent<HTMLInputElement> | boolean | String, name: String | null  | number) => void;
+  handleFormChangeFields: (index: number, name: string, value: string | boolean | number) => void;
   handleAddFunction: (value : string) => void;
   handleRemoveFunction: (index: number) => void;
+  handleAddField: (name : string, type : string, required : boolean) => void;
+  handleRemoveField: (index: number) => void;
   data: IFetchedResourceData;
   form: any;
   onFinish?: (values: any) => void;

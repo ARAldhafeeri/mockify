@@ -14,6 +14,7 @@ const ResourceController = () => {
     "project": "string",
     "resourceName": "SampleResource",
     "endpoint": "/api/sample",
+    "fields": [],
     "features": {
       "filter": true,
       "pagination": true,
@@ -37,7 +38,6 @@ const ResourceController = () => {
   // antd form 
   const [form] = Form.useForm();
 
-  console.log(selectedResource)
   // delete resource event
   const handleDeleteResource = (id : string) => {
     ToastifyMockify(
@@ -71,7 +71,6 @@ const ResourceController = () => {
     e.preventDefault();
     let dispatched;
     if (showEditModal) {
-      console.log(selectedResource)
       dispatched = dispatch(updateResource(selectedResource))
     } else {
       delete selectedResource._id;
@@ -94,31 +93,53 @@ const ResourceController = () => {
       funcs: selectedResource.funcs.filter((_, i) => i !== index)
     });
   }
+  // handle add or remove field
+  const handleAddField = (name: string, type: string, required: boolean) => {
+    setSelectedResource({
+      ...selectedResource,
+      fields: [...selectedResource.fields, {name: name, type: type, required: required}]
+    });
+  }
+
+  const handleRemoveField = (index: number) => {
+    setSelectedResource({
+      ...selectedResource,
+      fields: selectedResource.fields.filter((_, i) => i !== index)
+    });
+  }
+
+  const handleFormChangeFuncs = (e : any, name : any=null) => {
+    setSelectedResource({
+      ...selectedResource,
+      funcs: selectedResource.funcs.map((func, i) => i === name ? e : func)
+    
+    })
+  }
+
+  const handleFormChangeFeatures = (e : any, name : any=null) => {
+    setSelectedResource({
+      ...selectedResource,
+      features: {
+        ...selectedResource.features,
+        [name]: e
+      }
+    })
+  }
+
+  const handleFormChangeFields = (index : number, name : string, value: string | boolean | number) => {
+    console.log(index, name, value)
+    console.log(selectedResource.fields)
+    setSelectedResource({
+      ...selectedResource,
+      fields: selectedResource.fields.map((field, i) => i === index ? {...field, [name]: value} : field)
+    })
+  }
 
   const handleFormChange = (e : any, name : any=null) => {
-    // if name is passed it's for switch e -> is boolean value, name is the 
-    // if e is string it's for code editor, e is value, name is the index
-    if (name && typeof e === "boolean") {
-      setSelectedResource({
-        ...selectedResource,
-        features: {
-          ...selectedResource.features,
-          [name]: e
-        }
-      })
-    } else if (typeof e === "string") {
-      setSelectedResource({
-        ...selectedResource,
-        funcs: selectedResource.funcs.map((func, i) => i === name ? e : func)
-      
-      })
-    }
-    else {
       setSelectedResource({
         ...selectedResource,
         [e.target.name]: e.target.value
       })
-    }
   };
 
   // create events
@@ -143,25 +164,38 @@ const ResourceController = () => {
     loading,
     selectedResource, 
     setSelectedResource,
+
     // delete event
     handleDeleteResource,
     showDeleteModal,
     handleShowDeleteModal,
     handleHideDeleteModal,
+
     // update event
     showEditModal,
     handleShowEditModal,
     handleHideEditModal,
     handleSubmitResourceForm,
+    
+    // form change 
     handleFormChange,
+    handleFormChangeFuncs,
+    handleFormChangeFeatures,
+    handleFormChangeFields,
+
     // create event
     showCreateModal, 
     handleShowCreateResourceModal,
     handleHideCreateResourceModal,
     form,
+
     // funcs
     handleAddFunction,
-    handleRemoveFunction
+    handleRemoveFunction,
+    
+    // fields
+    handleAddField,
+    handleRemoveField
 
   }
 }

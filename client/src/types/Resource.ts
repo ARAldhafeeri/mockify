@@ -4,6 +4,7 @@ export interface IFetchedResourceData {
   _id?: string;
   resourceName: string;
   project: string;
+  fields: Array<{}>;
   endpoint: string;
   features: {
     filter: boolean;
@@ -26,6 +27,7 @@ export interface IFetchedResourceData {
 export interface IPostedResourceData {
   resourceName: string;
   project: string;
+  fields: Array<{}>;
   endpoint: string;
   filter: boolean;
   pagination: boolean;
@@ -51,6 +53,7 @@ export interface IUpdateResourceData {
   resourceName: string;
   project: string;
   endpoint: string;
+  fields: Array<{}>;
   filter: boolean;
   pagination: boolean;
   search: boolean;
