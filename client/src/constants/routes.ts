@@ -4,7 +4,7 @@ export const ROUTES_NAMES = {
    DASHBOARD: '/dashboard',
    PROJECT: '/project',
    RESOURCE: '/resource',
-   MOCKDATA: '/mockdata',
+   DATA: '/data',
    POLICY: '/policy',
    ROOT: '/',
 }

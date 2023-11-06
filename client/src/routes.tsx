@@ -73,6 +73,12 @@ export const items: MenuItem[] = [
     label: 'Data',
     to: '/data',
   }, 
+  {
+    key: "policy",
+    icon: <ControlOutlined />,
+    label: 'Policy',
+    to: '/policy',
+  }
   // Add more menu items if needed
 ];
 
@@ -102,7 +108,7 @@ const MainRouter = createBrowserRouter([
     element: withLoggedInLayout(<Resource />)
   },
   {
-    path: ROUTES_NAMES.MOCKDATA,
+    path: ROUTES_NAMES.DATA,
     element: withLoggedInLayout(<div>Mock Data</div>)
   },
   {
