@@ -2,17 +2,25 @@ import { Response, Request} from "express";
 import { SuccessResponse, ErrorResponse } from "../utils/responses";
 import { Types } from "mongoose";
 import DataService from "../services/data";
+import ResourceService from "../services/resource";
+import { IResource } from "../models/Resource";
+import { IData } from "../models/Data";
 const {ObjectId} = Types;
 
-const rService = new DataService();
+const dService = new DataService();
+const rService = new ResourceService();
 
 export const getData = async function(req: Request, res: Response) : Promise<any> {
  
   try{
 
-      const found = await rService.find({});
+      let resourceName : string = req.query.resourceName as string;
 
-      if (!found) return ErrorResponse(res, 'datas not found', 400);
+      const resource : IResource = await rService.findOne({resourceName});
+
+      const found : IData = await dService.find({resource: resource._id});
+
+      if (!found) return ErrorResponse(found, 'datas not found', 400);
 
       return SuccessResponse(res, found, 'fetching datas was successful', 200)
 
@@ -28,7 +36,7 @@ export const deleteData = async function(req: Request, res: Response) : Promise<
   try{
     const id : Types.ObjectId = new ObjectId(req.query.id as string);
 
-    const deleted = await rService.delete(id);
+    const deleted = await dService.delete(id);
 
     if (!deleted) return ErrorResponse(res, 'data not deleted', 400);
 
@@ -45,7 +53,7 @@ export const createData = async function(req: Request, res: Response) : Promise<
  
   try{
     
-    const dNew = await rService.create(req.body);
+    const dNew = await dService.create(req.body);
     
     if (!dNew) return ErrorResponse(res, 'data not created', 400);
 
@@ -63,7 +71,7 @@ export const updateData = async function(req: Request, res: Response) : Promise<
  
   try{
 
-      const dUpdated = await rService.update(req.body);
+      const dUpdated = await dService.update(req.body);
   
       if (!dUpdated) return ErrorResponse(res, 'data not updated', 400);
   

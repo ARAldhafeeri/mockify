@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { createData, deleteData, fetchDatas, updateData } from "./dataThunk";
+import { createData, deleteData, fetchData, updateData } from "./dataThunk";
 import { IFetchDataResponse, IFetchedDataData, IDataInitState } from "types/Data";
 
 const initialState : IDataInitState = {
@@ -16,13 +16,13 @@ const dataSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // fetch datas
-      .addCase(fetchDatas.pending, (state, _ ) => {
+      .addCase(fetchData.pending, (state, _ ) => {
         state.loading = true;
       })
-      .addCase(fetchDatas.rejected, (state, _) => {
+      .addCase(fetchData.rejected, (state, _) => {
         state.loading = false;
       })
-      .addCase(fetchDatas.fulfilled, (
+      .addCase(fetchData.fulfilled, (
         state, action : PayloadAction<  IFetchDataResponse | any>
         ) => {
         state.loading = false;

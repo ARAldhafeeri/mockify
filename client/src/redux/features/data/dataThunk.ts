@@ -6,7 +6,7 @@ import {
 import { ENDPOINTS } from "constants/endpoints";
 import { IAPINormalizedResponse } from "types/global";
 
-export const fetchDatas = createAsyncThunk(
+export const fetchData = createAsyncThunk(
   "data/fetch",
   async (_ , thunkAPI) : Promise<IAPINormalizedResponse> => {
       const res : any = await instance.get(ENDPOINTS.DATA);

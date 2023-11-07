@@ -2,11 +2,12 @@ import Resource from "../models/Resource";
 import ResourceModel, {IResource} from "../models/Resource";
 import {Types} from "mongoose";
 
-interface IResService {
+export interface IResService {
   find(reosource: Object): Promise<any>;
   create(reosource: IResource): Promise<any>;
   update(reosource: IResource): Promise<any>;
   delete(id: Types.ObjectId): Promise<any>;
+  findById(id: Types.ObjectId): Promise<any>;
 }
 
 class ResourceService implements IResService  {
@@ -16,6 +17,22 @@ class ResourceService implements IResService  {
 
   find = async ( projection: Object) : Promise<any> => {
     const foundRes = await ResourceModel.find( 
+       projection
+       ).lean();
+    
+    return foundRes;
+  }
+
+  findById = async (id: Types.ObjectId) : Promise<any> => {
+    const foundRes = await ResourceModel.findById( 
+       id
+       ).lean();
+    
+    return foundRes;
+  }
+
+  findOne = async ( projection: Object) : Promise<any> => {
+    const foundRes = await ResourceModel.findOne( 
        projection
        ).lean();
     

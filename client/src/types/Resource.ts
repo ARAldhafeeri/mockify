@@ -1,10 +1,15 @@
 import { ReactNode } from "react";
 
+export interface IField {
+ name: string;
+ type: string;
+ required: boolean
+}
 export interface IFetchedResourceData {
   _id?: string;
   resourceName: string;
   project: string;
-  fields: Array<{}>;
+  fields: Array<IField>;
   endpoint: string;
   features: {
     filter: boolean;

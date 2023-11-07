@@ -11,23 +11,22 @@ import LoggedInLayout from "components/containers/Layout/LoggedInLayout";
 import User from "components/containers/User/User";
 import Dashboard from 'components/containers/Dashboard/Dashboard';
 import {
-  DesktopOutlined,
-  FileOutlined,
   PieChartOutlined,
   TeamOutlined,
   UserOutlined,
   SlackCircleFilled, 
-  CloudDownloadOutlined,
-  DatabaseTwoTone,
   DatabaseFilled,
   DeploymentUnitOutlined,
-  ControlOutlined
+  ControlOutlined,
+  FolderAddOutlined,
+  FolderAddFilled
   
 } from '@ant-design/icons';
 import { ROUTES_NAMES } from "constants/routes";
 import Project from "components/containers/Project/Project";
 import Resource from "components/containers/Resource/Resource";
 import Endpoint from "components/containers/Endpoint/Endpoint";
+import Data from "components/containers/Data/Data";
 
 
 interface MenuItem {
@@ -70,7 +69,7 @@ export const items: MenuItem[] = [
   },
   {
     key: "data",
-    icon: <TeamOutlined />,
+    icon: <FolderAddFilled />,
     label: 'Data',
     to: '/data',
   }, 
@@ -116,7 +115,7 @@ const MainRouter = createBrowserRouter([
   },
   {
     path: ROUTES_NAMES.DATA,
-    element: withLoggedInLayout(<div>Mock Data</div>)
+    element: withLoggedInLayout(<Data />)
   },
   {
     path: ROUTES_NAMES.POLICY,

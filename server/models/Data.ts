@@ -1,7 +1,7 @@
-import { Document, Schema, model} from "mongoose";
+import { Document, Schema, Types, model} from "mongoose";
 
 export interface IData extends Document {
-  resource: Schema.Types.ObjectId;
+  resource: Types.ObjectId;
   data: Object;
 }
 
