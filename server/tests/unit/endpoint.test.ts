@@ -35,9 +35,16 @@ describe('EndpointService', () => {
 
     const endpoint = await EndpointService.create(mockData.features, mockData.resourceName);
     expect(endpoint).toBeDefined();
-    expect(endpoint).toHaveLength(3);
-    expect(endpoint.includes(`${domain}/${mockData.resourceName}`)).toBe(true);
-    expect(endpoint.includes(`${domain}/${mockData.resourceName}/:id`)).toBe(true);
-    expect(endpoint.includes(`${domain}/${mockData.resourceName}?filter=filterValue&sort=sortValue&search=searchValue&page=pageNumber&size=pageSize`)).toBe(true);
+    expect(endpoint).toHaveLength(4);
+
+    let getx = endpoint.find((e : any) => e.method === "GET");
+    let postx = endpoint.find((e : any) => e.method === "POST");
+    let putx = endpoint.find((e : any) => e.method === "PUT");
+    let deletex = endpoint.find((e : any) => e.method === "DELETE");
+
+    expect(getx).toBeDefined();
+    expect(postx).toBeDefined();
+    expect(putx).toBeDefined();
+    expect(deletex).toBeDefined();
   });
 });

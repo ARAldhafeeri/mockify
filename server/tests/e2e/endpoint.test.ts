@@ -20,7 +20,7 @@ describe('end-to-end tests project endpoint', () => {
   });
   
 
-  test('should create resource', async () => {
+  test('should return endpoints', async () => {
 
     let resource = await resourceService.find({});
     resource = resource[0];
