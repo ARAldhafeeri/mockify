@@ -1,24 +1,8 @@
-import { Button, Tag, Tooltip } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import TableActions from 'components/commons/TableActions/TableActions';
-import {
-  EyeInvisibleOutlined,
-  CopyOutlined
-} from '@ant-design/icons';
-import MockifyButton from 'components/commons/Button/Button';
+import { Invisible } from 'components/commons/Invisible/Invisible';
 
-const apiKeyWithTooltipClick = (apiKey : string) => {
-  return (
-    <div>
-      <p style={{marginTop: "23px"}}>{apiKey}</p>
-      <MockifyButton 
-      icon={<CopyOutlined style={{fontSize: "20px"}} />} 
-      onClick={() => navigator.clipboard.writeText(apiKey)}
-      classes={['copy-api-key-btn']}
-      />
-    </div>
-    )
-}
+
 const ColumnsWithActions = (actions : any) : ColumnsType => {
   return  [
     {
@@ -30,9 +14,7 @@ const ColumnsWithActions = (actions : any) : ColumnsType => {
       title: 'apiKey'.toUpperCase(),
       dataIndex: 'apiKey',
       key: 'apiKey',
-      render: (apiKey : string) => (
-        <Tooltip title={apiKeyWithTooltipClick(apiKey)}><EyeInvisibleOutlined /></Tooltip>
-      ),
+      render: (apiKey : string) => Invisible(apiKey)
     },
     {
       title: 'user'.toUpperCase(),
