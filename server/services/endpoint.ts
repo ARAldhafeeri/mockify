@@ -18,9 +18,9 @@ interface IEndpointFeatures {
 class EndpointService {
   static async create(features : IEndpointFeatures, resourceName : string) {
     let endpoint : Array<string> = [];
-    let getx : string = `${domain}/${resourceName}?filter=filterValue&sort=sortValue&search=searchValue&page=pageNumber&size=pageSize`
-    let postx : string = `${domain}/${resourceName}`
-    let deleteAndPutx : string = `${domain}/${resourceName}/:id`
+    let getx : string = `${domain}/mock/${resourceName}?filter=filterValue&sort=sortValue&search=searchValue&page=pageNumber&size=pageSize`
+    let postx : string = `${domain}/mock/${resourceName}`
+    let deleteAndPutx : string = `${domain}/mock/${resourceName}/:id`
 
     if (features.getx) endpoint.push(getx);
     if(features.postx) endpoint.push(postx);
