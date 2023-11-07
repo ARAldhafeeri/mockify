@@ -3,6 +3,7 @@ import authSlice from './features/auth/authSlice'
 import userSlice from './features/user/userSlice'
 import projectSlice from './features/project/projectSlice'
 import resourceSlice from './features/resource/resourceSlice'
+import endpointSlice from './features/endpoint/endpointSlice'
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     user: userSlice,
     project: projectSlice,
     resource: resourceSlice,
+    endpoint: endpointSlice
   },
 })
 

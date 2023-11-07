@@ -150,6 +150,7 @@ const ResourceController = () => {
   const handleHideCreateResourceModal = () => {
     setShowCreateModal(false);
   }
+
   
 
   React.useEffect(() =>{
