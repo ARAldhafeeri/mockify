@@ -4,33 +4,28 @@ import { fetchEndpoints } from "redux/features/endpoint/endpointThunk";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { ToastifyMockify } from "utils";
 import { Form } from "antd";
+import { IFetchResourceResponse, IFetchedResourceData } from "types/Resource";
 const EndpointController = () => {
   const { endpoint, loading } = useAppSelector((state) => state.endpoint);
-
-  const  [ showDrawer, setShowDrawer ] = React.useState<boolean>(false);
-
+  const { resource } = useAppSelector((state) => state.resource);
   const dispatch = useAppDispatch();
-
-  const hanldeShowDrawer = () => {
-    setShowDrawer(true);
-  };
-
-  const handleHideDrawer = () => {
-    setShowDrawer(false);
-  }
+  const [ key, setKey ] = React.useState<number>(0);
 
   React.useEffect(() =>{
-    const dispatched = dispatch(fetchEndpoints());
+    const dispatched = dispatch(fetchEndpoints(resource[key] as IFetchResourceResponse));
     ToastifyMockify(dispatched);
-  }, [dispatch])
+  }, [dispatch, key])
 
+  const handleTabChange = (key : string) => {
+    setKey(parseInt(key));
+    console.log(key, resource[parseInt(key)])
+  }
   return {
     // globals
     endpoint, 
     loading,
-    // drawer
-    handleHideDrawer,
-    hanldeShowDrawer,
+    handleTabChange,
+    key
   }
 }
 

@@ -7,4 +7,5 @@ export const ROUTES_NAMES = {
    DATA: '/data',
    POLICY: '/policy',
    ROOT: '/',
+   ENDPOINT: '/endpoint',
 }

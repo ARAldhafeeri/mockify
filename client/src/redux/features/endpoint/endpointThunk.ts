@@ -1,16 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import instance from "../../instance";
-import { 
-  IFetchedEndpointData
-} from "types/Endpoint";
 import { ENDPOINTS } from "constants/endpoints";
 import { IAPINormalizedResponse } from "types/global";
+import { IFetchResourceResponse, IFetchedResourceData } from "types/Resource";
 
 export const fetchEndpoints = createAsyncThunk(
   "endpoint/fetch",
-  async (_ , thunkAPI) : Promise<IAPINormalizedResponse> => {
-      const res : any = await instance.get(ENDPOINTS.RESOURCE);
-      console.log(res)
+  async (resource : IFetchResourceResponse , thunkAPI) : Promise<IAPINormalizedResponse> => {
+      const res : any = await instance.post(ENDPOINTS.ENDPOINT, resource);
       return  res.data.data;
 
   }

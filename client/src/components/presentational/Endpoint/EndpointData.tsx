@@ -1,7 +1,6 @@
 import { Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { Invisible } from 'components/commons/Invisible/Invisible';
-import TableActions from 'components/commons/TableActions/TableActions';
 
 const ColumnsWithActions = (actions : any) : ColumnsType => {
   return  [
@@ -13,7 +12,7 @@ const ColumnsWithActions = (actions : any) : ColumnsType => {
     {
       title: 'url'.toUpperCase(),
       key: 'url',
-      dataIndex: 'endpoint',
+      dataIndex: 'url',
       render: (endpoint : string) => Invisible(endpoint)
     },
     {
@@ -22,7 +21,7 @@ const ColumnsWithActions = (actions : any) : ColumnsType => {
       dataIndex: 'params',
       render: (params : Array<string>) => (
         <>
-          {params.map((name : String, index : number) =>{
+          {params?.map((name : String, index : number) =>{
             return (
               <Tag color={"green"} key={index}>
                 {name}
@@ -30,13 +29,6 @@ const ColumnsWithActions = (actions : any) : ColumnsType => {
             );
           })}
         </>
-      ),
-    },
-    {
-      title: 'Action'.toUpperCase(),
-      key: 'action',
-      render: (_ : any, record : any) => (
-        <TableActions record={record} actions={actions} />
       ),
     },
   ];
