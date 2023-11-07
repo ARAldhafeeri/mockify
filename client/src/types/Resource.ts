@@ -77,12 +77,12 @@ export interface IUpdateResourceData {
 
 export interface IFetchResourceResponse {
   message?: string;
-  status: boolean;
+  status?: boolean;
   data?: IFetchedResourceData[]
 }
 
 export interface IResourceInitState {
-  resource: IFetchResourceResponse[];
+  resource: IFetchedResourceData[];
   loading: 'loading' | 'pending' | 'rejected' | true | false;
   error: string | null;
 }

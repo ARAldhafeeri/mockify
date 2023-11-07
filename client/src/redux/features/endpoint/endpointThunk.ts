@@ -6,7 +6,7 @@ import { IFetchResourceResponse, IFetchedResourceData } from "types/Resource";
 
 export const fetchEndpoints = createAsyncThunk(
   "endpoint/fetch",
-  async (resource : IFetchResourceResponse , thunkAPI) : Promise<IAPINormalizedResponse> => {
+  async (resource : IFetchedResourceData , thunkAPI) : Promise<IAPINormalizedResponse> => {
       const res : any = await instance.post(ENDPOINTS.ENDPOINT, resource);
       return  res.data.data;
 

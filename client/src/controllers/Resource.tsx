@@ -127,8 +127,6 @@ const ResourceController = () => {
   }
 
   const handleFormChangeFields = (index : number, name : string, value: string | boolean | number) => {
-    console.log(index, name, value)
-    console.log(selectedResource.fields)
     setSelectedResource({
       ...selectedResource,
       fields: selectedResource.fields.map((field, i) => i === index ? {...field, [name]: value} : field)

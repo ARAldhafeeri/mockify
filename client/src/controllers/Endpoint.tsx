@@ -12,7 +12,9 @@ const EndpointController = () => {
   const [ key, setKey ] = React.useState<number>(0);
 
   React.useEffect(() =>{
-    const dispatched = dispatch(fetchEndpoints(resource[key] as IFetchResourceResponse));
+    let res = resource[key];
+    
+    const dispatched = dispatch(fetchEndpoints(res));
     ToastifyMockify(dispatched);
   }, [dispatch, key])
 

@@ -23,7 +23,7 @@ const resourceSlice = createSlice({
         state.loading = false;
       })
       .addCase(fetchResources.fulfilled, (
-        state, action : PayloadAction<  IFetchResourceResponse | any>
+        state, action : PayloadAction<  IFetchedResourceData | any>
         ) => {
         state.loading = false;
         state.resource = action.payload;

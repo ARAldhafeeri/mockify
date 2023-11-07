@@ -8,9 +8,9 @@ import { IAPINormalizedResponse } from "types/global";
 
 export const fetchData = createAsyncThunk(
   "data/fetch",
-  async (_ , thunkAPI) : Promise<IAPINormalizedResponse> => {
-      const res : any = await instance.get(ENDPOINTS.DATA);
-      console.log(res)
+  async (resourceName: string , thunkAPI) : Promise<IAPINormalizedResponse> => {
+      console.log(resourceName, "resourcename")
+      const res : any = await instance.get(ENDPOINTS.DATA_RESOURCE_NAME(resourceName));
       return  res.data.data;
 
   }
