@@ -1,9 +1,15 @@
 import { IFieldSchema } from "types/forms";
 
-export interface IFormMakerProps {
+export interface IFormMakerResoruceProps {
 handleFormChangeFields: (index: number, name: string, value: string | boolean | number) => void;
-handleAddField: (name : string, type : string, required : boolean) => void;
 handleRemoveField: (index: number) => void;
-index: number;
-field: IFieldSchema;
+handleAddField: (name : string, type : string, required : boolean) => void;
+data?: any;
+fieldsSchema?: IFieldSchema[];
+}
+
+export interface IFormMakerDataProps {
+handleChange:(e: React.ChangeEvent<HTMLInputElement> | boolean) => void;
+data?: any;
+fieldsSchema?: IFieldSchema[];
 }

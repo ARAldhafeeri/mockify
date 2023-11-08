@@ -2,6 +2,7 @@ import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { Form, Switch, Row, Col, Typography, Divider, Space, Badge, Tabs, Input, Select, MenuProps, Dropdown, } from 'antd';
 import MockifyButton from 'components/commons/Button/Button';
 import MockifyCodeEditor from 'components/commons/CodeEditor/CodeEditor';
+import { FormMakerData } from 'components/commons/FormMaker/FormMaker';
 import MockifyInput from 'components/commons/Input/Input';
 import React from 'react';
 import { IDataForm } from 'types/forms';
@@ -28,9 +29,8 @@ const DataForm : React.FC<IDataForm> = (
     data, 
     fieldsSchema,
     form, 
-    onFinish, 
+    onFinish,
   }) => {
-    console.log("fieldSchema", fieldsSchema)
     return (
       <Form
       name="basic"
@@ -43,6 +43,11 @@ const DataForm : React.FC<IDataForm> = (
       autoComplete="off"
       onSubmitCapture={handleFormSubmit}
       >
+        <FormMakerData
+          data={data}
+          fieldsSchema={fieldsSchema}
+          handleChange={handleFormChange}          
+          />
 
       <MockifyButton 
           classes={['mockify-btn']}

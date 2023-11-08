@@ -43,7 +43,7 @@ export interface IFieldSchema {
 }
 export interface IDataForm {
   handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleFormChange: (e: React.ChangeEvent<HTMLInputElement> | boolean) => void;
   data: IFetchedDataData;
   fieldsSchema: Array<IFieldSchema>;
   form: any;

@@ -11,7 +11,7 @@ const DataController = () => {
 
   const dispatch = useAppDispatch();
   const [ key, setKey ] = React.useState<number>(0);
-  const [ resource, setData ] = React.useState<string>("test");
+  const [ resource, setResource ] = React.useState<string>("test");
 
   
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
@@ -68,11 +68,15 @@ const DataController = () => {
     ToastifyMockify(dispatched);
   }
 
-  const handleFormChange = (e : any, name : any=null) => {
-      setSelectedData({
-        ...selectedData,
-        [e.target.name]: e.target.value
-      })
+  const handleFormChange  = (e : any) => {
+    setSelectedData({
+      ...selectedData,
+      data: {
+        ...selectedData.data,
+        [e.target.name]: e.target.value,
+      }
+     })
+    
   };
 
   // create events
@@ -93,7 +97,7 @@ const DataController = () => {
 
   const handleTabChange = (key : string, resource : string ) => {
     setKey(parseInt(key));
-    setData(resource);
+    setResource(resource);
   }
   return {
     // globals

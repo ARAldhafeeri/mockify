@@ -2,7 +2,7 @@ import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { Form, Switch, Row, Col, Typography, Divider, Space, Badge, Tabs, Input, Select, MenuProps, Dropdown, } from 'antd';
 import MockifyButton from 'components/commons/Button/Button';
 import MockifyCodeEditor from 'components/commons/CodeEditor/CodeEditor';
-import { FormMaker } from 'components/commons/FormMaker/FormMaker';
+import { FormMakerResource } from 'components/commons/FormMaker/FormMaker';
 import MockifyInput from 'components/commons/Input/Input';
 import React from 'react';
 import { IResourceForm } from 'types/forms';
@@ -118,17 +118,13 @@ const ResourceForm : React.FC<IResourceForm> = (
             onClick={() => handleAddField("", "", false)}
           />
       </Space>
-      <Space wrap>
-        {data.fields.map((field : any, index : number) => FormMaker({
-          handleFormChangeFields,
-          handleAddField,
-          handleRemoveField,
-          index,
-          field,
-        }))
-      }
-    </Space>
-
+      <FormMakerResource 
+        data={data.fields}
+        fieldsSchema={data.fields}
+        handleAddField={handleAddField}
+        handleFormChangeFields={handleFormChangeFields}
+        handleRemoveField={handleRemoveField}
+      />
       <MockifyButton 
           classes={['mockify-btn']}
           text="send"
