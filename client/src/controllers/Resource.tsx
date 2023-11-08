@@ -147,7 +147,6 @@ const ResourceController = () => {
   }
 
   const handleFormChange = (e : any, name : any=null) => {
-      console.log(typeof e)
       if(typeof e === "string") {
         setSelectedResource({
           ...selectedResource,
