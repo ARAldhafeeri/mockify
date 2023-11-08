@@ -1,3 +1,4 @@
+import { IFetchedDataData } from './Data';
 import { IFetchedProjectData } from './Project';
 import { IFetchedResourceData } from './Resource';
 import { IFetchedUserData } from './User';
@@ -31,6 +32,20 @@ export interface IResourceForm {
   handleAddField: (name : string, type : string, required : boolean) => void;
   handleRemoveField: (index: number) => void;
   data: IFetchedResourceData;
+  form: any;
+  onFinish?: (values: any) => void;
+}
+
+export interface IFieldSchema {
+  name: string;
+  type: string;
+  required: boolean;
+}
+export interface IDataForm {
+  handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  data: IFetchedDataData;
+  fieldsSchema: Array<IFieldSchema>;
   form: any;
   onFinish?: (values: any) => void;
 }

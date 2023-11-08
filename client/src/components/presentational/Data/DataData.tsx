@@ -1,7 +1,8 @@
 import type { ColumnsType } from 'antd/es/table';
+import TableActions from 'components/commons/TableActions/TableActions';
 import { IField } from 'types/Resource';
 
-const ColumnsWithActions = (data : any) : ColumnsType => {
+const ColumnsWithActions = (data : any, actions : Array<Object>) : ColumnsType => {
   return [
         {
           title: "resource".toUpperCase(),
@@ -22,6 +23,13 @@ const ColumnsWithActions = (data : any) : ColumnsType => {
                 );
               })}
             </>
+          ),
+        },
+        {
+          title: 'action'.toUpperCase(),
+          key: 'action',
+          render: (_ : any, record : any) => (
+            <TableActions record={record} actions={actions} />
           ),
         },
       ];

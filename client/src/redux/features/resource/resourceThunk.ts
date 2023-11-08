@@ -10,7 +10,6 @@ export const fetchResources = createAsyncThunk(
   "resource/fetch",
   async (_ , thunkAPI) : Promise<IAPINormalizedResponse> => {
       const res : any = await instance.get(ENDPOINTS.RESOURCE);
-      console.log(res)
       return  res.data.data;
 
   }
@@ -27,7 +26,6 @@ export const deleteResource = createAsyncThunk(
 export const updateResource = createAsyncThunk(
   "resource/update", 
   async(data : IFetchedResourceData, thunkAPI): Promise<IAPINormalizedResponse> => {
-    console.log('data in redux', data)
     const res : any = await instance.put(ENDPOINTS.RESOURCE, data);
     return res.data;
   }

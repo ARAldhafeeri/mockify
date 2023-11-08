@@ -55,7 +55,6 @@ const ProjectController = () => {
     let dispatched;
     if (showEditModal) {
       delete selectedProject.apiKey;
-      console.log(selectedProject)
       dispatched = dispatch(updateProject(selectedProject))
     } else {
       delete selectedProject._id;

@@ -20,7 +20,6 @@ const EndpointController = () => {
 
   const handleTabChange = (key : string) => {
     setKey(parseInt(key));
-    console.log(key, resource[parseInt(key)])
   }
   return {
     // globals

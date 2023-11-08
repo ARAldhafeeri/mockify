@@ -27,7 +27,6 @@ export const deleteUser = createAsyncThunk(
 export const updateUser = createAsyncThunk(
   "user/update", 
   async(data : IFetchedUserData, thunkAPI): Promise<IAPINormalizedResponse> => {
-    console.log('data in redux', data)
     const res : any = await instance.put(ENDPOINTS.USER, data);
     return res.data;
   }

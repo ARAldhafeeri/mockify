@@ -26,7 +26,6 @@ export const deleteProject = createAsyncThunk(
 export const updateProject = createAsyncThunk(
   "project/update", 
   async(data : IFetchedProjectData, thunkAPI): Promise<IAPINormalizedResponse> => {
-    console.log('data in redux', data)
     const res : any = await instance.put(ENDPOINTS.PROJECT, data);
     return res.data;
   }

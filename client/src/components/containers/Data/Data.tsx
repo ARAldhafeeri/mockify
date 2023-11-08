@@ -5,7 +5,11 @@ import ColumnsWithActions from "../../presentational/Data/DataData";
 import MockifyLoader from "components/commons/Loader/MockifyLoader";
 import ResourceController from "controllers/Resource";
 import { Tabs } from "antd";
-import { IFetchedResourceData } from "types/Resource";
+import { IFetchedDataData } from "types/Data";
+import { DeleteColumnOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import MockifyButton from "components/commons/Button/Button";
+import MockifyModal from "components/commons/Modal/Modal";
+import DataForm from "../Forms/Data/DataForm";
 
 const Data : React.FC = () => {
 
@@ -17,9 +21,45 @@ const Data : React.FC = () => {
     data, 
     loading,
     handleTabChange,
-    key
+    key,
+    selectedData, 
+    setSelectedData,
+
+    // delete event
+    handleDeleteData,
+    showDeleteModal,
+    handleShowDeleteModal,
+    handleHideDeleteModal,
+
+    // update event
+    showEditModal,
+    handleShowEditModal,
+    handleHideEditModal,
+    handleSubmitDataForm,
+    
+    // form change 
+    handleFormChange,
+
+    // create event
+    showCreateModal, 
+    handleShowCreateDataModal,
+    handleHideCreateDataModal,
+    form,
   
   } = DataController();
+
+  const actions = [
+    {
+      icon: <EditOutlined />,
+      classes: ['table-action-primary'],
+      onclick: (record : IFetchedDataData) => handleShowEditModal(record) 
+    }, 
+    {
+      icon:<DeleteColumnOutlined />,
+      classes: ['table-action-secondary'],
+      onclick: (record: IFetchedDataData) => handleShowDeleteModal(record)
+    }
+  ]
   return (
     <>
     {
@@ -38,10 +78,60 @@ const Data : React.FC = () => {
                 key: `${index}`,
                 disabled: false,
                 children: (
-                  <MockifyTable 
-                    columns={ColumnsWithActions(data)} 
-                    data={data} 
-                    classes={["mockify-table"]} />
+                  <>
+                    <MockifyButton 
+                      classes={['mockify-icon-btn']}
+                      icon={<PlusCircleOutlined style={{fontSize: '33px'}}/>}
+                      onClick={handleShowCreateDataModal}
+                      />
+                    <MockifyModal 
+                      show={showDeleteModal}
+                      title="Delete resource"
+                      onOk={() => handleDeleteData(selectedData._id || '')}
+                      onCancel={() => handleHideDeleteModal()}
+                      children={<p>Are you sure  you want to delete ?</p>}
+                      />
+                    <MockifyModal
+                      show={showEditModal}
+                      title="Update data"
+                      onOk={ () => handleHideEditModal()}
+                      onCancel={() => handleHideEditModal()}
+                      okButtonProps={{ style: { display: 'none' } }}
+                      cancelButtonProps={{ style: { display: 'none' } }}
+                      children={
+                          <DataForm 
+                            handleFormChange={handleFormChange}
+                            handleFormSubmit={handleSubmitDataForm}
+                            data={selectedData} 
+                            form={form}
+                            fieldsSchema={resource?.fields}
+                            onFinish={() => handleHideEditModal()}
+                            />
+                        }
+                      />
+                    <MockifyModal
+                      show={showCreateModal}
+                      title="Create data"
+                      onOk={ () => handleShowCreateDataModal()}
+                      onCancel={() => handleHideCreateDataModal()}
+                      okButtonProps={{ style: { display: 'none' } }}
+                      cancelButtonProps={{ style: { display: 'none' } }}
+                      children={
+                          <DataForm 
+                            handleFormChange={handleFormChange} 
+                            handleFormSubmit={handleSubmitDataForm}
+                            data={selectedData} 
+                            form={form}
+                            fieldsSchema={resource?.fields}
+                            onFinish={() => handleHideEditModal()}
+                            />
+                        }
+                      />
+                    <MockifyTable 
+                      columns={ColumnsWithActions(data, actions)} 
+                      data={data} 
+                      classes={["mockify-table"]} />
+                  </>
                 ),
               };
             })}

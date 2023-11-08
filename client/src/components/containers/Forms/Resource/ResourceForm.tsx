@@ -2,24 +2,11 @@ import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { Form, Switch, Row, Col, Typography, Divider, Space, Badge, Tabs, Input, Select, MenuProps, Dropdown, } from 'antd';
 import MockifyButton from 'components/commons/Button/Button';
 import MockifyCodeEditor from 'components/commons/CodeEditor/CodeEditor';
+import { FormMaker } from 'components/commons/FormMaker/FormMaker';
 import MockifyInput from 'components/commons/Input/Input';
 import React from 'react';
 import { IResourceForm } from 'types/forms';
 
-const typesMenu : MenuProps['items'] = [
-  {
-    key: "1",
-    label: "string",
-  },
-  {
-    key: "2",
-    label: "number",
-  },
-  {
-    key: "3",
-    label: "boolean",
-  }
-]
 
 const ResourceForm : React.FC<IResourceForm> = (
   { 
@@ -132,44 +119,13 @@ const ResourceForm : React.FC<IResourceForm> = (
           />
       </Space>
       <Space wrap>
-        {data.fields.map((field : any, index : number) => {
-            return (
-              <>
-                <MockifyInput 
-                  name={"fieldName"} 
-                  label={"field name"} 
-                  key={index} classes={['input-dynamic-field', 'mockify-input']} 
-                  value={field.name}
-                  onChange={(e) => handleFormChangeFields(index, "name", e.target.value)} 
-                />
-                <Space wrap>
-                  <Select 
-                    defaultValue={field.type} 
-                    style={{ width: 120 }} 
-                    onChange={(value : string) => handleFormChangeFields(index, "type", value)}>
-                    {
-                      typesMenu.map((type : any, index : number) => {
-                        return (
-                          <Select.Option key={index} value={type.label}>{type.label}</Select.Option>
-                        )
-                      })
-                    }
-                  </Select>
-                  <Switch 
-                   checkedChildren="required" 
-                   unCheckedChildren="required" 
-                   defaultChecked={field.required}
-                   onChange={(checked : boolean) => handleFormChangeFields(index, "required", checked)}
-                   />
-                  <MockifyButton
-                    classes={['mockify-icon-btn']}
-                    icon={<MinusCircleOutlined />}
-                    onClick={() => handleRemoveField(index)}
-                  />  
-                </Space>             
-              </>
-            )
-        })
+        {data.fields.map((field : any, index : number) => FormMaker({
+          handleFormChangeFields,
+          handleAddField,
+          handleRemoveField,
+          index,
+          field,
+        }))
       }
     </Space>
 
