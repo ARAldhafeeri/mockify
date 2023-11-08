@@ -79,7 +79,6 @@ export const FormMakerData = (props: IFormMakerDataProps) => {
     data,
     fieldsSchema
   } = props;
-
   return (
     <Space direction="vertical">
      {fieldsSchema?.map((field : any, index : number) => {

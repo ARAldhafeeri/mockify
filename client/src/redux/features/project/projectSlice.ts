@@ -23,7 +23,7 @@ const projectSlice = createSlice({
         state.loading = false;
       })
       .addCase(fetchProjects.fulfilled, (
-        state, action : PayloadAction<  IFetchProjectResponse | any>
+        state, action : PayloadAction<  IFetchedProjectData | any>
         ) => {
         state.loading = false;
         state.project = action.payload;

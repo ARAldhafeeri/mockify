@@ -21,7 +21,8 @@ const ResourceForm : React.FC<IResourceForm> = (
     handleRemoveField,   
     handleFormChangeFuncs,
     handleFormChangeFeatures,
-    handleFormChangeFields, 
+    handleFormChangeFields,
+    projectOptions,
   }
   ) => {
     return (
@@ -44,6 +45,18 @@ const ResourceForm : React.FC<IResourceForm> = (
         onChange={(e) => handleFormChange(e, "resourceName")}
         classes={['mockify-input', 'input']}
         />
+      {/* project */}
+      <Select 
+        className='mockify-select'
+        defaultValue={data.project}
+        onChange={(value : string) => handleFormChange(value, "project")}
+        >
+          {projectOptions.map((project : any, index : number) => {
+            return (
+              <Select.Option key={index} value={project._id}>{project.name}</Select.Option>
+            )
+          })}
+        </Select>
       {/* FEATURES */}
       <Typography style={{fontFamily: "fantasy", fontSize:"18px"}}>Enable/Disable Features</Typography>
 

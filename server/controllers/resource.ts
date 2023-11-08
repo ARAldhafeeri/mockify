@@ -9,7 +9,7 @@ const rService = new ResourceService();
 export const getResources = async function(req: Request, res: Response) : Promise<any> {
  
   try{
-
+      
       const foundResources = await rService.find({});
 
       if (!foundResources) return ErrorResponse(res, 'resources not found', 400);

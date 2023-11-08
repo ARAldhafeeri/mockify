@@ -30,3 +30,8 @@ export const ToastifyMockify = (dispatchEvent : any) => {
         : toast.error(payload?.message , ToastGuid());
     })
 }
+
+export const getProjectNameByProjectId = (projects : any, projectId : string) => {
+    let project = projects.find((item : any) => item._id === projectId);
+    return project?.name;
+}

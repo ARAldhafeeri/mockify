@@ -8,8 +8,13 @@ import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/ic
 import MockifyModal from "components/commons/Modal/Modal";
 import { IFetchedResourceData } from "types/Resource";
 import ResourceForm from "../Forms/Resource/ResourceForm";
+import { Tabs } from "antd";
+import ProjectController from "controllers/Project";
 
 const Resource : React.FC = () => {
+  const {
+    project,
+  }   = ProjectController();
   const { 
     resource, 
     loading, 
@@ -39,6 +44,11 @@ const Resource : React.FC = () => {
     handleRemoveFunction,
     handleAddField,
     handleRemoveField,
+    // tabs 
+    handleTabChange,
+    key,
+    // client side filter
+    filterResourceBasedOnProjectId
   } = ResourceController();
 
   const actions = [
@@ -58,73 +68,89 @@ const Resource : React.FC = () => {
     {
       loading ? <MockifyLoader size="large" /> 
       : (
-        <>
-          <MockifyButton 
-            classes={['mockify-icon-btn']}
-            icon={<PlusCircleOutlined style={{fontSize: '33px'}}/>}
-            onClick={handleShowCreateResourceModal}
-            />
-          <MockifyModal 
-            show={showDeleteModal}
-            title="Delete resource"
-            onOk={() => handleDeleteResource(selectedResource._id || '')}
-            onCancel={() => handleHideDeleteModal()}
-            children={<p>Are you sure delete {selectedResource.resourceName} ?</p>}
-            />
-          <MockifyModal
-            show={showEditModal}
-            title="Update resource"
-            onOk={ () => handleHideEditModal()}
-            onCancel={() => handleHideEditModal()}
-            okButtonProps={{ style: { display: 'none' } }}
-            cancelButtonProps={{ style: { display: 'none' } }}
-            children={
-                <ResourceForm 
-                  handleFormChange={handleFormChange}
-                  handleFormChangeFeatures={handleFormChangeFeatures}
-                  handleFormChangeFuncs={handleFormChangeFuncs}
-                  handleFormChangeFields={handleFormChangeFields}
+        <Tabs
+        defaultActiveKey={`${key}`}
+        tabPosition="top"
+        style={{ height: "100%" }}
+        onTabClick={(e) => handleTabChange(e, project[key])}
+        items={project.map((proj : any, index : number) => {
+          return {
+            label: `${proj.name}`,
+            key: `${index}`,
+            disabled: false,
+            children: (
+              <>
+                <MockifyButton 
+                  classes={['mockify-icon-btn']}
+                  icon={<PlusCircleOutlined style={{fontSize: '33px'}}/>}
+                  onClick={handleShowCreateResourceModal}
+                  />
+                <MockifyModal 
+                  show={showDeleteModal}
+                  title="Delete resource"
+                  onOk={() => handleDeleteResource(selectedResource._id || '')}
+                  onCancel={() => handleHideDeleteModal()}
+                  children={<p>Are you sure delete {selectedResource.resourceName} ?</p>}
+                  />
+                <MockifyModal
+                  show={showEditModal}
+                  title="Update resource"
+                  onOk={ () => handleHideEditModal()}
+                  onCancel={() => handleHideEditModal()}
+                  okButtonProps={{ style: { display: 'none' } }}
+                  cancelButtonProps={{ style: { display: 'none' } }}
+                  children={
+                      <ResourceForm 
+                        handleFormChange={handleFormChange}
+                        handleFormChangeFeatures={handleFormChangeFeatures}
+                        handleFormChangeFuncs={handleFormChangeFuncs}
+                        handleFormChangeFields={handleFormChangeFields}
 
-                  handleFormSubmit={handleSubmitResourceForm}
-                  handleAddFunction={handleAddFunction}
-                  handleRemoveFunction={handleRemoveFunction}
-                  handleAddField={handleAddField}
-                  handleRemoveField={handleRemoveField}
-                  data={selectedResource} 
-                  form={form}
-                  onFinish={() => handleHideEditModal()}
+                        handleFormSubmit={handleSubmitResourceForm}
+                        handleAddFunction={handleAddFunction}
+                        handleRemoveFunction={handleRemoveFunction}
+                        handleAddField={handleAddField}
+                        handleRemoveField={handleRemoveField}
+                        data={selectedResource}
+                        projectOptions={project}
+                        form={form}
+                        onFinish={() => handleHideEditModal()}
+                        />
+                    }
                   />
-              }
-            />
-          <MockifyModal
-            show={showCreateModal}
-            title="Create resource"
-            onOk={ () => handleShowCreateResourceModal()}
-            onCancel={() => handleHideCreateResourceModal()}
-            okButtonProps={{ style: { display: 'none' } }}
-            cancelButtonProps={{ style: { display: 'none' } }}
-            children={
-                <ResourceForm 
-                  handleFormChange={handleFormChange} 
-                  handleFormChangeFeatures={handleFormChangeFeatures}
-                  handleFormChangeFuncs={handleFormChangeFuncs}
-                  handleFormChangeFields={handleFormChangeFields}
-                  handleFormSubmit={handleSubmitResourceForm}
-                  handleAddFunction={handleAddFunction}
-                  handleRemoveFunction={handleRemoveFunction}
-                  handleAddField={handleAddField}
-                  handleRemoveField={handleRemoveField}
-                  data={selectedResource} 
-                  form={form}
-                  onFinish={() => handleHideEditModal()}
+                <MockifyModal
+                  show={showCreateModal}
+                  title="Create resource"
+                  onOk={ () => handleShowCreateResourceModal()}
+                  onCancel={() => handleHideCreateResourceModal()}
+                  okButtonProps={{ style: { display: 'none' } }}
+                  cancelButtonProps={{ style: { display: 'none' } }}
+                  children={
+                      <ResourceForm 
+                        handleFormChange={handleFormChange} 
+                        handleFormChangeFeatures={handleFormChangeFeatures}
+                        handleFormChangeFuncs={handleFormChangeFuncs}
+                        handleFormChangeFields={handleFormChangeFields}
+                        handleFormSubmit={handleSubmitResourceForm}
+                        handleAddFunction={handleAddFunction}
+                        handleRemoveFunction={handleRemoveFunction}
+                        handleAddField={handleAddField}
+                        handleRemoveField={handleRemoveField}
+                        data={selectedResource} 
+                        projectOptions={project}
+                        form={form}
+                        onFinish={() => handleHideEditModal()}
+                        />
+                    }
                   />
-              }
-            />
-          <MockifyTable 
-            columns={ColumnsWithActions(actions)} 
-            data={resource} 
-            classes={["mockify-table"]} />
-        </>
+                <MockifyTable 
+                  columns={ColumnsWithActions(actions)} 
+                  data={filterResourceBasedOnProjectId(resource)} 
+                  classes={["mockify-table"]} />
+              </>
+            )
+          };
+        })}/>
       )
     }
     </>

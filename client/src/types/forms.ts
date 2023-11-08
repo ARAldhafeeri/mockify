@@ -31,6 +31,7 @@ export interface IResourceForm {
   handleRemoveFunction: (index: number) => void;
   handleAddField: (name : string, type : string, required : boolean) => void;
   handleRemoveField: (index: number) => void;
+  projectOptions: IFetchedProjectData[];
   data: IFetchedResourceData;
   form: any;
   onFinish?: (values: any) => void;

@@ -1,8 +1,8 @@
-import { Document, Schema, model} from "mongoose";
+import { Document, Schema, Types, model} from "mongoose";
 
 export interface IResource extends Document {
   resourceName: string;
-  project: Schema.Types.ObjectId;
+  project: Types.ObjectId;
   fields: Array<Object>;
   features: {
     filter: boolean;
@@ -24,6 +24,7 @@ export interface IResource extends Document {
 
 const resourceSchema = new Schema<IResource>({
   resourceName: {type: String, required: true, unique: true},
+  project: {type: Schema.Types.ObjectId , ref: "Project", required: true},
   features: {type: Object, required: true},
   funcs: {type: [String], required: true},
   fields: {type: [Object], required: true},

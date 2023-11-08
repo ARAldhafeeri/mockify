@@ -29,7 +29,7 @@ export interface IFetchProjectResponse {
 }
 
 export interface IProjectInitState {
-  project: IFetchProjectResponse[];
+  project: IFetchedProjectData[];
   loading: 'loading' | 'pending' | 'rejected' | true | false;
   error: string | null;
 }
