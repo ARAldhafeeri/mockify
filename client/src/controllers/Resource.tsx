@@ -4,9 +4,17 @@ import { fetchResources, deleteResource, updateResource, createResource } from "
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { ToastifyMockify } from "utils";
 import { Form } from "antd";
-
+import { IFetchedProjectData } from "types/Project";
 const ResourceController = () => {
   const { resource, loading } = useAppSelector((state) => state.resource);
+  const [ key, setKey ] = React.useState<number>(0);
+  const [ project, setProject ] = React.useState<IFetchedProjectData>({
+    _id: "string",
+    name: "string",
+    user: "string",
+    apiKey: "string",
+  });
+
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
   const [ showCreateModal, setShowCreateModal ] = React.useState<boolean>(false);
@@ -34,6 +42,11 @@ const ResourceController = () => {
     ]
   });
   const dispatch = useAppDispatch();
+
+  const handleTabChange = (key : string, projects : IFetchedProjectData[]) => {
+    setKey(parseInt(key))
+    setProject(projects[parseInt(key)]);
+  }
 
   // antd form 
   const [form] = Form.useForm();
@@ -156,6 +169,13 @@ const ResourceController = () => {
     setShowCreateModal(false);
   }
 
+  const filterResourceBasedOnProjectId = (resource : IFetchedResourceData[]) => {
+    console.log(resource, project)
+    return resource.filter((res : IFetchedResourceData) => res.project === project._id);
+  }
+
+  
+
   React.useEffect(() =>{
     const dispatched = dispatch(fetchResources());
     ToastifyMockify(dispatched);
@@ -200,6 +220,14 @@ const ResourceController = () => {
     // fields
     handleAddField,
     handleRemoveField,
+
+    // tabs 
+    handleTabChange,
+    key,
+
+    // filter 
+    filterResourceBasedOnProjectId
+
 
   }
 }

@@ -80,7 +80,6 @@ const ProjectController = () => {
     setShowCreateModal(false);
   }
   
-
   React.useEffect(() =>{
     const dispatched = dispatch(fetchProjects());
     ToastifyMockify(dispatched);

@@ -44,6 +44,11 @@ const Resource : React.FC = () => {
     handleRemoveFunction,
     handleAddField,
     handleRemoveField,
+    // tabs 
+    handleTabChange,
+    key,
+    // client side filter
+    filterResourceBasedOnProjectId
   } = ResourceController();
 
   const actions = [
@@ -63,6 +68,17 @@ const Resource : React.FC = () => {
     {
       loading ? <MockifyLoader size="large" /> 
       : (
+        <Tabs
+        defaultActiveKey={`${key}`}
+        tabPosition="top"
+        style={{ height: "100%" }}
+        onTabClick={(e) => handleTabChange(e, project)}
+        items={project.map((proj : any, index : number) => {
+          return {
+            label: `${proj.name}`,
+            key: `${index}`,
+            disabled: false,
+            children: (
               <>
                 <MockifyButton 
                   classes={['mockify-icon-btn']}
@@ -129,10 +145,13 @@ const Resource : React.FC = () => {
                   />
                 <MockifyTable 
                   columns={ColumnsWithActions(actions)} 
-                  data={resource} 
+                  data={filterResourceBasedOnProjectId(resource)} 
                   classes={["mockify-table"]} />
               </>
             )
+          };
+        })}/>
+      )
     }
     </>
   )
