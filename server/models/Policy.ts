@@ -8,6 +8,7 @@ export interface IPolicy extends Document {
     policies: Array<string>;
     createdAt: Date;
     updatedAt: Date;
+
 }
 
 const policySchema = new Schema<IPolicy>({
