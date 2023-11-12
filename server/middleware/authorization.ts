@@ -6,6 +6,7 @@ import { NextFunction } from "express";
 import { Request, Response } from "express";
 import { SECRET_KEY } from "../getEnv";
 import CryptoService from "../services/crypto";
+import { IPolicy } from "../models/Policy";
 
 let globalPolicy = JSON.parse(fs.readFileSync("policy.json", "utf8"));
 
@@ -67,6 +68,23 @@ const authorization = (resources : Array<string> , actions : Array<string> ) => 
       }
   }
 };
+
+const ACDynamic  = (
+  role : string, 
+  action: Array<string>, 
+  resource: Array<string>, 
+  policy: IPolicy,
+  and : boolean | null = null,
+  or : boolean | null = null,
+  ) => {
+    let AC = new AccessControl(policy);
+    AC = AC.enforce();
+    if (!and && !or) return new GrantQuery(AC).role(role).can(action).on(resource).grant();
+    if (and && !or ) return new GrantQuery(AC).role(role).can(action).on(resource).and(and).grant();  
+    if (!and && or ) return new GrantQuery(AC).role(role).can(action).on(resource).or(or).grant();
+    if (and && or ) return new GrantQuery(AC).role(role).can(action).on(resource).and(and).or(or).grant();
+  };
+
 
 export default authorization;
 
