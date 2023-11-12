@@ -66,7 +66,6 @@ export const updateUser = async function(req : any, res: Response) : Promise<any
     
     const updatedUser = await userService.updateUser(data);
 
-    console.log(updatedUser)
     if (!updatedUser) return ErrorResponse(res, 'user not updated', 400);
 
     return res.status(200).send({status: true, data: updatedUser, message: 'user updated'});

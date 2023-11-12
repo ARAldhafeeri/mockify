@@ -16,7 +16,7 @@ export const getData = async function(req: Request, res: Response) : Promise<any
 
       let resourceName : string = req.query.resourceName as string;
 
-      const resource : IResource = await rService.findOne({resourceName});
+      const resource : IResource = await rService.findOne({name: resourceName});
 
       const found : IData = await dService.find({resource: resource._id});
 

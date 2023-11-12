@@ -32,7 +32,6 @@ describe('end-to-end tests user endpoint', () => {
     })
     .set('Authorization', 'bearer ' + token)
 
-    console.log(response.body);
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     expect(response.body.data.username).toBe(mockUserData.username);

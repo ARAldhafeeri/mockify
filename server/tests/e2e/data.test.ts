@@ -5,22 +5,18 @@ import { DATABASE_URL } from '../../getEnv';
 import mongoose from 'mongoose';
 import { DefaultData } from '../../defaultData';
 import TestUtils from './TestUtils';
-import DataService from '../../services/data';
 import ResourceService from '../../services/resource';
 
 
 const mockData = {
   "resource": "string",
   "data": {
-    field: 'value',
-    field2: 'value2'
   }
 }
 
-const dataService = new DataService();
 const resourceService = new ResourceService();
 
-describe('end-to-end tests data endpoint', () => {
+describe('end-to-end tests resource data', () => {
   let token : string;
   let createdResource : any;
   let dataObj : any;
@@ -36,12 +32,17 @@ describe('end-to-end tests data endpoint', () => {
 
     dataObj = await resourceService.find({});
     mockData.resource =  dataObj[0]._id;
+    let fields = dataObj[0].fields;
+    fields.forEach((field: any) => {
+      mockData.data = { ...mockData.data, [field.name] : "value" + field.name}
+    });
+
     const response = await request.agent(app).post(`${API_ROUTE}${DATA_ROUTE}`).send({
       ...mockData
     })
     .set('Authorization', 'bearer ' + token)
 
-    console.log(response.body)
+    console.log("create", response.body)
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     // check all properties are defined
@@ -54,8 +55,10 @@ describe('end-to-end tests data endpoint', () => {
 
   test('should get resource data', async () => {
 
-    const response = await request.agent(app).get(`${API_ROUTE}${DATA_ROUTE}`)
+    const response = await request.agent(app).get(`${API_ROUTE}${DATA_ROUTE}/?resource=${createdResource.name}`)
     .set('Authorization', 'bearer ' + token)
+    console.log("get", response.body)
+
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     expect(response.body.data.length).toBeGreaterThan(0);
@@ -72,7 +75,7 @@ describe('end-to-end tests data endpoint', () => {
       })
     .set('Authorization', 'bearer ' + token)
 
-    console.log(response.body);
+    console.log("update", response.body)
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -83,6 +86,9 @@ describe('end-to-end tests data endpoint', () => {
   test('should delete resource data', async () => {
     const response = await request.agent(app).delete(`${API_ROUTE}${DATA_ROUTE}/?id=${createdResource._id}`)
     .set('Authorization', 'bearer ' + token)
+
+    console.log("delete", response.body)
+
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
   });

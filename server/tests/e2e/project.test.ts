@@ -67,9 +67,7 @@ describe('end-to-end tests project endpoint', () => {
       name: 'newName'
     })
     .set('Authorization', 'bearer ' + token)
-
-    console.log(response.body);
-
+    
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     expect(response.body.data.name).toBe('newName');

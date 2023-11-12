@@ -5,7 +5,6 @@ import app from "./app";
 
 const PORT = process.env.PORT || 5000;
 
-console.log('index.ts: ', DATABASE_URL)
 
 connect(DATABASE_URL).then(async () => {
   console.log("Connected to database");

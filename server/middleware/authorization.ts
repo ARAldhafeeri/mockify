@@ -51,8 +51,6 @@ const authorization = (resources : Array<string> , actions : Array<string> ) => 
 
       let userRoleFromToken = payload.role;
 
-      console.log(userRoleFromToken);
-
       if(!userRoleFromToken) {
           res.status(403).send("unauthorized");
       }
