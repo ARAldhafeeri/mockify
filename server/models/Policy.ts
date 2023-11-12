@@ -5,10 +5,11 @@ export interface IPolicy extends Document {
     resources: Types.Array<string>;
     actions: Array<string>;
     roles: Array<string>;
-    policies: Array<string>;
+    policies: Array<{role : string,
+        can : string[],
+        on : string[]}>;
     createdAt: Date;
     updatedAt: Date;
-
 }
 
 const policySchema = new Schema<IPolicy>({
@@ -16,7 +17,7 @@ const policySchema = new Schema<IPolicy>({
     resources: {type: [String], required: true},
     actions: {type: [String], required: true},
     roles: {type: [String], required: true},
-    policies: {type: [String], required: true},
+    policies: {type: [], required: true},
     createdAt: {type: Date, required: true},
     updatedAt: {type: Date, required: true},
    
