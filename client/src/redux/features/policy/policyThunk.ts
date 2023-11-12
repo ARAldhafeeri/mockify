@@ -8,8 +8,8 @@ import { IAPINormalizedResponse } from "types/global";
 
 export const fetchPolicy = createAsyncThunk(
   "policy/fetch",
-  async (resourceName: string , thunkAPI) : Promise<IAPINormalizedResponse> => {
-      const res : any = await instance.get(ENDPOINTS.DATA_RESOURCE_NAME(resourceName));
+  async (projectID: string , thunkAPI) : Promise<IAPINormalizedResponse> => {
+      const res : any = await instance.get(ENDPOINTS.DATA_POLICY_NAME(projectID));
       return  res.policy.policy;
 
   }

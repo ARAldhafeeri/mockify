@@ -12,4 +12,6 @@ export const ENDPOINTS = {
   RESOURCE_DELETE: (id : string) => `/resource/?id=${id}`,
   DATA_DELETE: (id : string ) => `/data/?id=${id}`,
   POLICY_DELETE: (id : string) => `/policy/?id=${id}`,
+  DATA_POLICY_NAME: (projectID: string) => `/data?projectID=${projectID}`,
+
 }

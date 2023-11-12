@@ -11,9 +11,8 @@ export interface IFetchedPolicyData {
     can : string[],
     on : string[]
   }>;
-  createdAt: string;
-  updatedAt: string;
-  
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface IPostedPolicyData {

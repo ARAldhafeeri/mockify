@@ -5,6 +5,7 @@ import projectSlice from './features/project/projectSlice'
 import resourceSlice from './features/resource/resourceSlice'
 import endpointSlice from './features/endpoint/endpointSlice'
 import dataSlice from './features/data/dataSlice'
+import policySlice from './features/policy/policySlice'
 
 const store = configureStore({
   reducer: {
@@ -13,7 +14,8 @@ const store = configureStore({
     project: projectSlice,
     resource: resourceSlice,
     endpoint: endpointSlice,
-    data: dataSlice
+    data: dataSlice,
+    policy: policySlice
   },
 })
 
