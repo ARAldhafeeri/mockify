@@ -42,7 +42,6 @@ describe('end-to-end tests resource data', () => {
     })
     .set('Authorization', 'bearer ' + token)
 
-    console.log("create", response.body)
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     // check all properties are defined
@@ -57,7 +56,6 @@ describe('end-to-end tests resource data', () => {
 
     const response = await request.agent(app).get(`${API_ROUTE}${DATA_ROUTE}/?resource=${createdResource.name}`)
     .set('Authorization', 'bearer ' + token)
-    console.log("get", response.body)
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -75,8 +73,6 @@ describe('end-to-end tests resource data', () => {
       })
     .set('Authorization', 'bearer ' + token)
 
-    console.log("update", response.body)
-
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     expect(response.body.data.data.field3).toBe('value333');
@@ -86,8 +82,6 @@ describe('end-to-end tests resource data', () => {
   test('should delete resource data', async () => {
     const response = await request.agent(app).delete(`${API_ROUTE}${DATA_ROUTE}/?id=${createdResource._id}`)
     .set('Authorization', 'bearer ' + token)
-
-    console.log("delete", response.body)
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);

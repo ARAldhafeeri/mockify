@@ -1,16 +1,17 @@
 import { Response, Request } from "express";
 import PolicyService from "../services/policy";
+import { Types } from "mongoose";
+
+const {ObjectId} = Types; 
 
 const policyService = new PolicyService();
 
 const getPolicy = async function(req : Request, res: Response) : Promise<any> {
   try {
 
-    const data = req.body;
+    let projectID = req.query.projectID as string;
 
-    data.createdAt = new Date() ;
-
-    policyService.createPolicy(data);
+    const data = await policyService.findAll({project : projectID});
 
     return res.status(200).send({status: true, data: data});
 

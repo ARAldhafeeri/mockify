@@ -17,7 +17,6 @@ class PolicyService implements IPolicyService {
   findAll = async ( projection: Object) : Promise<any> => {
 
     const foundPolicy = PolicyModel.find( 
-      { },
        projection
        )
     
