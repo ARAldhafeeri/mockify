@@ -3,11 +3,12 @@ import MockifyTableTypes from "./Table.types";
 import { Table } from "antd";
 import { addtionalClasses } from "utils";
 
-const MockifyTable: React.FC<MockifyTableTypes> = ({ columns, data, classes}) => {
+const MockifyTable: React.FC<MockifyTableTypes> = ({ columns, data, classes, expandable}) => {
   return (
     <Table
       columns={columns}
       dataSource={data}
+      expandable={expandable}
       className={addtionalClasses({classes: classes})}
     />
   );

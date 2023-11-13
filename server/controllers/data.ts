@@ -18,6 +18,8 @@ export const getData = async function(req: Request, res: Response) : Promise<any
 
       const resource : IResource = await rService.findOne({name: resourceName});
 
+      if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
+      
       const found : IData = await dService.find({resource: resource._id});
 
       if (!found) return ErrorResponse(found, 'datas not found', 400);

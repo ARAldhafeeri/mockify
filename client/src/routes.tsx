@@ -27,6 +27,7 @@ import Project from "components/containers/Project/Project";
 import Resource from "components/containers/Resource/Resource";
 import Endpoint from "components/containers/Endpoint/Endpoint";
 import Data from "components/containers/Data/Data";
+import Policy from "components/containers/Policy/Policy";
 
 
 interface MenuItem {
@@ -84,7 +85,7 @@ export const items: MenuItem[] = [
     icon: <DeploymentUnitOutlined />,
     label: 'Endpoint',
     to: '/endpoint',
-  }
+  }, 
   // Add more menu items if needed
 ];
 
@@ -119,7 +120,7 @@ const MainRouter = createBrowserRouter([
   },
   {
     path: ROUTES_NAMES.POLICY,
-    element: withLoggedInLayout(<div>Policy</div>)
+    element: withLoggedInLayout(<Policy />)
   }, 
   {
     path: ROUTES_NAMES.ENDPOINT,

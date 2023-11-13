@@ -96,8 +96,8 @@ const DataController = () => {
   }, [dispatch, key])
 
   const handleTabChange = (key : string, resource : string ) => {
-    setKey(parseInt(key));
     setResource(resource);
+    setKey(parseInt(key));
   }
   return {
     // globals

@@ -71,7 +71,7 @@ const Data : React.FC = () => {
             defaultActiveKey={`${key}`}
             tabPosition="top"
             style={{ height: "100%" }}
-            onTabClick={(e) => handleTabChange(e, resource[key]?.resourceName)}
+            onTabClick={(e) => handleTabChange(e, resource[key + 1]?.resourceName)}
             items={resource.map((resource : any, index : number) => {
               return {
                 label: `${resource.resourceName}`,

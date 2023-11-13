@@ -93,7 +93,7 @@ const PolicyController = () => {
     const dispatched = dispatch(fetchPolicy(projectID));
     ToastifyMockify(dispatched);
     setShowEditModal(false);
-  }, [dispatch])
+  }, [dispatch, key])
 
   return {
     // globals

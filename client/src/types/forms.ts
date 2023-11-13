@@ -1,4 +1,5 @@
 import { IFetchedDataData } from './Data';
+import { IFetchedPolicyData } from './Policy';
 import { IFetchedProjectData } from './Project';
 import { IFetchedResourceData } from './Resource';
 import { IFetchedUserData } from './User';
@@ -49,4 +50,13 @@ export interface IDataForm {
   fieldsSchema: Array<IFieldSchema>;
   form: any;
   onFinish?: (values: any) => void;
+}
+
+export interface IPolicyForm {
+  handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleFormChange: (e: React.ChangeEvent<HTMLInputElement> | boolean) => void;
+  data: IFetchedPolicyData;
+  form: any;
+  onFinish?: (values: any) => void;
+  projectOptions?: IFetchedProjectData[];
 }
