@@ -15,7 +15,7 @@ const ColumnsWithActions = (data : any, actions : Array<Object>) : ColumnsType =
           key: "data",
           render: (data : any) => (
             <>
-              {Object.keys(data).map((key : string) => {
+              {Object.keys(data ?? {}).map((key : string) => {
                 return (
                   <p key={key}>
                     {key} {"->"} {data[key ]}
