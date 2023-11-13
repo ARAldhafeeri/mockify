@@ -45,6 +45,19 @@ class ProjectService implements IProjectService  {
 
     return deletedUser;
   }
+
+  findOrCreate = async (project: IProject) : Promise<any> => {
+      
+      const foundProject = await ProjectModel.findOne({name: project.name});
+      
+      if (foundProject) {
+        return foundProject;
+      }
+  
+      const newProject = new ProjectModel(project);
+      const createdProject = await newProject.save();
+      return createdProject;
+    }
   
 }
 

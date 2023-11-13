@@ -67,6 +67,18 @@ class DataService implements IDataService  {
 
     return dDeleted;
   }
+
+  findOrCreate = async (data: IData) : Promise<any> => {
+    const found = await DataModel.findOne({resource: data.resource});
+    
+    if (found) {
+      return found;
+    }
+
+    const NEW = new DataModel(data);
+    const created = await NEW.save();
+    return created;
+  }
   
 }
 

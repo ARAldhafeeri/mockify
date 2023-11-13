@@ -1,4 +1,3 @@
-import { DefaultData } from "../defaultData";
 import { SUPER_ADMIN_USERNAME } from "../getEnv";
 import UserModel, {IUser} from "../models/User";
 import {Types} from "mongoose";
@@ -47,6 +46,19 @@ class UserService implements IUserService  {
     const deletedUser = await UserModel.findByIdAndDelete(id);
 
     return deletedUser;
+  }
+
+  findOrCreate = async (user: IUser) : Promise<any> => {
+      
+    const found = await UserModel.findOne({username: user.username});
+    
+    if (found) {
+      return found;
+    }
+
+    const NEW = new UserModel(found);
+    const created = await NEW.save();
+    return created;
   }
   
 }

@@ -3,9 +3,9 @@ import app from '../../app';
 import { API_ROUTE, POLICY_ROUTE  } from '../../config/routes';
 import { DATABASE_URL } from '../../getEnv';
 import mongoose from 'mongoose';
-import { DefaultData } from '../../defaultData';
 import TestUtils from './TestUtils';
 import ProjectService from '../../services/project';
+import PolicyService from '../../services/policy';
 
 
 const mockPolicy = {
@@ -23,6 +23,7 @@ const mockPolicy = {
 }
 
 const projectService = new ProjectService();
+const policyService = new PolicyService();
 
 describe('end-to-end tests project policy', () => {
   let token : string;
@@ -31,15 +32,18 @@ describe('end-to-end tests project policy', () => {
 
   beforeAll(async () => {
     await mongoose.connect(DATABASE_URL);
-    DefaultData
     token = await TestUtils.login();
   });
   
 
   test('should create project policy', async () => {
-
     policyObj = await projectService.find({});
     mockPolicy.project =  policyObj[0]._id;
+
+    const policyExists = await policyService.findAll({project: mockPolicy.project});
+    if (policyExists.length > 0) {
+      await policyService.deletePolicy(policyExists[0]._id);
+    }
 
     const response = await request.agent(app).post(`${API_ROUTE}${POLICY_ROUTE}`).send({
       ...mockPolicy

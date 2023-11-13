@@ -53,6 +53,19 @@ class PolicyService implements IPolicyService {
   
   }
 
+  findOrCreate = async (policy: IPolicy) : Promise<any> => {
+      
+    const found = await PolicyModel.findOne({project: policy.project});
+    
+    if (found) {
+      return found;
+    }
+
+    const NEW = new PolicyModel(policy);
+    const created = await NEW.save();
+    return created;
+  }
+
 }
 
 export default PolicyService

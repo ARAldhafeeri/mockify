@@ -3,7 +3,6 @@ import app from '../../app';
 import { API_ROUTE, ENDPOINT_ROUTE  } from '../../config/routes';
 import { DATABASE_URL } from '../../getEnv';
 import mongoose from 'mongoose';
-import { DefaultData } from '../../defaultData';
 import TestUtils from './TestUtils';
 import ResourceService from '../../services/resource';
 
@@ -15,7 +14,6 @@ describe('end-to-end tests project endpoint', () => {
 
   beforeAll(async () => {
     await mongoose.connect(DATABASE_URL);
-    DefaultData
     token = await TestUtils.login();
   });
   

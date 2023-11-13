@@ -13,7 +13,7 @@ export interface IPolicy extends Document {
 }
 
 const policySchema = new Schema<IPolicy>({
-    project: {type: Schema.ObjectId, required: true},
+    project: {type: Schema.ObjectId, required: true, unique: true},
     resources: {type: [String], required: true},
     actions: {type: [String], required: true},
     roles: {type: [String], required: true},

@@ -64,6 +64,19 @@ class ResourceService implements IResService  {
     return deletedUser;
   }
   
+  findOrCreate = async (resource: IResource) : Promise<any> => {
+      
+    const found = await ResourceModel.findOne({resourceName: resource.resourceName});
+    
+    console.log("found", found)
+    if (found) {
+      return found;
+    }
+
+    const NEW = new ResourceModel(resource);
+    const created = await NEW.save();
+    return created;
+  }
 }
 
 export default ResourceService;
