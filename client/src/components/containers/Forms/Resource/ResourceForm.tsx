@@ -1,11 +1,11 @@
-import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { Form, Switch, Row, Col, Typography, Divider, Space, Badge, Tabs, Input, Select, MenuProps, Dropdown, } from 'antd';
+import { Form, Steps, Button } from 'antd';
 import MockifyButton from 'components/commons/Button/Button';
-import MockifyCodeEditor from 'components/commons/CodeEditor/CodeEditor';
-import { FormMakerResource } from 'components/commons/FormMaker/FormMaker';
-import MockifyInput from 'components/commons/Input/Input';
 import React from 'react';
 import { IResourceForm } from 'types/forms';
+import GeneralInfoStep from './FormSteps/GeneralInfoStep';
+import FeatureStep from './FormSteps/FeatureStep';
+import FunctionStep from './FormSteps/FunctionStep';
+import SchemaStep from './FormSteps/SchemaStep';
 
 
 const ResourceForm : React.FC<IResourceForm> = (
@@ -23,8 +23,50 @@ const ResourceForm : React.FC<IResourceForm> = (
     handleFormChangeFeatures,
     handleFormChangeFields,
     projectOptions,
+    // steps
+    currentStep,
+    nextStep,
+    prevStep
   }
   ) => {
+
+    const steps = [
+      {
+        title: 'General',
+        content: 
+        <GeneralInfoStep 
+          handleFormChange={handleFormChange} 
+          data={data} 
+          projectOptions={projectOptions} />
+      },
+      {
+        title: 'Features',
+        content: 
+        <FeatureStep
+          handleFormChangeFeatures={handleFormChangeFeatures}
+          data={data} />
+      },
+      {
+        title: 'Functions',
+        content: 
+        <FunctionStep
+          data={data}
+          handleAddFunction={handleAddFunction}
+          handleRemoveFunction={handleRemoveFunction}
+          handleFormChangeFuncs={handleFormChangeFuncs} />    
+      },
+      {
+        title: 'Schema',
+        content: 
+        <SchemaStep
+          handleAddField={handleAddField}
+          data={data}
+          handleFormChangeFields={handleFormChangeFields}
+          handleRemoveField={handleRemoveField} />
+      },
+    ];
+
+    const items = steps.map((item) => ({ key: item.title, title: item.title }));
     return (
       <Form
       name="basic"
@@ -37,112 +79,28 @@ const ResourceForm : React.FC<IResourceForm> = (
       autoComplete="off"
       onSubmitCapture={handleFormSubmit}
       >
-      {/* NAME */}
-      <MockifyInput
-        name={"resourceName"}
-        label={"resource name"}
-        value={data.resourceName}
-        onChange={(e) => handleFormChange(e, "resourceName")}
-        classes={['mockify-input', 'input']}
-        />
-      {/* project */}
-      <Select 
-        className='mockify-select'
-        defaultValue={data.project}
-        onChange={(value : string) => handleFormChange(value, "project")}
-        >
-          {projectOptions.map((project : any, index : number) => {
-            return (
-              <Select.Option key={index} value={project._id}>{project.name}</Select.Option>
-            )
-          })}
-        </Select>
-      {/* FEATURES */}
-      <Typography style={{fontFamily: "fantasy", fontSize:"18px"}}>Enable/Disable Features</Typography>
+      <Steps current={currentStep} items={items} />
+      {steps[currentStep].content}
+      <div style={{ marginTop: 24 }}>
+        {currentStep < steps.length - 1 && (
+          <Button type="primary" onClick={() => nextStep()}>
+            Next
+          </Button>
+        )}
 
-      <Row gutter={16}>
-      {
-        Object.keys(data.features).map((name : String, index : number) =>{
-          return (
-            <Col span={8} key={index}>
-              <Switch 
-                checkedChildren={name} 
-                unCheckedChildren={name} 
-                defaultChecked={data.features[name as keyof typeof data.features]}
-                onChange={(checked : boolean) => handleFormChangeFeatures(checked, name)}
-                />
-            </Col>
-
-
-          )
-        })
-      }
-      </Row>
-      <Divider />
-      {/* Functions */}
-      <Space direction='horizontal' style={{width: "100%", justifyContent: "space-between"}}>
-        <Typography style={{fontFamily: "fantasy", fontSize:"18px"}}>Functions</Typography>
-        <MockifyButton
-            classes={['mockify-icon-btn']}
-            icon={<PlusCircleOutlined style={{fontSize: '33px'}}/>}
-            onClick={() => handleAddFunction("")}
-          />
-      </Space>
-
-      <Tabs
-        defaultActiveKey="1"
-        tabPosition="top"
-        style={{ height: "100%" }}
-        items={data.funcs.map((func : any, index : number) => {
-          return {
-            label: `Function-${index}`,
-            key: `${index}`,
-            disabled: false,
-            children: (
-              <>
-                <Space direction="horizontal" style={{width: "100%", justifyContent: "space-between"}}>
-                  <Badge count={index + 1} key={index} />
-                  <MockifyButton
-                    classes={['mockify-icon-btn']}
-                    icon={<MinusCircleOutlined />}
-                    onClick={() => handleRemoveFunction(index)}
-                  />
-                </Space>
-                <MockifyCodeEditor
-                  key={index}
-                  value={func}
-                  width={"100%"}
-                  height={"200px"}
-                  onChange={(value : string) => handleFormChangeFuncs(value, index)}
-                  />
-                  <Divider />
-              </>
-            ),
-          };
-        })}
-      />
-      <Divider />
-      {/* Schemas */}
-      <Space direction='horizontal' style={{width: "100%", justifyContent: "space-between"}}>
-        <Typography style={{fontFamily: "fantasy", fontSize:"18px"}}>Schema</Typography>
-        <MockifyButton
-            classes={['mockify-icon-btn']}
-            icon={<PlusCircleOutlined style={{fontSize: '33px'}}/>}
-            onClick={() => handleAddField("", "", false)}
-          />
-      </Space>
-      <FormMakerResource 
-        data={data.fields}
-        fieldsSchema={data.fields}
-        handleAddField={handleAddField}
-        handleFormChangeFields={handleFormChangeFields}
-        handleRemoveField={handleRemoveField}
-      />
+        {currentStep > 0 && (
+          <Button style={{ margin: '0 8px' }} onClick={() => prevStep()}>
+            Previous
+          </Button>
+        )}
+      </div>
+      {currentStep === steps.length - 1 && (
       <MockifyButton 
           classes={['mockify-btn']}
           text="send"
           htmlType="submit"
       />
+      )}
       </Form>  
     )
 }

@@ -15,10 +15,10 @@ const ResourceController = () => {
     user: "string",
     apiKey: "string",
   });
-
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
   const [ showCreateModal, setShowCreateModal ] = React.useState<boolean>(false);
+  const [currentStep, setCurrentStep] = React.useState<number>(0);
   const [selectedResource, setSelectedResource ] = React.useState<IFetchedResourceData>({
     "project": "string",
     "resourceName": "SampleResource",
@@ -43,6 +43,14 @@ const ResourceController = () => {
     ]
   });
   const dispatch = useAppDispatch();
+
+  const prevStep = () => {
+    setCurrentStep( currentStep -1);
+  }
+
+  const nextStep = () => {
+    setCurrentStep(currentStep + 1);
+  }
 
   const handleTabChange = (key : string, projects : IFetchedProjectData[]) => {
     setKey(parseInt(key))
@@ -73,6 +81,8 @@ const ResourceController = () => {
 
   // update resource event
   const handleShowEditModal = (record: IFetchedResourceData) => {
+    // reset current step
+    setCurrentStep(0);
     setSelectedResource(record);
     setShowEditModal(true);
   }
@@ -163,6 +173,8 @@ const ResourceController = () => {
 
   // create events
   const handleShowCreateResourceModal = () => {
+    // reset current step
+    setCurrentStep(0);
     setShowCreateModal(true);
   }
 
@@ -226,7 +238,12 @@ const ResourceController = () => {
     key,
 
     // filter 
-    filterResourceBasedOnProjectId
+    filterResourceBasedOnProjectId,
+
+    // steps
+    currentStep,
+    nextStep,
+    prevStep
 
 
   }

@@ -32,12 +32,41 @@ export interface IResourceForm {
   handleRemoveFunction: (index: number) => void;
   handleAddField: (name : string, type : string, required : boolean) => void;
   handleRemoveField: (index: number) => void;
+  currentStep: number;
+  nextStep: () => void;
+  prevStep: () => void;
   projectOptions: IFetchedProjectData[];
   data: IFetchedResourceData;
   form: any;
   onFinish?: (values: any) => void;
 }
 
+export interface IResourceFormGeneralInfoStepProps {
+  handleFormChange: (e: React.ChangeEvent<HTMLInputElement> | boolean | String, name: String | null  | number) => void;
+  projectOptions: IFetchedProjectData[];
+  data: IFetchedResourceData;
+
+}
+
+export interface IResourceFormFeatureStepProps{
+  handleFormChangeFeatures: (e: React.ChangeEvent<HTMLInputElement> | boolean | String, name: String | null  | number) => void;
+  data: IFetchedResourceData;
+}
+
+export interface IResourceFormFunctionStepProps {
+  handleAddFunction: (value : string) => void;
+  handleRemoveFunction: (index: number) => void;
+  handleFormChangeFuncs: (e: React.ChangeEvent<HTMLInputElement> | boolean | String, name: String | null  | number) => void;
+  data: IFetchedResourceData;
+}
+
+export interface IResourceFormFieldsStepProps {
+  handleAddField: (name : string, type : string, required : boolean) => void;
+  handleRemoveField: (index: number) => void;
+  handleFormChangeFields: (index: number, name: string, value: string | boolean | number) => void;
+  data: IFetchedResourceData;
+
+}
 export interface IFieldSchema {
   name: string;
   type: string;

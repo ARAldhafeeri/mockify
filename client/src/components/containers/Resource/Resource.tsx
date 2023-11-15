@@ -48,7 +48,12 @@ const Resource : React.FC = () => {
     handleTabChange,
     key,
     // client side filter
-    filterResourceBasedOnProjectId
+    filterResourceBasedOnProjectId,
+
+    //steps
+    currentStep,
+    prevStep,
+    nextStep
   } = ResourceController();
 
   const actions = [
@@ -105,7 +110,9 @@ const Resource : React.FC = () => {
                         handleFormChangeFeatures={handleFormChangeFeatures}
                         handleFormChangeFuncs={handleFormChangeFuncs}
                         handleFormChangeFields={handleFormChangeFields}
-
+                        currentStep={currentStep}
+                        prevStep={prevStep}
+                        nextStep={nextStep}
                         handleFormSubmit={handleSubmitResourceForm}
                         handleAddFunction={handleAddFunction}
                         handleRemoveFunction={handleRemoveFunction}
@@ -138,6 +145,9 @@ const Resource : React.FC = () => {
                         handleRemoveField={handleRemoveField}
                         data={selectedResource} 
                         projectOptions={project}
+                        currentStep={currentStep}
+                        prevStep={prevStep}
+                        nextStep={nextStep}
                         form={form}
                         onFinish={() => handleHideEditModal()}
                         />
