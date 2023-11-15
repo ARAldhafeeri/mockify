@@ -11,7 +11,6 @@ interface IPoliciesProps {
 }
 export default function Policies(props : IPoliciesProps) {
   const { policies } = props;
-
   return (
     <>
       {policies?.map((policy : {role : string, can : Array<string>, on : Array<string>}, index) => {
@@ -22,6 +21,7 @@ export default function Policies(props : IPoliciesProps) {
             column={1}
             size="small"
             layout="horizontal"
+            style={{width: "75%", marginTop: "35px"}}
           >
             <Descriptions.Item label="role">
               <Tag color="green">{policy.role}</Tag>

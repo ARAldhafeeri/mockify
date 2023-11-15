@@ -1,8 +1,7 @@
 import { Response, Request } from "express";
 import PolicyService from "../services/policy";
 import { Types } from "mongoose";
-
-const {ObjectId} = Types; 
+import { ErrorResponse, SuccessResponse } from "../utils/responses";
 
 const policyService = new PolicyService();
 
@@ -11,7 +10,7 @@ const getPolicy = async function(req : Request, res: Response) : Promise<any> {
 
     let projectID = req.query.projectID as string;
 
-    const data = await policyService.findAll({project : projectID});
+    const data = await policyService.find({project : projectID});
 
     return res.status(200).send({status: true, data: data});
 
@@ -31,9 +30,10 @@ const updatePolicy = async function(req : Request, res: Response) : Promise<any>
 
     data.updatedAt = new Date() ;
 
-    policyService.updatePolicy(data);
+    const updated = await policyService.update(data);
+    if(!updated) return ErrorResponse(res, "Policy not found", 404)
 
-    return res.status(200).send({status: true, data: data});
+    return SuccessResponse(res, updated, "Policy updated", 200);
 
   } catch (err){
 
@@ -48,7 +48,7 @@ const deletePolicy = async function(req : Request, res: Response) : Promise<any>
 
     const data = req.body;
 
-    policyService.deletePolicy(data);
+    policyService.delete(data);
 
     return res.status(200).send({status: true, data: data});
 
@@ -68,7 +68,7 @@ const createPolicy = async function(req : Request, res: Response) : Promise<any>
 
     data.createdAt = new Date() ;
 
-    policyService.createPolicy(data);
+    policyService.create(data);
 
     return res.status(200).send({status: true, data: data});
 

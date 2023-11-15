@@ -40,9 +40,9 @@ describe('end-to-end tests project policy', () => {
     policyObj = await projectService.find({});
     mockPolicy.project =  policyObj[0]._id;
 
-    const policyExists = await policyService.findAll({project: mockPolicy.project});
+    const policyExists = await policyService.find({project: mockPolicy.project});
     if (policyExists.length > 0) {
-      await policyService.deletePolicy(policyExists[0]._id);
+      await policyService.delete(policyExists[0]._id);
     }
 
     const response = await request.agent(app).post(`${API_ROUTE}${POLICY_ROUTE}`).send({

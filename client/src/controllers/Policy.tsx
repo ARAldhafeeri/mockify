@@ -7,8 +7,9 @@ import { Form } from "antd";
 import { IFetchedProjectData } from "types/Project";
 const PolicyController = () => {
   const { policy, loading } = useAppSelector((state) => state.policy);
+  const { project } = useAppSelector((state) => state.project )
   const [ key, setKey ] = React.useState<number>(0);
-  const [projectID, setProjectID ] = React.useState<string>("");
+  const  [ projectID, setProjectID ] = React.useState<string>(project?.[0]?._id ?? "");
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
   const [ showCreateModal, setShowCreateModal ] = React.useState<boolean>(false);

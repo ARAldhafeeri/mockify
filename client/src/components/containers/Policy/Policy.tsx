@@ -1,4 +1,4 @@
-import React from "react"; 
+import React, { useEffect } from "react"; 
 import MockifyTable from "../../commons/Table/Table";
 import PolicyController from "controllers/Policy";
 import MockifyButton from "components/commons/Button/Button";
@@ -8,14 +8,11 @@ import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/ic
 import MockifyModal from "components/commons/Modal/Modal";
 import { IFetchedPolicyData } from "types/Policy";
 import PolicyForm from "../Forms/Policy/PolicyForm";
-import { Descriptions, Tabs, Tag } from "antd";
+import { Tabs } from "antd";
 import ProjectController from "controllers/Project";
-import Policies from "./Policies";
+import Policies from "../../presentational/Policy/Policies";
 
 const Policy : React.FC = () => {
-  const {
-    project,
-  }   = ProjectController();
   const { 
     policy, 
     loading, 
@@ -43,6 +40,10 @@ const Policy : React.FC = () => {
     key,  
   } = PolicyController();
 
+  const {
+    project,
+  }   = ProjectController();
+
   const actions = [
     {
       icon: <EditOutlined />,
@@ -55,6 +56,7 @@ const Policy : React.FC = () => {
       onclick: (record: IFetchedPolicyData) => handleShowDeleteModal(record)
     }
   ]
+
   return (
     <>
     {
@@ -65,6 +67,9 @@ const Policy : React.FC = () => {
         tabPosition="top"
         style={{ height: "100%" }}
         onTabClick={(e) => handleTabChange(e, project)}
+        activeKey={`${key}`}
+        onLoad={(e) => handleTabChange(`${key}`, project)}
+        
         items={project.map((proj : any, index : number) => {
           return {
             label: `${proj.name}`,

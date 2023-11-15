@@ -6,9 +6,10 @@ import { ToastifyMockify } from "utils";
 import { Form } from "antd";
 import { IFetchedProjectData } from "types/Project";
 const ResourceController = () => {
+  const { project } = useAppSelector((state) => state.project);
   const { resource, loading } = useAppSelector((state) => state.resource);
   const [ key, setKey ] = React.useState<number>(0);
-  const [ project, setProject ] = React.useState<IFetchedProjectData>({
+  const [ projectT, setProject ] = React.useState<IFetchedProjectData>(project[0] ?? {
     _id: "string",
     name: "string",
     user: "string",
@@ -170,8 +171,7 @@ const ResourceController = () => {
   }
 
   const filterResourceBasedOnProjectId = (resource : IFetchedResourceData[]) => {
-    console.log(resource, project)
-    return resource.filter((res : IFetchedResourceData) => res.project === project._id);
+    return resource.filter((res : IFetchedResourceData) => res.project === projectT._id);
   }
 
   

@@ -8,10 +8,10 @@ import { Form } from "antd";
 
 const DataController = () => {
   const { data, loading } = useAppSelector((state) => state.data);
-
+  const { resource } = useAppSelector((state) => state.resource);
   const dispatch = useAppDispatch();
   const [ key, setKey ] = React.useState<number>(0);
-  const [ resource, setResource ] = React.useState<string>("test");
+  const [ resourceT, setResource ] = React.useState<string>(resource[0]?._id ?? "");
 
   
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
@@ -91,7 +91,7 @@ const DataController = () => {
   
 
   React.useEffect(() =>{
-    const dispatched = dispatch(fetchData(resource));
+    const dispatched = dispatch(fetchData(resourceT));
     ToastifyMockify(dispatched);
   }, [dispatch, key])
 

@@ -1,11 +1,12 @@
-import PolicyModel, {IPolicy } from "../models/Policy";
+import PolicyModel, {IPolicy} from "../models/Policy";
 
 interface IPolicyService {
 
-  findAll(projection: Object): Promise<any>;
-  createPolicy(policy: IPolicy): Promise<any>;
-  updatePolicy(policy: IPolicy): Promise<any>;
-  deletePolicy(policy: string): Promise<any>;
+  find(projection: Object): Promise<any>;
+  create(policy: IPolicy): Promise<any>;
+  update(policy: IPolicy): Promise<any>;
+  delete(policy: string): Promise<any>;
+  findOrCreate(policy: IPolicy): Promise<any>;
 
 }
 
@@ -14,9 +15,9 @@ class PolicyService implements IPolicyService {
 
   }
 
-  findAll = async ( projection: Object) : Promise<any> => {
+  find = async ( projection: Object) : Promise<any> => {
 
-    const foundPolicy = PolicyModel.find( 
+    const foundPolicy = await PolicyModel.find( 
        projection
        )
     
@@ -24,7 +25,7 @@ class PolicyService implements IPolicyService {
 
   }
 
-  createPolicy(policy: IPolicy): Promise<any> {
+  create(policy: IPolicy): Promise<any> {
 
     policy.createdAt = new Date();
     const createdPolicy = PolicyModel.create(policy);
@@ -32,19 +33,20 @@ class PolicyService implements IPolicyService {
     
   }
 
-  updatePolicy(policy: IPolicy): Promise<any> {
+  update(policy: IPolicy): Promise<any> {
 
     policy.updatedAt = new Date();
-    const updatedPolicy = PolicyModel.updateOne(
-      {project: policy.project},
-      policy
+    const updated = PolicyModel.findOneAndUpdate(
+      { _id: policy._id },
+      policy,
+      {new: true}
     );
-    return updatedPolicy;
+    return updated;
 
   }
 
 
-  deletePolicy(policy: string): Promise<any> {
+  delete(policy: string): Promise<any> {
 
     const deletedPolicy = PolicyModel.deleteOne(
       {project: policy}
