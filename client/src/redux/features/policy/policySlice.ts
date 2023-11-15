@@ -41,7 +41,7 @@ const policySlice = createSlice({
         state, action : PayloadAction< any | IFetchPolicyResponse>
         ) => {
         state.loading = false;
-        state.policy = state.policy.filter((policy: any) => policy._id !== action.payload.policy._id);
+        state.policy = state.policy.filter((policy: any) => policy._id !== action.payload.data._id);
       })
 
       builder

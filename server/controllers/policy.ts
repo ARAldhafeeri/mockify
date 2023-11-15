@@ -2,6 +2,7 @@ import { Response, Request } from "express";
 import PolicyService from "../services/policy";
 import { Types } from "mongoose";
 import { ErrorResponse, SuccessResponse } from "../utils/responses";
+const {ObjectId} = Types;
 
 const policyService = new PolicyService();
 
@@ -46,11 +47,13 @@ const updatePolicy = async function(req : Request, res: Response) : Promise<any>
 const deletePolicy = async function(req : Request, res: Response) : Promise<any> {
   try {
 
-    const data = req.body;
+    const id : Types.ObjectId = new ObjectId(req.query.id as string);
 
-    policyService.delete(data);
+    const deleted = await policyService.delete(id);
 
-    return res.status(200).send({status: true, data: data});
+    if (!deleted) return ErrorResponse(res, "Error deleting policy", 400)
+
+    return SuccessResponse(res, deleted, "Policy deleted", 200);
 
   } catch (err){
 

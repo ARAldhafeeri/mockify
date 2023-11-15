@@ -32,6 +32,7 @@ const PolicyController = () => {
 
   // delete policy event
   const handleDeletePolicy = (id : string) => {
+    console.log("delete id", id)
     ToastifyMockify(
       dispatch(
         deletePolicy(id)

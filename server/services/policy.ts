@@ -1,11 +1,11 @@
 import PolicyModel, {IPolicy} from "../models/Policy";
-
+import { Types } from "mongoose";
 interface IPolicyService {
 
   find(projection: Object): Promise<any>;
   create(policy: IPolicy): Promise<any>;
   update(policy: IPolicy): Promise<any>;
-  delete(policy: string): Promise<any>;
+  delete(id: Types.ObjectId): Promise<any>;
   findOrCreate(policy: IPolicy): Promise<any>;
 
 }
@@ -46,10 +46,10 @@ class PolicyService implements IPolicyService {
   }
 
 
-  delete(policy: string): Promise<any> {
+  delete(id: Types.ObjectId): Promise<any> {
 
-    const deletedPolicy = PolicyModel.deleteOne(
-      {project: policy}
+    const deletedPolicy = PolicyModel.findByIdAndDelete(
+      {_id: id}
     );
     return deletedPolicy;
   
