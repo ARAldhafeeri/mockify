@@ -23,7 +23,7 @@ export interface IResource extends Document {
 }
 
 const resourceSchema = new Schema<IResource>({
-  resourceName: {type: String, required: true, unique: true},
+  resourceName: {type: String, required: true},
   project: {type: Schema.Types.ObjectId , ref: "Project", required: true},
   features: {type: Object, required: true},
   funcs: {type: [String], required: true},

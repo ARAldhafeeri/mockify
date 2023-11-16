@@ -34,7 +34,7 @@ export default function Policies(props : IPoliciesProps) {
                 </Descriptions.Item>
                 <Descriptions.Item label="can">
                   {policy.can.map((action : string) => {
-                    return <Tag color="tail">{action}</Tag>
+                    return <Tag color="green">{action}</Tag>
                   })}
                 </Descriptions.Item>
                 <Descriptions.Item label="on">

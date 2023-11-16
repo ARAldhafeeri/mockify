@@ -35,7 +35,7 @@ const LoggedInLayout: React.FC<LoggedInLayoutProps> = (props) => {
   }
 
  return (
-    <Layout hasSider={true} style={{ minHeight: '100vh' }}>
+    <Layout hasSider={true} className='layout'>
       <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
         <div className="demo-logo-vertical" />
         <Menu theme="dark" selectedKeys={[current]} mode="inline">
@@ -46,7 +46,7 @@ const LoggedInLayout: React.FC<LoggedInLayoutProps> = (props) => {
           ))}
         </Menu>
       </Sider>
-      <Layout>
+      <Layout className='layout'>
         <Suspense fallback={<MockifyLoader/>}>
           <Content className={styles.content}>
           <ToastContainer
@@ -58,7 +58,7 @@ const LoggedInLayout: React.FC<LoggedInLayoutProps> = (props) => {
             {props.children}
           </Content>
         </Suspense>
-        <Footer style={{ textAlign: 'center' }}>MOCKIFY.IO ©2023</Footer>
+        <Footer className='footer'>MOCKIFY.IO ©2023</Footer>
       </Layout>
     </Layout>
   );

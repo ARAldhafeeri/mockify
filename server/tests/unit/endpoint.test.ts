@@ -33,7 +33,7 @@ const mockData = {
 describe('EndpointService', () => {
   test('should create curd endpoints for resource', async () => {
 
-    const endpoint = await EndpointService.create(mockData.features, mockData.resourceName);
+    const endpoint = await EndpointService.create(mockData.features, mockData.project, mockData.resourceName);
     expect(endpoint).toBeDefined();
     expect(endpoint).toHaveLength(4);
 

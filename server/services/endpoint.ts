@@ -16,11 +16,11 @@ interface IEndpointFeatures {
   producer: boolean;
 }
 class EndpointService {
-  static async create(features : IEndpointFeatures, resourceName : string) : Promise<Array<Object>>{
+  static async create(features : IEndpointFeatures, projectName : string,  resourceName : string) : Promise<Array<Object>>{
     let endpoint : Array<Object> = [];
-    let getx : string = `${domain}/mock/${resourceName}?filter=filterValue&sort=sortValue&search=searchValue&page=pageNumber&size=pageSize`
-    let postx : string = `${domain}/mock/${resourceName}`
-    let deleteAndPutx : string = `${domain}/mock/${resourceName}/:id`
+    let getx : string = `${domain}/mock/${projectName}/${resourceName}?filter=filterValue&sort=sortValue&search=searchValue&page=pageNumber&size=pageSize`
+    let postx : string = `${domain}/mock/${projectName}/${resourceName}`
+    let deleteAndPutx : string = `${domain}/mock/${projectName}/${resourceName}/:id`
 
     if (features.getx) endpoint.push({method: "GET", url: getx, params: ["filter", "sort", "search", "page", "size"]});
     if(features.postx) endpoint.push({method: "POST", url: postx});
