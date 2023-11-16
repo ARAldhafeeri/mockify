@@ -6,7 +6,7 @@ import MockifyLoader from "components/commons/Loader/MockifyLoader";
 import ResourceController from "controllers/Resource";
 import { Tabs } from "antd";
 import { IFetchedDataData } from "types/Data";
-import { DeleteColumnOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { DeleteColumnOutlined, DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import MockifyButton from "components/commons/Button/Button";
 import MockifyModal from "components/commons/Modal/Modal";
 import DataForm from "../Forms/Data/DataForm";
@@ -51,13 +51,18 @@ const Data : React.FC = () => {
   const actions = [
     {
       icon: <EditOutlined />,
-      classes: ['table-action-primary'],
+      classes: ['table-action-primary', 'table-action'],
       onclick: (record : IFetchedDataData) => handleShowEditModal(record) 
     }, 
     {
-      icon:<DeleteColumnOutlined />,
-      classes: ['table-action-secondary'],
+      icon:<DeleteOutlined />,
+      classes: ['table-action-secondary', 'table-action'],
       onclick: (record: IFetchedDataData) => handleShowDeleteModal(record)
+    },
+    {
+      icon: <PlusCircleOutlined />,
+      classes: ['table-action-third', 'table-action'],
+      onclick: handleShowCreateDataModal,
     }
   ]
   return (
@@ -79,11 +84,6 @@ const Data : React.FC = () => {
                 disabled: false,
                 children: (
                   <>
-                    <MockifyButton 
-                      classes={['mockify-icon-btn']}
-                      icon={<PlusCircleOutlined style={{fontSize: '33px'}}/>}
-                      onClick={handleShowCreateDataModal}
-                      />
                     <MockifyModal 
                       show={showDeleteModal}
                       title="Delete resource"

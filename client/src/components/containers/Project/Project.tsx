@@ -11,37 +11,35 @@ import ProjectForm from "../Forms/Project/ProjectForm";
 
 const Project : React.FC = () => {
   const { 
-    project, 
-    loading, 
-    handleDeleteProject,
+    project, loading,
     // delete
-    showDeleteModal, 
-    handleShowDeleteModal,
-    selectedProject, 
-    setSelectedProject,
+    handleDeleteProject, showDeleteModal, handleShowDeleteModal,selectedProject, 
     handleHideDeleteModal, 
     // update
-    handleShowEditModal,
-    handleHideEditModal, 
-    showEditModal,
-    handleFormChange, 
-    handleSubmitProjectForm,
+    handleShowEditModal, handleHideEditModal, showEditModal,
+    // create
     showCreateModal, 
     handleShowCreateProjectModal,
     handleHideCreateProjectModal,
-    form,
+    form, handleFormChange, handleSubmitProjectForm,
+
   } = ProjectController();
 
   const actions = [
     {
       icon: <EditOutlined />,
-      classes: ['table-action-primary'],
+      classes: ['table-action-primary', 'table-action'],
       onclick: (record : IFetchedProjectData) => handleShowEditModal(record) 
     }, 
     {
       icon:<DeleteOutlined />,
-      classes: ['table-action-secondary'],
+      classes: ['table-action-secondary', 'table-action'],
       onclick: (record: IFetchedProjectData) => handleShowDeleteModal(record)
+    }, 
+    {
+      icon: <PlusCircleOutlined />,
+      classes: ['table-action-third', 'table-action'],
+      onclick: () => handleShowCreateProjectModal()
     }
   ]
   return (
@@ -50,11 +48,6 @@ const Project : React.FC = () => {
       loading ? <MockifyLoader size="large" /> 
       : (
         <>
-          <MockifyButton 
-            classes={['mockify-icon-btn']}
-            icon={<PlusCircleOutlined style={{fontSize: '33px'}}/>}
-            onClick={handleShowCreateProjectModal}
-            />
           <MockifyModal 
             show={showDeleteModal}
             title="Delete project"

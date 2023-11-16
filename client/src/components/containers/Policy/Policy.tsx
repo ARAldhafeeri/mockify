@@ -47,14 +47,20 @@ const Policy : React.FC = () => {
   const actions = [
     {
       icon: <EditOutlined />,
-      classes: ['table-action-primary'],
+      classes: ['table-action-primary', 'table-action'],
       onclick: (record : IFetchedPolicyData) => handleShowEditModal(record) 
     }, 
     {
       icon:<DeleteOutlined />,
-      classes: ['table-action-secondary'],
+      classes: ['table-action-secondary', 'table-action'],
       onclick: (record: IFetchedPolicyData) => handleShowDeleteModal(record)
+    },
+    {
+      icon: <PlusCircleOutlined />,
+      classes: ['table-action-third', 'table-action'],
+      onclick: handleShowCreatePolicyModal,
     }
+
   ]
 
   return (
@@ -77,11 +83,6 @@ const Policy : React.FC = () => {
             disabled: false,
             children: (
               <>
-                <MockifyButton 
-                  classes={['mockify-icon-btn']}
-                  icon={<PlusCircleOutlined style={{fontSize: '33px'}}/>}
-                  onClick={handleShowCreatePolicyModal}
-                  />
                 <MockifyModal 
                   show={showDeleteModal}
                   title="Delete policy"
