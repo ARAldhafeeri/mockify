@@ -1,9 +1,9 @@
 import { MenuProps, Select, Space, Switch } from "antd";
-import MockifyInput from "../Input/Input";
+import MockifyInput from "components/commons/Input/Input";
 import { IFormMakerDataProps, IFormMakerResoruceProps } from "./FormMaker.types";
-import MockifyButton from "../Button/Button";
 import { MinusCircleFilled } from "@ant-design/icons";
 import { ChangeEvent } from "react";
+import MockifyButton from "components/commons/Button/Button";
 
 const typesMenu : MenuProps['items'] = [
   {
@@ -61,7 +61,7 @@ export const FormMakerResource = (props: IFormMakerResoruceProps) => {
             onChange={(checked : boolean) => handleFormChangeFields(index, "required", checked)}
             />
             <MockifyButton
-              classes={['mockify-icon-btn']}
+              classes={['table-action-secondary', 'table-action']}
               icon={<MinusCircleFilled />}
               onClick={() => handleRemoveField(index)}
             />  

@@ -13,8 +13,8 @@ export default function FunctionStep(props : IResourceFormFunctionStepProps) {
       <Space direction='horizontal' style={{width: "100%", justifyContent: "space-between"}}>
           <Typography style={{fontFamily: "fantasy", fontSize:"18px"}}>Functions</Typography>
           <MockifyButton
-              classes={['mockify-icon-btn']}
-              icon={<PlusCircleOutlined style={{fontSize: '33px'}}/>}
+              classes={['table-action-primary', 'table-action']}
+              icon={<PlusCircleOutlined />}
               onClick={() => handleAddFunction("")}
             />
         </Space>
@@ -33,7 +33,7 @@ export default function FunctionStep(props : IResourceFormFunctionStepProps) {
                   <Space direction="horizontal" style={{width: "100%", justifyContent: "space-between"}}>
                     <Badge count={index + 1} key={index} />
                     <MockifyButton
-                      classes={['mockify-icon-btn']}
+                      classes={['table-action-secondary', 'table-action']}
                       icon={<MinusCircleOutlined />}
                       onClick={() => handleRemoveFunction(index)}
                     />
