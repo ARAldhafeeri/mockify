@@ -77,7 +77,6 @@ const PolicyController = () => {
 
 
   const handleFormChange = (value : string, type: string, index: number) => {
-    console.log(value, type, index)
     switch(type){
       case "action":
         selectedPolicy.actions[index] = value;
