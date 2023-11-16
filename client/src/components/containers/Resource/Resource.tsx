@@ -66,11 +66,6 @@ const Resource : React.FC = () => {
       icon:<DeleteOutlined />,
       classes: ['table-action-secondary', 'table-action'],
       onclick: (record: IFetchedResourceData) => handleShowDeleteModal(record)
-    }, 
-    {
-      icon: <PlusCircleOutlined />,
-      classes: ['table-action-third', 'table-action'],
-      onclick: handleShowCreateResourceModal,
     }
   ]
   return (
@@ -81,6 +76,13 @@ const Resource : React.FC = () => {
         <Tabs
         defaultActiveKey={`${key}`}
         tabPosition="top"
+        tabBarExtraContent={
+          <MockifyButton 
+          classes={['table-action-third', 'table-action']} 
+          onClick={handleShowCreateResourceModal} 
+          icon={<PlusCircleOutlined />} 
+        />
+        }
         style={{ height: "100%" }}
         onTabClick={(e) => handleTabChange(e, project)}
         items={project.map((proj : any, index : number) => {

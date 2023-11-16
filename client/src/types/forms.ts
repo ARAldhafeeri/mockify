@@ -83,9 +83,24 @@ export interface IDataForm {
 
 export interface IPolicyForm {
   handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  handleFormChange: (e: React.ChangeEvent<HTMLInputElement> | boolean) => void;
+  handleFormChange: (value : string, type: string, index: number) => void;
   data: IFetchedPolicyData;
   form: any;
   onFinish?: (values: any) => void;
   projectOptions?: IFetchedProjectData[];
+  // steps
+  currentStep: number;
+  nextStep: () => void;
+  prevStep: () => void;
+  // add or remove
+  handleAdd: (value : string, type: string) => void;
+  handleRemove: (index: number, type: string) => void;
+}
+
+export interface IPolicyFieldsStepProps {
+  handleAdd: (value : string, type: string) => void;
+  handleRemove: (index: number, type: string) => void;
+  data: Array<string>;
+  handleFormChange: (value : string, type: string, index: number) => void;
+  fieldsType: string;
 }

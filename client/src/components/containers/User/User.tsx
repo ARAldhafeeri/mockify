@@ -42,11 +42,6 @@ const User : React.FC = () => {
       icon:<DeleteOutlined />,
       classes: ['table-action-secondary','table-action'],
       onclick: (record: IFetchedUserData) => handleShowDeleteModal(record)
-    },
-    {
-      icon: <PlusCircleOutlined />,
-      classes: ['table-action-third', 'table-action'],
-      onclick: handleShowCreateUserModal
     }
   ]
   return (
@@ -55,13 +50,18 @@ const User : React.FC = () => {
       loading ? <MockifyLoader size="large" /> 
       : (
         <>
+          <MockifyButton
+            onClick={handleShowCreateUserModal}
+            classes={['table-action-third', 'table-action']}
+            icon={<PlusCircleOutlined />}
+          />
           <MockifyModal 
             show={showDeleteModal}
             title="Delete user"
             onOk={() => handleDeleteUser(selectedUser._id || '')}
             onCancel={() => handleHideDeleteModal()}
             children={<p>Are you sure delete {selectedUser.username} ?</p>}
-            />
+          />
           <MockifyModal
             show={showEditModal}
             title="Update user"

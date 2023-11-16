@@ -1,7 +1,7 @@
 import React from 'react'
 import { Space, Typography } from 'antd'
 import MockifyButton from 'components/commons/Button/Button'
-import { FormMakerResource } from 'components/containers/Resource/FormMaker/FormMaker'
+import { FormMakerResource } from 'components/presentational/Resource/FormMaker/FormMaker'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { IResourceFormFieldsStepProps } from 'types/forms'
 

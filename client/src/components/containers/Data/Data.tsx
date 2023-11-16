@@ -59,11 +59,6 @@ const Data : React.FC = () => {
       classes: ['table-action-secondary', 'table-action'],
       onclick: (record: IFetchedDataData) => handleShowDeleteModal(record)
     },
-    {
-      icon: <PlusCircleOutlined />,
-      classes: ['table-action-third', 'table-action'],
-      onclick: handleShowCreateDataModal,
-    }
   ]
   return (
     <>
@@ -75,6 +70,13 @@ const Data : React.FC = () => {
           <Tabs
             defaultActiveKey={`${key}`}
             tabPosition="top"
+            tabBarExtraContent={
+              <MockifyButton 
+              classes={['table-action-third', 'table-action']} 
+              onClick={handleShowCreateDataModal} 
+              icon={<PlusCircleOutlined />} 
+            />
+            }
             style={{ height: "100%" }}
             onTabClick={(e) => handleTabChange(e, resource[key + 1]?.resourceName)}
             items={resource.map((resource : any, index : number) => {

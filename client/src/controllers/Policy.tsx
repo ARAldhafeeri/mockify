@@ -5,10 +5,12 @@ import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { ToastifyMockify } from "utils";
 import { Form } from "antd";
 import { IFetchedProjectData } from "types/Project";
+import { toast } from "react-toastify";
 const PolicyController = () => {
   const { policy, loading } = useAppSelector((state) => state.policy);
   const { project } = useAppSelector((state) => state.project )
   const [ key, setKey ] = React.useState<number>(0);
+  const [ currentStep, setCurrentStep ] = React.useState<number>(0);
   const  [ projectID, setProjectID ] = React.useState<string>(project?.[0]?._id ?? "");
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
@@ -51,6 +53,7 @@ const PolicyController = () => {
 
   // update policy event
   const handleShowEditModal = (record: IFetchedPolicyData) => {
+    setCurrentStep(0);
     setSelectedPolicy(record);
     setShowEditModal(true);
   }
@@ -73,15 +76,34 @@ const PolicyController = () => {
   }
 
 
-  const handleFormChange = (e : any, name : any=null) => {
+  const handleFormChange = (value : string, type: string, index: number) => {
+    console.log(value, type, index)
+    switch(type){
+      case "action":
+        selectedPolicy.actions[index] = value;
+        break;
+      case "resource":
+        selectedPolicy.resources[index] = value;
+        break;
+      case "role":
+        selectedPolicy.roles[index] = value;
+        break;
+    }
     setSelectedPolicy({
-      ...selectedPolicy,
-      [e.target.name]: e.target.value
+      ...selectedPolicy
     })
   };
 
   // create events
   const handleShowCreatePolicyModal = () => {
+    // after create done 
+    // if(policy.length === 1){
+    //   toast.info("Cannot create new policy, only one policy per project")
+    // } else {
+    //   setCurrentStep(0);
+    //   setShowCreateModal(true);
+    // }
+    setCurrentStep(0);
     setShowCreateModal(true);
   }
 
@@ -95,6 +117,55 @@ const PolicyController = () => {
     ToastifyMockify(dispatched);
     setShowEditModal(false);
   }, [dispatch, key])
+
+  // steps
+  const prevStep = () => {
+    setCurrentStep(currentStep - 1);
+  }
+
+  const nextStep = () => {
+    setCurrentStep(currentStep + 1);
+  }
+
+  // form steps handlers 
+  const handleAdd =  (value : string, type : string) => {
+    switch(type){
+      case "action":
+        selectedPolicy.actions.push(value);
+        break;
+      case "resource":
+        selectedPolicy.resources.push(value);
+        break;
+      case "role":
+        selectedPolicy.roles.push(value);
+        break;
+    }
+    setSelectedPolicy({...selectedPolicy});
+  }
+
+  const handleRemove = (index : number , type: string ) => {
+    switch(type){
+      case "action":
+        setSelectedPolicy({
+          ...selectedPolicy,
+          actions: selectedPolicy.actions.filter((_, i) => i !== index) 
+        });
+        break;
+      case "resource":
+        setSelectedPolicy({
+          ...selectedPolicy,
+          resources: selectedPolicy.resources.filter((_, i) => i !== index) 
+        });
+        break;
+      case "role":
+        setSelectedPolicy({
+          ...selectedPolicy,
+          roles: selectedPolicy.roles.filter((_, i) => i !== index)
+        });
+        break;
+    }
+  }
+
 
   return {
     // globals
@@ -126,6 +197,15 @@ const PolicyController = () => {
     // tabs 
     handleTabChange,
     key,
+
+    // steps
+    currentStep,
+    nextStep,
+    prevStep,
+
+    // add or remove
+    handleAdd,
+    handleRemove
 
   }
 }

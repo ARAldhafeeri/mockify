@@ -25,9 +25,9 @@ export default function Policies(props : IPoliciesProps) {
                 key={index}
                 bordered
                 column={1}
-                size="small"
+                size="middle"
                 layout="horizontal"
-                style={{width: "75%", marginTop: "35px"}}
+                style={{width: "100%", marginTop: "35px" }}
               >
                 <Descriptions.Item label="role">
                   <Tag color="green">{policy.role}</Tag>

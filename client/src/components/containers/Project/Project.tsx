@@ -8,6 +8,8 @@ import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/ic
 import MockifyModal from "components/commons/Modal/Modal";
 import { IFetchedProjectData } from "types/Project";
 import ProjectForm from "../Forms/Project/ProjectForm";
+import { Divider, Space, Typography } from "antd";
+import { Header } from "antd/es/layout/layout";
 
 const Project : React.FC = () => {
   const { 
@@ -35,11 +37,6 @@ const Project : React.FC = () => {
       icon:<DeleteOutlined />,
       classes: ['table-action-secondary', 'table-action'],
       onclick: (record: IFetchedProjectData) => handleShowDeleteModal(record)
-    }, 
-    {
-      icon: <PlusCircleOutlined />,
-      classes: ['table-action-third', 'table-action'],
-      onclick: () => handleShowCreateProjectModal()
     }
   ]
   return (
@@ -48,6 +45,13 @@ const Project : React.FC = () => {
       loading ? <MockifyLoader size="large" /> 
       : (
         <>
+          <Space style={{justifyContent: "space-between"}}>
+          <MockifyButton 
+            classes={['table-action-third', 'table-action']} 
+            icon={<PlusCircleOutlined />}
+            onClick={handleShowCreateProjectModal}
+            />
+          </Space>
           <MockifyModal 
             show={showDeleteModal}
             title="Delete project"
