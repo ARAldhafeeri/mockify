@@ -33,7 +33,7 @@ export default function PolicyPreview(props : IPolicyPreviewProps) {
         })}
       </Descriptions.Item>
       <Descriptions.Item label="actions">
-        {data?.actions.map((action : string) => {
+        {data?.actions?.map((action : string) => {
           return <Tag color="green">{action}</Tag>
         })}
       </Descriptions.Item>

@@ -10,7 +10,7 @@ export const fetchPolicy = createAsyncThunk(
   "policy/fetch",
   async (projectID: string , thunkAPI) : Promise<IAPINormalizedResponse> => {
       const res : any = await instance.get(ENDPOINTS.DATA_POLICY_NAME(projectID));
-      return  res.data.data;
+      return  res.data;
   }
 );
 

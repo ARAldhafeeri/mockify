@@ -26,7 +26,7 @@ const policySlice = createSlice({
         state, action : PayloadAction<  IFetchPolicyResponse | any>
         ) => {
         state.loading = false;
-        state.policy = action.payload;
+        state.policy = action.payload.data;
       })
 
 
@@ -57,9 +57,9 @@ const policySlice = createSlice({
         ) => {
         state.loading = false;
         const index = state.policy.findIndex(
-          (policy: any) => policy._id === action.payload.policy._id);
+          (policy: any) => policy._id === action.payload.data._id);
         state.policy[index] = {
-          ...action.payload.policy
+          ...action.payload.data
         }
 
       })
@@ -76,7 +76,7 @@ const policySlice = createSlice({
         ) => {
         state.loading = false;
 
-         state.policy.push(action.payload.policy);
+         state.policy.push(action.payload.data);
       })
   },
 });

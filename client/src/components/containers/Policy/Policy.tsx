@@ -86,7 +86,7 @@ const Policy : React.FC = () => {
           activeKey={`${key}`}
           onLoad={(e) => handleTabChange(`${key}`, project)}
           
-          items={project.map((proj : any, index : number) => {
+          items={project?.map((proj : any, index : number) => {
             return {
               label: `${proj.name}`,
               key: `${index}`,

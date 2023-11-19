@@ -3,17 +3,6 @@ import type { ColumnsType } from 'antd/es/table';
 import TableActions from 'components/commons/TableActions/TableActions';
 import { IField } from 'types/Resource';
 
-function getRandomDarkColor() {
-  // Generate random values for the red, green, and blue components
-  const red = Math.floor(Math.random() * (255 - 177) + 120); // Values between 0 and 127
-  const green = Math.floor(Math.random() * (255 - 177) + 120);
-  const blue = Math.floor(Math.random() * (255 - 177) + 120);
-
-  // Convert the RGB values to a hexadecimal color representation
-  const darkColor = `#${red.toString(16)}${green.toString(16)}${blue.toString(16)}`;
-
-  return darkColor;
-}
 const ColumnsWithActions = (actions : Array<Object>) : ColumnsType => {
   return [
         {

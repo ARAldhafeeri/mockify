@@ -51,6 +51,18 @@ const PolicyController = () => {
     setShowDeleteModal(false);
   }
 
+  const resetCreate = () => {
+    setSelectedPolicy({
+      project: "",
+      resources: [],
+      actions: [],
+      roles: [],
+      policies:[],
+    });
+    form.resetFields();
+    setCurrentStep(0);
+  }
+
   // update policy event
   const handleShowEditModal = (record: IFetchedPolicyData) => {
     setCurrentStep(0);
@@ -64,6 +76,7 @@ const PolicyController = () => {
 
   const handleSubmitPolicyForm = (e : any) => {
     e.preventDefault();
+    selectedPolicy.project = projectID;
     let dispatched;
     if (showEditModal) {
       dispatched = dispatch(updatePolicy(selectedPolicy))
@@ -79,31 +92,37 @@ const PolicyController = () => {
   const handleFormChange = (value : string, type: string, index: number) => {
     switch(type){
       case "action":
-        selectedPolicy.actions[index] = value;
+        setSelectedPolicy({
+          ...selectedPolicy, 
+          actions: selectedPolicy.actions.map((action, i) => i === index ? value : action)
+        })
         break;
       case "resource":
-        selectedPolicy.resources[index] = value;
+        setSelectedPolicy({
+          ...selectedPolicy, 
+          resources: selectedPolicy.resources.map((resource, i) => i === index ? value : resource)
+        })
         break;
       case "role":
-        selectedPolicy.roles[index] = value;
+        setSelectedPolicy({
+          ...selectedPolicy,
+          roles: selectedPolicy.roles.map((role, i) => i === index ? value : role)
+        })
         break;
     }
-    setSelectedPolicy({
-      ...selectedPolicy
-    })
+    
   };
 
   // create events
   const handleShowCreatePolicyModal = () => {
     // after create done 
-    // if(policy.length === 1){
-    //   toast.info("Cannot create new policy, only one policy per project")
-    // } else {
-    //   setCurrentStep(0);
-    //   setShowCreateModal(true);
-    // }
-    setCurrentStep(0);
-    setShowCreateModal(true);
+    if(policy.length === 1){
+      toast.info("Cannot create new policy, only one policy per project")
+    } else {
+      resetCreate();
+      setCurrentStep(0);
+      setShowCreateModal(true);
+    }
   }
 
   const handleHideCreatePolicyModal = () => {
@@ -130,16 +149,24 @@ const PolicyController = () => {
   const handleAdd =  (value : string, type : string) => {
     switch(type){
       case "action":
-        selectedPolicy.actions.push(value);
+        setSelectedPolicy({
+          ...selectedPolicy,
+          actions: [...selectedPolicy.actions, value]
+        });
         break;
       case "resource":
-        selectedPolicy.resources.push(value);
+        setSelectedPolicy({
+          ...selectedPolicy,
+          resources: [...selectedPolicy.resources, value]
+        });
         break;
       case "role":
-        selectedPolicy.roles.push(value);
+        setSelectedPolicy({
+          ...selectedPolicy,
+          roles: [...selectedPolicy.roles, value]
+        });
         break;
     }
-    setSelectedPolicy({...selectedPolicy});
   }
 
   const handleRemove = (index : number , type: string ) => {
