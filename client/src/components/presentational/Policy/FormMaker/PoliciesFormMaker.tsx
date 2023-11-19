@@ -33,8 +33,9 @@ export const PoliciesFormMaker = (props: IFormMakerPolicyProps) => {
                 value={pp?.role}
                 onChange={(e) => handleFormChange(e.target.value, fieldsType, index)}
                 />
-              {/* on */}
-              <Space direction="vertical">
+              <Space direction="vertical" style={{width: "100%", justifyContent: "end"}}>
+               {/* on */}
+               <Space direction="vertical">
                 <Space direction="horizontal" style={{ justifyContent: "space-evenly" }}>
                   <Typography className="policiesHeader">Resources</Typography>
                   <MockifyButton
@@ -45,19 +46,26 @@ export const PoliciesFormMaker = (props: IFormMakerPolicyProps) => {
                 </Space>
                 {pp?.on?.map((reso : any, index : number) => {
                   return (
-                    <Select
-                        style={{ width: 200, margin: "0 1px" }}
-                        defaultValue={reso}
-                        onChange={(e) => handleFormChange(e, fieldsType, index)}
-                      >
-                      {policy?.resources?.map((res : any) => {
-                        return (
-                          <Select.Option value={res}>
-                            {res}
-                          </Select.Option>
-                        )
-                      })}
-                    </Select>
+                    <Space direction="horizontal">
+                      <Select
+                          style={{ width: 200, margin: "0 1px" }}
+                          defaultValue={reso}
+                          onChange={(e) => handleFormChange(e, fieldsType, index)}
+                        >
+                        {policy?.resources?.map((res : any) => {
+                          return (
+                            <Select.Option value={res}>
+                              {res}
+                            </Select.Option>
+                          )
+                        })}
+                      </Select>
+                      <MockifyButton
+                        classes={['table-action-secondary', 'table-action']}
+                        icon={<MinusCircleFilled />}
+                        onClick={() => handleAdd("", fieldsType)}
+                      /> 
+                    </ Space>
                   )
                 })}
               </Space>
@@ -73,22 +81,31 @@ export const PoliciesFormMaker = (props: IFormMakerPolicyProps) => {
                 </Space>
                 {pp?.can?.map((action : any, index : number) => {
                   return (
-                    <Select
+                    <Space direction="horizontal">
+                      <Select
                         style={{ width: 200 }}
                         defaultValue={action}
                         optionFilterProp="children"
                         onChange={(e) => handleFormChange(e, fieldsType, index)}
                       >
-                      {policy?.actions?.map((act : any) => {
-                        return (
-                          <Select.Option value={act}>
-                            {act}
-                          </Select.Option>
-                        )
-                      })}
-                    </Select>
+                        {policy?.actions?.map((act : any) => {
+                          return (
+                            <Select.Option value={act}>
+                              {act}
+                            </Select.Option>
+                          )
+                        })}
+                      </Select>
+                      <MockifyButton
+                        classes={['table-action-secondary', 'table-action']}
+                        icon={<MinusCircleFilled />}
+                        onClick={() => handleAdd("", fieldsType)}
+                      /> 
+                    </Space>
+
                   )
                 })}
+              </Space>
               </Space>
               <Divider />
             </>

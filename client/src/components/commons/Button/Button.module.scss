@@ -99,16 +99,16 @@
   color: $white;
   border: none;
   border-radius: 5px;
-  width: auto;
-  height: auto;
-  padding-left: 10px;
-  padding-right: 10px;
-  font-size: 1rem;
+  width: 30px;
+  height: 30px;
+  padding-left: 4px;
+  padding-right: 4px;
+
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  font-weight: 400;
+
   align-items: center;
   justify-content: center;
-  margin: 5px;
+  margin-left: 5px;
 }
 
