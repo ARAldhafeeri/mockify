@@ -5,6 +5,7 @@ import React from 'react';
 import { IPolicyForm } from 'types/forms';
 import FieldsStep from './FormSteps/FieldsStep';
 import PolicyPreview from 'components/presentational/Policy/PolicyPreview';
+import PoliciesStep from './FormSteps/PoliciesStep';
 
 
 const PolicyForm : React.FC<IPolicyForm> = (
@@ -55,7 +56,19 @@ const PolicyForm : React.FC<IPolicyForm> = (
           data={data.roles}
           fieldsType='role'
           />
-      }, 
+      },
+      {
+        title: "Policies",
+        content: 
+        <PoliciesStep
+          handleAdd={handleAdd}
+          handleRemove={handleRemove}
+          handleFormChange={handleFormChange}
+          data={data.policies}
+          policy={data}
+          fieldsType='policies'
+          />
+      },
       {
         title: "Preview",
         content: <PolicyPreview data={data} />

@@ -60,3 +60,9 @@ export interface IDataTableActionsProps {
   record: IFetchedPolicyData;
   actions: IPolicyTableActions[];
 }
+
+export interface IUserDefinedPolicy {
+    role : string,
+    can : string[],
+    on : string[]
+}

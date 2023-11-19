@@ -1,5 +1,5 @@
 import { IFetchedDataData } from './Data';
-import { IFetchedPolicyData } from './Policy';
+import { IFetchedPolicyData, IUserDefinedPolicy } from './Policy';
 import { IFetchedProjectData } from './Project';
 import { IFetchedResourceData } from './Resource';
 import { IFetchedUserData } from './User';
@@ -104,3 +104,29 @@ export interface IPolicyFieldsStepProps {
   handleFormChange: (value : string, type: string, index: number) => void;
   fieldsType: string;
 }
+
+
+export interface IPolicyPolciesStepProps {
+  handleAdd: (value : string, type: string) => void;
+  handleRemove: (index: number, type: string) => void;
+  data: IUserDefinedPolicy[];
+  policy?: IFetchedPolicyData
+  handleFormChange: (value : string, type: string, index: number) => void;
+  fieldsType: string;
+}
+
+export interface IFormMakerPolicyProps {
+  handleFormChange: (value : string, type: string, index: number) => void;
+  handleRemove: (value: number, type: string) => void;
+  handleAdd: (value: string, type: string) => void;
+  data?: any;
+  fields?: Array<string> | IUserDefinedPolicy[];
+  policy?: IFetchedPolicyData
+  fieldsType: string;
+  }
+  
+  export interface IFormMakerPolicyData {
+  handleChange:(e: React.ChangeEvent<HTMLInputElement> | boolean) => void;
+  data?: any;
+  fields?: Array<string>;
+  }
