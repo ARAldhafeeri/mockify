@@ -26,7 +26,6 @@ export interface IFetchedResourceData {
     consumer: boolean;
     producer: boolean;
   }
-  funcs: Array<string>;
 }
 
 export interface IPostedResourceData {
@@ -47,7 +46,6 @@ export interface IPostedResourceData {
   deletex: boolean;
   consumer: boolean;
   producer: boolean;
-  funcs: Array<string>;
 }
 
 export interface IDeleteResourceData {
@@ -72,7 +70,6 @@ export interface IUpdateResourceData {
   deletex: boolean;
   consumer: boolean;
   producer: boolean;
-  funcs: Array<string>;
 }
 
 export interface IFetchResourceResponse {

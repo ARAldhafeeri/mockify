@@ -31,7 +31,6 @@ const Resource : React.FC = () => {
     showEditModal,
     // form change
     handleFormChange,
-    handleFormChangeFuncs,
     handleFormChangeFeatures,
     handleFormChangeFields,
 
@@ -40,8 +39,6 @@ const Resource : React.FC = () => {
     handleShowCreateResourceModal,
     handleHideCreateResourceModal,
     form,
-    handleAddFunction,
-    handleRemoveFunction,
     handleAddField,
     handleRemoveField,
     // tabs 
@@ -110,14 +107,11 @@ const Resource : React.FC = () => {
                       <ResourceForm 
                         handleFormChange={handleFormChange}
                         handleFormChangeFeatures={handleFormChangeFeatures}
-                        handleFormChangeFuncs={handleFormChangeFuncs}
                         handleFormChangeFields={handleFormChangeFields}
                         currentStep={currentStep}
                         prevStep={prevStep}
                         nextStep={nextStep}
                         handleFormSubmit={handleSubmitResourceForm}
-                        handleAddFunction={handleAddFunction}
-                        handleRemoveFunction={handleRemoveFunction}
                         handleAddField={handleAddField}
                         handleRemoveField={handleRemoveField}
                         data={selectedResource}
@@ -138,11 +132,8 @@ const Resource : React.FC = () => {
                       <ResourceForm 
                         handleFormChange={handleFormChange} 
                         handleFormChangeFeatures={handleFormChangeFeatures}
-                        handleFormChangeFuncs={handleFormChangeFuncs}
                         handleFormChangeFields={handleFormChangeFields}
                         handleFormSubmit={handleSubmitResourceForm}
-                        handleAddFunction={handleAddFunction}
-                        handleRemoveFunction={handleRemoveFunction}
                         handleAddField={handleAddField}
                         handleRemoveField={handleRemoveField}
                         data={selectedResource} 

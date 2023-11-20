@@ -39,8 +39,6 @@ const ResourceController = () => {
       "consumer": true,
       "producer": true,
     },
-    "funcs": [
-    ]
   });
   const dispatch = useAppDispatch();
 
@@ -104,19 +102,6 @@ const ResourceController = () => {
     ToastifyMockify(dispatched);
   }
 
-  const handleAddFunction = ( value: string) => {
-    setSelectedResource({
-      ...selectedResource,
-      funcs: [...selectedResource.funcs, value]
-    });
-  }
-
-  const handleRemoveFunction = (index: number) => {
-    setSelectedResource({
-      ...selectedResource,
-      funcs: selectedResource.funcs.filter((_, i) => i !== index)
-    });
-  }
   // handle add or remove field
   const handleAddField = (name: string, type: string, required: boolean) => {
     setSelectedResource({
@@ -130,14 +115,6 @@ const ResourceController = () => {
       ...selectedResource,
       fields: selectedResource.fields.filter((_, i) => i !== index)
     });
-  }
-
-  const handleFormChangeFuncs = (e : any, name : any=null) => {
-    setSelectedResource({
-      ...selectedResource,
-      funcs: selectedResource.funcs.map((func, i) => i === name ? e : func)
-    
-    })
   }
 
   const handleFormChangeFeatures = (e : any, name : any=null) => {
@@ -215,7 +192,6 @@ const ResourceController = () => {
     
     // form change 
     handleFormChange,
-    handleFormChangeFuncs,
     handleFormChangeFeatures,
     handleFormChangeFields,
 
@@ -224,10 +200,6 @@ const ResourceController = () => {
     handleShowCreateResourceModal,
     handleHideCreateResourceModal,
     form,
-
-    // funcs
-    handleAddFunction,
-    handleRemoveFunction,
     
     // fields
     handleAddField,

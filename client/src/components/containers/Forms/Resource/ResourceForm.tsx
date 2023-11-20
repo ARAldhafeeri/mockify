@@ -4,7 +4,6 @@ import React from 'react';
 import { IResourceForm } from 'types/forms';
 import GeneralInfoStep from './FormSteps/GeneralInfoStep';
 import FeatureStep from './FormSteps/FeatureStep';
-import FunctionStep from './FormSteps/FunctionStep';
 import SchemaStep from './FormSteps/SchemaStep';
 
 
@@ -15,11 +14,8 @@ const ResourceForm : React.FC<IResourceForm> = (
     data, 
     form, 
     onFinish, 
-    handleAddFunction, 
-    handleRemoveFunction, 
     handleAddField, 
     handleRemoveField,   
-    handleFormChangeFuncs,
     handleFormChangeFeatures,
     handleFormChangeFields,
     projectOptions,
@@ -45,15 +41,6 @@ const ResourceForm : React.FC<IResourceForm> = (
         <FeatureStep
           handleFormChangeFeatures={handleFormChangeFeatures}
           data={data} />
-      },
-      {
-        title: 'Functions',
-        content: 
-        <FunctionStep
-          data={data}
-          handleAddFunction={handleAddFunction}
-          handleRemoveFunction={handleRemoveFunction}
-          handleFormChangeFuncs={handleFormChangeFuncs} />    
       },
       {
         title: 'Schema',
