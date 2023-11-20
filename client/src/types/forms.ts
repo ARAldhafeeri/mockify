@@ -95,6 +95,18 @@ export interface IPolicyForm {
   // add or remove
   handleAdd: (value : string, type: string) => void;
   handleRemove: (index: number, type: string) => void;
+  handleFormChangePolicies: (    
+    value: string, 
+    valueIndex: number, 
+    policyIndex : number, 
+    type: string ) => void;
+  handleAddPolicies: (    
+    value: any, 
+    policyIndex : number, 
+    type: string ) => void;
+  handleRemovePolicies: ( valueIndex: number, 
+    policyIndex : number, 
+    type: string ) => void;
 }
 
 export interface IPolicyFieldsStepProps {
@@ -107,11 +119,20 @@ export interface IPolicyFieldsStepProps {
 
 
 export interface IPolicyPolciesStepProps {
-  handleAdd: (value : string, type: string) => void;
-  handleRemove: (index: number, type: string) => void;
+  handleFormChangePolicies: (    
+    value: string, 
+    valueIndex: number, 
+    policyIndex : number, 
+    type: string ) => void;
+  handleAddPolicies: (    
+    value: any, 
+    policyIndex : number, 
+    type: string ) => void;
+  handleRemovePolicies: ( valueIndex: number, 
+    policyIndex : number, 
+    type: string ) => void;
   data: IUserDefinedPolicy[];
   policy?: IFetchedPolicyData
-  handleFormChange: (value : string, type: string, index: number) => void;
   fieldsType: string;
 }
 

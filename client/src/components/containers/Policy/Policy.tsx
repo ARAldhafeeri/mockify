@@ -45,6 +45,10 @@ const Policy : React.FC = () => {
     prevStep,
     handleAdd,
     handleRemove,
+    // policies
+    handleFormChangePolicies,
+    handleAddPolicies,
+    handleRemovePolicies,
   } = PolicyController();
 
   const {
@@ -120,6 +124,9 @@ const Policy : React.FC = () => {
                             nextStep={nextStep}
                             handleAdd={handleAdd}
                             handleRemove={handleRemove}
+                            handleFormChangePolicies={handleFormChangePolicies}
+                            handleAddPolicies={handleAddPolicies}
+                            handleRemovePolicies={handleRemovePolicies}
                           />
                       }
                     />
@@ -143,6 +150,9 @@ const Policy : React.FC = () => {
                           nextStep={nextStep}
                           handleAdd={handleAdd}
                           handleRemove={handleRemove}
+                          handleFormChangePolicies={handleFormChangePolicies}
+                          handleAddPolicies={handleAddPolicies}
+                          handleRemovePolicies={handleRemovePolicies}
                           />
                       }
                     />

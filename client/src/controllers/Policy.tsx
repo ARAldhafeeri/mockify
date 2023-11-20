@@ -192,6 +192,121 @@ const PolicyController = () => {
     }
   }
 
+  // policies
+
+  const handleFormChangePolicies = (
+    value: string, 
+    valueIndex: number, 
+    policyIndex : number, 
+    type: string 
+    ) => {
+    switch(type){
+      case "action":
+        setSelectedPolicy({
+          ...selectedPolicy,
+          policies: selectedPolicy.policies.map((policy,i) => i === policyIndex ? {
+                ...policy,
+                can: policy.can.map((reso, j) => j === valueIndex ? value : reso)
+              } : policy
+            )
+          });
+        break;
+      case "resource":
+        setSelectedPolicy({
+          ...selectedPolicy,
+          policies: selectedPolicy.policies.map((policy,i) => i === policyIndex ? {
+                ...policy,
+                on: policy.on.map((reso, j) => j === valueIndex ? value : reso)
+              } : policy
+            )
+          });
+        break;
+      case "role":
+        setSelectedPolicy({
+          ...selectedPolicy,
+          policies: selectedPolicy.policies.map((policy,i) => i === policyIndex ? {
+                ...policy,
+                role: value
+              } : policy
+            )
+          });
+        break;
+    }
+    
+  };
+
+
+    // form steps handlers 
+    const handleAddPolicies =  (
+      value: any, 
+      policyIndex : number, 
+      type: string 
+     ) => {
+      switch(type){
+        case "action":
+          setSelectedPolicy({
+            ...selectedPolicy,
+            policies: selectedPolicy.policies.map((policy,i) => i === policyIndex ? {
+                  ...policy,
+                  can: [...policy.can, value]
+                } : policy
+              )
+            });
+          break;
+        case "resource":
+          setSelectedPolicy({
+            ...selectedPolicy,
+            policies: selectedPolicy.policies.map((policy,i) => i === policyIndex ? {
+                  ...policy,
+                  on: [...policy.on, value]
+                } : policy
+              )
+            });
+          break;
+        case "policy":
+          setSelectedPolicy({
+            ...selectedPolicy,
+            policies: [...selectedPolicy.policies, value]
+          });
+          break;
+      }
+    }
+  
+    const handleRemovePolicies = (
+      valueIndex: number, 
+      policyIndex : number, 
+      type: string 
+     ) => {
+      switch(type){
+        case "action":
+          setSelectedPolicy({
+            ...selectedPolicy,
+            policies: selectedPolicy.policies.map((policy,i) => i === policyIndex ? {
+                  ...policy,
+                  can: policy.can.filter((_, j) => j !== valueIndex)
+                } : policy
+              )
+            });
+          break;
+        case "resource":
+          setSelectedPolicy({
+            ...selectedPolicy,
+            policies: selectedPolicy.policies.map((policy,i) => i === policyIndex ? {
+                  ...policy,
+                  on: policy.on.filter((_, j) => j !== valueIndex)
+                } : policy
+              )
+            });
+          break;
+        case "policy":
+          setSelectedPolicy({
+            ...selectedPolicy,
+            policies: selectedPolicy.policies.filter((_, i) => i !== policyIndex)
+          });
+          break;
+      }
+    }
+
 
   return {
     // globals
@@ -231,7 +346,12 @@ const PolicyController = () => {
 
     // add or remove
     handleAdd,
-    handleRemove
+    handleRemove,
+
+    // policies
+    handleFormChangePolicies,
+    handleAddPolicies,
+    handleRemovePolicies,
 
   }
 }

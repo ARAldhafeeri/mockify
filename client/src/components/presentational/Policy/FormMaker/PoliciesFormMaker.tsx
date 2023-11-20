@@ -1,38 +1,42 @@
 import React from 'react'
 import { Divider, MenuProps, Select, Space, Switch, Typography } from "antd";
 
-import { IFormMakerPolicyProps } from "types/forms";
-import { MinusCircleFilled, PlusOutlined } from "@ant-design/icons";
+import { IFormMakerPolicyProps, IPolicyPolciesStepProps } from "types/forms";
+import { MinusCircleFilled, MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { ChangeEvent } from "react";
 import MockifyButton from "components/commons/Button/Button";
 import MockifyInput from 'components/commons/Input/Input';
 
-export const PoliciesFormMaker = (props: IFormMakerPolicyProps) => {
+export const PoliciesFormMaker = (props: IPolicyPolciesStepProps) => {
   const { 
-    handleFormChange,
-    handleRemove,
-    handleAdd,
+    handleFormChangePolicies,
+    handleRemovePolicies,
+    handleAddPolicies,
     data,
     policy,
-    fields,
-    fieldsType
-  
   } = props;
 
   return (
       <>
-        {policy?.policies?.map((pp : any, index : number) => {
+        {policy?.policies?.map((pp : any, policyIndex : number) => {
           return (
             <>
+              <Space direction='horizontal' style={{width: "100%", justifyContent: "space-between"}}>
               {/* policy role */}
               <MockifyInput
                 name="role"
                 label="Role"
-                key={index}
+                key={policyIndex}
                 classes={["input-dynamic-field", "mockify-input"]}
                 value={pp?.role}
-                onChange={(e) => handleFormChange(e.target.value, fieldsType, index)}
+                onChange={(e) => handleFormChangePolicies(e.target.value, 0, policyIndex, "role")}
                 />
+              <MockifyButton
+                classes={['mokify-button']}
+                text="Delete Policy"
+                onClick={() => handleRemovePolicies(policyIndex, policyIndex, "policy")}
+                />
+              </Space>
               <Space direction="vertical" style={{width: "100%", justifyContent: "end"}}>
                {/* on */}
                <Space direction="vertical">
@@ -40,17 +44,17 @@ export const PoliciesFormMaker = (props: IFormMakerPolicyProps) => {
                   <Typography className="policiesHeader">Resources</Typography>
                   <MockifyButton
                     classes={['table-action-third', 'table-action']}
-                    icon={<PlusOutlined />}
-                    onClick={() => handleAdd("", fieldsType)}
+                    icon={<PlusOutlined  size={32} />}
+                    onClick={() => handleAddPolicies("", policyIndex, "resource")}
                   /> 
                 </Space>
-                {pp?.on?.map((reso : any, index : number) => {
+                {pp?.on?.map((reso : any, resourceIndex : number) => {
                   return (
                     <Space direction="horizontal">
                       <Select
                           style={{ width: 200, margin: "0 1px" }}
                           defaultValue={reso}
-                          onChange={(e) => handleFormChange(e, fieldsType, index)}
+                          onChange={(e) => handleFormChangePolicies(e, resourceIndex, policyIndex, "resource")}
                         >
                         {policy?.resources?.map((res : any) => {
                           return (
@@ -62,8 +66,8 @@ export const PoliciesFormMaker = (props: IFormMakerPolicyProps) => {
                       </Select>
                       <MockifyButton
                         classes={['table-action-secondary', 'table-action']}
-                        icon={<MinusCircleFilled />}
-                        onClick={() => handleAdd("", fieldsType)}
+                        icon={<MinusCircleOutlined />}
+                        onClick={() => handleRemovePolicies(resourceIndex, policyIndex, "resource")}
                       /> 
                     </ Space>
                   )
@@ -76,17 +80,17 @@ export const PoliciesFormMaker = (props: IFormMakerPolicyProps) => {
                   <MockifyButton
                     classes={['table-action-third', 'table-action']}
                     icon={<PlusOutlined />}
-                    onClick={() => handleAdd("", fieldsType)}
+                    onClick={() => handleAddPolicies("", policyIndex, "action")}
                   /> 
                 </Space>
-                {pp?.can?.map((action : any, index : number) => {
+                {pp?.can?.map((action : any, actionIndex : number) => {
                   return (
                     <Space direction="horizontal">
                       <Select
                         style={{ width: 200 }}
                         defaultValue={action}
                         optionFilterProp="children"
-                        onChange={(e) => handleFormChange(e, fieldsType, index)}
+                        onChange={(e) => handleFormChangePolicies(e, actionIndex, policyIndex, "action")}
                       >
                         {policy?.actions?.map((act : any) => {
                           return (
@@ -98,8 +102,8 @@ export const PoliciesFormMaker = (props: IFormMakerPolicyProps) => {
                       </Select>
                       <MockifyButton
                         classes={['table-action-secondary', 'table-action']}
-                        icon={<MinusCircleFilled />}
-                        onClick={() => handleAdd("", fieldsType)}
+                        icon={<MinusCircleOutlined />}
+                        onClick={() => handleRemovePolicies(actionIndex, policyIndex, "action")}
                       /> 
                     </Space>
 

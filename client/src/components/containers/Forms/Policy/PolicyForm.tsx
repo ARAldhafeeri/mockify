@@ -20,7 +20,11 @@ const PolicyForm : React.FC<IPolicyForm> = (
     nextStep,
     prevStep,
     handleAdd,
-    handleRemove
+    handleRemove,
+    // policies
+    handleFormChangePolicies,
+    handleAddPolicies,
+    handleRemovePolicies,
   }
   ) => {
     const steps = [
@@ -61,9 +65,9 @@ const PolicyForm : React.FC<IPolicyForm> = (
         title: "Policies",
         content: 
         <PoliciesStep
-          handleAdd={handleAdd}
-          handleRemove={handleRemove}
-          handleFormChange={handleFormChange}
+          handleFormChangePolicies={handleFormChangePolicies}
+          handleAddPolicies={handleAddPolicies}
+          handleRemovePolicies={handleRemovePolicies}
           data={data.policies}
           policy={data}
           fieldsType='policies'

@@ -7,22 +7,22 @@ import { PoliciesFormMaker } from 'components/presentational/Policy/FormMaker/Po
 
 
 export default function PoliciesStep( props : IPolicyPolciesStepProps) {
-  const {data, handleAdd, handleRemove, policy,  handleFormChange, fieldsType} = props;
+  const {data, handleAddPolicies, handleRemovePolicies, policy,  handleFormChangePolicies, fieldsType} = props;
   return (
     <>
-        <Space direction='horizontal' style={{width: "100%", justifyContent: "end"}}>
+        <Space direction='horizontal' style={{width: "100%", justifyContent: "space-between"}}>
             <MockifyButton
-                classes={['table-action-primary', 'table-action']}
-                icon={<PlusOutlined />}
-                onClick={() => handleAdd("", fieldsType)}
+                classes={['policy-add-button']}
+                text="Add policy"
+                onClick={() => handleAddPolicies({on : [], can  : [], role: ""}, 0, "policy")}
               />
           </Space>
           <PoliciesFormMaker 
-            fields={data}
             policy={policy}
-            handleAdd={handleAdd}
-            handleFormChange={handleFormChange}
-            handleRemove={handleRemove}
+            data={data}
+            handleFormChangePolicies={handleFormChangePolicies}
+            handleRemovePolicies={handleRemovePolicies}
+            handleAddPolicies={handleAddPolicies}
             fieldsType={fieldsType}
           />
       </>
