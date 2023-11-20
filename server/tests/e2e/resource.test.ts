@@ -26,9 +26,6 @@ const mockData = {
     "consumer": true,
     "producer": true,
   },
-  "funcs": [
-    "string"
-  ],
   "fields": [
     {name: "name", type: "string", required: true},
     {name: "age", type: "number", required: true},
@@ -62,7 +59,6 @@ describe('end-to-end tests project endpoint', () => {
     // check all properties are defined
     expect(response.body.data.resourceName).toBeDefined();
     expect(response.body.data.features).toBeDefined();
-    expect(response.body.data.funcs).toBeDefined();
     expect(response.body.data.fields).toBeDefined();
     createdResource = response.body.data;
 

@@ -19,14 +19,12 @@ export interface IResource extends Document {
     consumer: boolean;
     producer: boolean;
   }
-  funcs: Array<string>;
 }
 
 const resourceSchema = new Schema<IResource>({
   resourceName: {type: String, required: true},
   project: {type: Schema.Types.ObjectId , ref: "Project", required: true},
   features: {type: Object, required: true},
-  funcs: {type: [String], required: true},
   fields: {type: [Object], required: true},
 })
 
