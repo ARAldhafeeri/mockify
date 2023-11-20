@@ -10,11 +10,6 @@ const ColumnsWithActions = (actions : any) : ColumnsType => {
       key: 'resourceName',
     },
     {
-      title: 'endpoint'.toUpperCase(),
-      key: 'endpoint',
-      dataIndex: 'endpoint',
-    },
-    {
       title: 'features'.toUpperCase(),
       key: 'features',
       dataIndex: 'features',
