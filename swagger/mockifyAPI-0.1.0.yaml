@@ -218,7 +218,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ResourceDescription'
+              $ref: '#/components/schemas/SuccessResponse'
       responses:
         '201':
           description: Resource created successfully
@@ -234,7 +234,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ResourceDescription'
+              $ref: '#/components/schemas/SuccessResponse'
       responses:
         '200':
           description: Resource updated successfully
@@ -267,7 +267,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ResourceMockData'
+              $ref: '#/components/schemas/SuccessResponse'
       responses:
         '201':
           description: Resource mock data created successfully
@@ -282,7 +282,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ResourceMockData'
+              $ref: '#/components/schemas/SuccessResponse'
       responses:
         '200':
           description: Resource updated successfully
@@ -316,14 +316,21 @@ paths:
           
 
   '/project/refresh':
-      POST:
-      summary: refresh API key
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Project'
+      post:
+        summary: refresh API key
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        responses:
+          '201':
+            description: Resource mock data created successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SuccessResponse'
   '/project/':
     get:
       summary: List all user projects
@@ -505,13 +512,6 @@ components:
         - resourceName
         - method
         
-    ResourceMockData:
-      type: object
-      properties:
-        resource:
-          $ref: '#/components/schemas/ResourceDescription'
-        data:
-          type: object
           
     Project:
       type: object
