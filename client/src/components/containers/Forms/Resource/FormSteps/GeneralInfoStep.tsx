@@ -16,7 +16,7 @@ export default function GeneralInfoStep(props : IResourceFormGeneralInfoStepProp
       {/* project */}
       <Select 
         className='mockify-select'
-        defaultValue={data.project}
+        placeholder="Select a project"
         onChange={(value : string) => handleFormChange(value, "project")}
         >
           {projectOptions.map((project : any, index : number) => {

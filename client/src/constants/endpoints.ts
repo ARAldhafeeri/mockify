@@ -5,7 +5,7 @@ export const ENDPOINTS = {
   POLICY: "/policy",
   RESOURCE: "/resource",
   DATA: "/data",
-  DATA_RESOURCE_NAME: (name: string) => `/data?resource=${name}`,
+  DATA_RESOURCE_NAME: (name: string) => `/data?resourceName=${name}`,
   ENDPOINT: "/endpoint",
   USER_DELETE: (id : string) => `/user/?id=${id}`,
   PROJECT_DELETE: (id : string) => `/project/?id=${id}`,

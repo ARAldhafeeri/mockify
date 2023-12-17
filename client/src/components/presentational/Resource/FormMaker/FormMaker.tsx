@@ -86,7 +86,7 @@ export const FormMakerData = (props: IFormMakerDataProps) => {
         <>
         <MockifyInput 
           name={field.name} 
-          label={"field name"} 
+          label={field?.name}
           key={index} classes={['input-dynamic-field', 'mockify-input']} 
           value={data?.data?.[field.name]}
           onChange={(e) => handleChange(e)} 

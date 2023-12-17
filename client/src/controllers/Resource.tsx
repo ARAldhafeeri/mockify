@@ -29,15 +29,10 @@ const ResourceController = () => {
       "pagination": true,
       "search": true,
       "validation": true,
-      "webhook": true,
-      "sse": false,
-      "wss": true,
       "getx": true,
       "postx": true,
       "putx": true,
       "deletex": true,
-      "consumer": true,
-      "producer": true,
     },
   });
   const dispatch = useAppDispatch();

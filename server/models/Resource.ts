@@ -9,15 +9,10 @@ export interface IResource extends Document {
     pagination: boolean;
     search: boolean;
     validation: boolean;
-    webhook: boolean;
-    sse: boolean;
-    wss: boolean;
     getx: boolean;
     postx: boolean;
     putx: boolean;
     deletex: boolean;
-    consumer: boolean;
-    producer: boolean;
   }
 }
 

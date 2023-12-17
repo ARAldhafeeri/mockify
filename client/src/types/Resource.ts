@@ -16,15 +16,10 @@ export interface IFetchedResourceData {
     pagination: boolean;
     search: boolean;
     validation: boolean;
-    webhook: boolean;
-    sse: boolean;
-    wss: boolean;
     getx: boolean;
     postx: boolean;
     putx: boolean;
     deletex: boolean;
-    consumer: boolean;
-    producer: boolean;
   }
 }
 
@@ -37,15 +32,10 @@ export interface IPostedResourceData {
   pagination: boolean;
   search: boolean;
   validation: boolean;
-  webhook: boolean;
-  sse: boolean;
-  wss: boolean;
   getx: boolean;
   postx: boolean;
   putx: boolean;
   deletex: boolean;
-  consumer: boolean;
-  producer: boolean;
 }
 
 export interface IDeleteResourceData {
@@ -61,15 +51,10 @@ export interface IUpdateResourceData {
   pagination: boolean;
   search: boolean;
   validation: boolean;
-  webhook: boolean;
-  sse: boolean;
-  wss: boolean;
   getx: boolean;
   postx: boolean;
   putx: boolean;
   deletex: boolean;
-  consumer: boolean;
-  producer: boolean;
 }
 
 export interface IFetchResourceResponse {
