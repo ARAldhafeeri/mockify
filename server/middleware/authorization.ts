@@ -6,7 +6,7 @@ import { Request, Response } from "express";
 import { SECRET_KEY } from "../getEnv";
 import CryptoService from "../services/crypto";
 import { IPolicy } from "../types/Policy";
-import { IToken, ITokenPayload } from "../types/auth";
+import { IToken, ITokenPayload } from "../types/Auth";
 
 
 let globalPolicy = JSON.parse(fs.readFileSync("policy.json", "utf8"));

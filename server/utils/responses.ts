@@ -1,10 +1,12 @@
 import { Response } from 'express';
 
 export const SuccessResponse = (
-  res: Response, data: any, message: string, status: number
+  res: Response, data: any, message: string, status: number, paginate : boolean=false, paginateData?: any
   ) => {
-  return res.status(200).send(
-    { status: true, data: data, message: message }
+  return paginate ? res.status(200).send(
+    { status: true, message: message, data: data, paginate: paginateData }
+    ) : res.status(200).send(
+    { status: true, message: message, data: data }
     );
 }
 

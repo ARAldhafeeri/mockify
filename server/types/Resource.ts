@@ -12,6 +12,12 @@ export interface IEndpointFeatures {
   deletex: boolean;
 }
 
+export interface ISchemaField extends Document{
+  name : string;
+  type : string;  
+  required : boolean;
+}
+
 export interface IResource extends Document {
   resourceName: string;
   project: Types.ObjectId;

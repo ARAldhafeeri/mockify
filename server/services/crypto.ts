@@ -1,6 +1,6 @@
 import crypto from "crypto-js";
 import { SECRET_KEY, SECRET_KEY_FILES_256BIT } from '../getEnv';
-import { ICryptoService } from "../types/auth";
+import { ICryptoService } from "../types/Auth";
 
 
 class CryptoService implements ICryptoService {

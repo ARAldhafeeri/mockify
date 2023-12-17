@@ -1,7 +1,7 @@
 'use strict'
 import assert from "assert";
 import crypto from "crypto";
-import { IPassword } from "../types/auth"
+import { IPassword } from "../types/Auth"
 
 class PasswordService implements IPassword {
 

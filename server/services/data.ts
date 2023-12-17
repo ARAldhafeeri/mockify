@@ -4,15 +4,9 @@ import {Types} from "mongoose";
 import { IData } from "../types/Data";
 import ResourceService from "./resource";
 import { IResService } from "../types/Resource";
-
+import { IDataService } from "../types/Data";
 const {ObjectId} = Types;
 
-interface IDataService {
-  find(data: Object): Promise<IData>;
-  create(data: IData): Promise<IData>;
-  update(data: IData): Promise<IData>;
-  delete(id: Types.ObjectId): Promise<IData>;
-}
 
 class DataService implements IDataService  {
 
