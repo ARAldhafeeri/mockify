@@ -1,14 +1,9 @@
 'use strict'
 import assert from "assert";
 import crypto from "crypto";
+import { IPassword } from "../types/auth"
 
-interface Password {
-    createPassword(string : string) : Promise<{hashedPassword: string, salt: string}>;
-    createHashedPassword(password : string, salt : string) : Promise<string>;
-    verifyPassword(password: string, hashedPassword: string, salt: string): Promise<boolean>;
-}
-
-class PasswordService implements Password {
+class PasswordService implements IPassword {
 
     /**
      * 

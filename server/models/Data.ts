@@ -1,9 +1,6 @@
 import { Document, Schema, Types, model} from "mongoose";
 
-export interface IData extends Document {
-  resource: Types.ObjectId;
-  data: Object;
-}
+import { IData } from "../types/Data";
 
 const dataSchema = new Schema<IData>({
   data: {type: Object, required: true},

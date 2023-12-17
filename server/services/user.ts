@@ -1,13 +1,10 @@
 import { SUPER_ADMIN_USERNAME } from "../getEnv";
-import UserModel, {IUser} from "../models/User";
+import UserModel  from "../models/User";
 import {Types} from "mongoose";
+import {IUser } from "../types/User";
+import { IUserService } from "../types/User";
 
-interface IUserService {
-  findAll(projection: Object): Promise<any>;
-  createUser(user: IUser): Promise<any>;
-  updateUser(user: IUser): Promise<any>;
-  deleteUser(id: Types.ObjectId): Promise<any>;
-}
+
 
 class UserService implements IUserService  {
   constructor() {

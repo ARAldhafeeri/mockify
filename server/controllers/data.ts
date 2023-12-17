@@ -3,8 +3,8 @@ import { SuccessResponse, ErrorResponse } from "../utils/responses";
 import { Types } from "mongoose";
 import DataService from "../services/data";
 import ResourceService from "../services/resource";
-import { IResource } from "../models/Resource";
-import { IData } from "../models/Data";
+import { IResource } from "../types/Resource";
+import { IData } from "../types/Data";
 const {ObjectId} = Types;
 
 const dService = new DataService();

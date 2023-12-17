@@ -1,14 +1,7 @@
-import PolicyModel, {IPolicy} from "../models/Policy";
+import PolicyModel from "../models/Policy";
 import { Types } from "mongoose";
-interface IPolicyService {
-
-  find(projection: Object): Promise<any>;
-  create(policy: IPolicy): Promise<any>;
-  update(policy: IPolicy): Promise<any>;
-  delete(id: Types.ObjectId): Promise<any>;
-  findOrCreate(policy: IPolicy): Promise<any>;
-
-}
+import { IPolicyService } from "../types/Policy";
+import { IPolicy } from "../types/Policy";
 
 class PolicyService implements IPolicyService {
   constructor() {

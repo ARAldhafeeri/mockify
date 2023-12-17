@@ -1,8 +1,10 @@
 import Data from "../models/Data";
-import DataModel, {IData} from "../models/Data";
+import DataModel from "../models/Data";
 import {Types} from "mongoose";
-import { IResource } from "../models/Resource";
-import ResourceService, { IResService } from "./resource";
+import { IData } from "../types/Data";
+import ResourceService from "./resource";
+import { IResService } from "../types/Resource";
+
 const {ObjectId} = Types;
 
 interface IDataService {

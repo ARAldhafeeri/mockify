@@ -1,4 +1,4 @@
-import { IResource } from "../models/Resource";
+import { IResource } from "../types/Resource";
 import EndpointService from "../services/endpoint";
 import ProjectService from "../services/project";
 import { ErrorResponse, SuccessResponse } from "../utils/responses";

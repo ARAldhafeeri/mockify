@@ -1,12 +1,8 @@
-import ProjectModel, {IProject} from "../models/Project";
+import ProjectModel from "../models/Project";
 import {Types} from "mongoose";
+import { IProjectService } from "../types/Project";
+import { IProject } from "../types/Project";
 
-interface IProjectService {
-  find(project: Object): Promise<any>;
-  create(project: IProject): Promise<any>;
-  update(project: IProject): Promise<any>;
-  delete(id: Types.ObjectId): Promise<any>;
-}
 
 class ProjectService implements IProjectService  {
   constructor() {

@@ -1,16 +1,5 @@
 import { Document, Schema, model, Types } from "mongoose";
-
-export interface IPolicy extends Document {
-    project: Types.ObjectId;
-    resources: Types.Array<string>;
-    actions: Array<string>;
-    roles: Array<string>;
-    policies: Array<{role : string,
-        can : string[],
-        on : string[]}>;
-    createdAt: Date;
-    updatedAt: Date;
-}
+import { IPolicy } from "../types/Policy";
 
 const policySchema = new Schema<IPolicy>({
     project: {type: Schema.ObjectId, required: true, unique: true},

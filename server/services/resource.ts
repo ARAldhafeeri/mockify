@@ -1,14 +1,9 @@
-import Resource from "../models/Resource";
-import ResourceModel, {IResource} from "../models/Resource";
+import ResourceModel from "../models/Resource";
 import {Types} from "mongoose";
+import { IResService } from "../types/Resource";
+import { IResource } from "../types/Resource";
 
-export interface IResService {
-  find(reosource: Object): Promise<any>;
-  create(reosource: IResource): Promise<any>;
-  update(reosource: IResource): Promise<any>;
-  delete(id: Types.ObjectId): Promise<any>;
-  findById(id: Types.ObjectId): Promise<any>;
-}
+
 
 class ResourceService implements IResService  {
   constructor() {

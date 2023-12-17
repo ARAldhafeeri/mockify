@@ -1,20 +1,5 @@
 import { Document, Schema, Types, model} from "mongoose";
-
-export interface IResource extends Document {
-  resourceName: string;
-  project: Types.ObjectId;
-  fields: Array<Object>;
-  features: {
-    filter: boolean;
-    pagination: boolean;
-    search: boolean;
-    validation: boolean;
-    getx: boolean;
-    postx: boolean;
-    putx: boolean;
-    deletex: boolean;
-  }
-}
+import { IResource } from "../types/Resource";
 
 const resourceSchema = new Schema<IResource>({
   resourceName: {type: String, required: true},

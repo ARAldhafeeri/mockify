@@ -1,16 +1,9 @@
 import crypto from "crypto-js";
 import { SECRET_KEY, SECRET_KEY_FILES_256BIT } from '../getEnv';
+import { ICryptoService } from "../types/auth";
 
 
-interface Crypto {
-    encrypt(toEncrypt: string): Promise<string>;
-    decrypt(toDecrypt: string): Promise<string>;
-    decryptObj(encryptedObj: string): Promise<any>;
-    encryptObj(obj: any): Promise<string>;
-    generateAPIKey(): Promise<string>;
-}
-
-class CryptoService implements Crypto {
+class CryptoService implements ICryptoService {
     private encryption_key: string;
     private algorithm: string;
     constructor(){
