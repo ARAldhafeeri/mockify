@@ -7,3 +7,5 @@ export const PROJECT_ROUTE_REFRESH : string = "/project/refresh";
 export const RESOURCE_ROUTE : string = "/resource";
 export const DATA_ROUTE : string = "/data";
 export const ENDPOINT_ROUTE : string = "/endpoint";
+export const MOCK_ROUTE : string = "/mock";
+export const MOCK_ROUTE_RESOURCE_PARAM : string = "/:resourceName";
