@@ -51,6 +51,17 @@ class CryptoService implements ICryptoService {
         const transitmessage = salt.toString() + iv.toString() + encrypted.toString();
         return transitmessage
     }
+
+    async  verifyAPIKey(key: string): Promise<boolean> {
+        const key1 = SECRET_KEY;
+        const iv = crypto.lib.WordArray.random(16);
+        const salt = crypto.lib.WordArray.random(128 / 8);
+        const iterations = 1000;
+        const hash = crypto.PBKDF2(key1, salt, { keySize: 128 / 32, iterations: iterations });
+        const encrypted = crypto.AES.encrypt(key1, hash, { iv: iv });
+        const transitmessage = salt.toString() + iv.toString() + encrypted.toString();
+        return transitmessage === key
+    }
 }
 
 export default CryptoService;

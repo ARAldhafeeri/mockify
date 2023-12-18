@@ -12,4 +12,5 @@ export interface IProjectService {
   create(project: IProject): Promise<any>;
   update(project: IProject): Promise<any>;
   delete(id: Types.ObjectId): Promise<any>;
+  findOne(project: Object): Promise<any>;
 }

@@ -5,11 +5,26 @@ import authenticationMiddleWareAdminPortal from '../middleware/authentication';
 import authorization from '../middleware/authorization';
 const resourceRouter = express.Router();
 
-resourceRouter.use(authenticationMiddleWareAdminPortal)
-resourceRouter.use(authorization(["resource"], ["read", "write", "delete", "update"]))
-resourceRouter.get( RESOURCE_ROUTE, getResources)
-  .post( RESOURCE_ROUTE, createResource)
-  .put( RESOURCE_ROUTE, updateResources)
-  .delete( RESOURCE_ROUTE, deleteResource);
+resourceRouter
+  .get( 
+    RESOURCE_ROUTE, getResources,
+    authenticationMiddleWareAdminPortal,
+    authorization(["resource"], ["read", "write", "delete", "update"])
+  )
+  .post( 
+    RESOURCE_ROUTE, createResource,
+    authenticationMiddleWareAdminPortal,
+    authorization(["resource"], ["read", "write", "delete", "update"])
+  )
+  .put( 
+    RESOURCE_ROUTE, updateResources,
+    authenticationMiddleWareAdminPortal,
+    authorization(["resource"], ["read", "write", "delete", "update"])
+  )
+  .delete( 
+    RESOURCE_ROUTE, deleteResource,
+    authenticationMiddleWareAdminPortal,
+    authorization(["resource"], ["read", "write", "delete", "update"])
+  );
 
 export default resourceRouter;

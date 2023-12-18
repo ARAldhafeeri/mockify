@@ -2,7 +2,9 @@ import request, {Request} from 'supertest';
 import app from '../../app';
 import { API_ROUTE, USER_LOGIN_ROUTE  } from '../../config/routes';
 import { SUPER_ADMIN_USERNAME, SUPER_ADMIN_PSWD, DATABASE_URL} from '../../getEnv';
+import ProjectService from '../../services/project';
 
+const projectService = new ProjectService();
 class TestUtils {
 
   async login() {
@@ -14,6 +16,11 @@ class TestUtils {
 
     return response.body.token;
 
+  }
+
+  async getAPiKey() {
+    const project =  await projectService.findOne({name: 'default'}); 
+    return project.apiKey;
   }
 }
 

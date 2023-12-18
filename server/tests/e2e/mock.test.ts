@@ -5,6 +5,7 @@ import { DATABASE_URL } from '../../getEnv';
 import mongoose from 'mongoose';
 import TestUtils from './TestUtils';
 import ResourceService from '../../services/resource';
+import { apiKeyHeader } from '../../config/headers';
 
 
 const mockData = {
@@ -21,11 +22,11 @@ describe('end-to-end tests mock endpoints on data entity', () => {
 
   beforeAll(async () => {
     await mongoose.connect(DATABASE_URL);
-    token = await TestUtils.login();
+    token = await TestUtils.getAPiKey();
   });
   
 
-  test('should get mock endpoint data', async () => {
+  test('should get mock endpoint data with generic GET request without any extra features', async () => {
 
     dataObj = await resourceService.find({resourceName: 'default'});
     mockData.resource =  dataObj[0]._id;
@@ -35,12 +36,24 @@ describe('end-to-end tests mock endpoints on data entity', () => {
     });
 
     const response = await request.agent(app).get(`${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}`)
-    .set('Authorization', 'bearer ' + token);
+    .set(apiKeyHeader, token);
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     // check all properties are defined
     expect(response.body.data).toBeDefined();
+
+  });
+
+  test("should get mock endpoint data with GET request with pagination query params", async () => {
+      
+      const response = await request.agent(app).get(`${API_ROUTE}${MOCK_ROUTE}/paginate/${dataObj[0].resourceName}?page=1&limit=10`)
+      .set(apiKeyHeader, token);
+  
+      expect(response.status).toBe(200);
+      expect(response.body.status).toBe(true);
+      // check all properties are defined
+      expect(response.body.data).toBeDefined();
 
   });
 

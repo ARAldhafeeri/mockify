@@ -1,0 +1,1 @@
+export const apiKeyHeader = "x-api-key";

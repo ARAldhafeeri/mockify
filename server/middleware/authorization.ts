@@ -7,6 +7,8 @@ import { SECRET_KEY } from "../getEnv";
 import CryptoService from "../services/crypto";
 import { IPolicy } from "../types/Policy";
 import { IToken, ITokenPayload } from "../types/Auth";
+import ProjectService from "../services/project";
+import { apiKeyHeader } from "../config/headers";
 
 
 let globalPolicy = JSON.parse(fs.readFileSync("policy.json", "utf8"));
@@ -17,6 +19,7 @@ AC = AC.enforce();
 
 const cryptoService = new CryptoService();
 
+const projService = new ProjectService();
 
 const getUserRoleFromToken = async (token : string) : Promise<ITokenPayload> => {
   // get user id from signed jwt token
@@ -75,6 +78,15 @@ const ACDynamic  = (
     if (!and && or ) return new GrantQuery(AC).role(role).can(action).on(resource).or(or).grant();
     if (and && or ) return new GrantQuery(AC).role(role).can(action).on(resource).and(and).or(or).grant();
   };
+
+
+export const AccessKeyAuthorization = (req : Request, res : Response, next : NextFunction) => {
+      // verify access key exists in database
+      const apiKey = req.headers[apiKeyHeader];
+      const authorized = projService.findOne({apiKey: apiKey});
+      if (!authorized) return res.status(403).send("invalid access key");
+      next();
+}
 
 
 export default authorization;

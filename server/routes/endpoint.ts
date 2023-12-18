@@ -5,8 +5,11 @@ import { endpointCreateController } from '../controllers/endpoint';
 import authorization from '../middleware/authorization';
 const endpointRouter = express.Router();
 
-endpointRouter.use(authenticationMiddleWareAdminPortal)
-endpointRouter.use(authorization(["endpoint"], ["read", "write", "delete", "update"]))
-endpointRouter.post( ENDPOINT_ROUTE,  endpointCreateController )
+endpointRouter.post( 
+    ENDPOINT_ROUTE,  
+    endpointCreateController, 
+    authenticationMiddleWareAdminPortal, 
+    authorization(["endpoint"], ["read", "write", "delete", "update"])
+)
 
 export default endpointRouter;

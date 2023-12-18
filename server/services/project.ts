@@ -42,6 +42,16 @@ class ProjectService implements IProjectService  {
     return record;
   }
 
+  
+  findOne = async ( projection: Object) : Promise<any> => {
+    const foundRes = await ProjectModel.findOne( 
+       projection
+       ).lean();
+    
+    return foundRes;
+  }
+
+
   findOrCreate = async (project: IProject) : Promise<any> => {
       
       const foundProject = await ProjectModel.findOne({name: project.name});

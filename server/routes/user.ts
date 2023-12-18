@@ -5,11 +5,27 @@ import authenticationMiddleWareAdminPortal from '../middleware/authentication';
 import authorization from '../middleware/authorization';
 const userRouter = express.Router();
 
-userRouter.use(authenticationMiddleWareAdminPortal)
-userRouter.use(authorization(["user"], ["read", "write", "delete", "update"]))
-userRouter.get( USER_ROUTE, getUsers)
-  .post( USER_ROUTE, createUser)
-  .put( USER_ROUTE, updateUser)
-  .delete( USER_ROUTE, deleteUser);
+
+userRouter
+  .get( 
+    USER_ROUTE, getUsers,
+    authenticationMiddleWareAdminPortal,
+    authorization(["user"], ["read", "write", "delete", "update"])
+  )
+  .post( 
+    USER_ROUTE, createUser,
+    authenticationMiddleWareAdminPortal,
+    authorization(["user"], ["read", "write", "delete", "update"])
+  )
+  .put(
+     USER_ROUTE, updateUser,
+     authenticationMiddleWareAdminPortal,
+     authorization(["user"], ["read", "write", "delete", "update"])
+  )
+  .delete(
+    USER_ROUTE, deleteUser,
+    authenticationMiddleWareAdminPortal,
+    authorization(["user"], ["read", "write", "delete", "update"])
+  );
 
 export default userRouter;

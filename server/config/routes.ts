@@ -9,3 +9,7 @@ export const DATA_ROUTE : string = "/data";
 export const ENDPOINT_ROUTE : string = "/endpoint";
 export const MOCK_ROUTE : string = "/mock";
 export const MOCK_ROUTE_RESOURCE_PARAM : string = "/:resourceName";
+export const MOCK_ROUTE_PAGINATE : string = "/paginate";
+export const MOCK_ROUTE_FILTER : string = "/filter";
+export const MOCK_ROUTE_SEARCH : string = "/search";
+export const MOCK_ROUTE_VALIDATE : string = "/validate";
