@@ -28,7 +28,7 @@ describe('end-to-end tests resource data', () => {
 
   test('should create resource data', async () => {
 
-    dataObj = await resourceService.find({});
+    dataObj = await resourceService.find({resourceName: 'default'});
     mockData.resource =  dataObj[0]._id;
     let fields = dataObj[0].fields;
     fields.forEach((field: any) => {
@@ -52,7 +52,7 @@ describe('end-to-end tests resource data', () => {
 
   test('should get resource data', async () => {
 
-    const response = await request.agent(app).get(`${API_ROUTE}${DATA_ROUTE}/?resource=${createdResource.name}`)
+    const response = await request.agent(app).get(`${API_ROUTE}${DATA_ROUTE}/?resourceName=${"default"}`)
     .set('Authorization', 'bearer ' + token)
 
     expect(response.status).toBe(200);

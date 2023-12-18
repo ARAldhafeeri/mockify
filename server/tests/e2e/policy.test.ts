@@ -9,7 +9,7 @@ import PolicyService from '../../services/policy';
 
 
 const mockPolicy = {
-  project: "project1",
+  project: "default",
   resources: ["resource1", "resource2"],
   actions: ["action1", "action2"],
   roles: ["role1", "role2"],
@@ -37,10 +37,12 @@ describe('end-to-end tests project policy', () => {
   
 
   test('should create project policy', async () => {
-    policyObj = await projectService.find({});
+
+    policyObj = await projectService.find({name: 'default'});
     mockPolicy.project =  policyObj[0]._id;
 
     const policyExists = await policyService.find({project: mockPolicy.project});
+
     if (policyExists.length > 0) {
       await policyService.delete(policyExists[0]._id);
     }
@@ -85,10 +87,11 @@ describe('end-to-end tests project policy', () => {
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     expect(response.body.data.actions[0]).toBe('action1');
-
+    createdPolicy = response.body.data;
   });
 
   test('should delete project policy', async () => {
+    console.log("id", createdPolicy._id)
     const response = await request.agent(app).delete(`${API_ROUTE}${POLICY_ROUTE}/?id=${createdPolicy._id}`)
     .set('Authorization', 'bearer ' + token)
 

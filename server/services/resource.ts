@@ -34,9 +34,9 @@ class ResourceService implements IResService  {
     return foundRes;
   }
 
-  create = async (project: IResource) : Promise<any>  => {
+  create = async (r: IResource) : Promise<any>  => {
     
-    const newRes = new ResourceModel(project);
+    const newRes = new ResourceModel(r);
     const createdRes = await newRes.save();
     return createdRes;
   }

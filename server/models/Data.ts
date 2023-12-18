@@ -8,4 +8,6 @@ const dataSchema = new Schema<IData>({
 
 })
 
+dataSchema.index({name: "text", data: "text" })
+
 export default model<IData>("Data", dataSchema);

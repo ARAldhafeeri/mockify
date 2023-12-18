@@ -49,6 +49,7 @@ const deletePolicy = async function(req : Request, res: Response) : Promise<any>
 
     const id : Types.ObjectId = new ObjectId(req.query.id as string);
 
+
     const deleted = await policyService.delete(id);
 
     if (!deleted) return ErrorResponse(res, "Error deleting policy", 400)

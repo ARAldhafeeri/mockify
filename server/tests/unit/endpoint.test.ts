@@ -10,15 +10,10 @@ const mockData = {
     "pagination": true,
     "search": true,
     "validation": true,
-    "webhook": false,
-    "sse": false,
-    "wss": true,
     "getx": true,
     "postx": true,
     "putx": true,
     "deletex": true,
-    "consumer": false,
-    "producer": false,
   },
   "funcs": [
     "string"
@@ -35,7 +30,7 @@ describe('EndpointService', () => {
 
     const endpoint = await EndpointService.create(mockData.features, mockData.project, mockData.resourceName);
     expect(endpoint).toBeDefined();
-    expect(endpoint).toHaveLength(4);
+    expect(endpoint).toHaveLength(9);
 
     let getx = endpoint.find((e : any) => e.method === "GET");
     let postx = endpoint.find((e : any) => e.method === "POST");
@@ -46,5 +41,6 @@ describe('EndpointService', () => {
     expect(postx).toBeDefined();
     expect(putx).toBeDefined();
     expect(deletex).toBeDefined();
+    
   });
 });

@@ -18,19 +18,20 @@ class PolicyService implements IPolicyService {
 
   }
 
-  create(policy: IPolicy): Promise<any> {
+  create = (policy: IPolicy): Promise<any> => {
 
     policy.createdAt = new Date();
-    const createdPolicy = PolicyModel.create(policy);
+    const newPolicy = new PolicyModel(policy);
+    const createdPolicy = newPolicy.save();
     return createdPolicy;
     
   }
 
-  update(policy: IPolicy): Promise<any> {
+  update = (policy: IPolicy): Promise<any> => {
 
     policy.updatedAt = new Date();
     const updated = PolicyModel.findOneAndUpdate(
-      { _id: policy._id },
+      { project: policy.project },
       policy,
       {new: true}
     );
@@ -39,12 +40,11 @@ class PolicyService implements IPolicyService {
   }
 
 
-  delete(id: Types.ObjectId): Promise<any> {
+  delete = async (id: Types.ObjectId): Promise<any> => {
 
-    const deletedPolicy = PolicyModel.findByIdAndDelete(
-      {_id: id}
-    );
-    return deletedPolicy;
+    const record =  await PolicyModel.findByIdAndDelete(id);
+
+    return record;
   
   }
 

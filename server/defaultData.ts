@@ -88,6 +88,22 @@ export const initDefaultData = async () => {
           {name: "age", type: "number", required: true},
         ]
       } as any)
+
+    let policy = await policyService.findOrCreate({
+        project: project._id,
+        policies: [
+          {
+            role: "admin",
+            can: ["getx", "postx", "putx", "deletex"],
+            on: ["default"]
+          },
+          {
+            role: "user",
+            can: ["getx", "postx", "putx", "deletex"],
+            on: ["default"]
+          }
+        ]
+      } as any)
     
     console.log("created resource", resource)
 

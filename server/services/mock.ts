@@ -3,8 +3,22 @@ import DataModel from "../models/Data";
 import {Types} from "mongoose";
 import { IData } from "../types/Data";
 import ResourceService from "./resource";
-import { IEndpointFeatures, IResService, IResource, ISchemaField } from "../types/Resource";
-import { IFilterParams, IMockService, IPaginateParams, IPaginatedResponse, ISearchParams, IValidateParams } from "../types/mock";
+import { 
+  IEndpointFeatures, 
+  IResService, 
+  IResource, 
+  ISchemaField
+} from "../types/Resource";
+import { 
+  IFilterParams, 
+  IMockService, 
+  IPaginateParams, 
+  IPaginatedResponse, 
+  ISearchParams, 
+  IValidateParams, 
+  IMockFieldsMap
+} from "../types/Mock";
+
 const {ObjectId} = Types;
 
 
@@ -66,45 +80,53 @@ class MockService implements IMockService  {
     });
   }
 
-  searchQuery = async (projection: Object): Promise<IPaginatedResponse> => {
+  searchQuery = async (data: string): Promise<any> => {
     
-    const results = await DataModel.find(projection).exec();
+    const results = await DataModel.find(
+      {
+        $text: {
+          $search: data
+        }
+      }
+      ).exec();
 
-    return Promise.resolve({
-      total: results.length,
-      page: 1,
-      limit: results.length,
-      data: results
-    });
+      return results;
+      
+      
   }
 
 
-  filterQuery = async (projection: Object): Promise<IPaginatedResponse> => {
-    
+  filterQuery = async (projection: Object): Promise<any> => {
+    // projection is {filterName: filterValue}
     const results = await DataModel.find(projection).exec();
 
-    return Promise.resolve({
-      total: results.length,
-      page: 1,
-      limit: results.length,
-      data: results
-    });
+    return results;
   }
 
-  validateQuery = async (data: IData, schema: IResource): Promise<any> => {
+
+  getSchemaFieldTypeMap = ( schema : IResource["fields"] ) : IMockFieldsMap => {
+    const fieldTypesMap : IMockFieldsMap = new Map();
+    schema.forEach(
+      (field : any) => {
+        fieldTypesMap.set(field.name, field.type);;    
+      });
+
+    return fieldTypesMap;
+
+  }
+
+  validateAndMutateQuery = async (data: any, fields: IResource["fields"], resource: string): Promise<any> => {
     
-    let fieldsNames : Array<string> = [];
-
-    schema.fields.forEach(
-     (field : any) => {
-      fieldsNames.push(field.name);
-    });
-
-    Object.keys(data.data).forEach((key) => {
-      if (!fieldsNames.includes(key)) throw new Error(`field ${key} not found in schema`);
+    let validate : any = data;
+    let fieldsTypes: IMockFieldsMap = this.getSchemaFieldTypeMap(fields);
+    Object.keys(validate).forEach((key : string ) => {
+      if(!fieldsTypes.has(key)) throw new Error(`field ${key} does not exists  in schema`);
+      if(typeof validate[key] != fieldsTypes.get(key) ) throw  new  Error(`field ${key} type must be ${fieldsTypes.get(key)}`); 
     })
 
-    const results = await DataModel.create(data);
+    const results = await DataModel.create(
+      {data : data, resource: resource}
+      );
     return results;
   }
 

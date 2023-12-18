@@ -37,9 +37,9 @@ class ProjectService implements IProjectService  {
 
   delete = async (id: Types.ObjectId) : Promise<any> => {
     
-    const deletedUser = await ProjectModel.findByIdAndDelete(id);
+    const record = await ProjectModel.findByIdAndDelete(id);
 
-    return deletedUser;
+    return record;
   }
 
   findOrCreate = async (project: IProject) : Promise<any> => {

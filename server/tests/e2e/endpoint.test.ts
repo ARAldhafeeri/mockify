@@ -20,7 +20,7 @@ describe('end-to-end tests project endpoint', () => {
 
   test('should return endpoints', async () => {
 
-    let resource = await resourceService.find({});
+    let resource = await resourceService.find({resourceName: 'default'});
     resource = resource[0];
     const response = await request.agent(app).post(`${API_ROUTE}${ENDPOINT_ROUTE}`)
     .send({ ...resource })

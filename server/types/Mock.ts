@@ -37,8 +37,14 @@ export interface IMockService {
   paginatedQuery(data: Object, params: IPaginateParams): Promise<IPaginatedResponse>;
   searchQuery(data: Object, params: ISearchParams): Promise<IPaginatedResponse>;
   filterQuery(data: Object, params: IFilterParams): Promise<IPaginatedResponse>;
-  validateQuery(data: IData, schema: IResource, params: IValidateParams): Promise<IPaginatedResponse>;
+  validateAndMutateQuery(data: IData, schema: IResource["fields"], resource: string): Promise<IPaginatedResponse>;
+  find(data: Object): Promise<IData>;
   create(data: IData): Promise<IData>;
   update(data: IData): Promise<IData>;
   delete(id: Types.ObjectId): Promise<IData>;
+}
+
+export interface IMockFieldsMap {
+  [key: string]: any;
+
 }
