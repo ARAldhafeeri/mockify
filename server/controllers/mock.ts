@@ -5,10 +5,13 @@ import DataService from "../services/data";
 import ResourceService from "../services/resource";
 import { IResource } from "../types/Resource";
 import { IData } from "../types/Data";
+import MockService from "../services/mock";
+import { IPaginateParams, IPaginatedResponse } from "../types/Mock";
 const {ObjectId} = Types;
 
 const dService = new DataService();
 const rService = new ResourceService();
+const mService = new MockService();
 
 export const getx = async function(req: Request, res: Response) : Promise<any> {
  
@@ -21,6 +24,43 @@ export const getx = async function(req: Request, res: Response) : Promise<any> {
       if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
       
       const found : IData = await dService.find({resource: resource._id});
+
+      if (!found) return ErrorResponse(found, 'datas not found', 400);
+
+      return SuccessResponse(res, found, 'fetching datas was successful', 200)
+
+  } catch (err){
+    return ErrorResponse(res, `error ${err}`, 400);
+
+  }
+
+}
+
+export const getXPagination = async function(req: Request, res: Response) : Promise<any> {
+ 
+  try{
+
+      let resourceName : string = req.params.resourceName as string;
+      
+      let page : string = req.query.page as string;
+      let limit : string = req.query.limit as string;
+
+
+      const resource : IResource = await rService.findOne({resourceName: resourceName});
+
+      if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
+
+      const params : IPaginateParams = {
+        page: page,
+        limit: limit
+      }
+
+      const validParams = mService.isPaginated(resource.features, params);
+
+      if (!validParams) return ErrorResponse(res, `invalid params or pagination feature is not enabled for this resource`, 400);
+
+      
+      const found : IPaginatedResponse = await mService.paginatedQuery({resource: resource._id}, params);
 
       if (!found) return ErrorResponse(found, 'datas not found', 400);
 
