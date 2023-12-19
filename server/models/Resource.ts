@@ -2,7 +2,7 @@ import { Document, Schema, Types, model} from "mongoose";
 import { IResource, ISchemaField } from "../types/Resource";
 
 const resourceSchema = new Schema<IResource>({
-  resourceName: {type: String, required: true},
+  resourceName: {type: String, required: true, unique: true},
   project: {type: Schema.Types.ObjectId , ref: "Project", required: true},
   features: {
     filter: {type: Boolean, required: true},
