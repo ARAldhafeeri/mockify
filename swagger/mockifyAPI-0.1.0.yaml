@@ -25,6 +25,8 @@ paths:
       responses:
         '201':
           description: Resource created successfully
+  
+  
   /api/resources/{resourceId}:
     get:
       summary: Get resource by ID ( user role required )
@@ -77,6 +79,8 @@ paths:
       responses:
         '204':
           description: Resource deleted successfully
+  
+  
   /api/auth/login:
     post:
       summary: Authenticate user and get JWT token
@@ -100,6 +104,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
+  
   /api/users:
     get:
       summary: Get a list of users (Superadmin role required)
@@ -125,6 +130,8 @@ paths:
       responses:
         '201':
           description: User created successfully
+  
+  
   /api/users/{userId}:
     get:
       summary: Get user by ID (Superadmin role required)
@@ -184,23 +191,6 @@ paths:
           type: string
     get:
       summary: Process requests based on resource attributes
-      parameters:
-        - name: filter
-          in: query
-          schema:
-            type: boolean
-        - name: pagination
-          in: query
-          schema:
-            type: boolean
-        - name: search
-          in: query
-          schema:
-            type: boolean
-        - name: validation
-          in: query
-          schema:
-            type: boolean
       responses:
         '200':
           description: Processed response
@@ -208,9 +198,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
-               
-      x-endpoint-facade: true
-    
     post:
       summary: Process POST requests based on resource attributes
       requestBody:
@@ -249,6 +236,44 @@ paths:
         '204':
           description: Resource deleted successfully
   
+  '/mock/{resourceName}/validate':
+    parameters:
+      - name: resourceName
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      summary: Process POST requests based on resource attributes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SuccessResponse'
+      responses:
+        '201':
+          description: Resource created successfully
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/SuccessResponse'
+
+    put:
+      summary: Process PUT requests based on resource attributes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SuccessResponse'
+      responses:
+        '200':
+          description: Resource updated successfully
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/SuccessResponse'
   '/data/':
     get:
       summary: List mock data related to a resource
@@ -293,28 +318,92 @@ paths:
 
     delete:
       summary: Process DELETE requests based on resource attributes
-      parameters:
-        - name: filter
-          in: query
-          schema:
-            type: boolean
-        - name: pagination
-          in: query
-          schema:
-            type: boolean
-        - name: search
-          in: query
-          schema:
-            type: boolean
-        - name: validation
-          in: query
-          schema:
-            type: boolean
       responses:
         '204':
           description: Resource deleted successfully
           
-
+          
+  '/mock/{resourceName}/paginate':
+    parameters:
+      - name: resourceName
+        in: path
+        required: true
+        schema:
+          type: number
+      - name: page
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: number
+      
+        
+    get:
+      summary: Process requests based on resource attributes
+      responses:
+        '200':
+          description: Processed response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+                
+                
+  '/mock/{resourceName}/filter':
+    parameters:
+      - name: resourceName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: value
+        in: query
+        required: true
+        schema:
+          type: number
+    get:
+      summary: Process requests based on resource attributes
+      responses:
+        '200':
+          description: Processed response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'   
+                
+                
+  '/mock/{resourceName}/search':
+    parameters:
+      - name: resourceName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: search
+        in: query
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Process requests based on resource attributes
+      responses:
+        '200':
+          description: Processed response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'  
+                
+                
   '/project/refresh':
       post:
         summary: refresh API key
