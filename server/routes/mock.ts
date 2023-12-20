@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+  delx,
   getXFilteration,
   getXPagination,
  getx, 
@@ -23,4 +24,6 @@ mockRouter.post(MOCK_ROUTE + MOCK_ROUTE_RESOURCE_PARAM + MOCK_ROUTE_VALIDATE, po
 
 mockRouter.put(MOCK_ROUTE + MOCK_ROUTE_RESOURCE_PARAM, putx )
 mockRouter.put(MOCK_ROUTE + MOCK_ROUTE_RESOURCE_PARAM + MOCK_ROUTE_VALIDATE, putXValidate)
+
+mockRouter.delete(MOCK_ROUTE + MOCK_ROUTE_RESOURCE_PARAM, delx )
 export default mockRouter;

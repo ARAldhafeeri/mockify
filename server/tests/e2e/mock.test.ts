@@ -141,6 +141,24 @@ describe('end-to-end tests mock endpoints on data entity', () => {
     expect(response.status).toBe(200);
   })
 
+
+  test("should delete and return 200 for deletex mock endpoint ", async () => {
+    const response = await request.agent(app).delete(
+      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}?id=${createdData._id}`)
+    .set(apiKeyHeader, token)
+    .send(
+        {
+          ...createdData,
+          "name": "value",
+        }
+
+    );
+    
+    console.log(response.body);
+    console.log(createdData);
+    expect(response.status).toBe(200);
+  })
+
  /* Closing database connection after each test. */
  afterAll(async () => {
   await mongoose.connection.close();
