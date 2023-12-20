@@ -104,13 +104,13 @@ export const initDefaultData = async () => {
           }
         ]
       } as any)
-    
-    console.log("created resource", resource)
 
-    // create data
-    let data = await dataService.findOrCreate({resource: resource._id, data: {}} as IData)
 
-    console.log("created data", data)
+    let data = await dataService.findOrCreate({resource: resource._id, data: {
+        name: "test",
+        age: 20
+    }} as any)
+
     
 
 }

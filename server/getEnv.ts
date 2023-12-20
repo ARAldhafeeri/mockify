@@ -15,6 +15,5 @@ export const SUPER_ADMIN_PSWD = `${process.env.SUPER_ADMIN_PSWD}`;
 export const SUPER_ADMIN_EMAIL = `${process.env.SUPER_ADMIN_EMAIL}`;
 
 export const JWT_EXPIRES_IN = `${process.env.JWT_EXPIRES_IN}`;
-console.log('getEnv.ts: ', SECRET_KEY, SECRET_KEY_FILES_256BIT, DATABASE_URL, SUPER_ADMIN_USERNAME, SUPER_ADMIN_PSWD, SUPER_ADMIN_EMAIL)
 
 export const domain = `${process.env.DOMAIN}`

@@ -10,7 +10,7 @@ class EndpointService {
 
     let paginateX : string = `${domain}/mock/${resourceName}/paginate?page=1&limit=10`
     let searchX : string = `${domain}/mock/${resourceName}/search/?search=fullTextSearchAgainstString`
-    let filterX : string = `${domain}/mock/${resourceName}/filter/?filterName=filterValue`
+    let filterX : string = `${domain}/mock/${resourceName}/filter/?name=name&value=value`
     let validateX : string = `${domain}/mock/${resourceName}/validate/?validate=true`
 
     if (features.getx) endpoint.push({method: "GET", url: getx});
@@ -19,7 +19,7 @@ class EndpointService {
     if (features.deletex) endpoint.push({method: "DELETE", url: deleteAndPutx, params: ["id"]});
     if (features.pagination) endpoint.push({method: "GET", url: paginateX, params: ["page", "limit"]});
     if (features.search) endpoint.push({method: "GET", url: searchX, params: ["search"]});
-    if (features.filter) endpoint.push({method: "GET", url: filterX, params: ["filterName", "filterValue"]});
+    if (features.filter) endpoint.push({method: "GET", url: filterX, params: ["name", "value"]});
     if (features.validation) endpoint.push({method: "POST", url: validateX, params: ["validate"]});
     if (features.validation) endpoint.push({method: "PUT", url: validateX, params: ["validate"]});
     return endpoint

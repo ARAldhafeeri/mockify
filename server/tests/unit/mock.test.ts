@@ -141,8 +141,8 @@ describe('Mock service ', () => {
       deletex: true,
     }
     const params = {
-      filterName: "a",
-      filterValue: "a"
+      name: "a",
+      value: "a"
     }
     expect(mockService.isFilter(endpointFeatures, params)).toBeTruthy();
   });
@@ -159,8 +159,8 @@ describe('Mock service ', () => {
       deletex: true,
     }
     const params = {
-      filterName: "",
-      filterValue: ""
+      name: "",
+      value: ""
     }
     expect(mockService.isFilter(endpointFeatures, params)).toBeFalsy();
   });
@@ -219,7 +219,7 @@ describe('Mock service ', () => {
   });
 
   test("mockservice.filterQuery should return a filter response", async () => {
-    const projection = { filterName: "a"};
+    const projection = { name: "a"};
     const response = await mockService.filterQuery(projection);
     expect(response).toBeDefined();
     });

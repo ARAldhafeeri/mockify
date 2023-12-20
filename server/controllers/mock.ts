@@ -6,7 +6,7 @@ import ResourceService from "../services/resource";
 import { IResource } from "../types/Resource";
 import { IData } from "../types/Data";
 import MockService from "../services/mock";
-import { IPaginateParams, IPaginatedResponse } from "../types/Mock";
+import { IFilterParams, IPaginateParams, IPaginatedResponse } from "../types/Mock";
 const {ObjectId} = Types;
 
 const dService = new DataService();
@@ -57,7 +57,7 @@ export const getXPagination = async function(req: Request, res: Response) : Prom
 
       const validParams = mService.isPaginated(resource.features, params);
 
-      if (!validParams) return ErrorResponse(res, `invalid params or pagination feature is not enabled for this resource`, 400);
+      if (!validParams) return ErrorResponse(res, `invalid params or pagination feature disabled`, 400);
 
       
       const found : IPaginatedResponse = await mService.paginatedQuery({resource: resource._id}, params);
@@ -72,6 +72,50 @@ export const getXPagination = async function(req: Request, res: Response) : Prom
   }
 
 }
+
+
+export const getXFilteration = async function(req: Request, res: Response) : Promise<any> {
+ 
+  try{
+
+      let resourceName : string = req.params.resourceName as string;
+      
+      let name : string = req.query.name as string;
+      let value : string = req.query.value as string;
+
+      const resource : IResource = await rService.findOne({resourceName: resourceName});
+
+      if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
+
+      const params : IFilterParams = {
+        name: name,
+        value: value
+      }
+
+
+      const validParams = mService.isFilter(resource.features, params);
+
+      if (!validParams) return ErrorResponse(res, `invalid params or filter feature disabled`, 400);
+
+      
+      const projection = {
+        ["data." + params.name] : params.value,
+        resource: resource._id
+      }
+
+      const found : any = await mService.filterQuery(projection);
+
+      if (!found) return ErrorResponse(found, 'datas not found', 400);
+
+      return SuccessResponse(res, found, 'fetching datas was successful', 200)
+
+  } catch (err){
+    return ErrorResponse(res, `error ${err}`, 400);
+
+  }
+
+}
+
 
 export const delx = async function(req: Request, res: Response) : Promise<any> {
 

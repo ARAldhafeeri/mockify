@@ -63,7 +63,6 @@ class ResourceService implements IResService  {
       
     const found = await ResourceModel.findOne({resourceName: resource.resourceName});
     
-    console.log("found", found)
     if (found) {
       return found;
     }

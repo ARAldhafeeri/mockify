@@ -20,8 +20,8 @@ export interface ISearchParams {
 }
 
 export interface IFilterParams {
-  filterName: string;
-  filterValue: string;
+  name: string;
+  value: string;
 }
 
 export interface IValidateParams {

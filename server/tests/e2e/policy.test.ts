@@ -52,7 +52,6 @@ describe('end-to-end tests project policy', () => {
     })
     .set('Authorization', 'bearer ' + token)
 
-    console.log("create", response.body)
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     // check all properties are defined
@@ -66,7 +65,7 @@ describe('end-to-end tests project policy', () => {
 
     const response = await request.agent(app).get(`${API_ROUTE}${POLICY_ROUTE}/?projectID=${createdPolicy.project}`)
     .set('Authorization', 'bearer ' + token)
-    console.log("get", response.body)
+
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -82,8 +81,6 @@ describe('end-to-end tests project policy', () => {
       })
     .set('Authorization', 'bearer ' + token)
 
-    console.log("update", response.body)
-
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     expect(response.body.data.actions[0]).toBe('action1');
@@ -91,11 +88,8 @@ describe('end-to-end tests project policy', () => {
   });
 
   test('should delete project policy', async () => {
-    console.log("id", createdPolicy._id)
     const response = await request.agent(app).delete(`${API_ROUTE}${POLICY_ROUTE}/?id=${createdPolicy._id}`)
     .set('Authorization', 'bearer ' + token)
-
-    console.log("delete", response.body)
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);

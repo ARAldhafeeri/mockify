@@ -51,7 +51,7 @@ class MockService implements IMockService  {
   }
 
   isFilter = (data: IEndpointFeatures, params: IFilterParams): boolean => {
-    return (data.filter && Boolean(params.filterName)  && Boolean(params.filterValue));
+    return (data.filter && Boolean(params.name)  && Boolean(params.value));
   }
 
   isSearch(data: IEndpointFeatures, params: ISearchParams): boolean {

@@ -1,6 +1,6 @@
 import request, {Request} from 'supertest';
 import app from '../../app';
-import { API_ROUTE, MOCK_ROUTE, MOCK_ROUTE_PAGINATE  } from '../../config/routes';
+import { API_ROUTE, MOCK_ROUTE, MOCK_ROUTE_FILTER, MOCK_ROUTE_PAGINATE  } from '../../config/routes';
 import { DATABASE_URL } from '../../getEnv';
 import mongoose from 'mongoose';
 import TestUtils from './TestUtils';
@@ -60,6 +60,21 @@ describe('end-to-end tests mock endpoints on data entity', () => {
       expect(data.total).toBeDefined();
 
   });
+
+  test("should get mock endpoint data with GET request with filteration", async () => {
+    const response = await request.agent(app).get(
+      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_FILTER}?name=name&value=a`)
+    .set(apiKeyHeader, token);
+
+    console.log(response.body)
+    let data = response.body.data;
+    expect(response.status).toBe(200);
+    expect(response.body.status).toBe(true);
+    // check all properties are defined
+    expect(data).toBeDefined();
+    expect(data.length).toBeGreaterThan(0);
+
+  })
 
 
  /* Closing database connection after each test. */
