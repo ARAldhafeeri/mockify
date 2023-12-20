@@ -19,6 +19,7 @@ const resourceService = new ResourceService();
 describe('end-to-end tests mock endpoints on data entity', () => {
   let token : string;
   let dataObj : any;
+  let createdData : any;
 
   beforeAll(async () => {
     await mongoose.connect(DATABASE_URL);
@@ -86,8 +87,6 @@ describe('end-to-end tests mock endpoints on data entity', () => {
       }
     );
 
-    console.log(response.body);
-
     expect(response.status).toBe(400);
   })
 
@@ -103,8 +102,42 @@ describe('end-to-end tests mock endpoints on data entity', () => {
         }
 
     );
+    createdData = response.body.data;
+    expect(response.status).toBe(200);
+  })
+
+
+  test("should validate edited data and return 400 if invalid", async () => {
+    const response = await request.agent(app).put(
+      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_VALIDATE}`)
+    .set(apiKeyHeader, token)
+    .send(
+      {
+          ...createdData,
+          "name": "koko",
+      }
+    );
+
+
+    expect(response.status).toBe(400);
+  })
+
+
+  
+  test("should not validate edited data and return 200 even if data invalid", async () => {
+    const response = await request.agent(app).put(
+      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}`)
+    .set(apiKeyHeader, token)
+    .send(
+        {
+          ...createdData,
+          "name": "value",
+        }
+
+    );
     
     console.log(response.body);
+    console.log(createdData);
     expect(response.status).toBe(200);
   })
 

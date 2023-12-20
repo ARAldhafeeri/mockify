@@ -203,7 +203,7 @@ describe('Mock service ', () => {
       data[fieldName] = generateDataBasedOnType(map.get(fieldName));
     });
 
-    const response = await mockService.validateAndMutateQuery(data, fields, res._id);
+    const response = await mockService.validateAndCreateQuery(data, fields, res._id);
     expect(response).toBeDefined();
   });
 

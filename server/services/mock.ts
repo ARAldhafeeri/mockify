@@ -112,7 +112,21 @@ class MockService implements IMockService  {
 
   }
 
-  validateAndMutateQuery = async (data: any, fields: IResource["fields"], resource: string): Promise<any> => {
+  validateAndCreateQuery = async (data: any, fields: IResource["fields"], resource: string): Promise<any> => {
+    
+    let fieldsTypes: IMockFieldsMap = this.getSchemaFieldTypeMap(fields);
+    fieldsTypes.forEach((value : string , key : any) => {
+      if(!(key in data)) throw new Error(`field ${key} does not exists  in schema`);
+      if(typeof data[key] != fieldsTypes.get(key) ) throw  new  Error(`field ${key} type must be ${fieldsTypes.get(key)}`); 
+    })
+
+    const results = await DataModel.create(
+      {data : data, resource: resource}
+      );
+    return results;
+  }
+
+  validateAndUpdateQuery = async (data: any, fields: IResource["fields"], resource: string): Promise<any> => {
     
     let fieldsTypes: IMockFieldsMap = this.getSchemaFieldTypeMap(fields);
     fieldsTypes.forEach((value : string , key : any) => {
@@ -136,6 +150,7 @@ class MockService implements IMockService  {
     return found;
   }
 
+  
   create = async (d: IData) : Promise<any>  => {
     
     let resource = await this.resourceService.findById(d.resource);

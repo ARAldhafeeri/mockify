@@ -4,7 +4,9 @@ import {
   getXPagination,
  getx, 
  postXValidate,
- postx
+ postx,
+ putXValidate,
+ putx
 } from '../controllers/mock';
 import { MOCK_ROUTE, MOCK_ROUTE_FILTER, MOCK_ROUTE_PAGINATE, MOCK_ROUTE_RESOURCE_PARAM, MOCK_ROUTE_VALIDATE} from '../config/routes';
 import { AccessKeyAuthorization } from '../middleware/authorization';
@@ -18,4 +20,7 @@ mockRouter.get(MOCK_ROUTE  + MOCK_ROUTE_RESOURCE_PARAM + MOCK_ROUTE_FILTER, getX
 
 mockRouter.post(MOCK_ROUTE + MOCK_ROUTE_RESOURCE_PARAM, postx )
 mockRouter.post(MOCK_ROUTE + MOCK_ROUTE_RESOURCE_PARAM + MOCK_ROUTE_VALIDATE, postXValidate )
+
+mockRouter.put(MOCK_ROUTE + MOCK_ROUTE_RESOURCE_PARAM, putx )
+mockRouter.put(MOCK_ROUTE + MOCK_ROUTE_RESOURCE_PARAM + MOCK_ROUTE_VALIDATE, putXValidate)
 export default mockRouter;

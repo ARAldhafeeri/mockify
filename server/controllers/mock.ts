@@ -148,7 +148,6 @@ export const postx = async function(req: Request, res: Response) : Promise<any> 
     let resourceName : string = req.params.resourceName as string;
     
     const resource : IResource = await rService.findOne({resourceName: resourceName});
-    console.log("resource", resource)
 
     if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
 
@@ -184,7 +183,7 @@ export const postXValidate = async function(req: Request, res: Response) : Promi
     if(!resource.features.validation) return ErrorResponse(res, `validation feature disabled`, 400);
 
 
-    const dNew = await mService.validateAndMutateQuery(
+    const dNew = await mService.validateAndCreateQuery(
         req.body, resource.fields, resource._id
       );
     
@@ -199,17 +198,58 @@ export const postXValidate = async function(req: Request, res: Response) : Promi
   }
   
 }
+
 export const putx = async function(req: Request, res: Response) : Promise<any> {
  
   try{
+    
+    let resourceName : string = req.params.resourceName as string;
+    
+    const resource : IResource = await rService.findOne({resourceName: resourceName});
 
-      const dUpdated = await dService.update(req.body);
-  
-      if (!dUpdated) return ErrorResponse(res, 'data not updated', 400);
-  
-      return SuccessResponse(res, dUpdated, 'data updated', 200);
+    if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
+
+    if(!resource.features.putx) return ErrorResponse(res, `putx feature disabled`, 400);
+
+    const dNew = await dService.update(req.body);
+    
+    console.log(dNew)
+    if (!dNew) return ErrorResponse(res, 'data not created', 400);
+
+    return SuccessResponse(res, dNew, 'data created', 200);
 
   } catch (err){
+
+    return ErrorResponse(res, `error ${err}`, 400);
+
+  }
+  
+}
+
+export const putXValidate = async function(req: Request, res: Response) : Promise<any> {
+ 
+  try{
+    
+    let resourceName : string = req.params.resourceName as string;
+    
+    const resource : IResource = await rService.findOne({resourceName: resourceName});
+
+    if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
+
+    if(!resource.features.putx) return ErrorResponse(res, `putx feature disabled`, 400);
+    if(!resource.features.validation) return ErrorResponse(res, `validation feature disabled`, 400);
+
+
+    const dNew = await mService.validateAndUpdateQuery(
+        req.body, resource.fields, resource._id
+      );
+    
+    if (!dNew) return ErrorResponse(res, 'data not created', 400);
+
+    return SuccessResponse(res, dNew, 'data created', 200);
+
+  } catch (err){
+
     return ErrorResponse(res, `error ${err}`, 400);
 
   }
