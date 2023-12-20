@@ -23,6 +23,8 @@ export const getx = async function(req: Request, res: Response) : Promise<any> {
 
       if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
       
+      if(!resource.features.getx) return ErrorResponse(res, `getx feature disabled`, 400);
+
       const found : IData = await dService.find({resource: resource._id});
 
       if (!found) return ErrorResponse(found, 'datas not found', 400);
@@ -49,6 +51,8 @@ export const getXPagination = async function(req: Request, res: Response) : Prom
       const resource : IResource = await rService.findOne({resourceName: resourceName});
 
       if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
+
+      if(!resource.features.getx) return ErrorResponse(res, `getx feature disabled`, 400);
 
       const params : IPaginateParams = {
         page: page,
@@ -86,6 +90,8 @@ export const getXFilteration = async function(req: Request, res: Response) : Pro
       const resource : IResource = await rService.findOne({resourceName: resourceName});
 
       if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
+
+      if(!resource.features.getx) return ErrorResponse(res, `getx feature disabled`, 400);
 
       const params : IFilterParams = {
         name: name,
@@ -139,7 +145,18 @@ export const postx = async function(req: Request, res: Response) : Promise<any> 
  
   try{
     
-    const dNew = await dService.create(req.body);
+    let resourceName : string = req.params.resourceName as string;
+    
+    const resource : IResource = await rService.findOne({resourceName: resourceName});
+    console.log("resource", resource)
+
+    if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
+
+    if(!resource.features.postx) return ErrorResponse(res, `postx feature disabled`, 400);
+
+    const dNew = await dService.create(
+      {resource: resource._id, data: req.body} as IData
+    );
     
     if (!dNew) return ErrorResponse(res, 'data not created', 400);
 
@@ -153,6 +170,35 @@ export const postx = async function(req: Request, res: Response) : Promise<any> 
   
 }
 
+export const postXValidate = async function(req: Request, res: Response) : Promise<any> {
+ 
+  try{
+    
+    let resourceName : string = req.params.resourceName as string;
+    
+    const resource : IResource = await rService.findOne({resourceName: resourceName});
+
+    if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
+
+    if(!resource.features.postx) return ErrorResponse(res, `postx feature disabled`, 400);
+    if(!resource.features.validation) return ErrorResponse(res, `validation feature disabled`, 400);
+
+
+    const dNew = await mService.validateAndMutateQuery(
+        req.body, resource.fields, resource._id
+      );
+    
+    if (!dNew) return ErrorResponse(res, 'data not created', 400);
+
+    return SuccessResponse(res, dNew, 'data created', 200);
+
+  } catch (err){
+
+    return ErrorResponse(res, `error ${err}`, 400);
+
+  }
+  
+}
 export const putx = async function(req: Request, res: Response) : Promise<any> {
  
   try{

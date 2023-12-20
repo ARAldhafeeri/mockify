@@ -33,7 +33,6 @@ export interface IMockService {
   isPaginated(data: IEndpointFeatures, params: IPaginateParams): boolean;
   isSearch(data: IEndpointFeatures, params: ISearchParams): boolean;
   isFilter(data: IEndpointFeatures, params: IFilterParams): boolean;
-  isValidate(data: IEndpointFeatures, params: IValidateParams ): boolean;
   paginatedQuery(data: Object, params: IPaginateParams): Promise<IPaginatedResponse>;
   searchQuery(data: Object, params: ISearchParams): Promise<IPaginatedResponse>;
   filterQuery(data: Object, params: IFilterParams): Promise<IPaginatedResponse>;

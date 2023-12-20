@@ -58,9 +58,6 @@ class MockService implements IMockService  {
     return (data.search && Boolean(params.search));
   }
 
-  isValidate(data: IEndpointFeatures, params: IValidateParams): boolean {
-    return (data.validation && Boolean(params.validate));
-  }
 
   paginatedQuery= async (projection: Object, params: IPaginateParams): Promise<IPaginatedResponse> => {
       
@@ -117,11 +114,10 @@ class MockService implements IMockService  {
 
   validateAndMutateQuery = async (data: any, fields: IResource["fields"], resource: string): Promise<any> => {
     
-    let validate : any = data;
     let fieldsTypes: IMockFieldsMap = this.getSchemaFieldTypeMap(fields);
-    Object.keys(validate).forEach((key : string ) => {
-      if(!fieldsTypes.has(key)) throw new Error(`field ${key} does not exists  in schema`);
-      if(typeof validate[key] != fieldsTypes.get(key) ) throw  new  Error(`field ${key} type must be ${fieldsTypes.get(key)}`); 
+    fieldsTypes.forEach((value : string , key : any) => {
+      if(!(key in data)) throw new Error(`field ${key} does not exists  in schema`);
+      if(typeof data[key] != fieldsTypes.get(key) ) throw  new  Error(`field ${key} type must be ${fieldsTypes.get(key)}`); 
     })
 
     const results = await DataModel.create(

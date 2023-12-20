@@ -1,6 +1,6 @@
 import request, {Request} from 'supertest';
 import app from '../../app';
-import { API_ROUTE, MOCK_ROUTE, MOCK_ROUTE_FILTER, MOCK_ROUTE_PAGINATE  } from '../../config/routes';
+import { API_ROUTE, MOCK_ROUTE, MOCK_ROUTE_FILTER, MOCK_ROUTE_PAGINATE, MOCK_ROUTE_VALIDATE  } from '../../config/routes';
 import { DATABASE_URL } from '../../getEnv';
 import mongoose from 'mongoose';
 import TestUtils from './TestUtils';
@@ -66,8 +66,8 @@ describe('end-to-end tests mock endpoints on data entity', () => {
       `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_FILTER}?name=name&value=a`)
     .set(apiKeyHeader, token);
 
-    console.log(response.body)
     let data = response.body.data;
+
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     // check all properties are defined
@@ -76,6 +76,37 @@ describe('end-to-end tests mock endpoints on data entity', () => {
 
   })
 
+  test("should validate posted data and return 400 if invalid", async () => {
+    const response = await request.agent(app).post(
+      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_VALIDATE}`)
+    .set(apiKeyHeader, token)
+    .send(
+      {
+          "name": "value",
+      }
+    );
+
+    console.log(response.body);
+
+    expect(response.status).toBe(400);
+  })
+
+
+  
+  test("should not  validate posted data and return 200 even if data invalid", async () => {
+    const response = await request.agent(app).post(
+      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}`)
+    .set(apiKeyHeader, token)
+    .send(
+        {
+          "name": "value",
+        }
+
+    );
+    
+    console.log(response.body);
+    expect(response.status).toBe(200);
+  })
 
  /* Closing database connection after each test. */
  afterAll(async () => {

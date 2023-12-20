@@ -11,7 +11,7 @@ class EndpointService {
     let paginateX : string = `${domain}/mock/${resourceName}/paginate?page=1&limit=10`
     let searchX : string = `${domain}/mock/${resourceName}/search/?search=fullTextSearchAgainstString`
     let filterX : string = `${domain}/mock/${resourceName}/filter/?name=name&value=value`
-    let validateX : string = `${domain}/mock/${resourceName}/validate/?validate=true`
+    let validateX : string = `${domain}/mock/${resourceName}/validate`
 
     if (features.getx) endpoint.push({method: "GET", url: getx});
     if(features.postx) endpoint.push({method: "POST", url: postx});
@@ -20,8 +20,8 @@ class EndpointService {
     if (features.pagination) endpoint.push({method: "GET", url: paginateX, params: ["page", "limit"]});
     if (features.search) endpoint.push({method: "GET", url: searchX, params: ["search"]});
     if (features.filter) endpoint.push({method: "GET", url: filterX, params: ["name", "value"]});
-    if (features.validation) endpoint.push({method: "POST", url: validateX, params: ["validate"]});
-    if (features.validation) endpoint.push({method: "PUT", url: validateX, params: ["validate"]});
+    if (features.validation) endpoint.push({method: "POST", url: validateX });
+    if (features.validation) endpoint.push({method: "PUT", url: validateX });
     return endpoint
   }
 }

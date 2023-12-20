@@ -165,40 +165,6 @@ describe('Mock service ', () => {
     expect(mockService.isFilter(endpointFeatures, params)).toBeFalsy();
   });
 
-  test("mockservice.isValidate should return true if the data has validation and params are not empty", () => {
-    const endpointFeatures : IEndpointFeatures = {
-      filter: true,
-      pagination: true,
-      search: true,
-      validation: true, 
-      getx: true,
-      postx: true,
-      putx: true,
-      deletex: true,
-    }
-    const params = {
-      validate: "true",
-    }
-    expect(mockService.isValidate(endpointFeatures, params)).toBeTruthy();
-  });
-
-  test("mockservice.isValidate should return false if the data has validation and params are empty", () => {
-    const endpointFeatures : IEndpointFeatures = {
-      filter: true,
-      pagination: true,
-      search: true,
-      validation: true, 
-      getx: true,
-      postx: true,
-      putx: true,
-      deletex: true,
-    }
-    const params = {
-      validate: "",
-    }
-    expect(mockService.isValidate(endpointFeatures, params)).toBeFalsy();
-  });
-
   test("mockservice.paginatedQuery should return a paginated response", async () => {
     const projection = {};
     const params = {
