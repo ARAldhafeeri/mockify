@@ -93,6 +93,17 @@ export const runGetxFunction = async function(req: Request, res: Response) : Pro
 
       const resourceName : string = req.params.resourceName as string;
       const functionName : string = req.params.functionName as string;
+      const queries : any = req.query;
+      const headers : any = req.headers;
+      const body : any = req.body;
+      const params : any = req.params;
+
+      const additionalContext = {
+        queries,
+        headers,
+        body,
+        params
+      }
 
       const resource : IResource = await rService.findOne({resourceName: resourceName});
 
@@ -105,7 +116,7 @@ export const runGetxFunction = async function(req: Request, res: Response) : Pro
       if(!resource.features.getx && !resource.features.functions) return ErrorResponse(res, 'getx and/or function are disabled ', 400)
       const {code} = found;
 
-      const result = await edgeService.runFunctionInContext(code, true);
+      const result = await edgeService.runFunctionInContext(code, true, additionalContext);
 
       return SuccessResponse(res, result, 'fetching data was successful', 200)
 

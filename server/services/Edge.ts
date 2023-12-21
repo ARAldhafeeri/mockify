@@ -93,7 +93,7 @@ class EdgeService implements IEdgeService  {
   }
 
 
-  runFunctionInContext = async ( code : string, asyncc = false ) : Promise<any> => {
+  runFunctionInContext = async ( code : string, asyncc = false, additionalContext : any =null ) : Promise<any> => {
     /**
      * recieve a context and code
      * run the code in the context sandbox
@@ -109,7 +109,9 @@ class EdgeService implements IEdgeService  {
      * but for now we want to give the user the ability to do anything
      * to cover all use cases
      */
-
+    if (additionalContext) {
+      Object.assign(CONTEXT, additionalContext);
+    }
     if (asyncc) {
       code = this.addImmediatelyInvokedAsync(code);
       vm.createContext(CONTEXT);
