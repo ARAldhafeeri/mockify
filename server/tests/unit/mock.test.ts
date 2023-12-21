@@ -51,6 +51,7 @@ describe('Mock service ', () => {
       postx: true,
       putx: true,
       deletex: true,
+      functions: true,
     }
     const params = {
       page: "1",
@@ -69,6 +70,7 @@ describe('Mock service ', () => {
       postx: true,
       putx: true,
       deletex: true,
+      functions: true,
     }
     const params = {
       page: "a",
@@ -87,6 +89,8 @@ describe('Mock service ', () => {
       postx: true,
       putx: true,
       deletex: true,
+      functions: true,
+
     }
     const params = {
       page: "1",
@@ -105,6 +109,7 @@ describe('Mock service ', () => {
       postx: true,
       putx: true,
       deletex: true,
+      functions: true,
     }
     const params = {
       search: "a",
@@ -122,6 +127,8 @@ describe('Mock service ', () => {
       postx: true,
       putx: true,
       deletex: true,
+      functions: true,
+
     }
     const params = {
       search: "",
@@ -139,6 +146,7 @@ describe('Mock service ', () => {
       postx: true,
       putx: true,
       deletex: true,
+      functions: true,
     }
     const params = {
       name: "a",
@@ -157,6 +165,8 @@ describe('Mock service ', () => {
       postx: true,
       putx: true,
       deletex: true,
+      functions: true,
+
     }
     const params = {
       name: "",

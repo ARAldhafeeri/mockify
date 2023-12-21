@@ -6,6 +6,7 @@ import { Request, Response } from "express";
 import { Types } from "mongoose";
 
 const projectService = new ProjectService();
+const endpointService = new EndpointService();
 
 export const endpointCreateController = async (req: Request, res: Response) : Promise<any> => {
   try {
@@ -14,7 +15,7 @@ export const endpointCreateController = async (req: Request, res: Response) : Pr
     
     if (!project) return ErrorResponse(res, "Project not found", 404)
 
-    const result = await EndpointService.create(data.features, project[0].name,  data.resourceName);
+    const result = await endpointService.create(data.features, project[0].name,  data.resourceName);
 
     return SuccessResponse(res, result, "Endpoints fetched successfully", 200);
   } catch (err) {

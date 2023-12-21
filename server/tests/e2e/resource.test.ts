@@ -20,6 +20,7 @@ const mockData = {
     "postx": true,
     "putx": true,
     "deletex": true,
+    functions: true
   },
   "fields": [
     {name: "name", type: "string", required: true},

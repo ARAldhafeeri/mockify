@@ -25,6 +25,15 @@ class DataService implements IDataService  {
     return found;
   }
 
+  findOne = async ( projection: Object) : Promise<any> => {
+    const foundRes = await DataModel.findOne( 
+       projection
+       ).lean();
+    
+    return foundRes;
+  }
+
+
   create = async (d: IData) : Promise<any>  => {
     
     let resource = await this.resourceService.findById(d.resource);

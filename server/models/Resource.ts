@@ -13,6 +13,7 @@ const resourceSchema = new Schema<IResource>({
     postx: {type: Boolean, required: true},
     putx: {type: Boolean, required: true},
     deletex: {type: Boolean, required: true},
+    functions: {type: Boolean, required: true},
   
   },
   fields: [{

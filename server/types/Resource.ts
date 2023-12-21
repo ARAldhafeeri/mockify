@@ -10,6 +10,7 @@ export interface IEndpointFeatures {
   postx: boolean;
   putx: boolean;
   deletex: boolean;
+  functions: boolean;
 }
 
 export interface ISchemaField extends Document{
@@ -32,4 +33,5 @@ export interface IResService {
   update(reosource: IResource): Promise<any>;
   delete(id: Types.ObjectId): Promise<any>;
   findById(id: Types.ObjectId): Promise<any>;
+  findOne(reosource: Object): Promise<any>;
 }

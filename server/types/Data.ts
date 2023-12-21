@@ -10,4 +10,5 @@ export interface IDataService {
   create(data: IData): Promise<IData>;
   update(data: IData): Promise<IData>;
   delete(id: Types.ObjectId): Promise<IData>;
+  findOne(data: Object): Promise<IData>;
 }

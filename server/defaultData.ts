@@ -12,6 +12,7 @@ import { IProject } from "./types/Project";
 import { IResource } from "./types/Resource";
 import { IData } from "./types/Data";
 import UserService from "./services/user";
+import EdgeService from "./services/Edge";
 var superAdminDefaultData;
 var user;
 
@@ -21,6 +22,7 @@ const dataService = new DataService();
 const endpointService = new EndpointService();
 const policyService = new PolicyService();
 const resourceService = new ResourceService();
+const edgeService = new EdgeService();
 
 export const initDefaultData = async () => {
     [superAdminDefaultData] = await adminModel.find({username: SUPER_ADMIN_USERNAME})
@@ -70,15 +72,10 @@ export const initDefaultData = async () => {
           "pagination": true,
           "search": true,
           "validation": true,
-          "webhook": true,
-          "sse": false,
-          "wss": true,
           "getx": true,
           "postx": true,
           "putx": true,
-          "deletex": true,
-          "consumer": true,
-          "producer": true,
+          functions: true,
         },
         funcs: [
           "string"
@@ -110,6 +107,36 @@ export const initDefaultData = async () => {
         name: "test",
         age: 20
     }} as any)
+
+    let function1 = await edgeService.findOrCreate({
+        resource: resource._id,
+        name: "function1",
+        code: "function1",
+        method: "GET"
+    } as any );
+
+    let function2 = await edgeService.findOrCreate({
+        resource: resource._id,
+        name: "function2",
+        code: "function2",
+        method: "POST"
+    } as any );
+
+    let function3 = await edgeService.findOrCreate({
+        resource: resource._id,
+        name: "function3",
+        code: "function3",
+        method: "PUT"
+    } as any );
+
+    let function4 = await edgeService.findOrCreate({
+        resource: resource._id,
+        name: "function4",
+        code: "function4",
+        method: "DELETE"
+    } as any );
+
+    console.log(function1, function2, function3, function4)
 
     
 

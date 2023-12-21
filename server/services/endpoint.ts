@@ -1,8 +1,19 @@
 import { domain } from "../getEnv";
+import { IEdge, IEdgeService } from "../types/Edge";
 import { IEndpointFeatures } from "../types/Resource";
+import EdgeService from "./Edge";
+
+
 
 class EndpointService {
-  static async create(features : IEndpointFeatures, projectName : string,  resourceName : string) : Promise<Array<Object>>{
+
+  edgeService : IEdgeService;
+
+  constructor() {
+    this.edgeService = new EdgeService();
+  }
+
+  async create(features : IEndpointFeatures, projectName : string,  resourceName : string) : Promise<Array<Object>>{
     let endpoint : Array<Object> = [];
     let getx : string = `${domain}/mock/${resourceName}/`
     let postx : string = `${domain}/mock/${resourceName}/`
@@ -13,6 +24,8 @@ class EndpointService {
     let filterX : string = `${domain}/mock/${resourceName}/filter/?name=name&value=value`
     let validateX : string = `${domain}/mock/${resourceName}/validate`
 
+    let getFunctionURL = (name : string) => `${domain}/mock/${resourceName}/edge/${name}`
+
     if (features.getx) endpoint.push({method: "GET", url: getx});
     if(features.postx) endpoint.push({method: "POST", url: postx});
     if (features.putx) endpoint.push({method: "PUT", url: deleteAndPutx});
@@ -22,6 +35,16 @@ class EndpointService {
     if (features.filter) endpoint.push({method: "GET", url: filterX, params: ["name", "value"]});
     if (features.validation) endpoint.push({method: "POST", url: validateX });
     if (features.validation) endpoint.push({method: "PUT", url: validateX });
+
+    if (features.functions) {
+
+      let functions  : any = await this.edgeService.findEdgeFunctionsBYResourceName(
+        resourceName);
+      functions.forEach((func : any) => {
+        endpoint.push({method: func.method, url: getFunctionURL(func.name)});
+      })
+    }
+  
     return endpoint
   }
 }
