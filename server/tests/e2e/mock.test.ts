@@ -135,9 +135,6 @@ describe('end-to-end tests mock endpoints on data entity', () => {
         }
 
     );
-    
-    console.log(response.body);
-    console.log(createdData);
     expect(response.status).toBe(200);
   })
 
@@ -153,9 +150,6 @@ describe('end-to-end tests mock endpoints on data entity', () => {
         }
 
     );
-    
-    console.log(response.body);
-    console.log(createdData);
     expect(response.status).toBe(200);
   })
 

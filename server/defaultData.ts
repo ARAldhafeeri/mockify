@@ -62,7 +62,6 @@ export const initDefaultData = async () => {
     // create project 
     let project = await projService.findOrCreate({name: "default", apiKey: "lksjfdkjfdjfdieiwoncxn98398239nxnjdhj3838sjhjhsdhjdu3", user: superAdminDefaultData._id} as IProject)
     
-    console.log("created project", project)
     // create resource
     let resource = await resourceService.findOrCreate({
         project: project._id,
@@ -135,9 +134,6 @@ export const initDefaultData = async () => {
         code: "function4",
         method: "DELETE"
     } as any );
-
-    console.log(function1, function2, function3, function4)
-
     
 
 }

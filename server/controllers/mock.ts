@@ -213,7 +213,6 @@ export const putx = async function(req: Request, res: Response) : Promise<any> {
 
     const dNew = await dService.update(req.body);
     
-    console.log(dNew)
     if (!dNew) return ErrorResponse(res, 'data not created', 400);
 
     return SuccessResponse(res, dNew, 'data created', 200);

@@ -1,5 +1,5 @@
 {
-  "resources": ["data", "policy", "project", "resource", "user", "mock", "endpoint"],
+  "resources": ["data", "policy", "project", "resource", "user", "mock", "endpoint", "edge"],
   "actions": ["delete", "create", "update", "read"],
   "roles": ["user", "admin", "super-admin"],
   "policies": [

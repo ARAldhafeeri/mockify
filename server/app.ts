@@ -14,6 +14,7 @@ import resourceRouter from './routes/resource';
 import dataRouter from './routes/data';
 import endpointRouter from './routes/endpoint';
 import mockRouter from './routes/mock';
+import edgeRouter from './routes/edge';
 
 const app = express();
 
@@ -36,6 +37,8 @@ app.use(API_ROUTE, dataRouter)
 app.use(API_ROUTE, endpointRouter)
 
 app.use(API_ROUTE, mockRouter)
+
+app.use(API_ROUTE, edgeRouter)
 
 applyServerHardening(app)
 
