@@ -9,27 +9,28 @@ const policyRouter = express.Router();
 policyRouter
   .get( 
     POLICY_ROUTE, 
-    getPolicy,
     authenticationMiddleWareAdminPortal,
-    authorization(["policy"], ["read", "write", "delete", "update"])
+    authorization(["policy"], ["read", "write", "delete", "update"]),
+    getPolicy,
+
     )
   .post( 
     POLICY_ROUTE, 
-    createPolicy,
     authenticationMiddleWareAdminPortal,
-    authorization(["policy"], ["read", "write", "delete", "update"])
+    authorization(["policy"], ["read", "write", "delete", "update"]),
+    createPolicy,
     )
   .put( 
     POLICY_ROUTE, 
-    updatePolicy,
     authenticationMiddleWareAdminPortal,
-    authorization(["policy"], ["read", "write", "delete", "update"])
+    authorization(["policy"], ["read", "write", "delete", "update"]),
+    updatePolicy,
   )
   .delete( 
     POLICY_ROUTE, 
-    deletePolicy,
     authenticationMiddleWareAdminPortal,
-    authorization(["policy"], ["read", "write", "delete", "update"])
+    authorization(["policy"], ["read", "write", "delete", "update"]),
+    deletePolicy,
   );
 
 export default policyRouter;

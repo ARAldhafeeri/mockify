@@ -6,28 +6,28 @@ import authorization from '../middleware/authorization';
 const dataRouter = express.Router();
 
 dataRouter.get( 
-    DATA_ROUTE, 
-    getData, 
+    DATA_ROUTE,
     authenticationMiddleWareAdminPortal, 
-    authorization(["data"], ["read", "write", "delete", "update"])
+    authorization(["data"], ["read", "write", "delete", "update"]),
+    getData, 
   )
   .post( 
       DATA_ROUTE, 
+      authenticationMiddleWareAdminPortal, 
+      authorization(["data"], ["read", "write", "delete", "update"]),
       createData, 
-      authorization(["data"], 
-      ["read", "write", "delete", "update"])
     )
   .put( 
       DATA_ROUTE, 
+      authenticationMiddleWareAdminPortal, 
+      authorization(["data"], ["read", "write", "delete", "update"]),
       updateData, 
-      authorization(["data"], 
-      ["read", "write", "delete", "update"])
     )
   .delete( 
       DATA_ROUTE, 
+      authenticationMiddleWareAdminPortal, 
+      authorization(["data"], ["read", "write", "delete", "update"]),
       deleteData, 
-      authorization(["data"], 
-      ["read", "write", "delete", "update"])
     )
 
 export default dataRouter;

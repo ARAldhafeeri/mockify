@@ -8,24 +8,28 @@ const userRouter = express.Router();
 
 userRouter
   .get( 
-    USER_ROUTE, getUsers,
+    USER_ROUTE, 
     authenticationMiddleWareAdminPortal,
-    authorization(["user"], ["read", "write", "delete", "update"])
+    authorization(["policy"], ["read", "write", "delete", "update"]),
+    getUsers,
   )
   .post( 
-    USER_ROUTE, createUser,
+    USER_ROUTE, 
     authenticationMiddleWareAdminPortal,
-    authorization(["user"], ["read", "write", "delete", "update"])
+    authorization(["policy"], ["read", "write", "delete", "update"]),
+    createUser,
   )
   .put(
-     USER_ROUTE, updateUser,
+     USER_ROUTE, 
      authenticationMiddleWareAdminPortal,
-     authorization(["user"], ["read", "write", "delete", "update"])
+     authorization(["policy"], ["read", "write", "delete", "update"]),
+     updateUser,
   )
   .delete(
-    USER_ROUTE, deleteUser,
+    USER_ROUTE,
     authenticationMiddleWareAdminPortal,
-    authorization(["user"], ["read", "write", "delete", "update"])
-  );
+    authorization(["policy"], ["read", "write", "delete", "update"]), 
+    deleteUser,
+      );
 
 export default userRouter;

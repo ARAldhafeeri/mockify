@@ -15,8 +15,7 @@ export const MOCK_ROUTE_FILTER : string = "/filter";
 export const MOCK_ROUTE_SEARCH : string = "/search";
 export const MOCK_ROUTE_VALIDATE : string = "/validate";
 
-const RESOURCE_NAME_PARAM : string = "/:resourceName";
-const FUNCTION_NAME_PARAM : string = "/:functionName";
+export const EDGE_ROUTE : string = "/:resourceName/edge";
 
-export const EDGE_ROUTE : string = "/edge" + RESOURCE_NAME_PARAM + FUNCTION_NAME_PARAM;
+export const EDGE_ROUTE_WITH_PARAMS : string = "/:resourceName/edge/:functionName";
 

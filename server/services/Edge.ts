@@ -1,10 +1,12 @@
 import EdgeModel from "../models/Edge";
-import {Types} from "mongoose";
 import { IEdge } from "../types/Edge";
 import { IEdgeService } from "../types/Edge";
 import { IResource, IResService } from "../types/Resource";
 import ResourceService from "./resource";
+import mongoose, { Types } from "mongoose";
+import CONTEXT from "../sandbox/context";
 const {ObjectId} = Types;
+import vm from 'vm';
 
 
 class EdgeService implements IEdgeService  {
@@ -57,7 +59,7 @@ class EdgeService implements IEdgeService  {
   }
 
   findOrCreate = async (data: IEdge) : Promise<any> => {
-    const found = await EdgeModel.findOne({resource: data.resource});
+    const found = await EdgeModel.findOne({name: data.name});
     
     if (found) {
       return found;
@@ -78,6 +80,49 @@ class EdgeService implements IEdgeService  {
     return found;
   }
 
+    
+
+  addImmediatelyInvokedAsync = (code: string) : string => {
+    /**
+     * recieve a code
+     * add Immediately Invoked Async Function Expression
+     * return the new code
+     */
+    const newCode = `(async () => { ${code} })()`
+    return newCode;
+  }
+
+
+  runFunctionInContext = async ( code : string, asyncc = false ) : Promise<any> => {
+    /**
+     * recieve a context and code
+     * run the code in the context sandbox
+     * return the data in the context
+     * which is i/o user wants from the code 
+     * user have access to this context :
+     * 1- ResourceModel
+     * 2- DataModel
+     * 3- ProjectModel
+     * 4- PolicyModel
+     * 5- and node js modules
+     * this might be a security issue - to be tested and hardened
+     * but for now we want to give the user the ability to do anything
+     * to cover all use cases
+     */
+
+    if (asyncc) {
+      code = this.addImmediatelyInvokedAsync(code);
+      vm.createContext(CONTEXT);
+      await vm.runInContext(code, CONTEXT);
+      return CONTEXT.data;
+    } else {
+      vm.createContext(CONTEXT);
+      vm.runInContext(code, CONTEXT);
+      return CONTEXT.data;
+    }
+   
+  
+  }
   
 }
 

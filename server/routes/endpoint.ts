@@ -7,9 +7,9 @@ const endpointRouter = express.Router();
 
 endpointRouter.post( 
     ENDPOINT_ROUTE,  
-    endpointCreateController, 
     authenticationMiddleWareAdminPortal, 
-    authorization(["endpoint"], ["read", "write", "delete", "update"])
+    authorization(["endpoint"], ["read", "write", "delete", "update"]),
+    endpointCreateController, 
 )
 
 export default endpointRouter;

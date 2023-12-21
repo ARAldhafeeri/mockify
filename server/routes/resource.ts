@@ -7,24 +7,28 @@ const resourceRouter = express.Router();
 
 resourceRouter
   .get( 
-    RESOURCE_ROUTE, getResources,
+    RESOURCE_ROUTE,
     authenticationMiddleWareAdminPortal,
-    authorization(["resource"], ["read", "write", "delete", "update"])
+    authorization(["policy"], ["read", "write", "delete", "update"]), 
+    getResources,
   )
   .post( 
-    RESOURCE_ROUTE, createResource,
+    RESOURCE_ROUTE, 
     authenticationMiddleWareAdminPortal,
-    authorization(["resource"], ["read", "write", "delete", "update"])
+    authorization(["policy"], ["read", "write", "delete", "update"]),
+    createResource,
   )
   .put( 
-    RESOURCE_ROUTE, updateResources,
+    RESOURCE_ROUTE, 
     authenticationMiddleWareAdminPortal,
-    authorization(["resource"], ["read", "write", "delete", "update"])
+    authorization(["policy"], ["read", "write", "delete", "update"]),
+    updateResources,
   )
   .delete( 
-    RESOURCE_ROUTE, deleteResource,
+    RESOURCE_ROUTE, 
     authenticationMiddleWareAdminPortal,
-    authorization(["resource"], ["read", "write", "delete", "update"])
+    authorization(["policy"], ["read", "write", "delete", "update"]),
+    deleteResource,
   );
 
 export default resourceRouter;

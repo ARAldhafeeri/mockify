@@ -5,8 +5,10 @@ import { DATABASE_URL } from '../../getEnv';
 import mongoose from 'mongoose';
 import TestUtils from './TestUtils';
 import ResourceService from '../../services/resource';
+import EdgeService from '../../services/Edge';
+import { apiKeyHeader } from '../../config/headers';
 
-
+const edgeService = new EdgeService();
 const genRandomName = () => {
   return Math.random().toString(36).substring(7);
 }
@@ -40,7 +42,6 @@ describe('end-to-end tests curd edge functions', () => {
     })
     .set('Authorization', 'bearer ' + token)
 
-    console.log(response.body)
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     // check all properties are defined
@@ -55,8 +56,6 @@ describe('end-to-end tests curd edge functions', () => {
 
     const response = await request.agent(app).get(`${API_ROUTE}${EDGE_ROUTE}/?resourceName=${"default"}`)
     .set('Authorization', 'bearer ' + token)
-    console.log(response.body)
-
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     expect(response.body.data.length).toBeGreaterThan(0);
@@ -70,7 +69,6 @@ describe('end-to-end tests curd edge functions', () => {
       name: 'newName'
       })
     .set('Authorization', 'bearer ' + token)
-    console.log(response.body)
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -81,7 +79,6 @@ describe('end-to-end tests curd edge functions', () => {
   test('should delete resource edge', async () => {
     const response = await request.agent(app).delete(`${API_ROUTE}${EDGE_ROUTE}/?id=${createdResource._id}`)
     .set('Authorization', 'bearer ' + token)
-    console.log(response.body)
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -94,3 +91,32 @@ describe('end-to-end tests curd edge functions', () => {
 });
 
 });
+
+
+describe('end-to-end tests running functions', () => {
+
+  let token : string;
+  let createdResource : any;
+  
+
+  beforeAll(async () => {
+    await mongoose.connect(DATABASE_URL);
+    token = await TestUtils.login();
+  });
+
+  test('should run getx function', async () => {
+    const f = await resourceService.findOne({resourceName: 'default'});
+    createdResource = f;
+    const edge = await edgeService.findOne(
+      {resource: f._id, method: 'GET', name: 'edgeTest'}
+      );
+    const response = await request.agent(app).get(`${API_ROUTE}/${createdResource.resourceName}/edge/${edge.name}`)
+    .set(apiKeyHeader, token);
+
+    expect(response.status).toBe(200);
+    expect(response.body.status).toBe(true);
+    expect(response.body.data).toBeDefined();
+
+  });
+
+  });

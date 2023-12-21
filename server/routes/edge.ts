@@ -1,33 +1,38 @@
 import express from 'express';
-import {getEdge, createEdge, deleteEdge, updateEdge} from '../controllers/Edge';
-import { EDGE_ROUTE } from '../config/routes';
+import {getEdge, createEdge, deleteEdge, updateEdge, runGetxFunction} from '../controllers/Edge';
+import { EDGE_ROUTE, EDGE_ROUTE_WITH_PARAMS } from '../config/routes';
 import authenticationMiddleWareAdminPortal from '../middleware/authentication';
-import authorization from '../middleware/authorization';
+import authorization, { AccessKeyAuthorization } from '../middleware/authorization';
 const edgeRouter = express.Router();
 
 edgeRouter.get( 
-    EDGE_ROUTE, 
-    getEdge, 
+    EDGE_ROUTE,
     authenticationMiddleWareAdminPortal, 
-    authorization(["edge"], ["read", "write", "delete", "update"])
+    authorization(["edge"], ["read", "write", "delete", "update"]), 
+    getEdge, 
   )
   .post( 
       EDGE_ROUTE, 
+      authenticationMiddleWareAdminPortal, 
+      authorization(["edge"], ["read", "write", "delete", "update"]), 
       createEdge, 
-      authorization(["edge"], 
-      ["read", "write", "delete", "update"])
     )
   .put( 
       EDGE_ROUTE, 
+      authenticationMiddleWareAdminPortal, 
+      authorization(["edge"], ["read", "write", "delete", "update"]), 
       updateEdge, 
-      authorization(["edge"], 
-      ["read", "write", "delete", "update"])
     )
   .delete( 
       EDGE_ROUTE, 
+      authenticationMiddleWareAdminPortal, 
+      authorization(["edge"], ["read", "write", "delete", "update"]), 
       deleteEdge, 
-      authorization(["edge"], 
-      ["read", "write", "delete", "update"])
     )
+  .get(
+    EDGE_ROUTE_WITH_PARAMS,
+    AccessKeyAuthorization, 
+    runGetxFunction,
+  )
 
 export default edgeRouter;

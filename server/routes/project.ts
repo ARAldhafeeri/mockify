@@ -8,30 +8,35 @@ const projectRouter = express.Router();
 
 projectRouter
   .get( 
-    PROJECT_ROUTE, getProjects,
+    PROJECT_ROUTE, 
     authenticationMiddleWareAdminPortal,
-    authorization(["project"], ["read", "write", "delete", "update"])
+    authorization(["policy"], ["read", "write", "delete", "update"]),
+    getProjects,
   )
   .post( 
-    PROJECT_ROUTE, createProject,
+    PROJECT_ROUTE, 
     authenticationMiddleWareAdminPortal,
-    authorization(["project"], ["read", "write", "delete", "update"])
+    authorization(["policy"], ["read", "write", "delete", "update"]),
+    createProject,
   )
   .put(
-     PROJECT_ROUTE, updateProjects,
+     PROJECT_ROUTE, 
      authenticationMiddleWareAdminPortal,
-     authorization(["project"], ["read", "write", "delete", "update"])
+     authorization(["policy"], ["read", "write", "delete", "update"]),
+     updateProjects,
   )
   .delete(
-     PROJECT_ROUTE, deleteProject,
+     PROJECT_ROUTE, 
      authenticationMiddleWareAdminPortal,
-     authorization(["project"], ["read", "write", "delete", "update"])
+     authorization(["policy"], ["read", "write", "delete", "update"]),
+     deleteProject,
   );
 
 projectRouter.post( 
-  PROJECT_ROUTE_REFRESH, refreshProjectApiKey,
+  PROJECT_ROUTE_REFRESH, 
   authenticationMiddleWareAdminPortal,
-  authorization(["project"], ["read", "write", "delete", "update"])
+  authorization(["policy"], ["read", "write", "delete", "update"]),
+  refreshProjectApiKey,
   )
 
 export default projectRouter;

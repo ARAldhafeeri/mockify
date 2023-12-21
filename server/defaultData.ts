@@ -109,29 +109,29 @@ export const initDefaultData = async () => {
 
     let function1 = await edgeService.findOrCreate({
         resource: resource._id,
-        name: "function1",
-        code: "function1",
+        name: "edgeTest",
+        code: "data = await ResourceModel.find({});",
         method: "GET"
     } as any );
 
     let function2 = await edgeService.findOrCreate({
         resource: resource._id,
         name: "function2",
-        code: "function2",
+        code: "data = await ResourceModel.find({});",
         method: "POST"
     } as any );
 
     let function3 = await edgeService.findOrCreate({
         resource: resource._id,
         name: "function3",
-        code: "function3",
+        code: "data = await ResourceModel.find({});",
         method: "PUT"
     } as any );
 
     let function4 = await edgeService.findOrCreate({
         resource: resource._id,
         name: "function4",
-        code: "function4",
+        code: "data = await ResourceModel.find({});",
         method: "DELETE"
     } as any );
     

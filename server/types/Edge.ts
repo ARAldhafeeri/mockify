@@ -15,4 +15,6 @@ export interface IEdgeService {
     delete(id: Types.ObjectId): Promise<IEdge>;
     findOne(data: Object): Promise<IEdge>;
     findEdgeFunctionsBYResourceName(resourceName: string): Promise<IEdge>;
+    addImmediatelyInvokedAsync(code: string): string;
+    runFunctionInContext(code: string, asyncc : boolean): Promise<any>;
   }
