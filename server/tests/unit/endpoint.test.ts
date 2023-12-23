@@ -56,10 +56,11 @@ describe('EndpointService', () => {
     expect(putValidate).toBeDefined();
     
     // functions
-    expect(getXFunction).toBeDefined();
-    expect(postXFunction).toBeDefined();
-    expect(putXFunction).toBeDefined();
-    expect(deleteXFunction).toBeDefined();
+    expect(getXFunction.length > 0).toBeTruthy();
+    expect(postXFunction.length > 0).toBeTruthy();
+    expect(putXFunction.length > 0).toBeTruthy();
+    expect(deleteXFunction.length > 0).toBeTruthy();
+
     
   });
 

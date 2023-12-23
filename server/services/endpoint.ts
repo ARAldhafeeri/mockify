@@ -26,22 +26,23 @@ class EndpointService {
 
     let getFunctionURL = (name : string) => `${domain}/mock/${resourceName}/edge/${name}`
 
-    if (features.getx) endpoint.push({method: "GET", url: getx});
-    if(features.postx) endpoint.push({method: "POST", url: postx});
-    if (features.putx) endpoint.push({method: "PUT", url: deleteAndPutx});
-    if (features.deletex) endpoint.push({method: "DELETE", url: deleteAndPutx, params: ["id"]});
-    if (features.pagination) endpoint.push({method: "GET", url: paginateX, params: ["page", "limit"]});
-    if (features.search) endpoint.push({method: "GET", url: searchX, params: ["search"]});
-    if (features.filter) endpoint.push({method: "GET", url: filterX, params: ["name", "value"]});
-    if (features.validation) endpoint.push({method: "POST", url: validateX });
-    if (features.validation) endpoint.push({method: "PUT", url: validateX });
+    if (features.getx) endpoint.push({method: "GET", url: getx, type: "Generic"});
+    if(features.postx) endpoint.push({method: "POST", url: postx, type: "Generic"});
+    if (features.putx) endpoint.push({method: "PUT", url: deleteAndPutx, type: "Generic"});
+    if (features.deletex) endpoint.push({method: "DELETE", url: deleteAndPutx, params: ["id"], type: "Generic"});
+    if (features.pagination) endpoint.push({method: "GET", url: paginateX, params: ["page", "limit"], type: "Generic"});
+    if (features.search) endpoint.push({method: "GET", url: searchX, params: ["search"], type: "Generic"});
+    if (features.filter) endpoint.push({method: "GET", url: filterX, params: ["name", "value"], type: "Generic"});
+    if (features.validation) endpoint.push({method: "POST", url: validateX, type: "Generic"});
+    if (features.validation) endpoint.push({method: "PUT", url: validateX, type: "Generic"});
 
     if (features.functions) {
 
       let functions  : any = await this.edgeService.findEdgeFunctionsBYResourceName(
         resourceName);
-      functions.forEach((func : any) => {
-        endpoint.push({method: func.method, url: getFunctionURL(func.name)});
+
+        functions.forEach((func : any) => {
+        endpoint.push({method: func.method, url: getFunctionURL(func.name), type: "Edge Function"});
       })
     }
   

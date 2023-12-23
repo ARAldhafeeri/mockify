@@ -74,7 +74,7 @@ export const initDefaultData = async () => {
           "getx": true,
           "postx": true,
           "putx": true,
-          functions: true,
+          "functions": true,
         },
         funcs: [
           "string"
