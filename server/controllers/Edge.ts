@@ -87,42 +87,44 @@ export const updateEdge = async function(req: Request, res: Response) : Promise<
 }
 
 
-export const runGetxFunction = async function(req: Request, res: Response) : Promise<any> {
+export const runFunction = (method : string, featureName : string) => {
+  return  async function(req: Request, res: Response) : Promise<any> {
    
-  try{
-
-      const resourceName : string = req.params.resourceName as string;
-      const functionName : string = req.params.functionName as string;
-      const queries : any = req.query;
-      const headers : any = req.headers;
-      const body : any = req.body;
-      const params : any = req.params;
-
-      const additionalContext = {
-        queries,
-        headers,
-        body,
-        params
-      }
-
-      const resource : IResource = await rService.findOne({resourceName: resourceName});
-
-      if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
-      
-      const found : IEdge = await edgeService.findOne({resource: resource._id, name: functionName, method: 'GET'});
-
-      if (!found) return ErrorResponse(found, 'function does not exists', 400);
-
-      if(!resource.features.getx && !resource.features.functions) return ErrorResponse(res, 'getx and/or function are disabled ', 400)
-      const {code} = found;
-
-      const result = await edgeService.runFunctionInContext(code, true, additionalContext);
-
-      return SuccessResponse(res, result, 'fetching data was successful', 200)
-
-  } catch (err){
-    return ErrorResponse(res, `error ${err}`, 400);
-
+    try{
+  
+        const resourceName : string = req.params.resourceName as string;
+        const functionName : string = req.params.functionName as string;
+        const queries : any = req.query;
+        const headers : any = req.headers;
+        const body : any = req.body;
+        const params : any = req.params;
+  
+        const additionalContext = {
+          queries,
+          headers,
+          body,
+          params
+        }
+  
+        const resource : IResource = await rService.findOne({resourceName: resourceName});
+  
+        if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
+        
+        const found : IEdge = await edgeService.findOne({resource: resource._id, name: functionName, method: method});
+  
+        if (!found) return ErrorResponse(found, 'function does not exists', 400);
+  
+        if(!(resource.features as any)[featureName] && !resource.features.functions) return ErrorResponse(res, `${featureName} and/or function are disabled`, 400)
+        const {code} = found;
+  
+        const result = await edgeService.runFunctionInContext(code, true, additionalContext);
+  
+        return SuccessResponse(res, result, 'fetching data was successful', 200)
+  
+    } catch (err){
+      return ErrorResponse(res, `error ${err}`, 400);
+  
+    }
+  
   }
-
 }

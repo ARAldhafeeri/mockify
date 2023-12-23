@@ -93,7 +93,7 @@ describe('end-to-end tests curd edge functions', () => {
 });
 
 
-describe('end-to-end tests running functions', () => {
+describe('end-to-end tests running  functions with post, get, delete, put requests', () => {
 
   let token : string;
   let createdResource : any;
@@ -117,6 +117,59 @@ describe('end-to-end tests running functions', () => {
     expect(response.body.status).toBe(true);
     expect(response.body.data).toBeDefined();
 
+  });
+
+
+  test('should run postx function', async () => {
+    const f = await resourceService.findOne({resourceName: 'default'});
+    createdResource = f;
+    const edge = await edgeService.findOne(
+      {resource: f._id, method: 'POST', name: 'edgeTest1'}
+      );
+    const response = await request.agent(app).post(`${API_ROUTE}/${createdResource.resourceName}/edge/${edge.name}`)
+    .set(apiKeyHeader, token);
+
+    expect(response.status).toBe(200);
+    expect(response.body.status).toBe(true);
+    expect(response.body.data).toBeDefined();
+
+  });
+
+  test('should run delete function', async () => {
+    const f = await resourceService.findOne({resourceName: 'default'});
+    createdResource = f;
+    const edge = await edgeService.findOne(
+      {resource: f._id, method: 'DELETE', name: 'edgeTest3'}
+      );
+    const response = await request.agent(app).delete(`${API_ROUTE}/${createdResource.resourceName}/edge/${edge.name}`)
+    .set(apiKeyHeader, token);
+
+    expect(response.status).toBe(200);
+    expect(response.body.status).toBe(true);
+    expect(response.body.data).toBeDefined();
+
+  });
+
+
+  test('should run put function', async () => {
+    const f = await resourceService.findOne({resourceName: 'default'});
+    createdResource = f;
+    const edge = await edgeService.findOne(
+      {resource: f._id, method: 'PUT', name: 'edgeTest2'}
+      );
+    const response = await request.agent(app).put(`${API_ROUTE}/${createdResource.resourceName}/edge/${edge.name}`)
+    .set(apiKeyHeader, token);
+
+    expect(response.status).toBe(200);
+    expect(response.body.status).toBe(true);
+    expect(response.body.data).toBeDefined();
+
+  });
+
+
+  /* Closing database connection after each test. */
+  afterAll(async () => {
+    await mongoose.connection.close();
   });
 
   });
