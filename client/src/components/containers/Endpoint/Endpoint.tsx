@@ -34,7 +34,7 @@ const Endpoint : React.FC = () => {
           defaultActiveKey={`${key}`}
           tabPosition="top"
           style={{ height: "100%" }}
-          onTabClick={(e) => handleTabChange(e)}
+          onTabClick={(e) => handleTabChange(e, resource)}
           items={resource.map((resource : any, index : number) => {
             return {
               label: `${resource.resourceName}`,
