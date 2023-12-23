@@ -19,22 +19,7 @@ const ResourceController = () => {
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
   const [ showCreateModal, setShowCreateModal ] = React.useState<boolean>(false);
   const [currentStep, setCurrentStep] = React.useState<number>(0);
-  const [selectedResource, setSelectedResource ] = React.useState<IFetchedResourceData>({
-    "project": "string",
-    "resourceName": "SampleResource",
-    "endpoint": "/api/sample",
-    "fields": [],
-    "features": {
-      "filter": true,
-      "pagination": true,
-      "search": true,
-      "validation": true,
-      "getx": true,
-      "postx": true,
-      "putx": true,
-      "deletex": true,
-    },
-  });
+  const [selectedResource, setSelectedResource ] = React.useState<any>({});
   const dispatch = useAppDispatch();
 
   const prevStep = () => {
@@ -108,7 +93,7 @@ const ResourceController = () => {
   const handleRemoveField = (index: number) => {
     setSelectedResource({
       ...selectedResource,
-      fields: selectedResource.fields.filter((_, i) => i !== index)
+      fields: selectedResource.fields.filter((_ : any, i : number) => i !== index)
     });
   }
 
@@ -125,7 +110,7 @@ const ResourceController = () => {
   const handleFormChangeFields = (index : number, name : string, value: string | boolean | number) => {
     setSelectedResource({
       ...selectedResource,
-      fields: selectedResource.fields.map((field, i) => i === index ? {...field, [name]: value} : field)
+      fields: selectedResource.fields.map((field : object, i : number) => i === index ? {...field, [name]: value} : field)
     })
   }
 

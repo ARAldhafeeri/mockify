@@ -45,6 +45,7 @@ const Data : React.FC = () => {
     handleShowCreateDataModal,
     handleHideCreateDataModal,
     form,
+
   
   } = DataController();
 
@@ -78,7 +79,7 @@ const Data : React.FC = () => {
             />
             }
             style={{ height: "100%" }}
-            onTabClick={(e) => handleTabChange(e, resource[key + 1]?.resourceName)}
+            onTabClick={(e) => handleTabChange(e, resource)}
             items={resource.map((resource : any, index : number) => {
               return {
                 label: `${resource.resourceName}`,

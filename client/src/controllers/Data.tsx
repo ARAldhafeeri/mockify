@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { ToastifyMockify } from "utils";
 import { IFetchedDataData } from "types/Data";
 import { Form } from "antd";
+import { IFetchedResourceData } from "types/Resource";
+import { AnyAction } from "redux";
 
 const DataController = () => {
   const { data, loading } = useAppSelector((state) => state.data);
@@ -87,7 +89,6 @@ const DataController = () => {
   const handleHideCreateDataModal = () => {
     setShowCreateModal(false);
   }
-
   
 
   React.useEffect(() =>{
@@ -95,9 +96,9 @@ const DataController = () => {
     ToastifyMockify(dispatched);
   }, [dispatch, key])
 
-  const handleTabChange = (key : string, resource : string ) => {
-    setResource(resource);
+  const handleTabChange = (key : string, resource : any ) => {
     setKey(parseInt(key));
+    setResource(resource[parseInt(key)].resourceName);
   }
   return {
     // globals
@@ -105,7 +106,6 @@ const DataController = () => {
     loading,
     handleTabChange,
     key,
-
     selectedData, 
     setSelectedData,
 
