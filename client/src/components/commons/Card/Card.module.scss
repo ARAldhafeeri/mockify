@@ -32,5 +32,93 @@ $button-text-color: #ffffff;
     justify-content: center;
     align-items: center;
   }
+
+  .card-action {
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+      background-color: $button-bg;
+      color: $button-text-color;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      font-family: 'Courier New', Courier, monospace;
+      cursor: pointer;
+    }
+  }
   
+}
+
+.titleCard {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+.username {
+  font-size: 1rem;
+  font-family: 'Courier New', Courier, monospace;
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+.userId {
+  font-size: 0.6rem;
+  font-family: 'Courier New', Courier, monospace;
+  color: #999999;
+  top: 0;
+}
+
+.titleAndIcon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.titleExtra {
+  align-self: end;
+}
+
+.userCardBody {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cardBodyItem {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.cardBodyItemTitle {
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.cardBodyItemValue {
+  color: #333;
+}
+
+.cardActions {
+  display: flex;
+  margin-top: 16px;
+}
+
+.cardAction {
+  margin-right: 8px;
+  cursor: pointer; 
+}
+
+.cardActions {
+  display: flex;
+  flex-direction: row;
+  margin-top: 16px;
+  justify-content: space-between;
 }

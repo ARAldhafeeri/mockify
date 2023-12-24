@@ -22,4 +22,10 @@ interface MockifyCardTypes {
 
 }
 
+export interface ICardTitle {
+  icon?: ReactNode;
+  title?: ReactNode;
+  extra?: ReactNode;
+}
+
 export default MockifyCardTypes;

@@ -1,13 +1,9 @@
-import React, { useState } from "react";
-import { IFetchedEndpointData } from "types/Endpoint";
+import React from "react";
 import { fetchEndpoints } from "redux/features/endpoint/endpointThunk";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { ToastifyMockify } from "utils";
-import { Form } from "antd";
-import { IFetchResourceResponse, IFetchedResourceData } from "types/Resource";
 const EndpointController = () => {
   const { endpoint, loading } = useAppSelector((state) => state.endpoint);
-  const { resource } = useAppSelector((state) => state.resource);
   const [ selectedResource, setSelectedResource  ] = React.useState<any>({});
 
   const dispatch = useAppDispatch();

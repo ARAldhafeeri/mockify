@@ -5,9 +5,9 @@ import { Card } from "antd";
 import { addtionalClasses } from "utils";
 
 const MockifyCard : React.FC<MockifyCardTypes> = (props: MockifyCardTypes) => {
-  const { children, classes } = props;
+  const { children, classes, title } = props;
   return (
-    <Card className={addtionalClasses({classes: classes})}>
+    <Card className={addtionalClasses({classes: classes})} title={title}>
       {children}
     </Card>
   )

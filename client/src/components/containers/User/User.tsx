@@ -1,13 +1,12 @@
 import React from "react"; 
-import MockifyTable from "../../commons/Table/Table";
 import UserController from "controllers/User";
 import MockifyButton from "components/commons/Button/Button";
-import ColumnsWithActions from "../../presentational/User/UserData";
 import MockifyLoader from "components/commons/Loader/MockifyLoader";
 import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import MockifyModal from "components/commons/Modal/Modal";
 import { IFetchedUserData } from "types/User";
 import UserForm from "../Forms/User/UserForm";
+import UserCards from "components/presentational/User/UserCards";
 
 const User : React.FC = () => {
   const { 
@@ -18,7 +17,6 @@ const User : React.FC = () => {
     showDeleteModal, 
     handleShowDeleteModal,
     selectedUser, 
-    setSelectedUser,
     handleHideDeleteModal, 
     // update
     handleShowEditModal,
@@ -96,10 +94,7 @@ const User : React.FC = () => {
                   />
               }
             />
-          <MockifyTable 
-            columns={ColumnsWithActions(actions)} 
-            data={user} 
-            classes={["mockify-table"]} />
+            <UserCards data={user} actions={actions}/>
         </>
       )
     }
