@@ -40,13 +40,13 @@ interface MenuItem {
 }
 
 export const items: MenuItem[] = [
-  {
-    key: 'dashbaord',
-    icon: <PieChartOutlined />,
-    label: 'Dashboard',
-    to: '/dashboard',
-    element:  <Dashboard />
-  },
+  // {
+  //   key: 'dashbaord',
+  //   icon: <PieChartOutlined />,
+  //   label: 'Dashboard',
+  //   to: '/dashboard',
+  //   element:  <Dashboard />
+  // },
   {
     key: 'user',
     icon: <UserOutlined />,
@@ -98,10 +98,10 @@ const MainRouter = createBrowserRouter([
     path: ROUTES_NAMES.ROOT,
     element: <NotLoggedInLayout />,
   },
-  {
-    path: ROUTES_NAMES.DASHBOARD,
-    element: withLoggedInLayout(<Dashboard />),
-  },
+  // {
+  //   path: ROUTES_NAMES.DASHBOARD,
+  //   element: withLoggedInLayout(<Dashboard />),
+  // },
   {
     path: ROUTES_NAMES.USER,
     element: withLoggedInLayout(<User />)

@@ -15,7 +15,7 @@ const NotLoggedInLayout: React.FC = () => {
 
   const { auth } = AuthController();
   if (auth){
-    return <Navigate to={ROUTES_NAMES.DASHBOARD} />;
+    return <Navigate to={ROUTES_NAMES.USER} />;
   }
   return (
     <Layout
