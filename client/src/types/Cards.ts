@@ -24,6 +24,7 @@ export interface IUserCardProps {
 }
 
 export interface IProjectCardProps {
+  name : string;
   apiKey: string;
   user: string;
   _id : string;

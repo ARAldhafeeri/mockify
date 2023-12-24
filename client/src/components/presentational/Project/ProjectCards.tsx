@@ -11,6 +11,7 @@ import { Invisible } from 'components/commons/Invisible/Invisible';
 const ProjectCard  : React.FC<IProjectCardProps> = (
   {
     apiKey,
+    name,
     user,  
     _id,
     actions,
@@ -30,7 +31,12 @@ const ProjectCard  : React.FC<IProjectCardProps> = (
         </div>
       </div>
       <Divider />
-      <CardActions actions={actions} record={{_id}} classes={["card-action"]} />
+      <CardActions actions={actions} record={{
+        name,
+        apiKey,
+        user,
+        _id,
+      }} classes={["card-action"]} />
     </div>
   )
 }

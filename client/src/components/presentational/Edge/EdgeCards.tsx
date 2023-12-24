@@ -53,7 +53,13 @@ const EdgeCard  : React.FC<IEdgeCardProps> = (
         </div>
       </div>
       <Divider />
-      <CardActions actions={actions} record={{_id}} classes={["card-action"]} />
+      <CardActions actions={actions} record={{
+        _id,
+        name,
+        code,
+        method,
+        resource,
+      }} classes={["card-action"]} />
     </div>
   )
 }

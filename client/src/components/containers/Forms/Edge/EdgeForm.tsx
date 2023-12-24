@@ -9,6 +9,7 @@ import { IEdgeForm } from 'types/forms';
 const EdgeForm : React.FC<IEdgeForm> = (
   { handleFormSubmit, handleFormChange, data, form, onFinish, resourceOptions, methodOptions }
   ) => {
+    console.log(data)
     return (
       <Form
       name="basic"
@@ -23,6 +24,7 @@ const EdgeForm : React.FC<IEdgeForm> = (
       >
         <div className="mockify-input">
           <Select
+            value={data.resource as string}
             onChange={(e : any) => handleFormChange(e, 'resource', 0)}
           >
           {resourceOptions?.map((res : any, index : number) => {

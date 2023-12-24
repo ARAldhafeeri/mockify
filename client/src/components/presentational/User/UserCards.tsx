@@ -41,7 +41,14 @@ const UserCard  : React.FC<IUserCardProps> = (
         </div>
       </div>
       <Divider />
-      <CardActions actions={actions} record={{_id}} classes={["card-action"]} />
+      <CardActions actions={actions} record={{
+        username,
+        email,
+        role,
+        createdAt,
+        createdBy,
+        _id,
+      }} classes={["card-action"]} />
     </div>
   )
 }
