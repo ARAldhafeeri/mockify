@@ -71,6 +71,25 @@ $box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 }
 
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+      margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #3498db;
+  border-radius: 10px;
+}
+
 .loader {
   display: block;
   position: fixed;
@@ -112,4 +131,22 @@ $box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   list-style: none;
   margin-top: 20px;
   margin-bottom: 10px;
+}
+
+
+.ant-descriptions {
+  border-style: none;
+  border-color: #217dbb;
+  border-width: 1px;
+  padding: 5px;
+
+}
+
+.ant-descriptions-item {
+  background-color: #f0f2f5;
+  border-style: none;
+  border-color: #217dbb;
+  padding: 5px;
+  border-radius: 1;
+  border-width: 0.2px;
 }
