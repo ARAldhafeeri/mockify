@@ -14,7 +14,7 @@ export const getEdge = async function(req: Request, res: Response) : Promise<any
  
   try{
 
-      let resourceName : string = req.query.resourceName as string;
+      let resourceName : string = req.params.resourceName as string;
 
       const resource : IResource = await rService.findOne({resourceName: resourceName});
 

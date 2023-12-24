@@ -29,3 +29,12 @@ export interface IProjectCardProps {
   _id : string;
   actions: ICardAction[];
 }
+
+export interface IEdgeCardProps {
+  name: string;
+  code: string;
+  _id : string;
+  actions: ICardAction[];
+  resource: string;
+  method: string;
+}

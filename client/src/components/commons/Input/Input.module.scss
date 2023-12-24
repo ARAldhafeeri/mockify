@@ -4,12 +4,12 @@
     border: 1px solid $gray-light;
     border-radius: 4px;
     padding: 10px;
-    width: 300px;
+    width: 200px;
     font-size: 14px;
     color: $gray-dark;
     outline: none;
     transition: all 0.3s ease-in-out;
-    margin: 10px;
+    margin: 5px;
     &:focus {
         border-color: $primary;
     }
@@ -69,7 +69,7 @@
     background-color: white;
     padding: 0 4px;
     font-size: 12px;
-    color: $blue-dark;
+    color: black;
     border-radius: 30px;
     font-family:'Courier New', Courier, monospace;
 }

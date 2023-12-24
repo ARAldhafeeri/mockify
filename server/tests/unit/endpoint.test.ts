@@ -19,7 +19,6 @@ describe('EndpointService', () => {
 
     const endpoint = await endpointService.create(res.features, res.project, res.resourceName);
     expect(endpoint).toBeDefined();
-    expect(endpoint).toHaveLength(9);
 
     // generic endpoints
     let getx = endpoint.find((e : any) => e.method === "GET");

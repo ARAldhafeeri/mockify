@@ -19,7 +19,8 @@ import {
   DeploymentUnitOutlined,
   ControlOutlined,
   FolderAddOutlined,
-  FolderAddFilled
+  FolderAddFilled,
+  FunctionOutlined
   
 } from '@ant-design/icons';
 import { ROUTES_NAMES } from "constants/routes";
@@ -28,6 +29,7 @@ import Resource from "components/containers/Resource/Resource";
 import Endpoint from "components/containers/Endpoint/Endpoint";
 import Data from "components/containers/Data/Data";
 import Policy from "components/containers/Policy/Policy";
+import Edge from "components/containers/Edge/Edge";
 
 
 interface MenuItem {
@@ -86,6 +88,12 @@ export const items: MenuItem[] = [
     label: 'Endpoint',
     to: '/endpoint',
   }, 
+  {
+    key: "Edge",
+    icon: <FunctionOutlined />,
+    label: 'Edge Functions',
+    to: '/edge',
+  }
   // Add more menu items if needed
 ];
 
@@ -125,6 +133,10 @@ const MainRouter = createBrowserRouter([
   {
     path: ROUTES_NAMES.ENDPOINT,
     element: withLoggedInLayout(<Endpoint />)
+  },
+  {
+    path: ROUTES_NAMES.EDGE,
+    element: withLoggedInLayout(<Edge />)
   }
 ]);
 

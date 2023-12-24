@@ -141,3 +141,20 @@ export interface IFormMakerPolicyProps {
   data?: any;
   fields?: Array<string>;
   }
+
+  export interface IMethods {
+    GET: string;
+    POST: string;
+    PUT: string;
+    DELETE: string;
+  }
+
+  export interface IEdgeForm {
+    handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+    handleFormChange: (value : string, type: string, index: number) => void;
+    data: any;
+    form: any;
+    onFinish?: (values: any) => void;
+    resourceOptions?: IFetchedResourceData[];
+    methodOptions?: IMethods;
+  }

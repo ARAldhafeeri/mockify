@@ -8,4 +8,5 @@ export const ROUTES_NAMES = {
    POLICY: '/policy',
    ROOT: '/',
    ENDPOINT: '/endpoint',
+   EDGE: '/edge',
 }

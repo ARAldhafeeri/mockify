@@ -13,5 +13,8 @@ export const ENDPOINTS = {
   DATA_DELETE: (id : string ) => `/data/?id=${id}`,
   POLICY_DELETE: (id : string) => `/policy/?id=${id}`,
   DATA_POLICY_NAME: (projectID: string) => `/policy?projectID=${projectID}`,
-
+  // edge 
+  EDGE: "/edge",
+  EDGE_DELETE: (name: string, id : string) => `/${name}/edge/?id=${id}`,
+  EDGE_NAME: (res: string) => `/${res}/edge`,
 }

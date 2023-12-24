@@ -63,7 +63,7 @@ $button-text-color: #ffffff;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  margin: 10px;
+  max-width: 400px;
 }
 
 .ant-card:hover {

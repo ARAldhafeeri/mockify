@@ -6,6 +6,7 @@ import resourceSlice from './features/resource/resourceSlice'
 import endpointSlice from './features/endpoint/endpointSlice'
 import dataSlice from './features/data/dataSlice'
 import policySlice from './features/policy/policySlice'
+import edgeSlice from './features/edge/edgeSlice'
 
 const store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ const store = configureStore({
     resource: resourceSlice,
     endpoint: endpointSlice,
     data: dataSlice,
-    policy: policySlice
+    policy: policySlice,
+    edge: edgeSlice
   },
 })
 

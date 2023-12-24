@@ -37,9 +37,9 @@ const ProjectCard  : React.FC<IProjectCardProps> = (
 
 const ProjectCards :  React.FC<ICardsProps> = ({data, actions}) => {
   return (
-    <Row gutter={[16, 16]}>
+    <Row>
       {data?.map((item : any) => (
-        <Col span={8}>
+        <Col xs={20} sm={16} md={12} lg={8} xl={6}>
           <MockifyCard 
             title={
             <CardTitleWithIcon 

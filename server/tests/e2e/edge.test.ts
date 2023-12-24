@@ -54,7 +54,7 @@ describe('end-to-end tests curd edge functions', () => {
 
   test('should get resource edge', async () => {
 
-    const response = await request.agent(app).get(`${API_ROUTE}${EDGE_ROUTE}/?resourceName=${"default"}`)
+    const response = await request.agent(app).get(`${API_ROUTE}/default/edge`)
     .set('Authorization', 'bearer ' + token)
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -63,21 +63,22 @@ describe('end-to-end tests curd edge functions', () => {
   });
 
   test('should edit resource edge', async () => {
-
-    const response = await request.agent(app).put(`${API_ROUTE}${EDGE_ROUTE}`).send({
+    let rand = genRandomName();
+    const response = await request.agent(app).put(`${API_ROUTE}/default/edge`).send({
       ...createdResource,
-      name: 'newName'
+      name: rand
       })
     .set('Authorization', 'bearer ' + token)
-
+    
+    console.log(response.body)
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data.name).toBe('newName');
+    expect(response.body.data.name).toBe(rand);
 
   });
 
   test('should delete resource edge', async () => {
-    const response = await request.agent(app).delete(`${API_ROUTE}${EDGE_ROUTE}/?id=${createdResource._id}`)
+    const response = await request.agent(app).delete(`${API_ROUTE}/default/edge?id=${createdResource._id}`)
     .set('Authorization', 'bearer ' + token)
 
     expect(response.status).toBe(200);
