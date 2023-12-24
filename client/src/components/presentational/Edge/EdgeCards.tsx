@@ -1,10 +1,12 @@
 import React from 'react';
-import { Col, Divider, Row, Tag, Typography } from 'antd';
+import { Col, Divider, Drawer, Row, Tag, Typography } from 'antd';
 import MockifyCard from 'components/commons/Card/Card';
 import { ICardsProps, IEdgeCardProps } from 'types/Cards';
 import CardTitleWithIcon from 'components/commons/Card/CardTitleWithIcon';
-import { FunctionOutlined } from '@ant-design/icons';
+import { EyeFilled, EyeTwoTone, FunctionOutlined } from '@ant-design/icons';
 import CardActions from 'components/commons/CardAction/CardActions';
+import MockifyButton from 'components/commons/Button/Button';
+import MockifyCodeEditor from 'components/commons/CodeEditor/CodeEditor';
 
 
 const EdgeCard  : React.FC<IEdgeCardProps> = (
@@ -17,6 +19,14 @@ const EdgeCard  : React.FC<IEdgeCardProps> = (
     actions,
   }
 ) => {
+  const [showCode, setShowCode] = React.useState<boolean>(false);
+  const showCodeDrawer = () => {
+    setShowCode(true);
+  }
+
+  const hideCodeDrawer = () => {
+    setShowCode(false);
+  }
 
   return (
     <div>
@@ -26,9 +36,20 @@ const EdgeCard  : React.FC<IEdgeCardProps> = (
           <Typography className='cardBodyItemValue'>{name}</Typography>
         </div>
         <div className="cardBodyItem">
+
           <Typography className='cardBodyItemTitle'>Code</Typography>
-          {/* code view drawer */}
-          <Typography className='cardBodyItemValue'>{code}</Typography>
+          <MockifyButton classes={['table-action-third', 'textAndIcon']} text="Show code" icon={<EyeFilled />} onClick={showCodeDrawer} />
+          <Drawer
+            title="Edge Function Code"
+            placement="right"
+            onClose={hideCodeDrawer}
+            open={showCode}
+            width={600}
+          >
+            <MockifyCodeEditor 
+            value={code} height={"auto"} width={"600px"} onChange={() => console} />
+          </Drawer>
+
         </div>
       </div>
       <Divider />
