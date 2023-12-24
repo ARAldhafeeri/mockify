@@ -1,15 +1,13 @@
 import React from "react"; 
-import MockifyTable from "../../commons/Table/Table";
 import ProjectController from "controllers/Project";
 import MockifyButton from "components/commons/Button/Button";
-import ColumnsWithActions from "../../presentational/Project/ProjectData";
 import MockifyLoader from "components/commons/Loader/MockifyLoader";
 import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import MockifyModal from "components/commons/Modal/Modal";
 import { IFetchedProjectData } from "types/Project";
 import ProjectForm from "../Forms/Project/ProjectForm";
-import { Divider, Space, Typography } from "antd";
-import { Header } from "antd/es/layout/layout";
+import { Space } from "antd";
+import ProjectCards from "components/presentational/Project/ProjectCards";
 
 const Project : React.FC = () => {
   const { 
@@ -30,12 +28,14 @@ const Project : React.FC = () => {
   const actions = [
     {
       icon: <EditOutlined />,
-      classes: ['table-action-primary', 'table-action'],
+      classes: ['table-action-primary', 'textAndIcon'],
+      text: "Edit",
       onclick: (record : IFetchedProjectData) => handleShowEditModal(record) 
     }, 
     {
       icon:<DeleteOutlined />,
-      classes: ['table-action-secondary', 'table-action'],
+      classes: ['table-action-secondary', 'textAndIcon'],
+      text: "Delete",
       onclick: (record: IFetchedProjectData) => handleShowDeleteModal(record)
     }
   ]
@@ -47,8 +47,9 @@ const Project : React.FC = () => {
         <>
           <Space style={{justifyContent: "space-between"}}>
           <MockifyButton 
-            classes={['table-action-third', 'table-action']} 
+            classes={['table-action-third', 'textAndIcon']}
             icon={<PlusCircleOutlined />}
+            text={"Create project"}
             onClick={handleShowCreateProjectModal}
             />
           </Space>
@@ -93,10 +94,7 @@ const Project : React.FC = () => {
                   />
               }
             />
-          <MockifyTable 
-            columns={ColumnsWithActions(actions)} 
-            data={project} 
-            classes={["mockify-table"]} />
+          <ProjectCards data={project} actions={actions} />
         </>
       )
     }

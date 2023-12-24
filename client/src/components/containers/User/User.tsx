@@ -33,12 +33,14 @@ const User : React.FC = () => {
   const actions = [
     {
       icon: <EditOutlined />,
-      classes: ['table-action-primary', 'table-action'],
+      classes: ['table-action-primary', 'textAndIcon'],
+      text: 'Edit',
       onclick: (record : IFetchedUserData) => handleShowEditModal(record) 
     }, 
     {
       icon:<DeleteOutlined />,
-      classes: ['table-action-secondary','table-action'],
+      text: 'Delete',
+      classes: ['table-action-secondary','textAndIcon'],
       onclick: (record: IFetchedUserData) => handleShowDeleteModal(record)
     }
   ]
@@ -50,8 +52,9 @@ const User : React.FC = () => {
         <>
           <MockifyButton
             onClick={handleShowCreateUserModal}
-            classes={['table-action-third', 'table-action']}
-            icon={<PlusCircleOutlined />}
+            classes={['table-action-third', 'textAndIcon']}
+            text="Create user"
+            icon={<PlusCircleOutlined size={30} />}
           />
           <MockifyModal 
             show={showDeleteModal}

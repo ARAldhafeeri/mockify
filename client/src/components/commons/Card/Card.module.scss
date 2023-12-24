@@ -68,12 +68,20 @@ $button-text-color: #ffffff;
   margin-top: 5px;
 }
 
-.userId {
+.projectname {
+  font-size: 1rem;
+  font-family: 'Courier New', Courier, monospace;
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+.cardId {
   font-size: 0.6rem;
   font-family: 'Courier New', Courier, monospace;
   color: #999999;
   top: 0;
 }
+
 
 .titleAndIcon {
   display: flex;

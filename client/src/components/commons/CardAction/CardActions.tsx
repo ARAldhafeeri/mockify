@@ -13,6 +13,7 @@ const CardActions= (props: any) => {
           <MockifyButton 
           icon={action.icon}
           classes={action.classes}
+          text={action.text}
           onClick={() => action.onclick(record)} />
         )
       })

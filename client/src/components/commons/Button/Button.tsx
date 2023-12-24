@@ -7,7 +7,8 @@ import ButtonProps from "./Button.types";
 const MockifyButton : React.FC<ButtonProps> = (props :ButtonProps) => {
     const { text, classes, onClick, htmlType, icon } = props;
 
-    const content = text || icon;
+    let content = text || icon;
+    if ( text && icon ) content = <>{icon} {text}</>;
     return (
         <React.Fragment>
             <Button 

@@ -134,3 +134,11 @@
   justify-content: center;
   margin-left: 5px;
 }
+
+.textAndIcon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: $white;
+  margin: 5px;
+}

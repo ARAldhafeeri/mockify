@@ -22,3 +22,10 @@ export interface IUserCardProps {
   createdAt: string;
   createdBy: string;
 }
+
+export interface IProjectCardProps {
+  apiKey: string;
+  user: string;
+  _id : string;
+  actions: ICardAction[];
+}
