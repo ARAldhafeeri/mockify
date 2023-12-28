@@ -1,3 +1,5 @@
+# ignore landing page folder 
+/landing
 # Logs
 logs
 *.log
