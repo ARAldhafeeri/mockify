@@ -73,7 +73,7 @@ class EdgeService implements IEdgeService  {
   findEdgeFunctionsBYResourceName = async (resourceName: string) : Promise<any> => {
     const res : IResource = await this.rService.findOne({resourceName: resourceName});
 
-    if (!res) throw new Error("resource not found");
+    if (!res) return false;
     
     const found = await EdgeModel.find({resource: res._id });
 

@@ -38,7 +38,7 @@ class DataService implements IDataService  {
     
     let resource = await this.resourceService.findById(d.resource);
 
-    if (!resource) throw new Error('resource not found');
+    if (!resource) return false;
 
     let fieldsNames : Array<string> = [];
 
@@ -47,7 +47,7 @@ class DataService implements IDataService  {
     });
 
     Object.keys(d.data).forEach((key) => {
-      if (!fieldsNames.includes(key)) throw new Error(`field ${key} not found in schema`);
+      if (!fieldsNames.includes(key)) return false;
     })
 
     const dNew = new DataModel(d);

@@ -116,8 +116,8 @@ class MockService implements IMockService  {
     
     let fieldsTypes: IMockFieldsMap = this.getSchemaFieldTypeMap(fields);
     fieldsTypes.forEach((value : string , key : any) => {
-      if(!(key in data)) throw new Error(`field ${key} does not exists  in schema`);
-      if(typeof data[key] != fieldsTypes.get(key) ) throw  new  Error(`field ${key} type must be ${fieldsTypes.get(key)}`); 
+      if(!(key in data)) return false;
+      if(typeof data[key] != fieldsTypes.get(key) ) return false;
     })
 
     const results = await DataModel.create(
@@ -130,8 +130,8 @@ class MockService implements IMockService  {
     
     let fieldsTypes: IMockFieldsMap = this.getSchemaFieldTypeMap(fields);
     fieldsTypes.forEach((value : string , key : any) => {
-      if(!(key in data)) throw new Error(`field ${key} does not exists  in schema`);
-      if(typeof data[key] != fieldsTypes.get(key) ) throw  new  Error(`field ${key} type must be ${fieldsTypes.get(key)}`); 
+      if(!(key in data)) return false;
+      if(typeof data[key] != fieldsTypes.get(key) ) return false;
     })
 
     const results = await DataModel.create(
@@ -155,7 +155,7 @@ class MockService implements IMockService  {
     
     let resource = await this.resourceService.findById(d.resource);
 
-    if (!resource) throw new Error('resource not found');
+    if (!resource) return false;
 
     let fieldsNames : Array<string> = [];
 
@@ -164,7 +164,7 @@ class MockService implements IMockService  {
     });
 
     Object.keys(d.data).forEach((key) => {
-      if (!fieldsNames.includes(key)) throw new Error(`field ${key} not found in schema`);
+      if (!fieldsNames.includes(key)) return false;
     })
 
     const dNew = new DataModel(d);

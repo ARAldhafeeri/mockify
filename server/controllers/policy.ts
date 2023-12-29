@@ -72,7 +72,9 @@ const createPolicy = async function(req : Request, res: Response) : Promise<any>
 
     data.createdAt = new Date() ;
 
-    policyService.create(data);
+    const created = await policyService.create(data);
+
+    if (!created) return ErrorResponse(res, "Error creating policy", 400)
 
     return res.status(200).send({status: true, data: data});
 
