@@ -4,6 +4,7 @@ import { IResourceFormFeatureStepProps } from 'types/forms';
 
 export default function FeatureStep(props : IResourceFormFeatureStepProps) {
   const { data, handleFormChangeFeatures} = props;
+
   return (
     <>
     {/* FEATURES */}

@@ -75,7 +75,7 @@ const Resource : React.FC = () => {
         tabPosition="top"
         tabBarExtraContent={
           <MockifyButton 
-          classes={['table-action-third', 'table-action']} 
+          classes={['table-action-third', 'table-action', 'left-tab-action']} 
           onClick={handleShowCreateResourceModal} 
           icon={<PlusCircleOutlined />} 
         />

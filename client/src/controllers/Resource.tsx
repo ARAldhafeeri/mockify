@@ -19,7 +19,23 @@ const ResourceController = () => {
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
   const [ showCreateModal, setShowCreateModal ] = React.useState<boolean>(false);
   const [currentStep, setCurrentStep] = React.useState<number>(0);
-  const [selectedResource, setSelectedResource ] = React.useState<any>({});
+  const [selectedResource, setSelectedResource ] = React.useState<any>({
+    _id: "",
+    name: "",
+    project: projectT._id,
+    fields: [],
+    features: {
+      "postx": false,
+      "getx": false,
+      "putx": false,
+      "deletex": false,
+      "search": false,
+      "pagination": false,
+      "filter": false,
+      "functions": false,
+      "validation": false,
+    }
+  });
   const dispatch = useAppDispatch();
 
   const prevStep = () => {

@@ -132,3 +132,10 @@
   color: $white;
   margin: 5px;
 }
+
+.left-tab-action {
+  display: "sticky";
+  position: "fixed";
+  top: 0;
+  left: 0;
+}
