@@ -24,7 +24,7 @@ class EndpointService {
     let filterX : string = `${domain}/mock/${resourceName}/filter/?name=name&value=value`
     let validateX : string = `${domain}/mock/${resourceName}/validate`
 
-    let getFunctionURL = (name : string) => `${domain}/mock/${resourceName}/edge/${name}`
+    let getFunctionURL = (name : string) => `${domain}/${resourceName}/edge/${name}`
 
     if (features.getx) endpoint.push({method: "GET", url: getx, type: "Generic"});
     if(features.postx) endpoint.push({method: "POST", url: postx, type: "Generic"});
