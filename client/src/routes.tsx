@@ -53,46 +53,46 @@ export const items: MenuItem[] = [
     key: 'user',
     icon: <UserOutlined />,
     label: 'Users',
-    to: '/user',
+    to: ROUTES_NAMES.USER,
     element: <User />
   }, 
   {
     key: 'project',
     icon: <SlackCircleFilled />,
     label: 'Projects',
-    to: '/project',
+    to: ROUTES_NAMES.PROJECT,
     element: <Project />
   }, 
   {
     key: "resources", 
     icon: <DatabaseFilled />,
     label: 'Resources',
-    to: '/resource',
+    to: ROUTES_NAMES.RESOURCE,
     element: <Resource />
   },
   {
     key: "data",
     icon: <FolderAddFilled />,
     label: 'Data',
-    to: '/data',
+    to: ROUTES_NAMES.DATA,
   }, 
   {
     key: "policy",
     icon: <ControlOutlined />,
     label: 'Policy',
-    to: '/policy',
+    to: ROUTES_NAMES.POLICY,
   }, 
   {
     key: "endpoint",
     icon: <DeploymentUnitOutlined />,
     label: 'Endpoint',
-    to: '/endpoint',
+    to: ROUTES_NAMES.ENDPOINT,
   }, 
   {
     key: "Edge",
     icon: <FunctionOutlined />,
     label: 'Edge Functions',
-    to: '/edge',
+    to: ROUTES_NAMES.EDGE,
   }
   // Add more menu items if needed
 ];
