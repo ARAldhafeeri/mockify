@@ -22,11 +22,10 @@ note: recommended ci/cd : with docker images build and run
 ```bash
 docker-compose --env-file=./server/.env build
 ```
-2- run integration tests
+2- run integration tests from within the docker container
 ```bash
 npm run test:integration
 ```
-from within the docker container
 3- run mockify docker container
 ```bash
 docker-compose --env-file=./server/.env up -d
