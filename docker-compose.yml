@@ -62,7 +62,7 @@ services:
   mongo:
     image: 'mongo:latest'
     volumes:
-      - mongo_volume:/data/mockify
+      - mongo_volume:/data/db
     ports:
       - '27017:27017'
   certbot:
@@ -81,7 +81,6 @@ networks:
 
 volumes:
   mongo_volume:
-    external: true
   certbot-etc:
   certbot-var:
   web-root:

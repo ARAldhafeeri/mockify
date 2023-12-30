@@ -18,7 +18,25 @@ import edgeRouter from './routes/edge';
 
 const app = express();
 
-app.use(cors({credentials: true, origin: true}));
+app.use(cors());
+// mockify will be communicated with variable origins, currently we will disable it
+// in the future we can implement dynamic plocies for cors and origins managaments 
+app.use(async (req, res, next) => {
+  try {
+            await res.set({
+                'Access-Control-Allow-Headers': 'content-type, api-key, uid, id, redirect_uri',
+                "Access-Control-Allow-Methods": 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+                "Access-Control-Expose-Headers": '*',
+                'Access-Control-Allow-Credentials': true,
+                "Access-Control-Allow-Origin": req.get('origin') || req.get('referer') || req.get('Host')
+            });
+
+            next();
+
+        } catch (err) {
+            return next(err);
+        }	
+});
 app.use(morgan('combined'))
 app.use(bodyParser.json());
 
