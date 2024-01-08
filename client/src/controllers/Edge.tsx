@@ -121,13 +121,9 @@ const EdgeController = () => {
   // create events
   const handleShowCreateEdgeModal = () => {
     // after create done 
-    if(edge.length === 1){
-      toast.info("Cannot create new edge, only one edge per project")
-    } else {
       resetCreate();
       setCurrentStep(0);
       setShowCreateModal(true);
-    }
   }
 
   const handleHideCreateEdgeModal = () => {
