@@ -8,11 +8,10 @@ services:
     restart: always
     volumes:
       - web-root:/var/www/html
-      - ./nginx-conf:/etc/nginx/conf.d
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
-      - "./conf/modsec/:/etc/nginx/modsec/"
-      - "./conf/conf.d/:/etc/nginx/conf.d/"
+      - ./conf/modsec/:/etc/nginx/modsec/
+      - ./conf/conf.d/:/etc/nginx/conf.d/
     build:
       context: .
       dockerfile: Dockerfile.prod
@@ -25,6 +24,9 @@ services:
       - grafana
     networks:
       - monitoring
+    labels:
+      - "com.docker.compose.service=nginx"
+      - "com.docker.compose.project=secopsdeploy"
     logging:
       driver: loki
       options:
@@ -93,7 +95,7 @@ services:
       - web-root:/var/www/html
     depends_on:
       - nginx
-    command: certonly --webroot --webroot-path=/var/www/html --email araldhafeeri@mockify.io --agree-tos --no-eff-email --force-renewal -d mockify.io  -d www.mockify.io -d www.api.mockify.io -d api.mockify.io -d www.admin.mockify.io -d admin.mockify.io -d beta.mockify.io -d www.beta.mockify.io  -d www.grafana.mockify.io -d grafana.mockify.io 
+    command: certonly --webroot --webroot-path=/var/www/html --email araldhafeeri@mockify.io --agree-tos --no-eff-email --force-renewal -d mockify.io  -d www.mockify.io -d www.api.mockify.io -d api.mockify.io -d www.admin.mockify.io -d admin.mockify.io -d beta.mockify.io -d www.beta.mockify.io  -d www.grafana.mockify.io -d grafana.mockify.io -d loki.mockify.io -d wwww.loki.mockify.io
 
     networks:
       - monitoring
@@ -166,8 +168,8 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin123 # change inside server before deploying
-      - GF_SECURITY_ADMIN_USER=admin123 # change inside server before deploying
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PWSD} # change inside server before deploying
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER} # change insiide server before deploying
       - GF_SECURITY_ALLOW_EMBEDDING=true
     restart: always
     depends_on:
@@ -186,3 +188,8 @@ volumes:
   certbot-var:
   web-root:
   dhparam:
+  prometheus_data:
+  nginx_data:
+  loki_data:
+  node_exporter_data:
+  grafana_data:
