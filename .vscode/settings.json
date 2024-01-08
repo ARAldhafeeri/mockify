@@ -1,0 +1,8 @@
+{
+    "apc.electron": {
+        "opacity": 0.5,
+        "transparent": true,
+        "backgroundColor": "#00000000",
+        "vibrancy": "ultra-dark"
+    },
+}
