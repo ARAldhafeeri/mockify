@@ -5,10 +5,11 @@ import { ToastifyMockify } from "utils";
 import { IFetchedDataData } from "types/Data";
 import { Form } from "antd";
 import { IFetchResourceResponse, IFetchedResourceData } from "types/Resource";
+import ResourceController from "./Resource";
 
 const DataController = () => {
   const { data, loading } = useAppSelector((state) => state.data);
-  const { resource } = useAppSelector((state) => state.resource);
+  const { resource } = ResourceController();
   const dispatch = useAppDispatch();
   const [ key, setKey ] = React.useState<number>(0);
   const [ resourceT, setResource ] = React.useState<IFetchedResourceData>(resource[0]);

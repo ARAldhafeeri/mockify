@@ -5,16 +5,12 @@ import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { ToastifyMockify } from "utils";
 import { Form } from "antd";
 import { IFetchedProjectData } from "types/Project";
+import ProjectController from "./Project";
 const ResourceController = () => {
-  const { project } = useAppSelector((state) => state.project);
+  const { project } = ProjectController();
   const { resource, loading } = useAppSelector((state) => state.resource);
   const [ key, setKey ] = React.useState<number>(0);
-  const [ projectT, setProject ] = React.useState<IFetchedProjectData>(project[0] ?? {
-    _id: "string",
-    name: "string",
-    user: "string",
-    apiKey: "string",
-  });
+  const [ projectT, setProject ] = React.useState<IFetchedProjectData>(project[0]);
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
   const [ showCreateModal, setShowCreateModal ] = React.useState<boolean>(false);

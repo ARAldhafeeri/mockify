@@ -6,9 +6,10 @@ import { ToastifyMockify } from "utils";
 import { Form } from "antd";
 import { toast } from "react-toastify";
 import { IFetchedResourceData } from "types/Resource";
+import ResourceController from "./Resource";
 const EdgeController = () => {
   const { edge, loading } = useAppSelector((state) => state.edge);
-  const { resource } = useAppSelector((state) => state.resource);
+  const { resource } = ResourceController();
   const [ key, setKey ] = React.useState<number>(0);
   const [ currentStep, setCurrentStep ] = React.useState<number>(0);
   const  [ resourceName, setResourceName ] = React.useState<string>(resource[0]?.resourceName ?? "");
