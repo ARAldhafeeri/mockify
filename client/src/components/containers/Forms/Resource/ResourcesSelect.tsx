@@ -7,7 +7,7 @@ const ResourcesSelect : React.FC<IResourceSelectProps>= (props) => {
   return (
     <Select 
       className='mockify-select'
-      placeholder="Select a project"
+      placeholder="Select a resource"
       onChange={handleFormChange}
       >
         {resourceOptions?.map((reso : any, index : number) => {

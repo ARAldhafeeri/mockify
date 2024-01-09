@@ -1,29 +1,23 @@
 import React from "react";
-import { IFetchDataResponse } from "types/Data";
 import { createData, deleteData, fetchData, updateData } from "redux/features/data/dataThunk";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { ToastifyMockify } from "utils";
 import { IFetchedDataData } from "types/Data";
 import { Form } from "antd";
-import { IFetchedResourceData } from "types/Resource";
-import { AnyAction } from "redux";
+import { IFetchResourceResponse, IFetchedResourceData } from "types/Resource";
 
 const DataController = () => {
   const { data, loading } = useAppSelector((state) => state.data);
   const { resource } = useAppSelector((state) => state.resource);
   const dispatch = useAppDispatch();
   const [ key, setKey ] = React.useState<number>(0);
-  const [ resourceT, setResource ] = React.useState<string>(resource[0]?._id ?? "");
+  const [ resourceT, setResource ] = React.useState<IFetchedResourceData>(resource[0]);
 
   
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
   const [ showCreateModal, setShowCreateModal ] = React.useState<boolean>(false);
-  const [selectedData, setSelectedData ] = React.useState<IFetchedDataData>({
-    _id: '',
-    resource: '',
-    data: {},
-  });
+  const [selectedData, setSelectedData ] = React.useState<IFetchedDataData>(data[0] as any);
 
   // antd form 
   const [form] = Form.useForm();
@@ -99,7 +93,7 @@ const DataController = () => {
   
 
   React.useEffect(() =>{
-    const dispatched = dispatch(fetchData(resourceT));
+    const dispatched = dispatch(fetchData(resourceT?.resourceName));
     ToastifyMockify(dispatched);
   }, [dispatch, key])
 

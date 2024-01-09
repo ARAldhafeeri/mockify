@@ -62,6 +62,7 @@ const Data : React.FC = () => {
       onclick: (record: IFetchedDataData) => handleShowDeleteModal(record)
     },
   ]
+  console.log(data)
   return (
     <>
     {
