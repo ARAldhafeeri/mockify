@@ -26,15 +26,11 @@ services:
       - mongo
 
   mongo:
+    container_name: mongo
     image: 'mongo:latest'
-    volumes:
-      - mongo_volume:/data/db
     ports:
       - '27017:27017'
       
 networks:
   default:
     driver: bridge
-
-volumes:
-  mongo_volume:

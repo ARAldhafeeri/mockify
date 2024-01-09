@@ -17,3 +17,7 @@ export const SUPER_ADMIN_EMAIL = `${process.env.SUPER_ADMIN_EMAIL}`;
 export const JWT_EXPIRES_IN = `${process.env.JWT_EXPIRES_IN}`;
 
 export const domain = `${process.env.DOMAIN}`
+
+export const ADMIN_USERNAME = `${process.env.ADMIN_USERNAME}`
+
+export const ADMIN_PSWD = `${process.env.ADMIN_PSWD}`

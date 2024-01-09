@@ -77,18 +77,7 @@ describe('end-to-end tests mock endpoints on data entity', () => {
 
   })
 
-  test("should validate posted data and return 400 if invalid", async () => {
-    const response = await request.agent(app).post(
-      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_VALIDATE}`)
-    .set(apiKeyHeader, token)
-    .send(
-      {
-          "name": "value",
-      }
-    );
 
-    expect(response.status).toBe(400);
-  })
 
 
   
@@ -105,24 +94,6 @@ describe('end-to-end tests mock endpoints on data entity', () => {
     createdData = response.body.data;
     expect(response.status).toBe(200);
   })
-
-
-  test("should validate edited data and return 400 if invalid", async () => {
-    const response = await request.agent(app).put(
-      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_VALIDATE}`)
-    .set(apiKeyHeader, token)
-    .send(
-      {
-          ...createdData,
-          "name": "koko",
-      }
-    );
-
-
-    expect(response.status).toBe(400);
-  })
-
-
   
   test("should not validate edited data and return 200 even if data invalid", async () => {
     const response = await request.agent(app).put(
@@ -153,6 +124,98 @@ describe('end-to-end tests mock endpoints on data entity', () => {
     expect(response.status).toBe(200);
   })
 
+  test("should validate posted data and return 400 if invalid - extra field", async () => {
+    const response = await request.agent(app).post(
+      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_VALIDATE}`)
+    .set(apiKeyHeader, token)
+    .send(
+      {
+          "sdfsdfsd": "value",
+      }
+    );
+
+    expect(response.status).toBe(400);
+  })
+  
+  test("should validate edited data and return 400 if invalid -extra field", async () => {
+    const response = await request.agent(app).put(
+      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_VALIDATE}`)
+    .set(apiKeyHeader, token)
+    .send(
+      {
+          ...createdData,
+          "lsjdfkljsfdie": "koko",
+      }
+    );
+
+
+    expect(response.status).toBe(400);
+  })
+
+  test("should validate posted data and return 400 if invalid - missing required field", async () => {
+    let createdDataCopy = {...createdData};
+    console.log(createdDataCopy)
+    delete createdDataCopy.data.name;
+    createdDataCopy.data.koko = "koko";
+    const response = await request.agent(app).post(
+      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_VALIDATE}`)
+    .set(apiKeyHeader, token)
+    .send(
+      {
+        ...createdDataCopy
+      }
+    );
+
+    expect(response.status).toBe(400);
+  })
+  
+  test("should validate edited data and return 400 if invalid -missing required field", async () => {
+    let createdDataCopy = {...createdData};
+    delete createdDataCopy.data.name;
+    const response = await request.agent(app).put(
+      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_VALIDATE}`)
+    .set(apiKeyHeader, token)
+    .send(
+      {
+        ...createdDataCopy
+      }
+    );
+
+
+    expect(response.status).toBe(400);
+  })
+
+  test("should validate posted data and return 400 if invalid - invalid field type", async () => {
+    let createdDataCopy = {...createdData};
+    createdDataCopy.data.name = 123;
+    console.log(createdDataCopy)
+    const response = await request.agent(app).post(
+      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_VALIDATE}`)
+    .set(apiKeyHeader, token)
+    .send(
+      {
+        ...createdDataCopy
+      }
+    );
+
+    expect(response.status).toBe(400);
+  })
+  
+  test("should validate edited data and return 400 if invalid - invalid field type", async () => {
+    let createdDataCopy = {...createdData};
+    createdDataCopy.data.name = 123;
+    const response = await request.agent(app).put(
+      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_VALIDATE}`)
+    .set(apiKeyHeader, token)
+    .send(
+      {
+        ...createdDataCopy
+      }
+    );
+
+
+    expect(response.status).toBe(400);
+  })
  /* Closing database connection after each test. */
  afterAll(async () => {
   await mongoose.connection.close();

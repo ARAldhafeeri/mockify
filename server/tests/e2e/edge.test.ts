@@ -70,7 +70,6 @@ describe('end-to-end tests curd edge functions', () => {
       })
     .set('Authorization', 'bearer ' + token)
     
-    console.log(response.body)
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     expect(response.body.data.name).toBe(rand);
