@@ -1,13 +1,16 @@
 import { Form } from 'antd';
 import MockifyButton from 'components/commons/Button/Button';
 import MockifyInput from 'components/commons/Input/Input';
+import UsersSelect from 'components/containers/User/UsersSelect';
+import UserController from 'controllers/User';
 import React from 'react';
 import { IProjectForm } from 'types/forms';
 
 
 const ProjectForm : React.FC<IProjectForm> = (
-  { handleFormSubmit, handleFormChange, data, form, onFinish }
+  { handleFormSubmit, handleFormChange, handleFormChangeSelect,  data, form, onFinish }
   ) => {
+    const { user } = UserController();
     return (
       <Form
       name="basic"
@@ -29,15 +32,11 @@ const ProjectForm : React.FC<IProjectForm> = (
           value={data.name as string}
           onChange={handleFormChange}
         />
-        <MockifyInput 
-          placeholder='user' 
-          type='user'
-          classes={['input']}
-          name="user"
-          label="user"
-          onChange={handleFormChange}
-          value={data.user as string}
-        />
+
+        <UsersSelect
+          userOptions={user}
+          handleFormChange={handleFormChangeSelect}
+          />
 
         <MockifyButton 
           classes={['mockify-btn']}

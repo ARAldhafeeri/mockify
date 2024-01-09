@@ -13,7 +13,7 @@ docker compose -f docker-compose.dev.yml build
 ```bash
 docker compose -f docker-compose.dev.yml up -d
 ```
-3- run client using npm start
+3- run client using npm start, tsch --watch
 
 ## running prod environment :
 1- build and run mockify docker container

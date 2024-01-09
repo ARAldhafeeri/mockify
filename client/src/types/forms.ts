@@ -2,7 +2,7 @@ import { IFetchedDataData } from './Data';
 import { IFetchedPolicyData, IUserDefinedPolicy } from './Policy';
 import { IFetchedProjectData } from './Project';
 import { IFetchedResourceData } from './Resource';
-import { IFetchedUserData } from './User';
+import { IFetchUserResponse, IFetchedUserData } from './User';
 
 export interface IUserForm {
   handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -16,6 +16,7 @@ export interface IUserForm {
 export interface IProjectForm {
   handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleFormChangeSelect: (value : string) => void;
   data: IFetchedProjectData
   form: any;
   onFinish?: (values: any) => void;
@@ -157,4 +158,9 @@ export interface IFormMakerPolicyProps {
     onFinish?: (values: any) => void;
     resourceOptions?: IFetchedResourceData[];
     methodOptions?: IMethods;
+  }
+
+  export interface IUsersSelectProps {
+    handleFormChange: (value : string) => void;
+    userOptions?: IFetchUserResponse[];
   }
