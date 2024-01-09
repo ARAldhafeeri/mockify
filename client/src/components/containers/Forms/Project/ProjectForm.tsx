@@ -1,7 +1,7 @@
 import { Form } from 'antd';
 import MockifyButton from 'components/commons/Button/Button';
 import MockifyInput from 'components/commons/Input/Input';
-import UsersSelect from 'components/containers/User/UsersSelect';
+import UsersSelect from 'components/containers/Forms/User/UsersSelect';
 import UserController from 'controllers/User';
 import React from 'react';
 import { IProjectForm } from 'types/forms';

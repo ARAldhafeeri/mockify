@@ -6,6 +6,8 @@ import { FormMakerData } from 'components/presentational/Resource/FormMaker/Form
 import MockifyInput from 'components/commons/Input/Input';
 import React from 'react';
 import { IDataForm } from 'types/forms';
+import ResourcesSelect from '../Resource/ResourcesSelect';
+import ResourceController from 'controllers/Resource';
 
 const typesMenu : MenuProps['items'] = [
   {
@@ -26,11 +28,13 @@ const DataForm : React.FC<IDataForm> = (
   { 
     handleFormSubmit, 
     handleFormChange, 
+    handleFormChangeSelect,
     data, 
     fieldsSchema,
     form, 
     onFinish,
   }) => {
+    const { resource } = ResourceController();
     return (
       <Form
       name="basic"
@@ -43,6 +47,10 @@ const DataForm : React.FC<IDataForm> = (
       autoComplete="off"
       onSubmitCapture={handleFormSubmit}
       >
+        <ResourcesSelect
+          resourceOptions={resource}
+          handleFormChange={handleFormChangeSelect}
+          />
         <FormMakerData
           data={data}
           fieldsSchema={fieldsSchema}

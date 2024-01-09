@@ -67,6 +67,7 @@ export interface IDataForm {
   handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   handleFormChange: (e: React.ChangeEvent<HTMLInputElement> | boolean) => void;
   data: IFetchedDataData;
+  handleFormChangeSelect: (value : string) => void;
   fieldsSchema: Array<IFieldSchema>;
   form: any;
   onFinish?: (values: any) => void;
@@ -163,4 +164,9 @@ export interface IFormMakerPolicyProps {
   export interface IUsersSelectProps {
     handleFormChange: (value : string) => void;
     userOptions?: IFetchUserResponse[];
+  }
+
+  export interface IResourceSelectProps {
+    handleFormChange: (value : string) => void;
+    resourceOptions?: IFetchedResourceData[];
   }

@@ -39,6 +39,7 @@ const Data : React.FC = () => {
     
     // form change 
     handleFormChange,
+    handleFormChangeSelect,
 
     // create event
     showCreateModal, 
@@ -106,6 +107,7 @@ const Data : React.FC = () => {
                             handleFormChange={handleFormChange}
                             handleFormSubmit={handleSubmitDataForm}
                             data={selectedData} 
+                            handleFormChangeSelect={handleFormChangeSelect}
                             form={form}
                             fieldsSchema={resource?.fields}
                             onFinish={() => handleHideEditModal()}
@@ -123,7 +125,8 @@ const Data : React.FC = () => {
                           <DataForm 
                             handleFormChange={handleFormChange} 
                             handleFormSubmit={handleSubmitDataForm}
-                            data={selectedData} 
+                            data={selectedData}
+                            handleFormChangeSelect={handleFormChangeSelect}
                             form={form}
                             fieldsSchema={resource?.fields}
                             onFinish={() => handleHideEditModal()}

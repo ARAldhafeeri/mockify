@@ -81,6 +81,13 @@ const DataController = () => {
     
   };
 
+  const handleFormChangeSelect = (value : string) => {
+    setSelectedData({
+      ...selectedData,
+      resource: value,
+    })
+  }
+
   // create events
   const handleShowCreateDataModal = () => {
     setShowCreateModal(true);
@@ -129,6 +136,7 @@ const DataController = () => {
     handleShowCreateDataModal,
     handleHideCreateDataModal,
     form,
+    handleFormChangeSelect,
   }
 }
 
