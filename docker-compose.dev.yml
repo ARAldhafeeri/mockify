@@ -1,0 +1,53 @@
+version: '3'
+services:
+  nginx:
+    container_name: ReverseProxy
+    image: nginx:latest
+    ports:
+      - '80:80'
+    build:
+      context: ./dev
+      dockerfile: Dockerfile
+    depends_on:
+      - client
+      - backend
+      - landing
+      - mongo
+  backend:
+    container_name: Backend
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    env_file:
+      - ./server/.env
+    ports:
+      - '5000:5000'
+    depends_on:
+      - mongo
+
+  client:
+    container_name: admin
+    stdin_open: true
+    env_file:
+      - ./client/.env
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - '3007:3007'
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
+  mongo:
+    image: 'mongo:latest'
+    volumes:
+      - mongo_volume:/data/db
+    ports:
+      - '27017:27017'
+      
+networks:
+  default:
+    driver: bridge
+
+volumes:
+  mongo_volume:
