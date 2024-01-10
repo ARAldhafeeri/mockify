@@ -1,8 +1,7 @@
 import { MenuProps, Select, Space, Switch } from "antd";
 import MockifyInput from "components/commons/Input/Input";
-import { IFormMakerDataProps, IFormMakerResoruceProps } from "./FormMaker.types";
+import {IFormMakerResoruceProps } from "./FormMaker.types";
 import { MinusCircleFilled } from "@ant-design/icons";
-import { ChangeEvent } from "react";
 import MockifyButton from "components/commons/Button/Button";
 
 const typesMenu : MenuProps['items'] = [
@@ -17,6 +16,14 @@ const typesMenu : MenuProps['items'] = [
   {
     key: "3",
     label: "boolean",
+  },
+  {
+    key: "4",
+    label: "object",
+  },
+  {
+    key: "5",
+    label: "array",
   }
 ]
 
@@ -70,29 +77,4 @@ export const FormMakerResource = (props: IFormMakerResoruceProps) => {
         )})}   
       </Space>
     )
-}
-
-
-export const FormMakerData = (props: IFormMakerDataProps) => {
-  const { 
-    handleChange,
-    data,
-    fieldsSchema
-  } = props;
-  return (
-    <Space direction="vertical">
-     {fieldsSchema?.map((field : any, index : number) => {
-      return (
-        <>
-        <MockifyInput 
-          name={field.name} 
-          label={field?.name}
-          key={index} classes={['input-dynamic-field', 'mockify-input']} 
-          value={data?.data?.[field.name]}
-          onChange={(e) => handleChange(e)} 
-        />
-      </>        
-      )})}   
-    </Space>
-  )
 }

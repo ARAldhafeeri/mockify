@@ -6,6 +6,7 @@ interface ButtonProps {
     onClick?: () => void;
     htmlType?: "button" | "submit" | "reset";
     icon?: ReactNode
+    ref?: any;
 }
 
 export default ButtonProps;

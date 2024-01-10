@@ -89,7 +89,6 @@ const EdgeController = () => {
 
 
   const handleFormChange = (e : any, type: string, index: number) => {
-    console.log(e, type, index);
     switch(type){
       case "code":
         setSelectedEdge({

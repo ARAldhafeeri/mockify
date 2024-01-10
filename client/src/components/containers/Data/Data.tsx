@@ -40,6 +40,7 @@ const Data : React.FC = () => {
     // form change 
     handleFormChange,
     handleFormChangeSelect,
+    hanldeFormChangeFields,
 
     // create event
     showCreateModal, 
@@ -62,7 +63,6 @@ const Data : React.FC = () => {
       onclick: (record: IFetchedDataData) => handleShowDeleteModal(record)
     },
   ]
-  console.log(data)
   return (
     <>
     {
@@ -109,6 +109,7 @@ const Data : React.FC = () => {
                             handleFormSubmit={handleSubmitDataForm}
                             data={selectedData} 
                             handleFormChangeSelect={handleFormChangeSelect}
+                            hanldeFormChangeFields={hanldeFormChangeFields}
                             form={form}
                             fieldsSchema={resource?.fields}
                             onFinish={() => handleHideEditModal()}
@@ -128,6 +129,7 @@ const Data : React.FC = () => {
                             handleFormSubmit={handleSubmitDataForm}
                             data={selectedData}
                             handleFormChangeSelect={handleFormChangeSelect}
+                            hanldeFormChangeFields={hanldeFormChangeFields}
                             form={form}
                             fieldsSchema={resource?.fields}
                             onFinish={() => handleHideEditModal()}

@@ -1,13 +1,8 @@
-import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { Form, Switch, Row, Col, Typography, Divider, Space, Badge, Tabs, Input, Select, MenuProps, Dropdown, } from 'antd';
+import { Form, MenuProps} from 'antd';
 import MockifyButton from 'components/commons/Button/Button';
-import MockifyCodeEditor from 'components/commons/CodeEditor/CodeEditor';
-import { FormMakerData } from 'components/presentational/Resource/FormMaker/FormMaker';
-import MockifyInput from 'components/commons/Input/Input';
+import { FormMakerData } from 'components/presentational/Data/FormMaker/FormMaker';
 import React from 'react';
 import { IDataForm } from 'types/forms';
-import ResourcesSelect from '../Resource/ResourcesSelect';
-import ResourceController from 'controllers/Resource';
 
 const typesMenu : MenuProps['items'] = [
   {
@@ -28,13 +23,13 @@ const DataForm : React.FC<IDataForm> = (
   { 
     handleFormSubmit, 
     handleFormChange, 
-    handleFormChangeSelect,
+    hanldeFormChangeFields,
     data, 
     fieldsSchema,
     form, 
     onFinish,
   }) => {
-    const { resource } = ResourceController();
+
     return (
       <Form
       name="basic"
@@ -47,22 +42,19 @@ const DataForm : React.FC<IDataForm> = (
       autoComplete="off"
       onSubmitCapture={handleFormSubmit}
       >
-        <ResourcesSelect
-          resourceOptions={resource}
-          handleFormChange={handleFormChangeSelect}
-          />
         <FormMakerData
           data={data}
           fieldsSchema={fieldsSchema}
-          handleChange={handleFormChange}          
+          handleChange={handleFormChange} 
+          hanldeFormChangeFields={hanldeFormChangeFields}
           />
 
-      <MockifyButton 
-          classes={['mockify-btn']}
-          text="send"
-          htmlType="submit"
-      />
-      </Form>  
+        <MockifyButton 
+            classes={['mockify-btn']}
+            text="send"
+            htmlType="submit"
+        />
+        </Form>  
     )
 }
 

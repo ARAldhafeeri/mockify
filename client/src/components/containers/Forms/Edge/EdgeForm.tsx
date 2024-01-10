@@ -9,7 +9,6 @@ import { IEdgeForm } from 'types/forms';
 const EdgeForm : React.FC<IEdgeForm> = (
   { handleFormSubmit, handleFormChange, data, form, onFinish, resourceOptions, methodOptions }
   ) => {
-    console.log(data)
     return (
       <Form
       name="basic"

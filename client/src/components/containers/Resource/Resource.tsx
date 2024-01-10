@@ -92,9 +92,9 @@ const Resource : React.FC = () => {
                 <MockifyModal 
                   show={showDeleteModal}
                   title="Delete resource"
-                  onOk={() => handleDeleteResource(selectedResource._id || '')}
+                  onOk={() => handleDeleteResource(selectedResource?._id || '')}
                   onCancel={() => handleHideDeleteModal()}
-                  children={<p>Are you sure delete {selectedResource.resourceName} ?</p>}
+                  children={<p>Are you sure delete {selectedResource?.resourceName} ?</p>}
                   />
                 <MockifyModal
                   show={showEditModal}

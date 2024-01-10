@@ -22,7 +22,6 @@ const Endpoint : React.FC = () => {
     resource,
   } = ResourceController();
 
-  console.log("resource", resource)
   return (
     <>
     {

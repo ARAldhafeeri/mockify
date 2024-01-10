@@ -18,7 +18,7 @@ const DataController = () => {
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
   const [ showCreateModal, setShowCreateModal ] = React.useState<boolean>(false);
-  const [selectedData, setSelectedData ] = React.useState<IFetchedDataData>(data[0] as any);
+  const [selectedData, setSelectedData ] = React.useState<any>(data[0]);
 
   // antd form 
   const [form] = Form.useForm();
@@ -69,12 +69,24 @@ const DataController = () => {
     setSelectedData({
       ...selectedData,
       data: {
-        ...selectedData.data,
+        ...selectedData?.data,
         [e.target.name]: e.target.value,
       }
      })
     
   };
+
+
+  const hanldeFormChangeFields = (name : string, value : any, type : string) => {
+    if(name )
+    setSelectedData({
+      ...selectedData,
+      data: {
+        ...selectedData?.data,
+        [name]: value,
+      }
+     })
+  } 
 
   const handleFormChangeSelect = (value : string) => {
     setSelectedData({
@@ -85,6 +97,13 @@ const DataController = () => {
 
   // create events
   const handleShowCreateDataModal = () => {
+    // reset selected data 
+    setSelectedData(
+      {
+        resource: resourceT?.resourceName,
+        data: {}
+      }
+    )
     setShowCreateModal(true);
   }
 
@@ -100,7 +119,7 @@ const DataController = () => {
 
   const handleTabChange = (key : string, resource : any ) => {
     setKey(parseInt(key));
-    setResource(resource[parseInt(key)].resourceName);
+    setResource(resource[parseInt(key)]);
   }
   return {
     // globals
@@ -132,6 +151,7 @@ const DataController = () => {
     handleHideCreateDataModal,
     form,
     handleFormChangeSelect,
+    hanldeFormChangeFields,
   }
 }
 

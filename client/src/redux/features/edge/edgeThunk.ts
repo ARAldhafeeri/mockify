@@ -25,7 +25,6 @@ export const deleteEdge = createAsyncThunk(
 export const updateEdge = createAsyncThunk(
   "edge/update", 
   async(data : any, thunkAPI): Promise<IAPINormalizedResponse> => {
-    console.log(data)
     const res : any = await instance.put(ENDPOINTS.EDGE_NAME(data.resourceName), data.edge);
     return res.data;
   }
@@ -34,7 +33,6 @@ export const updateEdge = createAsyncThunk(
 export const createEdge = createAsyncThunk(
   "edge/create",
   async(data : any, _): Promise<IAPINormalizedResponse> =>{
-    console.log(data)
     const res : any = await instance.post(ENDPOINTS.EDGE_NAME(data.resourceName), data.edge);
     return res.data;
   }
