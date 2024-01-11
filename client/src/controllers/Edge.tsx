@@ -84,6 +84,9 @@ const EdgeController = () => {
       dispatched = dispatch(createEdge({edge : selectedEdge, resourceName: resourceName}))
     }
 
+    // invalidate endpoint swagger docs cache
+    localStorage.removeItem(resourceName);
+
     ToastifyMockify(dispatched);
   }
 

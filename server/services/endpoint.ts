@@ -1,11 +1,12 @@
 import { domain } from "../getEnv";
 import { IEdge, IEdgeService } from "../types/Edge";
+import { IEndpointService } from "../types/Endpoint";
 import { IEndpointFeatures } from "../types/Resource";
 import EdgeService from "./Edge";
 
 
 
-class EndpointService {
+class EndpointService implements IEndpointService {
 
   edgeService : IEdgeService;
 
