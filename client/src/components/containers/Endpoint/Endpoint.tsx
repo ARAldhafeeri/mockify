@@ -28,7 +28,6 @@ const Endpoint : React.FC = () => {
     resource,
   } = ResourceController();
 
-  console.log(selectedResourceSwaggerDocs)
   return (
     <>
     {

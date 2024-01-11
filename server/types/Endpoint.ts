@@ -1,5 +1,5 @@
-import { IEndpointFeatures } from "./Resource";
+import { IResource } from "./Resource";
 
 export interface IEndpointService {
-  create: (features: IEndpointFeatures, projectName: string, resourceName: string) => Promise<Array<Object>>;
+  create: (resource : IResource) => Promise<Array<Object>>;
 }

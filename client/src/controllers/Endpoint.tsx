@@ -8,7 +8,7 @@ const EndpointController = () => {
   const {resource } = ResourceController();
   const { endpoint, loading } = useAppSelector((state) => state.endpoint);
   const [ selectedResource, setSelectedResource  ] = React.useState<any>(resource[0]);
-  const [ selectedResourceSwaggerDocs, setSelectedResourceSwaggerDocs ] = React.useState<any>(null);
+  const [ selectedResourceSwaggerDocs, setSelectedResourceSwaggerDocs ] = React.useState<any>("");
   const dispatch = useAppDispatch();
   const [ key, setKey ] = React.useState<number>(0);
   const [ swaggerDrawerVisible, setSwaggerDrawerVisible ] = React.useState<boolean>(false);
