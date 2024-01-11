@@ -124,7 +124,7 @@ class MockService implements IMockService  {
     })
 
     // extra fields
-    Object.keys(data).forEach((key) => {
+    Object.keys(data ?? {}).forEach((key) => {
       let fieldExists = fieldsTypes.has(key);
       if (!fieldExists) status =  false;
     })
@@ -178,7 +178,7 @@ class MockService implements IMockService  {
       fieldsNames.push(field.name);
     });
 
-    Object.keys(d.data).forEach((key) => {
+    Object.keys(d?.data ?? {}).forEach((key) => {
       if (!fieldsNames.includes(key)) return false;
     })
 

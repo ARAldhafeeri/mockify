@@ -46,7 +46,7 @@ class DataService implements IDataService  {
       fieldsNames.push(field.name);
     });
 
-    Object.keys(d.data).forEach((key) => {
+    Object.keys(d?.data ?? {}).forEach((key) => {
       if (!fieldsNames.includes(key)) return false;
     })
 

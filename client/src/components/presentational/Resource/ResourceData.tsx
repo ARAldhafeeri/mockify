@@ -15,7 +15,7 @@ const ColumnsWithActions = (actions : any) : ColumnsType => {
       dataIndex: 'features',
       render: (features : Object) => (
         <>
-          {Object.keys(features).map((name : String, index : number) =>{
+          {Object.keys(features ?? {}).map((name : String, index : number) =>{
             let color = features[name as keyof typeof features] ? 'green' : 'red';
             return (
               <Tag color={color} key={index}>

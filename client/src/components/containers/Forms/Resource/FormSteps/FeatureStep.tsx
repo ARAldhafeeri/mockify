@@ -12,7 +12,7 @@ export default function FeatureStep(props : IResourceFormFeatureStepProps) {
 
     <Row gutter={16}>
     {
-      Object.keys(data?.features).map((name : String, index : number) =>{
+      Object.keys(data?.features ?? {}).map((name : String, index : number) =>{
         return (
           <Col span={8} key={index}>
             <Switch 
