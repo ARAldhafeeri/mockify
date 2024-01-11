@@ -27,6 +27,7 @@ const User : React.FC = () => {
     showCreateModal, 
     handleShowCreateUserModal,
     handleHideCreateUserModal,
+    handleFormChangeSelect,
     form
   } = UserController();
 
@@ -74,6 +75,7 @@ const User : React.FC = () => {
                 <UserForm 
                   handleFormChange={handleFormChange} 
                   handleFormSubmit={handleSubmitUserForm}
+                  handleFormChangeSelect={handleFormChangeSelect}
                   data={selectedUser} 
                   form={form}
                   onFinish={() => handleHideEditModal()}
@@ -91,6 +93,7 @@ const User : React.FC = () => {
                 <UserForm 
                   handleFormChange={handleFormChange} 
                   handleFormSubmit={handleSubmitUserForm}
+                  handleFormChangeSelect={handleFormChangeSelect}
                   data={selectedUser} 
                   form={form}
                   onFinish={() => handleHideEditModal()}

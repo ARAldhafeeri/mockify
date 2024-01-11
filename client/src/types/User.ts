@@ -48,3 +48,8 @@ export interface IUserTableActionsProps {
   record: IFetchedUserData;
   actions: IUserTableActions[];
 }
+
+export interface IUserRoleSelect {
+  role: string;
+  handleFormChangeSelect: (e: string) => void;
+}

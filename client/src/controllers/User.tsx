@@ -70,6 +70,14 @@ const UserController = () => {
     })
   };
 
+  const handleFormChangeSelect = (value : string) => {
+    console.log(value);
+    setSelectedUser({
+      ...selectedUser,
+      role: value,
+    })
+  }
+
   // create events
   const handleShowCreateUserModal = () => {
     setShowCreateModal(true);
@@ -107,7 +115,8 @@ const UserController = () => {
     showCreateModal, 
     handleShowCreateUserModal,
     handleHideCreateUserModal,
-    form
+    form,
+    handleFormChangeSelect
 
   }
 }
