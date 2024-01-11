@@ -18,7 +18,7 @@ export default function FeatureStep(props : IResourceFormFeatureStepProps) {
             <Switch 
               checkedChildren={name} 
               unCheckedChildren={name} 
-              defaultChecked={data?.features[name as keyof typeof data?.features]}
+              defaultChecked={data?.features[name as keyof typeof data.features]}
               onChange={(checked : boolean) => handleFormChangeFeatures(checked, name)}
               />
           </Col>

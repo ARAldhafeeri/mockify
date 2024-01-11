@@ -29,7 +29,7 @@ const updatePolicy = async function(req : Request, res: Response) : Promise<any>
 
     const data = req.body;
 
-    data?.updatedAt = new Date() ;
+    data.updatedAt = new Date() ;
 
     const updated = await policyService.update(data);
     if(!updated) return ErrorResponse(res, "Policy not found", 404)
@@ -70,7 +70,7 @@ const createPolicy = async function(req : Request, res: Response) : Promise<any>
 
     const data = req.body;
 
-    data?.createdAt = new Date() ;
+    data.createdAt = new Date() ;
 
     const created = await policyService.create(data);
 
