@@ -56,9 +56,9 @@ describe('end-to-end tests mock endpoints on data entity', () => {
       expect(response.body.status).toBe(true);
       // check all properties are defined
       expect(data).toBeDefined();
-      expect(data.limit).toBeDefined();
-      expect(data.page).toBeDefined();
-      expect(data.total).toBeDefined();
+      expect(data?.limit).toBeDefined();
+      expect(data?.page).toBeDefined();
+      expect(data?.total).toBeDefined();
 
   });
 
@@ -73,7 +73,7 @@ describe('end-to-end tests mock endpoints on data entity', () => {
     expect(response.body.status).toBe(true);
     // check all properties are defined
     expect(data).toBeDefined();
-    expect(data.length).toBeGreaterThan(0);
+    expect(data?.length).toBeGreaterThan(0);
 
   })
 
@@ -155,8 +155,8 @@ describe('end-to-end tests mock endpoints on data entity', () => {
   test("should validate posted data and return 400 if invalid - missing required field", async () => {
     let createdDataCopy = {...createdData};
     console.log(createdDataCopy)
-    delete createdDataCopy.data.name;
-    createdDataCopy.data.koko = "koko";
+    delete createdDataCopy.data?.name;
+    createdDataCopy.data?.koko = "koko";
     const response = await request.agent(app).post(
       `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_VALIDATE}`)
     .set(apiKeyHeader, token)
@@ -171,7 +171,7 @@ describe('end-to-end tests mock endpoints on data entity', () => {
   
   test("should validate edited data and return 400 if invalid -missing required field", async () => {
     let createdDataCopy = {...createdData};
-    delete createdDataCopy.data.name;
+    delete createdDataCopy.data?.name;
     const response = await request.agent(app).put(
       `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_VALIDATE}`)
     .set(apiKeyHeader, token)
@@ -187,7 +187,7 @@ describe('end-to-end tests mock endpoints on data entity', () => {
 
   test("should validate posted data and return 400 if invalid - invalid field type", async () => {
     let createdDataCopy = {...createdData};
-    createdDataCopy.data.name = 123;
+    createdDataCopy.data?.name = 123;
     console.log(createdDataCopy)
     const response = await request.agent(app).post(
       `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_VALIDATE}`)
@@ -203,7 +203,7 @@ describe('end-to-end tests mock endpoints on data entity', () => {
   
   test("should validate edited data and return 400 if invalid - invalid field type", async () => {
     let createdDataCopy = {...createdData};
-    createdDataCopy.data.name = 123;
+    createdDataCopy.data?.name = 123;
     const response = await request.agent(app).put(
       `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_VALIDATE}`)
     .set(apiKeyHeader, token)

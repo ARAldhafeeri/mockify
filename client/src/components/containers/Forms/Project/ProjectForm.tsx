@@ -29,7 +29,7 @@ const ProjectForm : React.FC<IProjectForm> = (
           classes={['input']}
           name="name"
           label="name"
-          value={data.name as string}
+          value={data?.name as string}
           onChange={handleFormChange}
         />
 

@@ -654,7 +654,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #   - `GeoLite2-Country.mmdb` (if you are using ModSecurity v3)
 #   - `GeoLiteCountry.dat`    (if you are using ModSecurity v2)
 #
-# Ref: http://blog.spiderlabs.com/2010/10/detecting-malice-with-modsecurity-geolocation-data.html
+# Ref: http://blog.spiderlabs.com/2010/10/detecting-malice-with-modsecurity-geolocation-data?.html
 # Ref: http://blog.spiderlabs.com/2010/11/detecting-malice-with-modsecurity-ip-forensics.html
 #
 # Uncomment only one of the next rules here to use this feature.

@@ -41,7 +41,7 @@ const projectSlice = createSlice({
         state, action : PayloadAction< any | IFetchProjectResponse>
         ) => {
         state.loading = false;
-        state.project = state.project.filter((project: any) => project._id !== action.payload.data._id);
+        state.project = state.project.filter((project: any) => project._id !== action.payload.data?._id);
       })
 
       builder
@@ -57,7 +57,7 @@ const projectSlice = createSlice({
         ) => {
         state.loading = false;
         const index = state.project.findIndex(
-          (project: any) => project._id === action.payload.data._id);
+          (project: any) => project._id === action.payload.data?._id);
         state.project[index] = {
           ...action.payload.data
         }

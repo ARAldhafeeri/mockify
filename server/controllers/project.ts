@@ -61,7 +61,7 @@ export const createProject = async function(req: Request, res: Response) : Promi
 
     let  data : any = req.body;
     
-    data.apiKey = await cryptoService.generateAPIKey();
+    data?.apiKey = await cryptoService.generateAPIKey();
 
     const newP = await pService.create(req.body);
     
@@ -104,7 +104,7 @@ export const refreshProjectApiKey = async function(req: Request, res: Response) 
 
       let apiKey = await cryptoService.generateAPIKey();
 
-      data.apiKey = apiKey; // refresh api key and update
+      data?.apiKey = apiKey; // refresh api key and update
 
       const updatedP = await pService.update(data);
   

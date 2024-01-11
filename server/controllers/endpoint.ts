@@ -11,7 +11,7 @@ const endpointService = new EndpointService();
 export const endpointCreateController = async (req: Request, res: Response) : Promise<any> => {
   try {
     const data : IResource = req.body
-    const project  = await projectService.find({_id: new Types.ObjectId(data.project) })
+    const project  = await projectService.find({_id: new Types.ObjectId(data?.project) })
     
     if (!project) return ErrorResponse(res, "Project not found", 404)
 

@@ -23,7 +23,7 @@ const EdgeForm : React.FC<IEdgeForm> = (
       >
         <div className="mockify-input">
           <Select
-            value={data.resource as string}
+            value={data?.resource as string}
             onChange={(e : any) => handleFormChange(e, 'resource', 0)}
           >
           {resourceOptions?.map((res : any, index : number) => {
@@ -40,12 +40,12 @@ const EdgeForm : React.FC<IEdgeForm> = (
           classes={['input']}
           name="name"
           label="name"
-          value={data.name as string}
+          value={data?.name as string}
           onChange={(e : any) => handleFormChange(e, 'name', 0)}
         />
         <div className="mockify-input">
         <Select
-        value={data.method as string}
+        value={data?.method as string}
           onChange={(e : any) => handleFormChange(e, 'method', 0)}
         >
         {["GET", "POST", "DELETE", "PUT"].map((res : any, index : number) => {
@@ -58,7 +58,7 @@ const EdgeForm : React.FC<IEdgeForm> = (
         </div>
         <Typography>Edge Function Code:</Typography>
         <MockifyCodeEditor
-          value={data.code as string}
+          value={data?.code as string}
           height='600px'
           width="400px"
           onChange={(e : any) => handleFormChange(e, 'code', 0)}

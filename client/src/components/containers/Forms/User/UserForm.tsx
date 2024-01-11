@@ -27,7 +27,7 @@ const UserForm : React.FC<IUserForm> = (
           classes={['input']}
           name="username"
           label="username"
-          value={data.username as string}
+          value={data?.username as string}
           onChange={handleFormChange}
         />
         <MockifyInput 
@@ -37,7 +37,7 @@ const UserForm : React.FC<IUserForm> = (
           name="password"
           label="password"
           onChange={handleFormChange}
-          value={data.password as string}
+          value={data?.password as string}
         />
 
         <UserRoleSelect
@@ -52,7 +52,7 @@ const UserForm : React.FC<IUserForm> = (
           name="email"
           label="email"
           onChange={handleFormChange}
-          value={data.email as string}
+          value={data?.email as string}
         />
         <MockifyButton 
           classes={['mockify-btn']}

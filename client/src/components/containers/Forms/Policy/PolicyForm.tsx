@@ -35,7 +35,7 @@ const PolicyForm : React.FC<IPolicyForm> = (
           handleAdd={handleAdd}
           handleRemove={handleRemove}
           handleFormChange={handleFormChange}
-          data={data.resources}
+          data={data?.resources}
           fieldsType='resource'
           />
       },
@@ -46,7 +46,7 @@ const PolicyForm : React.FC<IPolicyForm> = (
           handleAdd={handleAdd}
           handleRemove={handleRemove}
           handleFormChange={handleFormChange}
-          data={data.actions}
+          data={data?.actions}
           fieldsType='action'
           />
       },
@@ -57,7 +57,7 @@ const PolicyForm : React.FC<IPolicyForm> = (
           handleAdd={handleAdd}
           handleRemove={handleRemove}
           handleFormChange={handleFormChange}
-          data={data.roles}
+          data={data?.roles}
           fieldsType='role'
           />
       },
@@ -68,7 +68,7 @@ const PolicyForm : React.FC<IPolicyForm> = (
           handleFormChangePolicies={handleFormChangePolicies}
           handleAddPolicies={handleAddPolicies}
           handleRemovePolicies={handleRemovePolicies}
-          data={data.policies}
+          data={data?.policies}
           policy={data}
           fieldsType='policies'
           />

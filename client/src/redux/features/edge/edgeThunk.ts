@@ -17,7 +17,7 @@ export const fetchEdge = createAsyncThunk(
 export const deleteEdge = createAsyncThunk(
   "edge/delete",
   async(data : any, thunkAPI): Promise<IAPINormalizedResponse> => {
-    const res : any = await instance.delete(ENDPOINTS.EDGE_DELETE(data.resourceName, data.id));
+    const res : any = await instance.delete(ENDPOINTS.EDGE_DELETE(data?.resourceName, data?.id));
     return res.data;
   }
 )
@@ -25,7 +25,7 @@ export const deleteEdge = createAsyncThunk(
 export const updateEdge = createAsyncThunk(
   "edge/update", 
   async(data : any, thunkAPI): Promise<IAPINormalizedResponse> => {
-    const res : any = await instance.put(ENDPOINTS.EDGE_NAME(data.resourceName), data.edge);
+    const res : any = await instance.put(ENDPOINTS.EDGE_NAME(data?.resourceName), data?.edge);
     return res.data;
   }
 )
@@ -33,7 +33,7 @@ export const updateEdge = createAsyncThunk(
 export const createEdge = createAsyncThunk(
   "edge/create",
   async(data : any, _): Promise<IAPINormalizedResponse> =>{
-    const res : any = await instance.post(ENDPOINTS.EDGE_NAME(data?.resourceName), data.edge);
+    const res : any = await instance.post(ENDPOINTS.EDGE_NAME(data?.resourceName), data?.edge);
     return res.data;
   }
 )

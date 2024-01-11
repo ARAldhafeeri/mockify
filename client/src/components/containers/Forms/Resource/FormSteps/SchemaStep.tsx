@@ -19,8 +19,8 @@ export default function SchemaStep(props : IResourceFormFieldsStepProps) {
             />
         </Space>
         <FormMakerResource 
-          data={data.fields}
-          fieldsSchema={data.fields}
+          data={data?.fields}
+          fieldsSchema={data?.fields}
           handleAddField={handleAddField}
           handleFormChangeFields={handleFormChangeFields}
           handleRemoveField={handleRemoveField}

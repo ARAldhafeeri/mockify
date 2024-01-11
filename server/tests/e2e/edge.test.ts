@@ -46,7 +46,7 @@ describe('end-to-end tests curd edge functions', () => {
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     // check all properties are defined
-    expect(response.body.data.resource).toBeDefined();
+    expect(response.body.data?.resource).toBeDefined();
     expect(response.body.data).toBeDefined();
 
     createdResource = response.body.data;
@@ -59,7 +59,7 @@ describe('end-to-end tests curd edge functions', () => {
     .set('Authorization', 'bearer ' + token)
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data.length).toBeGreaterThan(0);
+    expect(response.body.data?.length).toBeGreaterThan(0);
 
   });
 
@@ -73,7 +73,7 @@ describe('end-to-end tests curd edge functions', () => {
     
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data.name).toBe(rand);
+    expect(response.body.data?.name).toBe(rand);
 
   });
 

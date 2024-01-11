@@ -41,7 +41,7 @@ const resourceSlice = createSlice({
         state, action : PayloadAction< any | IFetchResourceResponse>
         ) => {
         state.loading = false;
-        state.resource = state.resource.filter((resource: any) => resource._id !== action.payload.data._id);
+        state.resource = state.resource.filter((resource: any) => resource._id !== action.payload.data?._id);
       })
 
       builder
@@ -57,7 +57,7 @@ const resourceSlice = createSlice({
         ) => {
         state.loading = false;
         const index = state.resource.findIndex(
-          (resource: any) => resource._id === action.payload.data._id);
+          (resource: any) => resource._id === action.payload.data?._id);
         state.resource[index] = {
           ...action.payload.data
         }

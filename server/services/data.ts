@@ -74,7 +74,7 @@ class DataService implements IDataService  {
   }
 
   findOrCreate = async (data: IData) : Promise<any> => {
-    const found = await DataModel.findOne({resource: data.resource});
+    const found = await DataModel.findOne({resource: data?.resource});
     
     if (found) {
       return found;

@@ -10,7 +10,7 @@ export const fetchProjects = createAsyncThunk(
   "project/fetch",
   async (_ , thunkAPI) : Promise<IAPINormalizedResponse> => {
       const res : any = await instance.get(ENDPOINTS.PROJECT);
-      return  res.data.data;
+      return  res.data?.data;
 
   }
 );

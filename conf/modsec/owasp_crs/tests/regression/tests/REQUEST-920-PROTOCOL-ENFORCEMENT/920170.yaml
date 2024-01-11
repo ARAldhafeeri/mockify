@@ -82,7 +82,7 @@
             output:
               no_log_contains: "id \"920170\""
     -
-      # GET request with content length 0 and no data.
+      # GET request with content length 0 and no data?.
       test_title: 920170-6
       stages:
         -

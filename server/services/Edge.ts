@@ -59,7 +59,7 @@ class EdgeService implements IEdgeService  {
   }
 
   findOrCreate = async (data: IEdge) : Promise<any> => {
-    const found = await EdgeModel.findOne({name: data.name});
+    const found = await EdgeModel.findOne({name: data?.name});
     
     if (found) {
       return found;

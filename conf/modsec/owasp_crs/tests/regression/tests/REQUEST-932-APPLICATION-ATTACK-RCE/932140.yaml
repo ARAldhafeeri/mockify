@@ -1243,7 +1243,7 @@
             User-Agent: ModSecurity CRS 3 Tests
           method: GET
           port: 80
-          uri: /?foo=IF++++++++EXIST+data.xls+++++++++Echo+The+file+was+found.
+          uri: /?foo=IF++++++++EXIST+data?.xls+++++++++Echo+The+file+was+found.
           version: HTTP/1.0
         output:
           log_contains: id "932140"

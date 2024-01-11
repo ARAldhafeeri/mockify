@@ -35,7 +35,7 @@ const EndpointController = () => {
         paths: {},
     };
 
-    data.forEach((endpoint : any) => {
+    data?.forEach((endpoint : any) => {
         const method = endpoint.method.toLowerCase();
         const url = endpoint.url;
 

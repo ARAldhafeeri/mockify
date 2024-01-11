@@ -32,14 +32,14 @@ export const createUser = async function(req : Request, res: Response) : Promise
     try {
       const data = req.body;
 
-      data.createdBy  = SUPER_ADMIN_USERNAME;
-      data.createdAt = new Date() ;
+      data?.createdBy  = SUPER_ADMIN_USERNAME;
+      data?.createdAt = new Date() ;
 
 
-      const {salt, hashedPassword} = await passwordService.createPassword(data.password)
+      const {salt, hashedPassword} = await passwordService.createPassword(data?.password)
 
-      data.salt = salt as string;
-      data.hashedPassword = hashedPassword ;
+      data?.salt = salt as string;
+      data?.hashedPassword = hashedPassword ;
 
       const newUser = await userService.createUser(data)
 
@@ -59,9 +59,9 @@ export const updateUser = async function(req : any, res: Response) : Promise<any
     const data = req.body;
 
     if (data?.password){
-     const {salt, hashedPassword} = await passwordService.createPassword(data.password);
-     data.salt = salt;
-     data.hashedPassword = hashedPassword;
+     const {salt, hashedPassword} = await passwordService.createPassword(data?.password);
+     data?.salt = salt;
+     data?.hashedPassword = hashedPassword;
     }
     
     const updatedUser = await userService.updateUser(data);

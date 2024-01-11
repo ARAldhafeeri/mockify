@@ -41,7 +41,7 @@ const dataSlice = createSlice({
         state, action : PayloadAction< any | IFetchDataResponse>
         ) => {
         state.loading = false;
-        state.data = state.data.filter((data: any) => data._id !== action.payload.data._id);
+        state.data = state.data?.filter((data: any) => data?._id !== action.payload.data?._id);
       })
 
       builder
@@ -56,8 +56,8 @@ const dataSlice = createSlice({
         state, action : PayloadAction<  IFetchDataResponse | any>
         ) => {
         state.loading = false;
-        const index = state.data.findIndex(
-          (data: any) => data._id === action.payload.data._id);
+        const index = state.data?.findIndex(
+          (data: any) => data?._id === action.payload.data?._id);
         state.data[index] = {
           ...action.payload.data
         }
@@ -76,7 +76,7 @@ const dataSlice = createSlice({
         ) => {
         state.loading = false;
 
-         state.data.push(action.payload.data);
+         state.data?.push(action.payload.data);
       })
   },
 });

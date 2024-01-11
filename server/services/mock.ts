@@ -47,15 +47,15 @@ class MockService implements IMockService  {
 
 
   isPaginated = (data: IEndpointFeatures, params: IPaginateParams): boolean => {
-    return (data.pagination && this.isNumber(params.page) && this.isNumber(params.limit));
+    return (data?.pagination && this.isNumber(params.page) && this.isNumber(params.limit));
   }
 
   isFilter = (data: IEndpointFeatures, params: IFilterParams): boolean => {
-    return (data.filter && Boolean(params.name)  && Boolean(params.value));
+    return (data?.filter && Boolean(params.name)  && Boolean(params.value));
   }
 
   isSearch(data: IEndpointFeatures, params: ISearchParams): boolean {
-    return (data.search && Boolean(params.search));
+    return (data?.search && Boolean(params.search));
   }
 
 
@@ -206,7 +206,7 @@ class MockService implements IMockService  {
   }
 
   findOrCreate = async (data: IData) : Promise<any> => {
-    const found = await DataModel.findOne({resource: data.resource});
+    const found = await DataModel.findOne({resource: data?.resource});
     
     if (found) {
       return found;
