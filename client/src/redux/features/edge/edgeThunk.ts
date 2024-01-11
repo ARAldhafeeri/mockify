@@ -33,7 +33,7 @@ export const updateEdge = createAsyncThunk(
 export const createEdge = createAsyncThunk(
   "edge/create",
   async(data : any, _): Promise<IAPINormalizedResponse> =>{
-    const res : any = await instance.post(ENDPOINTS.EDGE_NAME(data.resourceName), data.edge);
+    const res : any = await instance.post(ENDPOINTS.EDGE_NAME(data?.resourceName), data.edge);
     return res.data;
   }
 )

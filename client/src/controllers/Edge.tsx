@@ -27,7 +27,7 @@ const EdgeController = () => {
 
   const handleTabChange = (key : string, resources : IFetchedResourceData[]) => {
     setKey(parseInt(key))
-    setResourceName(resources[parseInt(key)].resourceName as string);
+    setResourceName(resources[parseInt(key)]?.resourceName as string);
   }
 
   // antd form 

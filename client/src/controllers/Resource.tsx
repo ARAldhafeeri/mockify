@@ -76,7 +76,7 @@ const ResourceController = () => {
     }
 
     // invalidate endpoint swagger docs cache
-    localStorage.removeItem(selectedResource.resourceName);
+    localStorage.removeItem(selectedResource?.resourceName);
     
     ToastifyMockify(dispatched);
   }
