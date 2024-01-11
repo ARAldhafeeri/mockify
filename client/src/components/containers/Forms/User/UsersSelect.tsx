@@ -7,7 +7,7 @@ const UsersSelect : React.FC<IUsersSelectProps>= (props) => {
   return (
     <Select 
       className='mockify-select'
-      placeholder="Select a project"
+      placeholder="Select a user"
       onChange={handleFormChange}
       >
         {userOptions?.map((user : any, index : number) => {
