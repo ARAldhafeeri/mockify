@@ -100,7 +100,7 @@ const DataController = () => {
     // reset selected data 
     setSelectedData(
       {
-        resource: resourceT?.resourceName,
+        resource: resourceT?._id,
         data: {}
       }
     )
