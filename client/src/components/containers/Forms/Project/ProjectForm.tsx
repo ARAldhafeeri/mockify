@@ -5,6 +5,7 @@ import UsersSelect from 'components/containers/Forms/User/UsersSelect';
 import UserController from 'controllers/User';
 import React from 'react';
 import { IProjectForm } from 'types/forms';
+import { Space } from 'antd';
 
 
 const ProjectForm : React.FC<IProjectForm> = (
@@ -14,15 +15,16 @@ const ProjectForm : React.FC<IProjectForm> = (
     return (
       <Form
       name="basic"
-      labelCol={{ span: 8 }}
+      labelCol={{ span: 2 }}
       form={form}
       onFinish={onFinish}
       wrapperCol={{ span: 16 }}
-      style={{ maxWidth: 600 }}
+      style={{ maxWidth: 400 }}
       initialValues={{ remember: true }}
       autoComplete="off"
       onSubmitCapture={handleFormSubmit}
       >
+        <Space direction='vertical' className='contentCenter'>
         <MockifyInput 
           placeholder='name' 
           type='text'
@@ -43,6 +45,7 @@ const ProjectForm : React.FC<IProjectForm> = (
           text="send"
           htmlType="submit"
           />
+        </Space>
       </Form>  
     )
 }
