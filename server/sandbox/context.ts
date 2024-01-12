@@ -5,6 +5,8 @@ import PolicyModel from "../models/Policy"
 import mongoose, { Types } from "mongoose";
 import EdgeModel from "../models/Edge";
 import { faker } from '@faker-js/faker';
+import {AccessControl , GrantQuery} from "gatewatch"
+
 const CONTEXT = {
   mongoose,
   ResourceModel,
@@ -14,6 +16,8 @@ const CONTEXT = {
   EdgeModel,
   data: {},
   faker, 
+  AccessControl,
+  GrantQuery,
 };
 
 export default CONTEXT;
