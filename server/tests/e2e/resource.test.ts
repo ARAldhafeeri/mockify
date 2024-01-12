@@ -53,9 +53,9 @@ describe('end-to-end tests project endpoint', () => {
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     // check all properties are defined
-    expect(response.body.data.resourceName).toBeDefined();
-    expect(response.body.data.features).toBeDefined();
-    expect(response.body.data.fields).toBeDefined();
+    expect(response.body.data?.resourceName).toBeDefined();
+    expect(response.body.data?.features).toBeDefined();
+    expect(response.body.data?.fields).toBeDefined();
     createdResource = response.body.data;
 
   });
@@ -66,7 +66,7 @@ describe('end-to-end tests project endpoint', () => {
     .set('Authorization', 'bearer ' + token)
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data.length).toBeGreaterThan(0);
+    expect(response.body.data?.length).toBeGreaterThan(0);
 
   });
 
@@ -81,7 +81,7 @@ describe('end-to-end tests project endpoint', () => {
     
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data.resourceName).toBe('newName');
+    expect(response.body.data?.resourceName).toBe('newName');
 
   });
 

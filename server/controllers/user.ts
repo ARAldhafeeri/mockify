@@ -36,7 +36,7 @@ export const createUser = async function(req : Request, res: Response) : Promise
       data.createdAt = new Date() ;
 
 
-      const {salt, hashedPassword} = await passwordService.createPassword(data.password)
+      const {salt, hashedPassword} = await passwordService.createPassword(data?.password)
 
       data.salt = salt as string;
       data.hashedPassword = hashedPassword ;
@@ -59,7 +59,7 @@ export const updateUser = async function(req : any, res: Response) : Promise<any
     const data = req.body;
 
     if (data?.password){
-     const {salt, hashedPassword} = await passwordService.createPassword(data.password);
+     const {salt, hashedPassword} = await passwordService.createPassword(data?.password);
      data.salt = salt;
      data.hashedPassword = hashedPassword;
     }

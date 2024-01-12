@@ -32,7 +32,7 @@ describe('end-to-end tests user endpoint', () => {
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data.username).toBe(mockUserData.username);
+    expect(response.body.data?.username).toBe(mockUserData.username);
 
    // set created user for next tests
    createdUser = response.body.data;
@@ -45,7 +45,7 @@ describe('end-to-end tests user endpoint', () => {
     .set('Authorization', 'bearer ' + token)
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data.length).toBeGreaterThan(0);
+    expect(response.body.data?.length).toBeGreaterThan(0);
 
   });
 
@@ -58,7 +58,7 @@ describe('end-to-end tests user endpoint', () => {
     .set('Authorization', 'bearer ' + token)
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data.username).toBe('newUsername');
+    expect(response.body.data?.username).toBe('newUsername');
 
   });
 
@@ -68,7 +68,7 @@ describe('end-to-end tests user endpoint', () => {
     .set('Authorization', 'bearer ' + token)
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data.username).toBe('newUsername');
+    expect(response.body.data?.username).toBe('newUsername');
 
   });
 

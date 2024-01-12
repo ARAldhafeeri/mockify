@@ -47,15 +47,15 @@ class MockService implements IMockService  {
 
 
   isPaginated = (data: IEndpointFeatures, params: IPaginateParams): boolean => {
-    return (data.pagination && this.isNumber(params.page) && this.isNumber(params.limit));
+    return (data?.pagination && this.isNumber(params.page) && this.isNumber(params.limit));
   }
 
   isFilter = (data: IEndpointFeatures, params: IFilterParams): boolean => {
-    return (data.filter && Boolean(params.name)  && Boolean(params.value));
+    return (data?.filter && Boolean(params.name)  && Boolean(params.value));
   }
 
   isSearch(data: IEndpointFeatures, params: ISearchParams): boolean {
-    return (data.search && Boolean(params.search));
+    return (data?.search && Boolean(params.search));
   }
 
 
@@ -112,13 +112,30 @@ class MockService implements IMockService  {
 
   }
 
+  validateMockData = async (data: any, fields: IResource["fields"], resource: string): Promise<any> => {
+    let fieldsTypes: IMockFieldsMap = this.getSchemaFieldTypeMap(fields);
+    // missing required fields, incorrect types
+    let status : boolean = true;
+    fieldsTypes.forEach((value : string , key : any) => {
+      let  fieldIsRequired = (fields.find((field : any) => field.name == key) as any).required;
+      let  fieldIsRequiredAndDoesNotExist = (!(key in data)) && fieldIsRequired;
+      if( fieldIsRequiredAndDoesNotExist )  status =  false;
+      if(typeof data[key] != fieldsTypes.get(key) ) status = false;
+    })
+
+    // extra fields
+    Object.keys(data ?? {}).forEach((key) => {
+      let fieldExists = fieldsTypes.has(key);
+      if (!fieldExists) status =  false;
+    })
+    return status;
+  }
+
   validateAndCreateQuery = async (data: any, fields: IResource["fields"], resource: string): Promise<any> => {
     
-    let fieldsTypes: IMockFieldsMap = this.getSchemaFieldTypeMap(fields);
-    fieldsTypes.forEach((value : string , key : any) => {
-      if(!(key in data)) return false;
-      if(typeof data[key] != fieldsTypes.get(key) ) return false;
-    })
+    let dataIsValid = await this.validateMockData(data, fields, resource);
+
+    if(!dataIsValid) return false;
 
     const results = await DataModel.create(
       {data : data, resource: resource}
@@ -128,11 +145,9 @@ class MockService implements IMockService  {
 
   validateAndUpdateQuery = async (data: any, fields: IResource["fields"], resource: string): Promise<any> => {
     
-    let fieldsTypes: IMockFieldsMap = this.getSchemaFieldTypeMap(fields);
-    fieldsTypes.forEach((value : string , key : any) => {
-      if(!(key in data)) return false;
-      if(typeof data[key] != fieldsTypes.get(key) ) return false;
-    })
+    let dataIsValid  = await this.validateMockData(data, fields, resource);
+    
+    if(!dataIsValid) return false;
 
     const results = await DataModel.create(
       {data : data, resource: resource}
@@ -163,7 +178,7 @@ class MockService implements IMockService  {
       fieldsNames.push(field.name);
     });
 
-    Object.keys(d.data).forEach((key) => {
+    Object.keys(d?.data ?? {}).forEach((key) => {
       if (!fieldsNames.includes(key)) return false;
     })
 
@@ -191,7 +206,7 @@ class MockService implements IMockService  {
   }
 
   findOrCreate = async (data: IData) : Promise<any> => {
-    const found = await DataModel.findOne({resource: data.resource});
+    const found = await DataModel.findOne({resource: data?.resource});
     
     if (found) {
       return found;

@@ -10,7 +10,7 @@ export const fetchResources = createAsyncThunk(
   "resource/fetch",
   async (_ , thunkAPI) : Promise<IAPINormalizedResponse> => {
       const res : any = await instance.get(ENDPOINTS.RESOURCE);
-      return  res.data.data;
+      return  res.data?.data;
 
   }
 );

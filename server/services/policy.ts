@@ -50,8 +50,6 @@ class PolicyService implements IPolicyService {
 
  update = async (policy: IPolicy): Promise<any> => {
 
-  if (await this.projectExistsForThisProject(policy.project)) return false;
-
     policy.updatedAt = new Date();
     
     const updated = PolicyModel.findOneAndUpdate(

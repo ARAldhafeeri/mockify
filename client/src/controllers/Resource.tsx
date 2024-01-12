@@ -5,37 +5,17 @@ import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { ToastifyMockify } from "utils";
 import { Form } from "antd";
 import { IFetchedProjectData } from "types/Project";
+import ProjectController from "./Project";
 const ResourceController = () => {
-  const { project } = useAppSelector((state) => state.project);
+  const { project } = ProjectController();
   const { resource, loading } = useAppSelector((state) => state.resource);
   const [ key, setKey ] = React.useState<number>(0);
-  const [ projectT, setProject ] = React.useState<IFetchedProjectData>(project[0] ?? {
-    _id: "string",
-    name: "string",
-    user: "string",
-    apiKey: "string",
-  });
+  const [ projectT, setProject ] = React.useState<IFetchedProjectData>(project[0]);
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
   const [ showCreateModal, setShowCreateModal ] = React.useState<boolean>(false);
   const [currentStep, setCurrentStep] = React.useState<number>(0);
-  const [selectedResource, setSelectedResource ] = React.useState<any>({
-    _id: "",
-    name: "",
-    project: projectT._id,
-    fields: [],
-    features: {
-      "postx": false,
-      "getx": false,
-      "putx": false,
-      "deletex": false,
-      "search": false,
-      "pagination": false,
-      "filter": false,
-      "functions": false,
-      "validation": false,
-    }
-  });
+  const [selectedResource, setSelectedResource ] = React.useState<any>(resource[0]);
   const dispatch = useAppDispatch();
 
   const prevStep = () => {
@@ -95,6 +75,9 @@ const ResourceController = () => {
       dispatched = dispatch(createResource(selectedResource))
     }
 
+    // invalidate endpoint swagger docs cache
+    localStorage.removeItem(selectedResource?.resourceName);
+    
     ToastifyMockify(dispatched);
   }
 

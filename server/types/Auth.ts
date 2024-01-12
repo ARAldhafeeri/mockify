@@ -22,5 +22,7 @@ export interface IToken {
 
 export interface ITokenPayload {
   id: string,
-  role: string
+  role: string,
+  username: string,
+
 }

@@ -3,10 +3,11 @@ import MockifyButton from 'components/commons/Button/Button';
 import MockifyInput from 'components/commons/Input/Input';
 import React from 'react';
 import { IUserForm } from 'types/forms';
+import UserRoleSelect from 'components/presentational/User/UserRoleSelect';
 
 
 const UserForm : React.FC<IUserForm> = (
-  { handleFormSubmit, handleFormChange, data, form, onFinish }
+  { handleFormSubmit, handleFormChange, handleFormChangeSelect, data, form, onFinish }
   ) => {
     return (
       <Form
@@ -26,7 +27,7 @@ const UserForm : React.FC<IUserForm> = (
           classes={['input']}
           name="username"
           label="username"
-          value={data.username as string}
+          value={data?.username as string}
           onChange={handleFormChange}
         />
         <MockifyInput 
@@ -36,16 +37,12 @@ const UserForm : React.FC<IUserForm> = (
           name="password"
           label="password"
           onChange={handleFormChange}
-          value={data.password as string}
+          value={data?.password as string}
         />
-        <MockifyInput 
-          placeholder='role' 
-          type='text'
-          classes={['input']}
-          name="role"
-          label="role"
-          onChange={handleFormChange}
-          value={data.role as string}
+
+        <UserRoleSelect
+          handleFormChangeSelect={handleFormChangeSelect}
+          role={data?.role as string}
         />
 
         <MockifyInput 
@@ -55,7 +52,7 @@ const UserForm : React.FC<IUserForm> = (
           name="email"
           label="email"
           onChange={handleFormChange}
-          value={data.email as string}
+          value={data?.email as string}
         />
         <MockifyButton 
           classes={['mockify-btn']}

@@ -24,7 +24,7 @@ const LoginForm : React.FC = () => {
         classes={['input']}
         name="username"
         label="username"
-        value={data.username}
+        value={data?.username}
         onChange={handleFormChange}
       />
       <MockifyInput 
@@ -34,7 +34,7 @@ const LoginForm : React.FC = () => {
         name="password"
         label="password"
         onChange={handleFormChange}
-        value={data.password}
+        value={data?.password}
       />
       <MockifyButton 
         classes={['mockify-btn']}

@@ -71,6 +71,13 @@ const ProjectController = () => {
     })
   };
 
+  const handleFormChangeSelect = (value : string) => {
+    setSelectedProject({
+      ...selectedProject,
+      user: value
+    })
+  }
+
   // create events
   const handleShowCreateProjectModal = () => {
     setShowCreateModal(true);
@@ -107,7 +114,8 @@ const ProjectController = () => {
     showCreateModal, 
     handleShowCreateProjectModal,
     handleHideCreateProjectModal,
-    form
+    form,
+    handleFormChangeSelect
 
   }
 }

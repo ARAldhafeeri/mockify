@@ -3,7 +3,9 @@ import ProjectService from "../services/project";
 import { SuccessResponse, ErrorResponse } from "../utils/responses";
 import { Types } from "mongoose";
 import CryptoService from "../services/crypto";
+import { getUserRoleFromToken } from "../middleware/authorization";
 const {ObjectId} = Types;
+import { superAdmin } from "../config/roles";
 
 const pService = new ProjectService();
 const cryptoService = new CryptoService();
@@ -12,7 +14,17 @@ export const getProjects = async function(req: Request, res: Response) : Promise
  
   try{
 
-      const foundProjects = await pService.find({});
+      let token : string | undefined  = req.headers["authorization"]
+      token = token?.split(" ")[1];
+      let authenticatedUserData = await getUserRoleFromToken(token as string);
+
+      let foundProjects : any;
+      const isSuperAdmin = authenticatedUserData.role === superAdmin;
+      if(isSuperAdmin){
+        foundProjects = await pService.find({});
+      } else {
+        foundProjects =  await pService.find({user : new ObjectId(authenticatedUserData.id)});
+      }
 
       if (!foundProjects) return ErrorResponse(res, 'projects not found', 400);
 

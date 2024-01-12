@@ -9,7 +9,7 @@ export default function GeneralInfoStep(props : IResourceFormGeneralInfoStepProp
       <MockifyInput
         name={"resourceName"}
         label={"resource name"}
-        value={data.resourceName}
+        value={data?.resourceName}
         onChange={(e) => handleFormChange(e, "resourceName")}
         classes={['mockify-input', 'input']}
         />
@@ -19,7 +19,7 @@ export default function GeneralInfoStep(props : IResourceFormGeneralInfoStepProp
         placeholder="Select a project"
         onChange={(value : string) => handleFormChange(value, "project")}
         >
-          {projectOptions.map((project : any, index : number) => {
+          {projectOptions?.map((project : any, index : number) => {
             return (
               <Select.Option key={index} value={project._id}>{project.name}</Select.Option>
             )

@@ -22,6 +22,7 @@ const Project : React.FC = () => {
     handleShowCreateProjectModal,
     handleHideCreateProjectModal,
     form, handleFormChange, handleSubmitProjectForm,
+    handleFormChangeSelect
 
   } = ProjectController();
 
@@ -71,6 +72,7 @@ const Project : React.FC = () => {
                 <ProjectForm 
                   handleFormChange={handleFormChange} 
                   handleFormSubmit={handleSubmitProjectForm}
+                  handleFormChangeSelect={handleFormChangeSelect}
                   data={selectedProject} 
                   form={form}
                   onFinish={() => handleHideEditModal()}
@@ -88,6 +90,7 @@ const Project : React.FC = () => {
                 <ProjectForm 
                   handleFormChange={handleFormChange} 
                   handleFormSubmit={handleSubmitProjectForm}
+                  handleFormChangeSelect={handleFormChangeSelect}
                   data={selectedProject} 
                   form={form}
                   onFinish={() => handleHideEditModal()}

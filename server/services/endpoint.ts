@@ -1,11 +1,12 @@
 import { domain } from "../getEnv";
 import { IEdge, IEdgeService } from "../types/Edge";
-import { IEndpointFeatures } from "../types/Resource";
+import { IEndpointService } from "../types/Endpoint";
+import { IEndpointFeatures, IResource } from "../types/Resource";
 import EdgeService from "./Edge";
 
 
 
-class EndpointService {
+class EndpointService implements IEndpointService {
 
   edgeService : IEdgeService;
 
@@ -13,8 +14,10 @@ class EndpointService {
     this.edgeService = new EdgeService();
   }
 
-  async create(features : IEndpointFeatures, projectName : string,  resourceName : string) : Promise<Array<Object>>{
+  async create(resource : IResource) : Promise<Array<Object>>{
     let endpoint : Array<Object> = [];
+    let resourceName = resource.resourceName;
+    let features : IEndpointFeatures = resource.features;
     let getx : string = `${domain}/mock/${resourceName}/`
     let postx : string = `${domain}/mock/${resourceName}/`
     let deleteAndPutx : string = `${domain}/mock/${resourceName}/:id`
@@ -27,14 +30,14 @@ class EndpointService {
     let getFunctionURL = (name : string) => `${domain}/${resourceName}/edge/${name}`
 
     if (features.getx) endpoint.push({method: "GET", url: getx, type: "Generic"});
-    if(features.postx) endpoint.push({method: "POST", url: postx, type: "Generic"});
-    if (features.putx) endpoint.push({method: "PUT", url: deleteAndPutx, type: "Generic"});
+    if(features.postx) endpoint.push({method: "POST", url: postx, type: "Generic", body: resource.fields});
+    if (features.putx) endpoint.push({method: "PUT", url: deleteAndPutx, type: "Generic", body: resource.fields});
     if (features.deletex) endpoint.push({method: "DELETE", url: deleteAndPutx, params: ["id"], type: "Generic"});
     if (features.pagination) endpoint.push({method: "GET", url: paginateX, params: ["page", "limit"], type: "Generic"});
     if (features.search) endpoint.push({method: "GET", url: searchX, params: ["search"], type: "Generic"});
     if (features.filter) endpoint.push({method: "GET", url: filterX, params: ["name", "value"], type: "Generic"});
-    if (features.validation) endpoint.push({method: "POST", url: validateX, type: "Generic"});
-    if (features.validation) endpoint.push({method: "PUT", url: validateX, type: "Generic"});
+    if (features.validation) endpoint.push({method: "POST", url: validateX, type: "Generic", body: resource.fields});
+    if (features.validation) endpoint.push({method: "PUT", url: validateX, type: "Generic", body: resource.fields});
 
     if (features.functions) {
 
@@ -42,7 +45,11 @@ class EndpointService {
         resourceName);
 
         functions.forEach((func : any) => {
-        endpoint.push({method: func.method, url: getFunctionURL(func.name), type: "Edge Function"});
+        if (func.method === "POST" || func.method === "PUT") {
+          endpoint.push({method: func.method, url: getFunctionURL(func.name), body: resource.fields, type: "Edge Function"});
+        } else {
+          endpoint.push({method: func.method, url: getFunctionURL(func.name), type: "Edge Function"});
+        }
       })
     }
   

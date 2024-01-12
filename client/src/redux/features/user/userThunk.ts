@@ -11,7 +11,7 @@ export const fetchUsers = createAsyncThunk(
   "user/fetch",
   async (_ , thunkAPI) : Promise<IAPINormalizedResponse> => {
       const res : any = await instance.get(ENDPOINTS.USER);
-      return  res.data.data;
+      return  res.data?.data;
 
   }
 );

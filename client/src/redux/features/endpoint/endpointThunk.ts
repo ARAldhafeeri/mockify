@@ -8,7 +8,7 @@ export const fetchEndpoints = createAsyncThunk(
   "endpoint/fetch",
   async (resource : IFetchedResourceData , thunkAPI) : Promise<IAPINormalizedResponse> => {
       const res : any = await instance.post(ENDPOINTS.ENDPOINT, resource);
-      return  res.data.data;
+      return  res.data?.data;
 
   }
 );

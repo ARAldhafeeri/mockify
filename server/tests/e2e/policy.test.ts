@@ -52,10 +52,11 @@ describe('end-to-end tests project policy', () => {
     })
     .set('Authorization', 'bearer ' + token)
 
+   
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     // check all properties are defined
-    expect(response.body.data.resources).toBeDefined();
+    expect(response.body.data?.resources).toBeDefined();
 
     createdPolicy = response.body.data;
 
@@ -69,7 +70,7 @@ describe('end-to-end tests project policy', () => {
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data.length).toBeGreaterThan(0);
+    expect(response.body.data?.length).toBeGreaterThan(0);
 
   });
 
@@ -80,17 +81,15 @@ describe('end-to-end tests project policy', () => {
       actions: ['action1', 'action2', 'action3'],
       })
     .set('Authorization', 'bearer ' + token)
-
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data.actions[0]).toBe('action1');
+    expect(response.body.data?.actions[0]).toBe('action1');
     createdPolicy = response.body.data;
   });
 
   test('should delete project policy', async () => {
     const response = await request.agent(app).delete(`${API_ROUTE}${POLICY_ROUTE}/?id=${createdPolicy._id}`)
     .set('Authorization', 'bearer ' + token)
-
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
   });

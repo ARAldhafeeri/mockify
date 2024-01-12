@@ -1,0 +1,36 @@
+version: '3'
+services:
+  nginx:
+    container_name: ReverseProxy
+    image: nginx:latest
+    ports:
+      - '80:80'
+    build:
+      context: ./dev
+      dockerfile: Dockerfile
+    depends_on:
+      - client
+      - backend
+      - landing
+      - mongo
+  backend:
+    container_name: Backend
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    env_file:
+      - ./server/.env
+    ports:
+      - '5000:5000'
+    depends_on:
+      - mongo
+
+  mongo:
+    container_name: mongo
+    image: 'mongo:latest'
+    ports:
+      - '27017:27017'
+      
+networks:
+  default:
+    driver: bridge

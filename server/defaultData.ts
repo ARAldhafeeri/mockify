@@ -2,7 +2,13 @@ import adminModel from "./models/User";
 import PasswordService from "./services/password";
 import { superAdmin } from "./config/roles";
 
-import { SUPER_ADMIN_PSWD, SUPER_ADMIN_EMAIL, SUPER_ADMIN_USERNAME } from "./getEnv";
+import { 
+  SUPER_ADMIN_PSWD, 
+  SUPER_ADMIN_EMAIL, 
+  SUPER_ADMIN_USERNAME, 
+  ADMIN_USERNAME,
+  ADMIN_PSWD,
+} from "./getEnv";
 import ProjectService from "./services/project";
 import DataService from "./services/data";
 import EndpointService from "./services/endpoint";
@@ -27,6 +33,7 @@ const edgeService = new EdgeService();
 export const initDefaultData = async () => {
     [superAdminDefaultData] = await adminModel.find({username: SUPER_ADMIN_USERNAME})
 
+    console.log("superAdminDefaultData", superAdminDefaultData)
     if (!superAdminDefaultData) {
         
         const {hashedPassword, salt} = await passwordService.createPassword(SUPER_ADMIN_PSWD)
@@ -42,26 +49,36 @@ export const initDefaultData = async () => {
         superAdminDefaultData = await adminModel.create(superAdminDefaultData)
     }
 
-    [user] = await adminModel.find({username: "test123"})
+    [user] = await adminModel.find({username: ADMIN_USERNAME})
 
     if(!user){
         // create mock user
-        const {hashedPassword, salt} = await passwordService.createPassword("test123")
+        const {hashedPassword, salt} = await passwordService.createPassword(ADMIN_PSWD)
 
         await adminModel.create({
-            username: "test123",
-            email: "test33232@test.com",
+            username: ADMIN_USERNAME,
+            email: "test33232323@test.com",
             role: "admin",
             hashedPassword: hashedPassword,
             salt: salt,
             createdBy: "system"
         })
-    }
-   
+    }   
 
-    // create project 
-    let project = await projService.findOrCreate({name: "default", apiKey: "lksjfdkjfdjfdieiwoncxn98398239nxnjdhj3838sjhjhsdhjdu3", user: superAdminDefaultData._id} as IProject)
-    
+    // create project , super  admin is owner
+    let project = await projService.findOrCreate({
+      name: "default", 
+      apiKey: "lksjfdkjfdjfdieiwoncxn98398239nxnjdhj3838sjhjhsdhjdu3", 
+      user: superAdminDefaultData._id
+    } as IProject)
+
+    // create project , admin is owner
+    let projectAdmi = await projService.findOrCreate({
+      name : "default2", 
+      apiKey: "lkjsdflkhjsdfhiewiuweiu", 
+      user: user._id
+    } as IProject)
+
     // create resource
     let resource = await resourceService.findOrCreate({
         project: project._id,
@@ -73,6 +90,7 @@ export const initDefaultData = async () => {
           "validation": true,
           "getx": true,
           "postx": true,
+          "deletex": true,
           "putx": true,
           "functions": true,
         },
@@ -96,7 +114,7 @@ export const initDefaultData = async () => {
           {
             role: "user",
             can: ["getx", "postx", "putx", "deletex"],
-            on: ["default"]
+            on: ["default"] 
           }
         ]
       } as any)
@@ -135,5 +153,16 @@ export const initDefaultData = async () => {
         method: "DELETE"
     } as any );
     
+    // console log everything for debugging
+    console.log("superAdminDefaultData", superAdminDefaultData)
+    console.log("user", user)
+    console.log("project", project)
+    console.log("resource", resource)
+    console.log("policy", policy)
+    console.log("data", data)
+    console.log("function1", function1)
+    console.log("function2", function2)
+    console.log("function3", function3)
+    console.log("function4", function4)
 
 }

@@ -22,10 +22,12 @@ describe('end-to-end tests project endpoint', () => {
   let token : string;
   let createdProject : any;
   let userObj : any;
+  let regAdminToken : string;
 
   beforeAll(async () => {
     await mongoose.connect(DATABASE_URL);
     token = await TestUtils.login();
+    regAdminToken = await TestUtils.regAdminLogin();
   });
   
 
@@ -40,9 +42,9 @@ describe('end-to-end tests project endpoint', () => {
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data.name).toBe(mockUserData.name);
-    expect(response.body.data.apiKey).toBeDefined();
-    expect(response.body.data.user).toBeDefined();
+    expect(response.body.data?.name).toBe(mockUserData.name);
+    expect(response.body.data?.apiKey).toBeDefined();
+    expect(response.body.data?.user).toBeDefined();
 
     createdProject = response.body.data;
   });
@@ -51,9 +53,10 @@ describe('end-to-end tests project endpoint', () => {
 
     const response = await request.agent(app).get(`${API_ROUTE}${PROJECT_ROUTE}`)
     .set('Authorization', 'bearer ' + token)
+    console.log(response.body)
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data.length).toBeGreaterThan(0);
+    expect(response.body.data?.length).toBeGreaterThan(0);
 
   });
 
@@ -68,7 +71,7 @@ describe('end-to-end tests project endpoint', () => {
     
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data.name).toBe('newName');
+    expect(response.body.data?.name).toBe('newName');
 
   });
 
@@ -78,6 +81,35 @@ describe('end-to-end tests project endpoint', () => {
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
   });
+
+  test("super admin should be able to view default, default2 he's owner of all projects", async () => {
+    const response = await request.agent(app).get(`${API_ROUTE}${PROJECT_ROUTE}`)
+    .set('Authorization', 'bearer ' + token)
+    console.log(response.body)
+
+    expect(response.status).toBe(200);
+    expect(response.body.status).toBe(true);
+    
+    const defaultProject = response.body.data?.find((project : any) => project.name === 'default');
+    const default2Project = response.body.data?.find((project : any) => project.name === 'default2');
+    expect(defaultProject).toBeDefined();
+    expect(default2Project).toBeDefined();
+  });
+
+  test("admin, user should only be able to view default2 he's owner of default2", async () => {
+  const response = await request.agent(app).get(`${API_ROUTE}${PROJECT_ROUTE}`)
+  .set('Authorization', 'bearer ' + regAdminToken)
+  console.log(response.body)
+
+  expect(response.status).toBe(200);
+  expect(response.body.status).toBe(true);
+  const defaultProject = response.body.data?.find((project : any) => project.name === 'default');
+  const default2Project = response.body.data?.find((project : any) => project.name === 'default2');
+
+  expect(defaultProject).toBeUndefined();
+  expect(default2Project).toBeDefined();
+  });
+
 
 
  /* Closing database connection after each test. */

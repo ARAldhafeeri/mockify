@@ -7,6 +7,7 @@ import TestUtils from './TestUtils';
 import ResourceService from '../../services/resource';
 import EdgeService from '../../services/Edge';
 import { apiKeyHeader } from '../../config/headers';
+import { IEdge } from '../../types/Edge';
 
 const edgeService = new EdgeService();
 const genRandomName = () => {
@@ -45,7 +46,7 @@ describe('end-to-end tests curd edge functions', () => {
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     // check all properties are defined
-    expect(response.body.data.resource).toBeDefined();
+    expect(response.body.data?.resource).toBeDefined();
     expect(response.body.data).toBeDefined();
 
     createdResource = response.body.data;
@@ -58,7 +59,7 @@ describe('end-to-end tests curd edge functions', () => {
     .set('Authorization', 'bearer ' + token)
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data.length).toBeGreaterThan(0);
+    expect(response.body.data?.length).toBeGreaterThan(0);
 
   });
 
@@ -70,10 +71,9 @@ describe('end-to-end tests curd edge functions', () => {
       })
     .set('Authorization', 'bearer ' + token)
     
-    console.log(response.body)
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data.name).toBe(rand);
+    expect(response.body.data?.name).toBe(rand);
 
   });
 
@@ -167,6 +167,23 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
 
   });
 
+  test("should run edge function wtih faker contenxt", async () => {
+  let code = "data = faker.person.firstName('female')";
+  let resource = await resourceService.findOne({resourceName: 'default'});
+  const edge = {
+    resource: resource._id,
+    name: genRandomName(),
+    code,
+    method: "GET"
+  }
+  await edgeService.create(edge as IEdge);
+  const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
+  .set(apiKeyHeader, token);
+  console.log(response.body)
+  expect(response.status).toBe(200);
+  expect(response.body.status).toBe(true);
+  expect(response.body.data).toBeDefined();
+  });
 
   /* Closing database connection after each test. */
   afterAll(async () => {

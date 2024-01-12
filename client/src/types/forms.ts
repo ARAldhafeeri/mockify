@@ -2,11 +2,12 @@ import { IFetchedDataData } from './Data';
 import { IFetchedPolicyData, IUserDefinedPolicy } from './Policy';
 import { IFetchedProjectData } from './Project';
 import { IFetchedResourceData } from './Resource';
-import { IFetchedUserData } from './User';
+import { IFetchUserResponse, IFetchedUserData } from './User';
 
 export interface IUserForm {
   handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleFormChangeSelect: (value : string) => void;
   data: IFetchedUserData
   form: any;
   onFinish?: (values: any) => void;
@@ -16,6 +17,7 @@ export interface IUserForm {
 export interface IProjectForm {
   handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleFormChangeSelect: (value : string) => void;
   data: IFetchedProjectData
   form: any;
   onFinish?: (values: any) => void;
@@ -64,8 +66,9 @@ export interface IFieldSchema {
 }
 export interface IDataForm {
   handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  handleFormChange: (e: React.ChangeEvent<HTMLInputElement> | boolean) => void;
-  data: IFetchedDataData;
+  handleFormChange: (e: React.ChangeEvent<HTMLInputElement> | boolean) => void;  data: IFetchedDataData;
+  hanldeFormChangeFields: (name : string, value: string, type: string) => void;
+  handleFormChangeSelect: (value : string) => void;
   fieldsSchema: Array<IFieldSchema>;
   form: any;
   onFinish?: (values: any) => void;
@@ -157,4 +160,14 @@ export interface IFormMakerPolicyProps {
     onFinish?: (values: any) => void;
     resourceOptions?: IFetchedResourceData[];
     methodOptions?: IMethods;
+  }
+
+  export interface IUsersSelectProps {
+    handleFormChange: (value : string) => void;
+    userOptions?: IFetchUserResponse[];
+  }
+
+  export interface IResourceSelectProps {
+    handleFormChange: (value : string) => void;
+    resourceOptions?: IFetchedResourceData[];
   }

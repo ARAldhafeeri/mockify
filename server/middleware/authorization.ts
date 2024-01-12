@@ -21,7 +21,7 @@ const cryptoService = new CryptoService();
 
 const projService = new ProjectService();
 
-const getUserRoleFromToken = async (token : string) : Promise<ITokenPayload> => {
+export const getUserRoleFromToken = async (token : string) : Promise<ITokenPayload> => {
   // get user id from signed jwt token
   let user  = jwt.verify(token, SECRET_KEY) as IToken;
 

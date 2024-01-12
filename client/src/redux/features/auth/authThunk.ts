@@ -47,7 +47,7 @@ export const login = createAsyncThunk(
     try {
       const res : any = await instance.post("/login", data);
 
-      thunkAPI.dispatch(setCurrentUser(res.data.token));
+      thunkAPI.dispatch(setCurrentUser(res.data?.token));
 
       return  res.data;
     } catch (error){

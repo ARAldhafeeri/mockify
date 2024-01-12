@@ -41,7 +41,7 @@ const userSlice = createSlice({
         state, action : PayloadAction< any | IFetchUserResponse>
         ) => {
         state.loading = false;
-        state.user = state.user.filter((user: any) => user._id !== action.payload.data._id);
+        state.user = state.user.filter((user: any) => user._id !== action.payload.data?._id);
       })
 
       builder
@@ -57,7 +57,7 @@ const userSlice = createSlice({
         ) => {
         state.loading = false;
         const index = state.user.findIndex(
-          (user: any) => user._id === action.payload.data._id);
+          (user: any) => user._id === action.payload.data?._id);
         state.user[index] = {
           ...action.payload.data
         }

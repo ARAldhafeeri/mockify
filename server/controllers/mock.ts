@@ -105,7 +105,7 @@ export const getXFilteration = async function(req: Request, res: Response) : Pro
 
       
       const projection = {
-        ["data." + params.name] : params.value,
+        ["data?." + params.name] : params.value,
         resource: resource._id
       }
 

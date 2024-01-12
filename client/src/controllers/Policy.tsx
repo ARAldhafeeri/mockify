@@ -6,9 +6,10 @@ import { ToastifyMockify } from "utils";
 import { Form } from "antd";
 import { IFetchedProjectData } from "types/Project";
 import { toast } from "react-toastify";
+import ProjectController from "./Project";
 const PolicyController = () => {
   const { policy, loading } = useAppSelector((state) => state.policy);
-  const { project } = useAppSelector((state) => state.project )
+  const { project } = ProjectController();
   const [ key, setKey ] = React.useState<number>(0);
   const [ currentStep, setCurrentStep ] = React.useState<number>(0);
   const  [ projectID, setProjectID ] = React.useState<string>(project?.[0]?._id ?? "");

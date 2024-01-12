@@ -1,29 +1,24 @@
 import React from "react";
-import { IFetchDataResponse } from "types/Data";
 import { createData, deleteData, fetchData, updateData } from "redux/features/data/dataThunk";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { ToastifyMockify } from "utils";
 import { IFetchedDataData } from "types/Data";
 import { Form } from "antd";
-import { IFetchedResourceData } from "types/Resource";
-import { AnyAction } from "redux";
+import { IFetchResourceResponse, IFetchedResourceData } from "types/Resource";
+import ResourceController from "./Resource";
 
 const DataController = () => {
   const { data, loading } = useAppSelector((state) => state.data);
-  const { resource } = useAppSelector((state) => state.resource);
+  const { resource } = ResourceController();
   const dispatch = useAppDispatch();
   const [ key, setKey ] = React.useState<number>(0);
-  const [ resourceT, setResource ] = React.useState<string>(resource[0]?._id ?? "");
+  const [ resourceT, setResource ] = React.useState<IFetchedResourceData>(resource[0]);
 
   
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
   const [ showCreateModal, setShowCreateModal ] = React.useState<boolean>(false);
-  const [selectedData, setSelectedData ] = React.useState<IFetchedDataData>({
-    _id: '',
-    resource: '',
-    data: {},
-  });
+  const [selectedData, setSelectedData ] = React.useState<any>(data[0]);
 
   // antd form 
   const [form] = Form.useForm();
@@ -74,15 +69,41 @@ const DataController = () => {
     setSelectedData({
       ...selectedData,
       data: {
-        ...selectedData.data,
+        ...selectedData?.data,
         [e.target.name]: e.target.value,
       }
      })
     
   };
 
+
+  const hanldeFormChangeFields = (name : string, value : any, type : string) => {
+    if(name )
+    setSelectedData({
+      ...selectedData,
+      data: {
+        ...selectedData?.data,
+        [name]: value,
+      }
+     })
+  } 
+
+  const handleFormChangeSelect = (value : string) => {
+    setSelectedData({
+      ...selectedData,
+      resource: value,
+    })
+  }
+
   // create events
   const handleShowCreateDataModal = () => {
+    // reset selected data 
+    setSelectedData(
+      {
+        resource: resourceT?._id,
+        data: {}
+      }
+    )
     setShowCreateModal(true);
   }
 
@@ -92,13 +113,13 @@ const DataController = () => {
   
 
   React.useEffect(() =>{
-    const dispatched = dispatch(fetchData(resourceT));
+    const dispatched = dispatch(fetchData(resourceT?.resourceName));
     ToastifyMockify(dispatched);
   }, [dispatch, key])
 
   const handleTabChange = (key : string, resource : any ) => {
     setKey(parseInt(key));
-    setResource(resource[parseInt(key)].resourceName);
+    setResource(resource[parseInt(key)]);
   }
   return {
     // globals
@@ -129,6 +150,8 @@ const DataController = () => {
     handleShowCreateDataModal,
     handleHideCreateDataModal,
     form,
+    handleFormChangeSelect,
+    hanldeFormChangeFields,
   }
 }
 

@@ -6,9 +6,10 @@ import { ToastifyMockify } from "utils";
 import { Form } from "antd";
 import { toast } from "react-toastify";
 import { IFetchedResourceData } from "types/Resource";
+import ResourceController from "./Resource";
 const EdgeController = () => {
   const { edge, loading } = useAppSelector((state) => state.edge);
-  const { resource } = useAppSelector((state) => state.resource);
+  const { resource } = ResourceController();
   const [ key, setKey ] = React.useState<number>(0);
   const [ currentStep, setCurrentStep ] = React.useState<number>(0);
   const  [ resourceName, setResourceName ] = React.useState<string>(resource[0]?.resourceName ?? "");
@@ -26,7 +27,7 @@ const EdgeController = () => {
 
   const handleTabChange = (key : string, resources : IFetchedResourceData[]) => {
     setKey(parseInt(key))
-    setResourceName(resources[parseInt(key)].resourceName as string);
+    setResourceName(resources[parseInt(key)]?.resourceName as string);
   }
 
   // antd form 
@@ -83,12 +84,14 @@ const EdgeController = () => {
       dispatched = dispatch(createEdge({edge : selectedEdge, resourceName: resourceName}))
     }
 
+    // invalidate endpoint swagger docs cache
+    localStorage.removeItem(resourceName);
+
     ToastifyMockify(dispatched);
   }
 
 
   const handleFormChange = (e : any, type: string, index: number) => {
-    console.log(e, type, index);
     switch(type){
       case "code":
         setSelectedEdge({
@@ -121,13 +124,9 @@ const EdgeController = () => {
   // create events
   const handleShowCreateEdgeModal = () => {
     // after create done 
-    if(edge.length === 1){
-      toast.info("Cannot create new edge, only one edge per project")
-    } else {
       resetCreate();
       setCurrentStep(0);
       setShowCreateModal(true);
-    }
   }
 
   const handleHideCreateEdgeModal = () => {

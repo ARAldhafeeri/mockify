@@ -1,0 +1,195 @@
+version: '3'
+services:
+  nginx:
+    container_name: nginx
+    ports:
+      - '80:80'
+      - '443:443'
+    restart: always
+    volumes:
+      - web-root:/var/www/html
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - ./conf/modsec/:/etc/nginx/modsec/
+      - ./conf/conf.d/:/etc/nginx/conf.d/
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    depends_on:
+      - client
+      - backend
+      - landing
+      - mongo
+      - prometheus
+      - grafana
+    networks:
+      - monitoring
+    labels:
+      - "com.docker.compose.service=nginx"
+      - "com.docker.compose.project=secopsdeploy"
+    logging:
+      driver: loki
+      options:
+        loki-url: http://localhost:3100/loki/api/v1/push
+        loki-external-labels: job=nginx
+
+  backend:
+    container_name: Backend
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    env_file:
+      - ./server/.env
+    ports:
+      - '5000:5000'
+    depends_on:
+      - mongo
+    networks:
+      - monitoring
+
+  client:
+    container_name: admin
+    stdin_open: true
+    env_file:
+      - ./client/.env
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - '3007:3007'
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    networks:
+      - monitoring
+
+  landing:
+    container_name: landing
+    stdin_open: true
+    build:
+      context: ./landing
+      dockerfile: Dockerfile
+
+    ports:
+      - '3006:3006'
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    networks:
+      - monitoring
+
+
+  mongo:
+    image: 'mongo:latest'
+    volumes:
+      - mongo_volume:/data/db
+    ports:
+      - '27017:27017'
+    networks:
+      - monitoring
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/html
+    depends_on:
+      - nginx
+    command: certonly --webroot --webroot-path=/var/www/html --email araldhafeeri@mockify.io --agree-tos --no-eff-email --force-renewal -d mockify.io  -d www.mockify.io -d www.api.mockify.io -d api.mockify.io -d www.admin.mockify.io -d admin.mockify.io -d beta.mockify.io -d www.beta.mockify.io  -d www.grafana.mockify.io -d grafana.mockify.io -d loki.mockify.io -d wwww.loki.mockify.io
+
+    networks:
+      - monitoring
+
+  loki:
+    container_name: loki
+    image: grafana/loki:2.3.0
+    ports:
+      - "3100:3100"
+    depends_on:
+      - nginx
+    volumes:
+    - ./loki/local.yml:/etc/loki/local-config.yml
+    command: -config.file=/etc/loki/local-config.yml
+    networks:
+      - monitoring
+
+  node_exporter:
+    image: prom/node-exporter:latest
+    container_name: node_exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - node_exporter_data:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    expose:
+      - 9100
+    networks:
+      - monitoring
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - prometheus_data:/etc/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    restart: always
+    depends_on:
+      - node_exporter
+    networks:
+      - monitoring
+
+  promtail:
+    image: grafana/promtail:2.3.0
+    container_name: promtail
+    user: root
+    volumes:
+      - /var/log:/var/log
+      - /var/log/system.log:/var/log/root/system.log
+      - ./port/local.yml:/etc/config/promtail-local-config.yml
+    entrypoint:
+      - /usr/bin/promtail
+      - -config.file=/etc/config/promtail-local-config.yml
+    ports:
+      - "9080:9080"
+    networks:
+      - monitoring
+
+  grafana:
+    image:  grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PWSD} # change inside server before deploying
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER} # change insiide server before deploying
+      - GF_SECURITY_ALLOW_EMBEDDING=true
+    restart: always
+    depends_on:
+      - prometheus
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - monitoring
+networks:
+  monitoring:
+    driver: bridge
+
+volumes:
+  mongo_volume:
+  certbot-etc:
+  certbot-var:
+  web-root:
+  dhparam:
+  prometheus_data:
+  nginx_data:
+  loki_data:
+  node_exporter_data:
+  grafana_data:

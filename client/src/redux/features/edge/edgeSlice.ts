@@ -41,7 +41,7 @@ const edgeSlice = createSlice({
         state, action : PayloadAction< any | IFetchEdgeResponse>
         ) => {
         state.loading = false;
-        state.edge = state.edge.filter((edge: any) => edge._id !== action.payload.data._id);
+        state.edge = state.edge.filter((edge: any) => edge._id !== action.payload.data?._id);
       })
 
       builder
@@ -57,7 +57,7 @@ const edgeSlice = createSlice({
         ) => {
         state.loading = false;
         const index = state.edge.findIndex(
-          (edge: any) => edge._id === action.payload.data._id);
+          (edge: any) => edge._id === action.payload.data?._id);
         state.edge[index] = {
           ...action.payload.data
         }

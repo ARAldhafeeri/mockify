@@ -1,7 +1,14 @@
 import request, {Request} from 'supertest';
 import app from '../../app';
 import { API_ROUTE, USER_LOGIN_ROUTE  } from '../../config/routes';
-import { SUPER_ADMIN_USERNAME, SUPER_ADMIN_PSWD, DATABASE_URL} from '../../getEnv';
+import { 
+  SUPER_ADMIN_USERNAME, 
+  SUPER_ADMIN_PSWD, 
+  DATABASE_URL,
+  ADMIN_USERNAME,
+  ADMIN_PSWD,
+
+} from '../../getEnv';
 import ProjectService from '../../services/project';
 
 const projectService = new ProjectService();
@@ -16,6 +23,18 @@ class TestUtils {
 
     return response.body.token;
 
+  }
+
+  async regAdminLogin() {
+    // login logic
+    const response = await request.agent(app).post(`${API_ROUTE}${USER_LOGIN_ROUTE}`).send({
+      username: `${ADMIN_USERNAME}`,
+      password: `${ADMIN_PSWD}`,
+    })
+
+    return response.body.token;
+
+  
   }
 
   async getAPiKey() {

@@ -17,7 +17,7 @@ describe('EndpointService', () => {
   test('should create curd endpoints for resource', async () => {
     const res = await resService.findOne({resourceName: "default"});
 
-    const endpoint = await endpointService.create(res.features, res.project, res.resourceName);
+    const endpoint = await endpointService.create(res);
     expect(endpoint).toBeDefined();
 
     // generic endpoints

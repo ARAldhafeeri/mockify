@@ -43,8 +43,8 @@ describe('end-to-end tests resource data', () => {
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     // check all properties are defined
-    expect(response.body.data.resource).toBeDefined();
-    expect(response.body.data.data).toBeDefined();
+    expect(response.body.data?.resource).toBeDefined();
+    expect(response.body.data?.data).toBeDefined();
 
     createdResource = response.body.data;
 
@@ -52,12 +52,12 @@ describe('end-to-end tests resource data', () => {
 
   test('should get resource data', async () => {
 
-    const response = await request.agent(app).get(`${API_ROUTE}${DATA_ROUTE}/?resourceName=${"default"}`)
+    const response = await request.agent(app).get(`${API_ROUTE}${DATA_ROUTE}/?resourceName=default`)
     .set('Authorization', 'bearer ' + token)
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data.length).toBeGreaterThan(0);
+    expect(response.body.data?.length).toBeGreaterThan(0);
 
   });
 
@@ -73,7 +73,7 @@ describe('end-to-end tests resource data', () => {
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data.data.field3).toBe('value333');
+    expect(response.body.data?.data?.field3).toBe('value333');
 
   });
 
