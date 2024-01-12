@@ -116,12 +116,23 @@ class EdgeService implements IEdgeService  {
       code = this.addImmediatelyInvokedAsync(code);
       vm.createContext(CONTEXT);
       await vm.runInContext(code, CONTEXT);
-      return CONTEXT.data;
+      let data = CONTEXT.data;
+      let safeRes = CONTEXT.safeRes;
+      // reset context 
+      CONTEXT.data = {};
+      CONTEXT.safeRes = {
+        headers: null,
+        httpStatus: null,
+        message: null,
+        status: null
+      }
+      return {data : data, safeRes: safeRes}
     } else {
       vm.createContext(CONTEXT);
       vm.runInContext(code, CONTEXT);
       return CONTEXT.data;
     }
+
    
   
   }

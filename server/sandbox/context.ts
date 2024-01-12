@@ -17,7 +17,13 @@ const CONTEXT = {
   data: {},
   faker, 
   AccessControl,
-  GrantQuery
+  GrantQuery,
+  safeRes: {
+    headers: null,
+    httpStatus: null,
+    message: null,
+    status: null
+  }
 };
 
 export default CONTEXT;

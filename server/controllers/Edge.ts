@@ -117,9 +117,17 @@ export const runFunction = (method : string, featureName : string) => {
         if(!(resource.features as any)[featureName] && !resource.features.functions) return ErrorResponse(res, `${featureName} and/or function are disabled`, 400)
         const {code} = found;
   
-        const result = await edgeService.runFunctionInContext(code, true, additionalContext);
-  
-        return SuccessResponse(res, result, 'fetching data was successful', 200)
+        const {data, safeRes} = await edgeService.runFunctionInContext(code, true, additionalContext);
+        
+        let message = safeRes.message ?? 'fetching data was successful';
+        if(safeRes.headers){
+          for (const [key, value] of Object.entries(safeRes.headers)) {
+            res.setHeader(key, value as string);
+          }
+        }
+        let status = safeRes.httpStatus ?? 200;
+
+        return SuccessResponse(res, data, message, status)
   
     } catch (err){
       return ErrorResponse(res, `error ${err}`, 400);
