@@ -22,6 +22,9 @@ import EdgeService from "./services/Edge";
 var superAdminDefaultData;
 var user;
 
+const randomNane = () => {
+  return Math.random().toString(36).substring(7);
+}
 const passwordService = new PasswordService();
 const projService = new ProjectService();
 const dataService = new DataService();
@@ -57,7 +60,7 @@ export const initDefaultData = async () => {
 
         await adminModel.create({
             username: ADMIN_USERNAME,
-            email: "test33232323@test.com",
+            email: randomNane() + "@gmail.com",
             role: "admin",
             hashedPassword: hashedPassword,
             salt: salt,
@@ -69,19 +72,19 @@ export const initDefaultData = async () => {
     let project = await projService.findOrCreate({
       name: "default", 
       apiKey: "lksjfdkjfdjfdieiwoncxn98398239nxnjdhj3838sjhjhsdhjdu3", 
-      user: superAdminDefaultData._id
+      user: superAdminDefaultData?._id
     } as IProject)
 
     // create project , admin is owner
-    let projectAdmi = await projService.findOrCreate({
+    let projectAdmin = await projService.findOrCreate({
       name : "default2", 
       apiKey: "lkjsdflkhjsdfhiewiuweiu", 
-      user: user._id
+      user: user?._id
     } as IProject)
 
     // create resource
     let resource = await resourceService.findOrCreate({
-        project: project._id,
+        project: project?._id,
         resourceName: "default",
         features: {
           "filter": true,
@@ -105,6 +108,9 @@ export const initDefaultData = async () => {
 
     let policy = await policyService.findOrCreate({
         project: project._id,
+        resources: ["default"],
+        actions: ["getx", "postx", "putx", "deletex"],
+        roles: ["admin", "user"],
         policies: [
           {
             role: "admin",
@@ -120,34 +126,34 @@ export const initDefaultData = async () => {
       } as any)
 
 
-    let data = await dataService.findOrCreate({resource: resource._id, data: {
+    let data = await dataService.findOrCreate({resource: resource?._id, data: {
         name: "test",
         age: 20
     }} as any)
 
     let function1 = await edgeService.findOrCreate({
-        resource: resource._id,
+        resource: resource?._id,
         name: "edgeTest",
         code: "data = await ResourceModel.find({});",
         method: "GET"
     } as any );
 
     let function2 = await edgeService.findOrCreate({
-        resource: resource._id,
+        resource: resource?._id,
         name: "edgeTest1",
         code: "data = await ResourceModel.find({});",
         method: "POST"
     } as any );
 
     let function3 = await edgeService.findOrCreate({
-        resource: resource._id,
+        resource: resource?._id,
         name: "edgeTest2",
         code: "data = await ResourceModel.find({});",
         method: "PUT"
     } as any );
 
     let function4 = await edgeService.findOrCreate({
-        resource: resource._id,
+        resource: resource?._id,
         name: "edgeTest3",
         code: "data = await ResourceModel.find({});",
         method: "DELETE"

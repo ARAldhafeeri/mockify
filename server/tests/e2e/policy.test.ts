@@ -38,7 +38,7 @@ describe('end-to-end tests project policy', () => {
 
   test('should create project policy', async () => {
 
-    policyObj = await projectService.find({name: 'default'});
+    policyObj = await projectService.find({name: 'default2'});
     mockPolicy.project =  policyObj[0]._id;
 
     const policyExists = await policyService.find({project: mockPolicy.project});

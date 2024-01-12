@@ -10,7 +10,7 @@ class ProjectService implements IProjectService  {
   }
 
   find = async ( projection: Object) : Promise<any> => {
-    const foundProject = ProjectModel.find( 
+    const foundProject = await ProjectModel.find( 
        projection
        )
     

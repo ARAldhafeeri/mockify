@@ -154,7 +154,6 @@ describe('end-to-end tests mock endpoints on data entity', () => {
 
   test("should validate posted data and return 400 if invalid - missing required field", async () => {
     let createdDataCopy = {...createdData};
-    console.log(createdDataCopy)
     delete createdDataCopy.data?.name;
     createdDataCopy.data.koko = "koko";
     const response = await request.agent(app).post(
@@ -188,7 +187,6 @@ describe('end-to-end tests mock endpoints on data entity', () => {
   test("should validate posted data and return 400 if invalid - invalid field type", async () => {
     let createdDataCopy = {...createdData};
     createdDataCopy.data.name = 123;
-    console.log(createdDataCopy)
     const response = await request.agent(app).post(
       `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_VALIDATE}`)
     .set(apiKeyHeader, token)
