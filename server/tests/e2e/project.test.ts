@@ -53,7 +53,6 @@ describe('end-to-end tests project endpoint', () => {
 
     const response = await request.agent(app).get(`${API_ROUTE}${PROJECT_ROUTE}`)
     .set('Authorization', 'bearer ' + token)
-    console.log(response.body)
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     expect(response.body.data?.length).toBeGreaterThan(0);
@@ -85,7 +84,6 @@ describe('end-to-end tests project endpoint', () => {
   test("super admin should be able to view default, default2 he's owner of all projects", async () => {
     const response = await request.agent(app).get(`${API_ROUTE}${PROJECT_ROUTE}`)
     .set('Authorization', 'bearer ' + token)
-    console.log(response.body)
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -99,7 +97,6 @@ describe('end-to-end tests project endpoint', () => {
   test("admin, user should only be able to view default2 he's owner of default2", async () => {
   const response = await request.agent(app).get(`${API_ROUTE}${PROJECT_ROUTE}`)
   .set('Authorization', 'bearer ' + regAdminToken)
-  console.log(response.body)
 
   expect(response.status).toBe(200);
   expect(response.body.status).toBe(true);

@@ -11,8 +11,10 @@ const MockifyModal : React.FC<MockifyModelProps> = (props: MockifyModelProps) =>
             open={show}
             onCancel={onCancel}
             onOk={onOk}
-            width={700}
+            className="modal"
+            centered
             okButtonProps={okButtonProps}
+            maskStyle={{backgroundColor: 'rgba(0, 0, 0, 0.5)'}}
             cancelButtonProps={cancelButtonProps}
             >
           {children}

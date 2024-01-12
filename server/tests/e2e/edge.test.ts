@@ -179,11 +179,95 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
   await edgeService.create(edge as IEdge);
   const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
   .set(apiKeyHeader, token);
-  console.log(response.body)
   expect(response.status).toBe(200);
   expect(response.body.status).toBe(true);
   expect(response.body.data).toBeDefined();
   });
+
+
+  test("should run edge function with gatewatch context", async () => {
+    
+    let code = `
+    const project = await ProjectModel.findOne({name: 'default'});
+    const policy =  await PolicyModel.findOne({project: project._id});
+    var ac = new AccessControl(policy);
+    var enforcedPolicy = ac.enforce();
+    const grant = new GrantQuery(policy).role('user').can(['getx']).on(['default']).grant();
+    data = grant
+    `
+
+    let resource = await resourceService.findOne({resourceName: 'default'});
+    const edge = {
+      resource: resource._id,
+      name: genRandomName(),
+      code,
+      method: "GET"
+    }
+    await edgeService.create(edge as IEdge);
+    const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
+    .set(apiKeyHeader, token);
+    expect(response.status).toBe(200);
+    expect(response.body.status).toBe(true);
+    expect(response.body.data).toBeDefined();
+    expect(response.body.data).toBe(true);
+  });
+
+  test("user should be able to set headers, status, message backward compatiable", async () => {
+
+    let code = `
+      safeRes.httpStatus = 201;
+      safeRes.message = 'custom message';
+      safeRes.headers = {
+        'x-custom-header': 'custom header value'
+       }
+      safeRes.status = true;
+      data = { test : 'test' }
+    `
+    const resource = await resourceService.findOne({resourceName: 'default'});
+    const edge = {
+      resource: resource._id,
+      name: genRandomName(),
+      code,
+      method: "GET"
+    }
+    await edgeService.create(edge as IEdge);
+    const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
+    .set(apiKeyHeader, token);
+
+    console.log(response.body);
+    expect(response.status).toBe(201);
+    expect(response.body.status).toBe(true);
+    expect(response.body.data).toBeDefined();
+    expect(response.body.data.test).toBe('test');
+    expect(response.body.message).toBe('custom message');
+    expect(response.headers['x-custom-header']).toBe('custom header value');
+  });
+
+  test("default safeRes should be set if user does not set it", async () => {
+      
+      let code = `
+        data = { test : 'test' }
+      `
+      const resource = await resourceService.findOne({resourceName: 'default'});
+      const edge = {
+        resource: resource._id,
+        name: genRandomName(),
+        code,
+        method: "GET"
+      }
+      await edgeService.create(edge as IEdge);
+      const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
+      .set(apiKeyHeader, token);
+  
+      expect(response.status).toBe(200);
+      expect(response.body.status).toBe(true);
+      expect(response.body.data).toBeDefined();
+      expect(response.body.data.test).toBe('test');
+      expect(response.body.message).toBe('fetching data was successful');
+      expect(response.headers['x-custom-header']).toBeUndefined();
+    });
+
+
 
   /* Closing database connection after each test. */
   afterAll(async () => {

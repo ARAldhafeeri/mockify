@@ -5,7 +5,7 @@ export const SuccessResponse = (
   ) => {
   return paginate ? res.status(200).send(
     { status: true, message: message, data: data, paginate: paginateData }
-    ) : res.status(200).send(
+    ) : res.status(status).send(
     { status: true, message: message, data: data }
     );
 }

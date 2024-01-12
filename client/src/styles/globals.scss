@@ -166,3 +166,19 @@ $box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 .ant-table {
   max-width: 1244px;
 }
+
+.contentCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ant-steps-item-title {
+  font-family: Cambria;
+  font-size: 12px!important;
+}
+
+.ant-steps-item-icon  span {
+  font-family: Cambria;
+  font-size: 12px!important;
+}

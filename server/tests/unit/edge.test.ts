@@ -19,9 +19,10 @@ describe('Edge run sandbox services ', () => {
   });
 
   test("edgeService.runFunctionInContext with context faker", async () => {
-    let code = "data = faker.name.findName()";
+    let code = "data = faker.person.firstName('female')";
     const data = await edgeService.runFunctionInContext(code);
     expect(data).not.toEqual(null);
   });
+
 });
 
