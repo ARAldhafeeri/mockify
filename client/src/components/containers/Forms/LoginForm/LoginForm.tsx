@@ -1,7 +1,7 @@
 import { Form } from 'antd';
 import MockifyButton from 'components/commons/Button/Button';
 import MockifyInput from 'components/commons/Input/Input';
-import LoginFormController from 'controllers/LoginForm';
+import LoginFormController from 'services/LoginForm';
 import React from 'react'
 
 

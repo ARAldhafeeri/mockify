@@ -1,11 +1,11 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import { Link, Routes, Route } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
-import LoggedInLayoutController from 'controllers/LoggedIn';
+import LoggedInLayoutController from 'services/LoggedIn';
 import { items } from 'routes';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import AuthCheckController from 'controllers/AuthCheck';
+import AuthCheckController from 'services/AuthCheck';
 import { ROUTES_NAMES } from 'constants/routes';
 import { Navigate } from 'react-router';
 import MockifyLoader from 'components/commons/Loader/MockifyLoader';

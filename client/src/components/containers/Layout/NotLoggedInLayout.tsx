@@ -4,7 +4,7 @@ import LoginForm from '../Forms/LoginForm/LoginForm';
 import { Layout, theme } from 'antd';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import AuthController from 'controllers/Auth';
+import AuthController from 'services/Auth';
 import { ROUTES_NAMES } from 'constants/routes';
 import { Navigate } from 'react-router';
 

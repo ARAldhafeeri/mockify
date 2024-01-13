@@ -1,5 +1,5 @@
 import React from "react"; 
-import EdgeController from "controllers/Edge";
+import EdgeController from "services/Edge";
 import MockifyButton from "components/commons/Button/Button";
 import MockifyLoader from "components/commons/Loader/MockifyLoader";
 import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
@@ -9,7 +9,7 @@ import EdgeForm from "../Forms/Edge/EdgeForm";
 import { Space, Tabs } from "antd";
 import EdgeCards from "components/presentational/Edge/EdgeCards";
 import { useAppSelector } from "redux/hooks";
-import ResourceController from "controllers/Resource";
+import ResourceController from "services/Resource";
 
 const Edge : React.FC = () => {
   const { resource } = ResourceController();

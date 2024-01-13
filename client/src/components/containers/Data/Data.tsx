@@ -1,9 +1,9 @@
 import React from "react"; 
 import MockifyTable from "../../commons/Table/Table";
-import DataController from "controllers/Data";
+import DataController from "services/Data";
 import ColumnsWithActions from "../../presentational/Data/DataData";
 import MockifyLoader from "components/commons/Loader/MockifyLoader";
-import ResourceController from "controllers/Resource";
+import ResourceController from "services/Resource";
 import { Tabs } from "antd";
 import { IFetchedDataData } from "types/Data";
 import { DeleteColumnOutlined, DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";

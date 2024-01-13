@@ -1,5 +1,5 @@
 import React from "react"; 
-import ProjectController from "controllers/Project";
+import ProjectController from "services/Project";
 import MockifyButton from "components/commons/Button/Button";
 import MockifyLoader from "components/commons/Loader/MockifyLoader";
 import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"; 
 import MockifyTable from "../../commons/Table/Table";
-import PolicyController from "controllers/Policy";
+import PolicyController from "services/Policy";
 import MockifyButton from "components/commons/Button/Button";
 import ColumnsWithActions from "../../presentational/Policy/PolicyData";
 import MockifyLoader from "components/commons/Loader/MockifyLoader";
@@ -9,7 +9,7 @@ import MockifyModal from "components/commons/Modal/Modal";
 import { IFetchedPolicyData } from "types/Policy";
 import PolicyForm from "../Forms/Policy/PolicyForm";
 import { Space, Tabs } from "antd";
-import ProjectController from "controllers/Project";
+import ProjectController from "services/Project";
 import Policies from "../../presentational/Policy/Policies";
 
 
