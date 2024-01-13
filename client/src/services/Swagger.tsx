@@ -6,33 +6,44 @@ import ResourceService from './Resource';
 const SwaggerService = () => {
 
   const { endpoint } = EndpointService();
-  const {resource } = ResourceService();
+  const { resource } = ResourceService();
   const [ selectedResourceSwaggerDocs, setSelectedResourceSwaggerDocs ] = React.useState<any>("");
   const [ swaggerDrawerVisible, setSwaggerDrawerVisible ] = React.useState<boolean>(false);
   const [ selectedResource, setSelectedResource  ] = React.useState<any>(resource[0]);
+  const [ key, setKey ] = React.useState<number>(0);
 
+  React.useEffect(() =>{
+    swaggerDocsCache();
+  }, [selectedResource])
+
+  const handleTabChange = (key : string, resource : any) => {
+    setKey(parseInt(key));
+    setSelectedResource(resource[key]);
+    swaggerDocsCache();
+  }
   
   const generateSwaggerDocs = (data : any) => {
     const swaggerTemplate  : any = {
         swagger: "2.0",
         info: {
-            version: "1.0.0",
-            title: "API Documentation",
-            description: "Documentation for the API endpoints",
+            title: `API Documentation for ${selectedResource?.resourceName}`,
+            description: `The following endpoints are available for ${selectedResource?.resourceName}`,
         },
         paths: {},
     };
 
     data?.forEach((endpoint : any) => {
-        const method = endpoint.method.toLowerCase();
-        const url = endpoint.url;
+        const method = endpoint?.method?.toLowerCase();
+        const url = endpoint?.url;
+        const resourceName = selectedResource?.resourceName;
 
         if (!(url in swaggerTemplate.paths)) {
             swaggerTemplate.paths[url] = {};
         }
 
         swaggerTemplate.paths[url][method] = {
-            summary: `${method} operation for ${url}`,
+            tags: [resourceName],
+            summary: `${method} operation for ${resourceName}`,
             parameters: [],
             responses: {
                 200: { description: "OK" },
@@ -90,6 +101,10 @@ const SwaggerService = () => {
     selectedResourceSwaggerDocs,
     handleShowSwaggerDrawer,
     handleCloseSwaggerDrawer,
+    resource,
+    selectedResource,
+    key, 
+    handleTabChange,
   }
 }
 

@@ -84,7 +84,7 @@ const Data : React.FC = () => {
             onTabClick={(e) => handleTabChange(e, resource)}
             items={resource.map((resource : any, index : number) => {
               return {
-                label: `${resource.resourceName}`,
+                label: `${resource?.resourceName}`,
                 key: `${index}`,
                 disabled: false,
                 children: (

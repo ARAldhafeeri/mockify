@@ -43,10 +43,6 @@ interface MenuItem {
   element?: React.ReactNode;
 }
 
-const NewPageHeader = (name : string, Icon : React.FC) => {
-  return <><Icon /><p className="newPageText">Swagger</p><Tag color="green">New</Tag></>
-}
-
 export const items: MenuItem[] = [
   // {
   //   key: 'dashbaord',
@@ -102,8 +98,8 @@ export const items: MenuItem[] = [
   }, 
   {
     key: "Swagger",
-    icon: NewPageHeader("Swagger", FolderAddOutlined),
-    label: "",
+    icon: <><FolderAddFilled /><Tag color="green" className="newPageText">new</Tag></>,
+    label: "Swagger",
     to: ROUTES_NAMES.SWAGGER,
   }
   // Add more menu items if needed
