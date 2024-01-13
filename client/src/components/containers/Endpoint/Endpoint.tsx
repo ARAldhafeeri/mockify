@@ -1,11 +1,11 @@
 import React from "react"; 
 import MockifyTable from "../../commons/Table/Table";
-import EndpointController from "services/Endpoint";
+import EndpointService from "services/Endpoint";
 import MockifyButton from "components/commons/Button/Button";
 import ColumnsWithActions from "../../presentational/Endpoint/EndpointData";
 import MockifyLoader from "components/commons/Loader/MockifyLoader";
 import { EyeOutlined } from "@ant-design/icons";
-import ResourceController from "services/Resource";
+import ResourceService from "services/Resource";
 import {Drawer, Tabs } from "antd";
 import MockifyCodeEditor from "components/commons/CodeEditor/CodeEditor";
 
@@ -22,11 +22,11 @@ const Endpoint : React.FC = () => {
     swaggerDrawerVisible,
     selectedResource
   
-  } = EndpointController();
+  } = EndpointService();
 
   const {
     resource,
-  } = ResourceController();
+  } = ResourceService();
 
   return (
     <>

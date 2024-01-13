@@ -6,10 +6,10 @@ import { ToastifyMockify } from "utils";
 import { Form } from "antd";
 import { toast } from "react-toastify";
 import { IFetchedResourceData } from "types/Resource";
-import ResourceController from "./Resource";
-const EdgeController = () => {
+import ResourceService from "./Resource";
+const EdgeService = () => {
   const { edge, loading } = useAppSelector((state) => state.edge);
-  const { resource } = ResourceController();
+  const { resource } = ResourceService();
   const [ key, setKey ] = React.useState<number>(0);
   const [ currentStep, setCurrentStep ] = React.useState<number>(0);
   const  [ resourceName, setResourceName ] = React.useState<string>(resource[0]?.resourceName ?? "");
@@ -191,4 +191,4 @@ const EdgeController = () => {
   }
 }
 
-export default EdgeController;
+export default EdgeService;

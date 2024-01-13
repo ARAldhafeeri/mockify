@@ -4,7 +4,7 @@ import { fetchProjects, deleteProject, updateProject, createProject } from "redu
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { ToastifyMockify } from "utils";
 import { Form } from "antd";
-const ProjectController = () => {
+const ProjectService = () => {
   const { project, loading } = useAppSelector((state) => state.project);
 
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
@@ -120,4 +120,4 @@ const ProjectController = () => {
   }
 }
 
-export default ProjectController;
+export default ProjectService;

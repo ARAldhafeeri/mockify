@@ -2,10 +2,10 @@ import React from "react";
 import { fetchEndpoints } from "redux/features/endpoint/endpointThunk";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { ToastifyMockify } from "utils";
-import ResourceController from "./Resource";
+import ResourceService from "./Resource";
 import YAML from 'yaml'
-const EndpointController = () => {
-  const {resource } = ResourceController();
+const EndpointService = () => {
+  const {resource } = ResourceService();
   const { endpoint, loading } = useAppSelector((state) => state.endpoint);
   const [ selectedResource, setSelectedResource  ] = React.useState<any>(resource[0]);
   const [ selectedResourceSwaggerDocs, setSelectedResourceSwaggerDocs ] = React.useState<any>("");
@@ -111,4 +111,4 @@ const EndpointController = () => {
   }
 }
 
-export default EndpointController;
+export default EndpointService;

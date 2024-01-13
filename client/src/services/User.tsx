@@ -4,7 +4,7 @@ import { fetchUsers, deleteUser, updateUser, createUser } from "redux/features/u
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { ToastifyMockify } from "utils";
 import { Form } from "antd";
-const UserController = () => {
+const UserService = () => {
   const { user, loading } = useAppSelector((state) => state.user);
 
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
@@ -121,4 +121,4 @@ const UserController = () => {
   }
 }
 
-export default UserController;
+export default UserService;

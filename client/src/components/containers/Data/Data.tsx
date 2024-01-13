@@ -1,9 +1,9 @@
 import React from "react"; 
 import MockifyTable from "../../commons/Table/Table";
-import DataController from "services/Data";
+import DataService from "services/Data";
 import ColumnsWithActions from "../../presentational/Data/DataData";
 import MockifyLoader from "components/commons/Loader/MockifyLoader";
-import ResourceController from "services/Resource";
+import ResourceService from "services/Resource";
 import { Tabs } from "antd";
 import { IFetchedDataData } from "types/Data";
 import { DeleteColumnOutlined, DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
@@ -15,7 +15,7 @@ const Data : React.FC = () => {
 
   const {
     resource,
-  } = ResourceController();
+  } = ResourceService();
 
   const { 
     data, 
@@ -49,7 +49,7 @@ const Data : React.FC = () => {
     form,
 
   
-  } = DataController();
+  } = DataService();
 
   const actions = [
     {

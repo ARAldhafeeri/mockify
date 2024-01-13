@@ -1,11 +1,11 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import { Link, Routes, Route } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
-import LoggedInLayoutController from 'services/LoggedIn';
+import LoggedInLayoutService from 'services/LoggedIn';
 import { items } from 'routes';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import AuthCheckController from 'services/AuthCheck';
+import AuthCheckService from 'services/AuthCheck';
 import { ROUTES_NAMES } from 'constants/routes';
 import { Navigate } from 'react-router';
 import MockifyLoader from 'components/commons/Loader/MockifyLoader';
@@ -23,9 +23,9 @@ const LoggedInLayout: React.FC<LoggedInLayoutProps> = (props) => {
     setCollapsed, 
     current, 
     handleClick 
-  } = LoggedInLayoutController();
+  } = LoggedInLayoutService();
 
-  const { auth } = AuthCheckController()
+  const { auth } = AuthCheckService()
 
   if (!auth){
     // currently is normal cookie where token is stored

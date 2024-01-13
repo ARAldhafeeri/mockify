@@ -1,6 +1,6 @@
 import React from "react"; 
 import MockifyTable from "../../commons/Table/Table";
-import ResourceController from "services/Resource";
+import ResourceService from "services/Resource";
 import MockifyButton from "components/commons/Button/Button";
 import ColumnsWithActions from "../../presentational/Resource/ResourceData";
 import MockifyLoader from "components/commons/Loader/MockifyLoader";
@@ -9,12 +9,12 @@ import MockifyModal from "components/commons/Modal/Modal";
 import { IFetchedResourceData } from "types/Resource";
 import ResourceForm from "../Forms/Resource/ResourceForm";
 import { Tabs } from "antd";
-import ProjectController from "services/Project";
+import ProjectService from "services/Project";
 
 const Resource : React.FC = () => {
   const {
     project,
-  }   = ProjectController();
+  }   = ProjectService();
   const { 
     resource, 
     loading, 
@@ -51,7 +51,7 @@ const Resource : React.FC = () => {
     currentStep,
     prevStep,
     nextStep
-  } = ResourceController();
+  } = ResourceService();
 
   const actions = [
     {

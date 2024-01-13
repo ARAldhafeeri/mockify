@@ -4,7 +4,7 @@ import LoginForm from '../Forms/LoginForm/LoginForm';
 import { Layout, theme } from 'antd';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import AuthController from 'services/Auth';
+import AuthService from 'services/Auth';
 import { ROUTES_NAMES } from 'constants/routes';
 import { Navigate } from 'react-router';
 
@@ -13,7 +13,7 @@ const NotLoggedInLayout: React.FC = () => {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  const { auth } = AuthController();
+  const { auth } = AuthService();
   if (auth){
     return <Navigate to={ROUTES_NAMES.USER} />;
   }

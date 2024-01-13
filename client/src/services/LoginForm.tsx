@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { ToastifyMockify } from "utils";
 
 
-const LoginFormController = () => {
+const LoginFormService = () => {
   const [data, setData] = React.useState({
     username: "",
     password: "",
@@ -38,4 +38,4 @@ const LoginFormController = () => {
 
 };
 
-export default LoginFormController;
+export default LoginFormService;
