@@ -1,5 +1,6 @@
 # ignore landing page folder 
 /landing
+/mockify-landing
 # Logs
 logs
 *.log

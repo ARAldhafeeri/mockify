@@ -36,6 +36,9 @@
     "web-vitals": "^2.1.4",
     "yaml": "^2.3.4"
   },
+  "overrides": {
+    "types-ramda": "0.29.4"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "tsc && react-scripts build",
