@@ -31,13 +31,6 @@ const Endpoint : React.FC = () => {
         <Tabs
           defaultActiveKey={`${key}`}
           tabPosition="top"
-          tabBarExtraContent={
-            <MockifyButton 
-            classes={['table-action-third', 'textAndIcon', ]} 
-            icon={<EyeOutlined />}
-            text={`Swagger 2.0 Docs`}
-            />
-          }
           style={{ height: "100%" }}
           onTabClick={(e) => handleTabChange(e, resource)}
           items={resource.map((resource : any, index : number) => {
