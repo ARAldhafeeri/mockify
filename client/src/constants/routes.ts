@@ -9,4 +9,5 @@ export const ROUTES_NAMES = {
    ROOT: '/',
    ENDPOINT: '/endpoint',
    EDGE: '/edge',
+   SWAGGER: '/swagger',
 }
