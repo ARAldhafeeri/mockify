@@ -30,6 +30,8 @@ import Endpoint from "components/containers/Endpoint/Endpoint";
 import Data from "components/containers/Data/Data";
 import Policy from "components/containers/Policy/Policy";
 import Edge from "components/containers/Edge/Edge";
+import { Tag } from "antd";
+import Swagger from "components/containers/Swagger/Swagger";
 
 
 interface MenuItem {
@@ -93,6 +95,12 @@ export const items: MenuItem[] = [
     icon: <FunctionOutlined />,
     label: 'Edge Functions',
     to: ROUTES_NAMES.EDGE,
+  }, 
+  {
+    key: "Swagger",
+    icon: <><FolderAddFilled /><Tag color="green" className="newPageText">new</Tag></>,
+    label: "Swagger",
+    to: ROUTES_NAMES.SWAGGER,
   }
   // Add more menu items if needed
 ];
@@ -137,6 +145,10 @@ const MainRouter = createBrowserRouter([
   {
     path: ROUTES_NAMES.EDGE,
     element: withLoggedInLayout(<Edge />)
+  },
+  {
+    path: ROUTES_NAMES.SWAGGER,
+    element: withLoggedInLayout(<Swagger />)
   }
 ]);
 

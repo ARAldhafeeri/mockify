@@ -1,5 +1,5 @@
 import React from "react"; 
-import UserController from "controllers/User";
+import UserService from "services/User";
 import MockifyButton from "components/commons/Button/Button";
 import MockifyLoader from "components/commons/Loader/MockifyLoader";
 import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
@@ -29,7 +29,7 @@ const User : React.FC = () => {
     handleHideCreateUserModal,
     handleFormChangeSelect,
     form
-  } = UserController();
+  } = UserService();
 
   const actions = [
     {

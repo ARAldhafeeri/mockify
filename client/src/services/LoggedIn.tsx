@@ -1,6 +1,6 @@
 import React from "react";
 
-const LoggedInLayoutController = () => {
+const LoggedInLayoutService = () => {
 
   
   const [collapsed, setCollapsed] = React.useState(false as boolean);
@@ -19,4 +19,4 @@ const LoggedInLayoutController = () => {
   };
 }
 
-export default LoggedInLayoutController;
+export default LoggedInLayoutService;

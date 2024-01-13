@@ -1,38 +1,38 @@
 import React from "react";
-import { IFetchedUserData } from "types/User";
-import { fetchUsers, deleteUser, updateUser, createUser } from "redux/features/user/userThunk";
+import { IFetchedProjectData } from "types/Project";
+import { fetchProjects, deleteProject, updateProject, createProject } from "redux/features/project/projectThunk";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { ToastifyMockify } from "utils";
 import { Form } from "antd";
-const UserController = () => {
-  const { user, loading } = useAppSelector((state) => state.user);
+const ProjectService = () => {
+  const { project, loading } = useAppSelector((state) => state.project);
 
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
   const [ showCreateModal, setShowCreateModal ] = React.useState<boolean>(false);
-  const [selectedUser, setSelectedUser ] = React.useState<IFetchedUserData>({
-    username: "",
+  const [selectedProject, setSelectedProject ] = React.useState<IFetchedProjectData>({
+    name: "",
     _id: "",
-    role: "", 
-    email: "",
+    apiKey: "", 
+    user: "",
   });
   const dispatch = useAppDispatch();
 
   // antd form 
   const [form] = Form.useForm();
 
-  // delete user event
-  const handleDeleteUser = (id : string) => {
+  // delete project event
+  const handleDeleteProject = (id : string) => {
     ToastifyMockify(
       dispatch(
-        deleteUser(id)
+        deleteProject(id)
         )
     );
     setShowDeleteModal(false);
   }
 
-  const handleShowDeleteModal = (record : IFetchedUserData) => {
-    setSelectedUser(record);
+  const handleShowDeleteModal = (record : IFetchedProjectData) => {
+    setSelectedProject(record);
     setShowDeleteModal(true);
   }
 
@@ -40,9 +40,9 @@ const UserController = () => {
     setShowDeleteModal(false);
   }
 
-  // update user event
-  const handleShowEditModal = (record: IFetchedUserData) => {
-    setSelectedUser(record);
+  // update project event
+  const handleShowEditModal = (record: IFetchedProjectData) => {
+    setSelectedProject(record);
     setShowEditModal(true);
   }
 
@@ -50,58 +50,57 @@ const UserController = () => {
     setShowEditModal(false);
   }
 
-  const handleSubmitUserForm = (e : any) => {
+  const handleSubmitProjectForm = (e : any) => {
     e.preventDefault();
     let dispatched;
     if (showEditModal) {
-      dispatched = dispatch(updateUser(selectedUser))
+      delete selectedProject.apiKey;
+      dispatched = dispatch(updateProject(selectedProject))
     } else {
-      delete selectedUser._id;
-      dispatched = dispatch(createUser(selectedUser))
+      delete selectedProject._id;
+      dispatched = dispatch(createProject(selectedProject))
     }
 
     ToastifyMockify(dispatched);
   }
 
   const handleFormChange = (e : any) => {
-    setSelectedUser({
-      ...selectedUser,
+    setSelectedProject({
+      ...selectedProject,
       [e.target.name]: e.target.value
     })
   };
 
   const handleFormChangeSelect = (value : string) => {
-    console.log(value);
-    setSelectedUser({
-      ...selectedUser,
-      role: value,
+    setSelectedProject({
+      ...selectedProject,
+      user: value
     })
   }
 
   // create events
-  const handleShowCreateUserModal = () => {
+  const handleShowCreateProjectModal = () => {
     setShowCreateModal(true);
   }
 
-  const handleHideCreateUserModal = () => {
+  const handleHideCreateProjectModal = () => {
     setShowCreateModal(false);
   }
   
-
   React.useEffect(() =>{
-    const dispatched = dispatch(fetchUsers());
+    const dispatched = dispatch(fetchProjects());
     ToastifyMockify(dispatched);
     setShowEditModal(false);
   }, [dispatch])
 
   return {
     // globals
-    user, 
+    project, 
     loading,
-    selectedUser, 
-    setSelectedUser,
+    selectedProject, 
+    setSelectedProject,
     // delete event
-    handleDeleteUser,
+    handleDeleteProject,
     showDeleteModal,
     handleShowDeleteModal,
     handleHideDeleteModal,
@@ -109,16 +108,16 @@ const UserController = () => {
     showEditModal,
     handleShowEditModal,
     handleHideEditModal,
-    handleSubmitUserForm,
+    handleSubmitProjectForm,
     handleFormChange,
     // create event
     showCreateModal, 
-    handleShowCreateUserModal,
-    handleHideCreateUserModal,
+    handleShowCreateProjectModal,
+    handleHideCreateProjectModal,
     form,
     handleFormChangeSelect
 
   }
 }
 
-export default UserController;
+export default ProjectService;

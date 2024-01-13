@@ -1,9 +1,9 @@
 import React from "react"; 
 import MockifyTable from "../../commons/Table/Table";
-import DataController from "controllers/Data";
+import DataService from "services/Data";
 import ColumnsWithActions from "../../presentational/Data/DataData";
 import MockifyLoader from "components/commons/Loader/MockifyLoader";
-import ResourceController from "controllers/Resource";
+import ResourceService from "services/Resource";
 import { Tabs } from "antd";
 import { IFetchedDataData } from "types/Data";
 import { DeleteColumnOutlined, DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
@@ -15,7 +15,7 @@ const Data : React.FC = () => {
 
   const {
     resource,
-  } = ResourceController();
+  } = ResourceService();
 
   const { 
     data, 
@@ -49,7 +49,7 @@ const Data : React.FC = () => {
     form,
 
   
-  } = DataController();
+  } = DataService();
 
   const actions = [
     {
@@ -84,7 +84,7 @@ const Data : React.FC = () => {
             onTabClick={(e) => handleTabChange(e, resource)}
             items={resource.map((resource : any, index : number) => {
               return {
-                label: `${resource.resourceName}`,
+                label: `${resource?.resourceName}`,
                 key: `${index}`,
                 disabled: false,
                 children: (

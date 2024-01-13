@@ -13,6 +13,7 @@
     "@types/node": "^16.18.40",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
+    "@types/swagger-ui-react": "^4.18.3",
     "@uiw/codemirror-themes": "^4.21.9",
     "@uiw/react-codemirror": "^4.21.9",
     "antd": "^5.8.3",
@@ -30,6 +31,7 @@
     "redux": "^4.2.1",
     "sass": "^1.65.1",
     "sort-by": "^1.2.0",
+    "swagger-ui-react": "^5.11.0",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4",
     "yaml": "^2.3.4"

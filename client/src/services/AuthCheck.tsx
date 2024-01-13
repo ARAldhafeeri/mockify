@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { checkForExpiredToken } from 'utils/auth';
 import { setCurrentUser } from 'redux/features/auth/authThunk';
 
-const AuthCheckController = () => {
+const AuthCheckService = () => {
     const { auth } = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
     
@@ -22,4 +22,4 @@ const AuthCheckController = () => {
     }
 }
 
-export default AuthCheckController;
+export default AuthCheckService;
