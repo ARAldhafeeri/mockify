@@ -1,7 +1,9 @@
 import React from 'react'
 
-export default function Swagger() {
+const Swagger  : React.FC = () => {
   return (
     <div>Swagger</div>
   )
 }
+
+export default Swagger;
