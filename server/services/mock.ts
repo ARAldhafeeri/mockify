@@ -95,7 +95,7 @@ class MockService implements IMockService  {
 
   filterQuery = async (projection: Object): Promise<any> => {
     // projection is {filterName: filterValue}
-    const results = await DataModel.find(projection).exec();
+    const results = await DataModel.find(projection);
 
     return results;
   }

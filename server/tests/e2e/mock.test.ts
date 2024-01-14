@@ -6,15 +6,17 @@ import mongoose from 'mongoose';
 import TestUtils from './TestUtils';
 import ResourceService from '../../services/resource';
 import { apiKeyHeader } from '../../config/headers';
-
-
+import DataService from '../../services/data';
+import { IData } from '../../types/Data';
 const mockData = {
   "resource": "string",
   "data": {
+    "name":  "a",
   }
 }
 
 const resourceService = new ResourceService();
+const dataService = new DataService();
 
 describe('end-to-end tests mock endpoints on data entity', () => {
   let token : string;
