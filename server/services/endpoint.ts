@@ -21,7 +21,7 @@ class EndpointService implements IEndpointService {
     // full urls
     let getx : string = `${domain}/mock/${resourceName}/`
     let postx : string = `${domain}/mock/${resourceName}/`
-    let deleteAndPutx : string = `${domain}/mock/${resourceName}/:id`
+    let deleteAndPutx : string = `${domain}/mock/${resourceName}/{id}`
 
     let paginateX : string = `${domain}/mock/${resourceName}/paginate?page=1&limit=10`
     let searchX : string = `${domain}/mock/${resourceName}/search/?search=fullTextSearchAgainstString`
@@ -29,9 +29,9 @@ class EndpointService implements IEndpointService {
     let validateX : string = `${domain}/mock/${resourceName}/validate`
 
     // paths for swagger  docs 
-    let getxPath : string = `/mock/${resourceName}/:id`
+    let getxPath : string = `/mock/${resourceName}/{id}`
     let postxPath : string = `/mock/${resourceName}/`
-    let deleteAndPutxPath : string = `/mock/${resourceName}/:id`
+    let deleteAndPutxPath : string = `/mock/${resourceName}/{id}`
     let paginateXPath : string = `/mock/${resourceName}/paginate`
     let searchXPath : string = `/mock/${resourceName}/search`
     let filterXPath : string = `/mock/${resourceName}/filter`
@@ -40,7 +40,7 @@ class EndpointService implements IEndpointService {
     let getFunctionURL = (name : string) => `${domain}/${resourceName}/edge/${name}`
     let getFunctionPath = (name : string) => `/${resourceName}/edge/${name}`
     if (features.getx) endpoint.push(
-      {method: "GET", url: getx, type: "Generic", path: getxPath}
+      {method: "GET", url: getx, type: "Generic", path: getxPath, params: ["id"]}
       );
     if(features.postx) endpoint.push(
       {method: "POST", url: postx, type: "Generic", body: resource.fields, path: postxPath}
