@@ -38,8 +38,8 @@ describe('end-to-end tests user endpoint', () => {
     })
     expect(response.status).toBe(400);
     expect(response.body).toEqual({message: 'user or password is wrong', status: false});
-  });
-
+  })
+  
  /* Closing database connection after each test. */
  afterEach(async () => {
   await mongoose.connection.close();

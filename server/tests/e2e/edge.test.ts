@@ -98,11 +98,13 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
 
   let token : string;
   let createdResource : any;
+  let apiKey : string;
   
 
   beforeAll(async () => {
     await mongoose.connect(DATABASE_URL);
     token = await TestUtils.login();
+    apiKey = await TestUtils.getAPiKey();
   });
 
   test('should run getx function', async () => {
@@ -112,7 +114,7 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
       {resource: f._id, method: 'GET', name: 'edgeTest'}
       );
     const response = await request.agent(app).get(`${API_ROUTE}/${createdResource.resourceName}/edge/${edge.name}`)
-    .set(apiKeyHeader, token);
+    .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -128,7 +130,7 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
       {resource: f._id, method: 'POST', name: 'edgeTest1'}
       );
     const response = await request.agent(app).post(`${API_ROUTE}/${createdResource.resourceName}/edge/${edge.name}`)
-    .set(apiKeyHeader, token);
+    .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -143,7 +145,7 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
       {resource: f._id, method: 'DELETE', name: 'edgeTest3'}
       );
     const response = await request.agent(app).delete(`${API_ROUTE}/${createdResource.resourceName}/edge/${edge.name}`)
-    .set(apiKeyHeader, token);
+    .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -159,7 +161,7 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
       {resource: f._id, method: 'PUT', name: 'edgeTest2'}
       );
     const response = await request.agent(app).put(`${API_ROUTE}/${createdResource.resourceName}/edge/${edge.name}`)
-    .set(apiKeyHeader, token);
+    .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -178,7 +180,7 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
   }
   await edgeService.create(edge as IEdge);
   const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
-  .set(apiKeyHeader, token);
+  .set(apiKeyHeader, apiKey);
   expect(response.status).toBe(200);
   expect(response.body.status).toBe(true);
   expect(response.body.data).toBeDefined();
@@ -205,7 +207,7 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
     }
     await edgeService.create(edge as IEdge);
     const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
-    .set(apiKeyHeader, token);
+    .set(apiKeyHeader, apiKey);
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     expect(response.body.data).toBeDefined();
@@ -232,9 +234,8 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
     }
     await edgeService.create(edge as IEdge);
     const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
-    .set(apiKeyHeader, token);
+    .set(apiKeyHeader, apiKey);
 
-    console.log(response.body);
     expect(response.status).toBe(201);
     expect(response.body.status).toBe(true);
     expect(response.body.data).toBeDefined();
@@ -257,7 +258,7 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
       }
       await edgeService.create(edge as IEdge);
       const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
-      .set(apiKeyHeader, token);
+      .set(apiKeyHeader, apiKey);
   
       expect(response.status).toBe(200);
       expect(response.body.status).toBe(true);
@@ -267,6 +268,38 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
       expect(response.headers['x-custom-header']).toBeUndefined();
     });
 
+  test("access control should fail if no  api key provided", async () => {
+
+    let code = "data = { test : 'test' }";
+    const resource = await resourceService.findOne({resourceName: 'default'});
+    const edge = {
+      resource: resource._id,
+      name: genRandomName(),
+      code,
+      method: "GET"
+    }
+    await edgeService.create(edge as IEdge);
+    const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
+
+    expect(response.status).toBe(403);
+  });
+
+  test("invlid api key should fail", async () => { 
+
+    let code = "data = { test : 'test' }";
+    const resource = await resourceService.findOne({resourceName: 'default'});
+    const edge = {
+      resource: resource._id,
+      name: genRandomName(),
+      code,
+      method: "GET"
+    }
+    await edgeService.create(edge as IEdge);
+    const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
+    .set(apiKeyHeader, 'invalid api key')
+
+    expect(response.status).toBe(403);
+  });
 
 
   /* Closing database connection after each test. */
