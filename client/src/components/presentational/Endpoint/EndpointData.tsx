@@ -34,12 +34,50 @@ const ColumnsWithActions = (actions : any) : ColumnsType => {
       render: (endpoint : string) => Invisible(endpoint)
     },
     {
+      title: 'path'.toUpperCase(),
+      key: 'path',
+      dataIndex: 'path',
+    },
+    {
       title: 'params'.toUpperCase(),
       key: 'params',
       dataIndex: 'params',
       render: (params : Array<string>) => (
         <>
           {params?.map((name : String, index : number) =>{
+            return (
+              <Tag color={"green"} key={index}>
+                {name}
+              </Tag>
+            );
+          })}
+        </>
+      ),
+    },
+    {
+      title: 'headers'.toUpperCase(),
+      key: 'headers',
+      dataIndex: 'headers',
+      render: (params : Array<string>) => (
+        <>
+          {params?.map((name : String, index : number) =>{
+            return (
+              <Tag color={"green"} key={index}>
+                {name}
+              </Tag>
+            );
+          })}
+        </>
+      ),
+    },
+
+    {
+      title: 'queries'.toUpperCase(),
+      key: 'query',
+      dataIndex: 'query',
+      render: (query : Array<string>) => (
+        <>
+          {query?.map((name : String, index : number) =>{
             return (
               <Tag color={"green"} key={index}>
                 {name}
