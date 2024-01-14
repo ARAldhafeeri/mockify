@@ -98,7 +98,7 @@ export const items: MenuItem[] = [
   }, 
   {
     key: "Swagger",
-    icon: <><FolderAddFilled /><Tag color="green" className="newPageText">new</Tag></>,
+    icon: <><FolderAddFilled className="newPageIconLeft" /><Tag color="green" className="newPageText">new</Tag></>,
     label: "Swagger",
     to: ROUTES_NAMES.SWAGGER,
   }

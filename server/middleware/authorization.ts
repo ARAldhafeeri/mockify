@@ -80,10 +80,10 @@ const ACDynamic  = (
   };
 
 
-export const AccessKeyAuthorization = (req : Request, res : Response, next : NextFunction) => {
+export const AccessKeyAuthorization = async (req : Request, res : Response, next : NextFunction) => {
       // verify access key exists in database
       const apiKey = req.headers[apiKeyHeader];
-      const authorized = projService.findOne({apiKey: apiKey});
+      const authorized = await projService.findOne({apiKey: apiKey});
       if (!authorized) return res.status(403).send("invalid access key");
       next();
 }

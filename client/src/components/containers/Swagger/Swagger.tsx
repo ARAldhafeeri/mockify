@@ -41,7 +41,7 @@ const Swagger  : React.FC = () => {
           key: `${index}`,
           disabled: false,
           children: (
-            <SwaggerUI spec={selectedResourceSwaggerDocs} />
+              <SwaggerUI spec={selectedResourceSwaggerDocs} />
           ),
         };
       })}
@@ -54,7 +54,7 @@ const Swagger  : React.FC = () => {
     width={600}
     >
     <MockifyCodeEditor 
-      value={selectedResourceSwaggerDocs} 
+      value={JSON.stringify(selectedResourceSwaggerDocs, null, 2)} 
       height={"auto"} width={"600px"} 
       onChange={() => console} 
     />

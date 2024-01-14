@@ -1,6 +1,5 @@
 import React from 'react'
 import EndpointService from './Endpoint';
-import YAML from 'yaml'
 import ResourceService from './Resource';
 
 const SwaggerService = () => {
@@ -21,7 +20,30 @@ const SwaggerService = () => {
     setSelectedResource(resource[key]);
     swaggerDocsCache();
   }
-  
+  const formatSwaggerBody = (body : any) => {
+    /**
+     * from this :
+     *   fields: [{
+          name: {type: String, required: true},
+          type: {type: String, required: true},
+          required: {type: Boolean, required: true},
+        
+        }],
+      to this :
+      fields: {
+        name: {type: String, required: true},
+        type: {type: String, required: true},
+        required: {type: Boolean, required: true},
+      }
+     */
+    let formattedBody : any = {};
+    body.forEach((field : any) => {
+      formattedBody[field.name] = field;
+    });
+
+    return formattedBody;
+    
+  }
   const generateSwaggerDocs = (data : any) => {
     const swaggerTemplate  : any = {
         swagger: "2.0",
@@ -29,19 +51,21 @@ const SwaggerService = () => {
             title: `API Documentation for ${selectedResource?.resourceName}`,
             description: `The following endpoints are available for ${selectedResource?.resourceName}`,
         },
+        host: "api.mockify.com",
+        basePath: "/v1",
         paths: {},
     };
 
     data?.forEach((endpoint : any) => {
         const method = endpoint?.method?.toLowerCase();
-        const url = endpoint?.url;
+        const path = endpoint?.path;
         const resourceName = selectedResource?.resourceName;
 
-        if (!(url in swaggerTemplate.paths)) {
-            swaggerTemplate.paths[url] = {};
+        if (!(path in swaggerTemplate.paths)) {
+            swaggerTemplate.paths[path] = {};
         }
 
-        swaggerTemplate.paths[url][method] = {
+        swaggerTemplate.paths[path][method] = {
             tags: [resourceName],
             summary: `${method} operation for ${resourceName}`,
             parameters: [],
@@ -50,9 +74,9 @@ const SwaggerService = () => {
             },
         };
 
-        if ("params" in endpoint) {
-            endpoint.params.forEach((param : any) => {
-                swaggerTemplate.paths[url][method].parameters.push({
+        if ("query" in endpoint) {
+            endpoint?.query.forEach((param : any) => {
+                swaggerTemplate.paths[path][method].parameters.push({
                     name: param,
                     in: "query",
                     required: true,
@@ -60,30 +84,51 @@ const SwaggerService = () => {
                 });
             });
         }
+        if ("params" in endpoint) {
+            endpoint?.params.forEach((param : any) => {
+                swaggerTemplate.paths[path][method].parameters.push({
+                    name: param,
+                    in: "path",
+                    required: true,
+                    type: "string",
+                });
+            });
+        }
 
         if ("body" in endpoint) {
-            swaggerTemplate.paths[url][method].parameters.push({
+            swaggerTemplate.paths[path][method].parameters.push({
                 name: "body",
                 in: "body",
                 required: true,
                 schema: {
                     type: "object",
-                    properties: endpoint.body,
+                    properties: formatSwaggerBody(endpoint?.body),
                 },
+            });
+        }
+
+        if ("headers" in endpoint){
+            endpoint?.headers.forEach((header : any) => {
+                swaggerTemplate.paths[path][method].parameters.push({
+                    name: header,
+                    in: "header",
+                    required: true,
+                    type: "string",
+                });
             });
         }
     });
 
-    return YAML.stringify(swaggerTemplate);
+    return swaggerTemplate;
   }
 
   const swaggerDocsCache = () => {
     let resourceCache : string | null = localStorage.getItem(selectedResource?.resourceName);
     if (!resourceCache) {
       let swaggerDocs : any = generateSwaggerDocs(endpoint);
-      localStorage.setItem(selectedResource?.resourceName, swaggerDocs);
+      localStorage.setItem(selectedResource?.resourceName, JSON.stringify(swaggerDocs, null, 2));
     } else {
-      setSelectedResourceSwaggerDocs(resourceCache);
+      setSelectedResourceSwaggerDocs(JSON.parse(resourceCache));
     }
 
   }
