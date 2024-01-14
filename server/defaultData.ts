@@ -163,6 +163,7 @@ export const initDefaultData = async () => {
     console.log("superAdminDefaultData", superAdminDefaultData)
     console.log("user", user)
     console.log("project", project)
+    console.log("projectAdmin", projectAdmin)
     console.log("resource", resource)
     console.log("policy", policy)
     console.log("data", data)

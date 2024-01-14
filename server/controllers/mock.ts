@@ -109,7 +109,7 @@ export const getXFilteration = async function(req: Request, res: Response) : Pro
         resource: resource._id
       }
 
-      console.log("projection", projection)
+
 
       const found : any = await mService.filterQuery(projection);
 

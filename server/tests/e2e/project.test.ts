@@ -95,16 +95,16 @@ describe('end-to-end tests project endpoint', () => {
   });
 
   test("admin, user should only be able to view default2 he's owner of default2", async () => {
-  const response = await request.agent(app).get(`${API_ROUTE}${PROJECT_ROUTE}`)
-  .set('Authorization', 'bearer ' + regAdminToken)
+    const response = await request.agent(app).get(`${API_ROUTE}${PROJECT_ROUTE}`)
+    .set('Authorization', 'bearer ' + regAdminToken)
 
-  expect(response.status).toBe(200);
-  expect(response.body.status).toBe(true);
-  const defaultProject = response.body.data?.find((project : any) => project.name === 'default');
-  const default2Project = response.body.data?.find((project : any) => project.name === 'default2');
+    expect(response.status).toBe(200);
+    expect(response.body.status).toBe(true);
+    const defaultProject = response.body.data?.find((project : any) => project.name === 'default');
+    const default2Project = response.body.data?.find((project : any) => project.name === 'default2');
 
-  expect(defaultProject).toBeUndefined();
-  expect(default2Project).toBeDefined();
+    expect(defaultProject).toBeUndefined();
+    expect(default2Project).toBeDefined();
   });
 
 
