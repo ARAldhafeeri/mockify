@@ -301,6 +301,28 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
     expect(response.status).toBe(403);
   });
 
+  test("user can set, get from cache", async () => {
+    let code = `
+    CacheSet('test:test', 'test');
+    data = CacheGet('test:test');
+    `
+    const resource = await resourceService.findOne({resourceName: 'default'});
+    const edge = {
+      resource: resource._id,
+      name: genRandomName(),
+      code,
+      method: "GET"
+    }
+    await edgeService.create(edge as IEdge);
+    const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
+    .set(apiKeyHeader, apiKey);
+
+    expect(response.status).toBe(200);
+    expect(response.body.status).toBe(true);
+    expect(response.body.data).toBeDefined();
+    expect(response.body.data).toBe('test');
+  });
+
 
   /* Closing database connection after each test. */
   afterAll(async () => {
