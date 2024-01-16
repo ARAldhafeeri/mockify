@@ -42,17 +42,16 @@ const setCacheKey = async function(req : Request, res: Response) : Promise<any> 
 
     let key = req.query.key as string;
 
-    let value : any = req.body;
-
-    value = JSON.stringify(value);
+    let body : any = req.body;
 
     let projectName = req.params.projectName as string;
 
     let tenantKey = cacheService.addProjectNameToKey(projectName, key);
 
-    const data = await cacheService.set(tenantKey, value);
+    const seted = await cacheService.set(tenantKey, body.value);
 
-    return SuccessResponse(res, data, "Cache updated", 200);
+    if (!seted) return ErrorResponse(res, "Error updating cache key", 400)
+    return SuccessResponse(res, {key: key, value: body.value}, "Cache updated", 200);
 
 
   } catch (err){
@@ -76,7 +75,7 @@ const deleteCacheKey = async function(req : Request, res: Response) : Promise<an
 
     if (!deleted) return ErrorResponse(res, "Error deleting cache key", 400)
 
-    return SuccessResponse(res, deleted, "Cache deleted", 200);
+    return SuccessResponse(res, key, "Cache deleted", 200);
 
   } catch (err){
 

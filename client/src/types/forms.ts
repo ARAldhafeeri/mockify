@@ -1,3 +1,4 @@
+import { IFetchedCacheData } from './Cache';
 import { IFetchedDataData } from './Data';
 import { IFetchedPolicyData, IUserDefinedPolicy } from './Policy';
 import { IFetchedProjectData } from './Project';
@@ -19,6 +20,14 @@ export interface IProjectForm {
   handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleFormChangeSelect: (value : string) => void;
   data: IFetchedProjectData
+  form: any;
+  onFinish?: (values: any) => void;
+}
+
+export interface ICacheForm {
+  handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  data: IFetchedCacheData;
   form: any;
   onFinish?: (values: any) => void;
 }

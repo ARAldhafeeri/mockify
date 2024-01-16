@@ -23,7 +23,7 @@ describe('end-to-end tests project cache', () => {
 
 
     const response = await request.agent(app).post(`${API_ROUTE}${CAACHE_ROUTE_ONLY}/default?key=${mockKey}`).send({
-      [mockKey]: mockValue
+      value: mockValue
     })
     .set('Authorization', 'bearer ' + token)
 
@@ -45,7 +45,7 @@ describe('end-to-end tests project cache', () => {
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data).toBe(JSON.stringify({[mockKey]: mockValue}));
+    expect(response.body.data).toBe(mockValue);
     expect(response.body.message).toBe("Cache key retrieved")
 
   });

@@ -17,4 +17,7 @@ export const ENDPOINTS = {
   EDGE: "/edge",
   EDGE_DELETE: (name: string, id : string) => `/${name}/edge/?id=${id}`,
   EDGE_NAME: (res: string) => `/${res}/edge`,
+  // cache 
+  CACHE: (projectName : string) => `/cache/${projectName}`,
+  CACHE_KEY: (projectName : string, key : string) => `/cache/${projectName}?key=${key}`,
 }
