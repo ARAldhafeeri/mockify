@@ -1,11 +1,11 @@
 {
-    "resources": ["user", "resource", "resourceDescription", "resourceMockData", "project", "policy"],
+    "resources": ["user", "resource", "resourceDescription", "resourceMockData", "project", "policy", "cache", "endpoint"],
     "actions": ["delete", "create", "update", "read"],
-    "roles": ["user", "super-admin"],
+    "roles": ["user", "admin", "super-admin"],
     "policies": [
         {
             "role": "user",
-            "can": ["delete", "create", "update", "read"],
+            "can": ["read"],
             "on": [ "resource", "resourceDescription", "resourceMockData", "project", "policy"]
         },
 
@@ -13,6 +13,11 @@
             "role": "super-admin",
             "can": ["*"], 
             "on": ["*"]
+        },
+        {
+            "role": "admin",
+            "can": ["delete", "create", "update", "read"],
+            "on": ["cache", "user", "resource", "project", "endpoint"]
         }
         
     ]

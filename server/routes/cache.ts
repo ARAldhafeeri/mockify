@@ -1,23 +1,23 @@
 import express from 'express';
 import {getCache, setCacheKey, deleteCacheKey} from '../controllers/cache';
 import { CACHE_ROUTE } from '../config/routes';
-import { AccessKeyAuthorization } from '../middleware/authorization';
+import authenticationMiddleWareAdminPortal from '../middleware/authentication';
 const cacheRouter = express.Router();
 
 cacheRouter
   .get(
     CACHE_ROUTE,
-    AccessKeyAuthorization, 
+    authenticationMiddleWareAdminPortal, 
     getCache
   )
   .post(
     CACHE_ROUTE,
-    AccessKeyAuthorization, 
+    authenticationMiddleWareAdminPortal, 
     setCacheKey
   )
   .delete(
     CACHE_ROUTE,
-    AccessKeyAuthorization, 
+    authenticationMiddleWareAdminPortal, 
     deleteCacheKey
   )
 

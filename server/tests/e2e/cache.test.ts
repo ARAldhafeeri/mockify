@@ -5,17 +5,16 @@ import { DATABASE_URL } from '../../getEnv';
 import mongoose from 'mongoose';
 import TestUtils from './TestUtils';
 import redisClient from '../../redis';
-import { apiKeyHeader } from '../../config/headers';
 
 const mockKey = "testKey";
 const mockValue = "testValue";
 describe('end-to-end tests project cache', () => {
-  let apiKey : string;
+  let token : string;
   let createdCache : any;
 
   beforeAll(async () => {
     await mongoose.connect(DATABASE_URL);
-    apiKey = await TestUtils.getAPiKey();
+    token = await TestUtils.login();
     redisClient.connect();
   });
   
@@ -26,7 +25,7 @@ describe('end-to-end tests project cache', () => {
     const response = await request.agent(app).post(`${API_ROUTE}${CAACHE_ROUTE_ONLY}/default?key=${mockKey}`).send({
       [mockKey]: mockValue
     })
-    .set(apiKeyHeader, apiKey)
+    .set('Authorization', 'bearer ' + token)
 
     console.log(response.body)
    
@@ -40,7 +39,7 @@ describe('end-to-end tests project cache', () => {
   test('should get key cache', async () => {
 
     const response = await request.agent(app).get(`${API_ROUTE}${CAACHE_ROUTE_ONLY}/default?key=${mockKey}`)
-    .set(apiKeyHeader, apiKey)
+    .set('Authorization', 'bearer ' + token)
 
     console.log(response.body)
 
@@ -53,7 +52,7 @@ describe('end-to-end tests project cache', () => {
 
   test('should delete key from project cache', async () => {
     const response = await request.agent(app).delete(`${API_ROUTE}${CAACHE_ROUTE_ONLY}/default?key=${mockKey}`)
-    .set(apiKeyHeader, apiKey)
+    .set('Authorization', 'bearer ' + token)
 
     console.log(response.body)
 
@@ -63,7 +62,7 @@ describe('end-to-end tests project cache', () => {
 
   test('should list all k,v  for project', async () => {
     const response = await request.agent(app).get(`${API_ROUTE}${CAACHE_ROUTE_ONLY}/default`)
-    .set(apiKeyHeader, apiKey)
+    .set('Authorization', 'bearer ' + token)
 
     console.log(response.body)
 
