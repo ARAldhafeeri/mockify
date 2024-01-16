@@ -16,13 +16,14 @@ describe('end-to-end tests project cache', () => {
   beforeAll(async () => {
     await mongoose.connect(DATABASE_URL);
     apiKey = await TestUtils.getAPiKey();
+    redisClient.connect();
   });
   
 
   test('should set key for  project cache', async () => {
 
 
-    const response = await request.agent(app).post(`${API_ROUTE}${CAACHE_ROUTE_ONLY}/default`).send({
+    const response = await request.agent(app).post(`${API_ROUTE}${CAACHE_ROUTE_ONLY}/default?key=${mockKey}`).send({
       [mockKey]: mockValue
     })
     .set(apiKeyHeader, apiKey)
@@ -38,20 +39,20 @@ describe('end-to-end tests project cache', () => {
 
   test('should get key cache', async () => {
 
-    const response = await request.agent(app).get(`${API_ROUTE}${CAACHE_ROUTE_ONLY}/default/?key=${mockKey}`)
+    const response = await request.agent(app).get(`${API_ROUTE}${CAACHE_ROUTE_ONLY}/default?key=${mockKey}`)
     .set(apiKeyHeader, apiKey)
 
     console.log(response.body)
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data).toBe(mockValue);
-    expect(response.body.message).toBe("Cache retrieved")
+    expect(response.body.data).toBe(JSON.stringify({[mockKey]: mockValue}));
+    expect(response.body.message).toBe("Cache key retrieved")
 
   });
 
   test('should delete key from project cache', async () => {
-    const response = await request.agent(app).delete(`${API_ROUTE}${CAACHE_ROUTE_ONLY}/default/?key=default`)
+    const response = await request.agent(app).delete(`${API_ROUTE}${CAACHE_ROUTE_ONLY}/default?key=${mockKey}`)
     .set(apiKeyHeader, apiKey)
 
     console.log(response.body)
@@ -61,7 +62,7 @@ describe('end-to-end tests project cache', () => {
   });
 
   test('should list all k,v  for project', async () => {
-    const response = await request.agent(app).get(`${API_ROUTE}${CAACHE_ROUTE_ONLY}/defult`)
+    const response = await request.agent(app).get(`${API_ROUTE}${CAACHE_ROUTE_ONLY}/default`)
     .set(apiKeyHeader, apiKey)
 
     console.log(response.body)
@@ -75,7 +76,7 @@ describe('end-to-end tests project cache', () => {
  /* Closing cachebase connection after each test. */
  afterAll(async () => {
   await mongoose.connection.close();
-  await redisClient.quit();
+  redisClient.quit();
 
 });
 
