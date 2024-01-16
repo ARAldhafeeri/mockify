@@ -6,6 +6,11 @@ import mongoose, { Types } from "mongoose";
 import EdgeModel from "../models/Edge";
 import { faker } from '@faker-js/faker';
 import {AccessControl , GrantQuery} from "gatewatch"
+import CacheService from "../services/cache";
+
+const cacheService = new CacheService();
+const CacheSet = cacheService.set.bind(cacheService);
+const CacheGet = cacheService.get.bind(cacheService);
 
 const CONTEXT = {
   mongoose,
@@ -23,7 +28,9 @@ const CONTEXT = {
     httpStatus: null,
     message: null,
     status: null
-  }
+  }, 
+  CacheSet,
+  CacheGet,
 };
 
 export default CONTEXT;

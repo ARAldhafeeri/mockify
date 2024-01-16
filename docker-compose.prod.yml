@@ -178,6 +178,22 @@ services:
       - grafana_data:/var/lib/grafana
     networks:
       - monitoring
+
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/root/redis
+    env_file:
+      - ./server/.env
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_PORT=6379
+      - REDIS_DATABASES=16
+
 networks:
   monitoring:
     driver: bridge
@@ -193,3 +209,4 @@ volumes:
   loki_data:
   node_exporter_data:
   grafana_data:
+  redis_data:

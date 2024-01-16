@@ -10,4 +10,5 @@ export const ROUTES_NAMES = {
    ENDPOINT: '/endpoint',
    EDGE: '/edge',
    SWAGGER: '/swagger',
+   CACHE: '/cache',
 }

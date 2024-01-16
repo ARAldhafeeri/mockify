@@ -9,7 +9,6 @@ services:
       context: ./dev
       dockerfile: Dockerfile
     depends_on:
-      - client
       - backend
       - landing
       - mongo
@@ -30,7 +29,23 @@ services:
     image: 'mongo:latest'
     ports:
       - '27017:27017'
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/root/redis
+    env_file:
+      - ./server/.env
+    environment:
+      - REDIS_PORT=6379
+      - REDIS_DATABASES=16
       
 networks:
   default:
     driver: bridge
+
+volumes:
+  redis:

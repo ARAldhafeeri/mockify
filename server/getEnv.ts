@@ -21,3 +21,7 @@ export const domain = `${process.env.DOMAIN}`
 export const ADMIN_USERNAME = `${process.env.ADMIN_USERNAME}`
 
 export const ADMIN_PSWD = `${process.env.ADMIN_PSWD}`
+
+//  redis
+export const REDIS_URL = `${process.env.REDIS_URL}`
+export const REDIS_PASSWORD = `${process.env.REDIS_PASSWORD}`

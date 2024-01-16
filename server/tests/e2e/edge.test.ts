@@ -8,7 +8,7 @@ import ResourceService from '../../services/resource';
 import EdgeService from '../../services/Edge';
 import { apiKeyHeader } from '../../config/headers';
 import { IEdge } from '../../types/Edge';
-
+import redisClient from '../../redis';
 const edgeService = new EdgeService();
 const genRandomName = () => {
   return Math.random().toString(36).substring(7);
@@ -30,6 +30,7 @@ describe('end-to-end tests curd edge functions', () => {
   beforeAll(async () => {
     await mongoose.connect(DATABASE_URL);
     token = await TestUtils.login();
+    redisClient.connect();
   });
   
 
@@ -302,9 +303,34 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
   });
 
 
+  test("user can set, get from cache with ttl", async () => {
+    let code = `
+    await CacheSet('test:test', 'test', 1000);
+    data = await CacheGet('test:test');
+    `
+    const resource = await resourceService.findOne({resourceName: 'default'});
+    const edge = {
+      resource: resource._id,
+      name: genRandomName(),
+      code,
+      method: "GET"
+    }
+    await edgeService.create(edge as IEdge);
+    const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
+    .set(apiKeyHeader, apiKey);
+
+    console.log(response.body)
+    expect(response.status).toBe(200);
+    expect(response.body.status).toBe(true);
+    expect(response.body.data).toBeDefined();
+    expect(response.body.data).toBe('test');
+  });
+
+
   /* Closing database connection after each test. */
   afterAll(async () => {
     await mongoose.connection.close();
+    redisClient.disconnect();
   });
 
   });

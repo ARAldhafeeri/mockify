@@ -32,7 +32,7 @@ import Policy from "components/containers/Policy/Policy";
 import Edge from "components/containers/Edge/Edge";
 import { Tag } from "antd";
 import Swagger from "components/containers/Swagger/Swagger";
-
+import Cache from "components/containers/Cache/Cache";
 
 interface MenuItem {
   key: string;
@@ -98,9 +98,15 @@ export const items: MenuItem[] = [
   }, 
   {
     key: "Swagger",
-    icon: <FolderAddFilled className="newPageIconLeft" />,
+    icon: <><FolderAddFilled className="newPageIconLeft" /><Tag color="green"className="newPageText">new</Tag></>,
     label: "Swagger",
     to: ROUTES_NAMES.SWAGGER,
+  },
+  {
+    key: "cache",
+    icon: <><DatabaseFilled className="newPageIconLeft" /><Tag color="green" className="newPageText">new</Tag></>,
+    label: "Cache",
+    to: ROUTES_NAMES.CACHE,
   }
   // Add more menu items if needed
 ];
@@ -149,6 +155,10 @@ const MainRouter = createBrowserRouter([
   {
     path: ROUTES_NAMES.SWAGGER,
     element: withLoggedInLayout(<Swagger />)
+  },
+  {
+    path: ROUTES_NAMES.CACHE,
+    element: withLoggedInLayout(<Cache />)
   }
 ]);
 

@@ -16,6 +16,7 @@ export const MOCK_ROUTE_SEARCH : string = "/search";
 export const MOCK_ROUTE_VALIDATE : string = "/validate";
 
 export const EDGE_ROUTE : string = "/:resourceName/edge";
-
+export const CACHE_ROUTE : string = "/cache/:projectName";
+export const CAACHE_ROUTE_ONLY : string = "/cache";
 export const EDGE_ROUTE_WITH_PARAMS : string = "/:resourceName/edge/:functionName";
 
