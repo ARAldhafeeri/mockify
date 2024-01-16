@@ -15,7 +15,6 @@ const getCache = async function(req : Request, res: Response) : Promise<any> {
 
 
     let tenantKey = cacheService.addProjectNameToKey(projectName, key);
-    console.log("get tenantKey", tenantKey)
     let data : any;
     if (key){
         

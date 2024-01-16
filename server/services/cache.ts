@@ -10,7 +10,6 @@ class CacheService {
     return keyIsValid;
   }
   async get(key: string): Promise<string | boolean | null > {
-    console.log("get key", key)
     const keyIsValid = this.validate(key);
     if (!keyIsValid) {
       return false;
@@ -22,7 +21,6 @@ class CacheService {
   }
 
   async set(key: string, value: string, exp=null): Promise<any> {
-    console.log("set key", key, value)
     const keyIsValid = this.validate(key);
     if (!keyIsValid) {
       return false;
@@ -57,14 +55,12 @@ class CacheService {
     let data  : any = [];
     const keys: string[] = await promisify(redisClient.keys).bind(redisClient)(`${projectName}:*`);
       
-    console.log("keys", keys);
 
     if (!keys || keys.length === 0) {
       return data;
     }
 
     for (const key of keys) {
-      console.log("key", key);
       const value = await promisify(redisClient.get).bind(redisClient)(key);
       const parsedData = { key: key.split(":")[1], value: value };
       data.push(parsedData);
