@@ -20,3 +20,5 @@ export const CACHE_ROUTE : string = "/cache/:projectName";
 export const CAACHE_ROUTE_ONLY : string = "/cache";
 export const EDGE_ROUTE_WITH_PARAMS : string = "/:resourceName/edge/:functionName";
 
+export const EVENT_ROUTE : string = "/event";
+export const EVENT_ROUTE_WITH_PARAMS : string = "/event/:resourceName";

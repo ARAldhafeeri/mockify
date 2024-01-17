@@ -3,6 +3,9 @@ import { initDefaultData } from './defaultData';
 import {connect} from "mongoose";
 import app from "./app";
 import redisClient from './redis';
+import EventService from './services/event';
+
+const eventService = new EventService();
 
 const PORT = process.env.PORT || 5000;
 
@@ -22,6 +25,7 @@ connect(DATABASE_URL).then(async () => {
     console.log('Redis client connected');
   });
   await initDefaultData()
+  await eventService.dynamicallyAddAllEventsOnRuntime();
 }).catch((err) => {
   console.log(err);
 });

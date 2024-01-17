@@ -41,6 +41,10 @@ class TestUtils {
     const project =  await projectService.findOne({name: 'default'}); 
     return project.apiKey;
   }
+
+  genRandomName = () => {
+    return Math.random().toString(36).substring(7);
+  }
 }
 
 export default new TestUtils();
