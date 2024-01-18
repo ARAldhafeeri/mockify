@@ -11,4 +11,5 @@ export const ROUTES_NAMES = {
    EDGE: '/edge',
    SWAGGER: '/swagger',
    CACHE: '/cache',
+   EVENT: '/event',
 }

@@ -39,3 +39,11 @@ export interface IEdgeCardProps {
   resource: string;
   method: string;
 }
+
+export interface IEventCardProps {
+  name: string;
+  _id : string;
+  actions: ICardAction[];
+  resource: string;
+  handler: string;
+}

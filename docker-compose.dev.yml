@@ -10,8 +10,8 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - backend
-      - landing
       - mongo
+      - redis
   backend:
     container_name: Backend
     build:
@@ -23,6 +23,7 @@ services:
       - '5000:5000'
     depends_on:
       - mongo
+      - redis
 
   mongo:
     container_name: mongo

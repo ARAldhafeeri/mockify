@@ -20,7 +20,8 @@ import {
   ControlOutlined,
   FolderAddOutlined,
   FolderAddFilled,
-  FunctionOutlined
+  FunctionOutlined,
+  TransactionOutlined
   
 } from '@ant-design/icons';
 import { ROUTES_NAMES } from "constants/routes";
@@ -33,6 +34,7 @@ import Edge from "components/containers/Edge/Edge";
 import { Tag } from "antd";
 import Swagger from "components/containers/Swagger/Swagger";
 import Cache from "components/containers/Cache/Cache";
+import Event from "components/containers/Event/Event";
 
 interface MenuItem {
   key: string;
@@ -107,6 +109,12 @@ export const items: MenuItem[] = [
     icon: <><DatabaseFilled className="newPageIconLeft" /><Tag color="green" className="newPageText">new</Tag></>,
     label: "Cache",
     to: ROUTES_NAMES.CACHE,
+  },
+  {
+    key: "event",
+    icon: <><TransactionOutlined className="newPageIconLeft" /><Tag color="green" className="newPageText">new</Tag></>,
+    label: "Event",
+    to: ROUTES_NAMES.EVENT,
   }
   // Add more menu items if needed
 ];
@@ -159,6 +167,10 @@ const MainRouter = createBrowserRouter([
   {
     path: ROUTES_NAMES.CACHE,
     element: withLoggedInLayout(<Cache />)
+  },
+  {
+    path: ROUTES_NAMES.EVENT,
+    element: withLoggedInLayout(<Event />)
   }
 ]);
 

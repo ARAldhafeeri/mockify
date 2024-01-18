@@ -326,6 +326,26 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
     expect(response.body.data).toBe('test');
   });
 
+  test("user can emit events and event should be catched", async () => {
+    let code = `
+    Emit('eventTest', 'eventTest');
+    `
+    const resource = await resourceService.findOne({resourceName: 'default'});
+    const edge = {
+      resource: resource._id,
+      name: genRandomName(),
+      code,
+      method: "GET"
+    }
+    await edgeService.create(edge as IEdge);
+    const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
+    .set(apiKeyHeader, apiKey);
+
+    console.log(response.body)
+    expect(response.status).toBe(200);
+    expect(response.body.status).toBe(true);
+    expect(response.body.data).toBeDefined();
+  });
 
   /* Closing database connection after each test. */
   afterAll(async () => {

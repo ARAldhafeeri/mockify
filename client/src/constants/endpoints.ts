@@ -20,4 +20,8 @@ export const ENDPOINTS = {
   // cache 
   CACHE: (projectName : string) => `/cache/${projectName}`,
   CACHE_KEY: (projectName : string, key : string) => `/cache/${projectName}?key=${key}`,
+  // event
+  EVENT: "/event",
+  EVENT_DELETE: (id : string) => `/event/?id=${id}`,
+  EVENT_PARAM: (resourceName: string) => `/event?resourceName=${resourceName}`,
 }

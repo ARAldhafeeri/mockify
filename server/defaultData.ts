@@ -19,6 +19,7 @@ import { IResource } from "./types/Resource";
 import { IData } from "./types/Data";
 import UserService from "./services/user";
 import EdgeService from "./services/Edge";
+import EventService from "./services/event";
 var superAdminDefaultData;
 var user;
 
@@ -32,6 +33,7 @@ const endpointService = new EndpointService();
 const policyService = new PolicyService();
 const resourceService = new ResourceService();
 const edgeService = new EdgeService();
+const eventService = new EventService();
 
 export const initDefaultData = async () => {
     [superAdminDefaultData] = await adminModel.find({username: SUPER_ADMIN_USERNAME})
@@ -158,6 +160,28 @@ export const initDefaultData = async () => {
         code: "data = await ResourceModel.find({});",
         method: "DELETE"
     } as any );
+
+
+    let event1 = await eventService.findOrCreate({
+        resource: resource?._id,
+        name: "eventTest",
+        handler: "edgeTest",
+    } as any );
+
+    let event2 = await eventService.findOrCreate({
+        resource: resource?._id,
+        name: "eventTest1",
+        handler: "edgeTest1",
+    } as any );
+
+    let event3 = await eventService.findOrCreate({
+        resource: resource?._id,
+        name: "eventTest2",
+        handler: "edgeTest2",
+    } as any );
+
+  
+
     
     // console log everything for debugging
     console.log("superAdminDefaultData", superAdminDefaultData)
@@ -167,9 +191,16 @@ export const initDefaultData = async () => {
     console.log("resource", resource)
     console.log("policy", policy)
     console.log("data", data)
+    // edge functions
     console.log("function1", function1)
     console.log("function2", function2)
     console.log("function3", function3)
     console.log("function4", function4)
+
+    // events
+    console.log("event1", event1)
+    console.log("event2", event2)
+    console.log("event3", event3)
+    
 
 }

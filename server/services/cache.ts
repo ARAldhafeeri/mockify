@@ -29,7 +29,7 @@ class CacheService {
 
     if (exp) {
       // If exp is provided, set the expiration time
-      await setAsync(key, value, 'EX', exp);
+      await setAsync(key, value, {'EX': exp});
     } else {
       // If exp is not provided, set the value without expiration
       await setAsync(key, value);

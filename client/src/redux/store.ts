@@ -8,6 +8,7 @@ import dataSlice from './features/data/dataSlice'
 import policySlice from './features/policy/policySlice'
 import edgeSlice from './features/edge/edgeSlice'
 import cacheSlice from './features/cache/cacheSlice'
+import eventSlice from './features/event/eventSlice'
 
 const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ const store = configureStore({
     policy: policySlice,
     edge: edgeSlice,
     cache: cacheSlice,
+    event: eventSlice,
   },
 })
 
