@@ -180,6 +180,8 @@ export const initDefaultData = async () => {
         handler: "edgeTest2",
     } as any );
 
+  
+
     
     // console log everything for debugging
     console.log("superAdminDefaultData", superAdminDefaultData)

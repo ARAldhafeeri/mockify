@@ -4,7 +4,7 @@ import { IEvent } from "../types/Event";
 
 const eventSchema = new Schema<IEvent>({
   resource: {type: Schema.Types.ObjectId , ref: "Resource", required: true},
-  name: {type: String, required: true},
+  name: {type: String, required: true, unique: true},
   handler: {type: String, required: true},
 })
 

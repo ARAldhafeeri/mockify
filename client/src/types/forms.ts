@@ -1,5 +1,7 @@
 import { IFetchedCacheData } from './Cache';
 import { IFetchedDataData } from './Data';
+import { IFetchEdgeResponse, IFetchedEdgeData } from './Edge';
+import { IFetchedEventData } from './Event';
 import { IFetchedPolicyData, IUserDefinedPolicy } from './Policy';
 import { IFetchedProjectData } from './Project';
 import { IFetchedResourceData } from './Resource';
@@ -179,4 +181,19 @@ export interface IFormMakerPolicyProps {
   export interface IResourceSelectProps {
     handleFormChange: (value : string) => void;
     resourceOptions?: IFetchedResourceData[];
+  }
+
+  export interface IEventForm {
+    handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+    handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleFormChangeSelect: (value : string, type : string) => void;
+    data: IFetchedEventData;
+    form: any;
+    onFinish?: (values: any) => void;
+  }
+
+
+  export interface IEdgeSelectProps {
+    handleFormChange: (value : string) => void;
+    edgeOptions?: IFetchEdgeResponse[];
   }
