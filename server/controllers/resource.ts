@@ -10,7 +10,9 @@ export const getResources = async function(req: Request, res: Response) : Promis
  
   try{
       
-      const foundResources = await rService.find({});
+      let projectId : Types.ObjectId = new ObjectId(req.query.projectId as string);
+
+      const foundResources = await rService.find({ project : projectId});
 
       if (!foundResources) return ErrorResponse(res, 'resources not found', 400);
 

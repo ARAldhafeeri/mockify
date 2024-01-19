@@ -1,10 +1,11 @@
 import React from 'react'
 import { Row, Typography, Col, Switch,  } from 'antd'
 import { IResourceFormFeatureStepProps } from 'types/forms';
+import { features } from 'process';
 
 export default function FeatureStep(props : IResourceFormFeatureStepProps) {
   const { data, handleFormChangeFeatures} = props;
-
+  
   return (
     <>
     {/* FEATURES */}
@@ -12,7 +13,7 @@ export default function FeatureStep(props : IResourceFormFeatureStepProps) {
 
     <Row gutter={16}>
     {
-      Object.keys(data?.features ?? {}).map((name : String, index : number) =>{
+      Object.keys(data?.features ?? features).map((name : String, index : number) =>{
         return (
           <Col span={8} key={index}>
             <Switch 

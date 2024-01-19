@@ -4,6 +4,7 @@ export const ENDPOINTS = {
   PROJECT: "/project",
   POLICY: "/policy",
   RESOURCE: "/resource",
+  RESOURCE_PROJECT_ID: (projectID: string | undefined) => `/resource?projectId=${projectID}`,
   DATA: "/data",
   DATA_RESOURCE_NAME: (name: string) => `/data?resourceName=${name}`,
   ENDPOINT: "/endpoint",
