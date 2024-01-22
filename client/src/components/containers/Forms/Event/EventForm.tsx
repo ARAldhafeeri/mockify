@@ -1,21 +1,16 @@
 import { Form } from 'antd';
 import MockifyButton from 'components/commons/Button/Button';
 import MockifyInput from 'components/commons/Input/Input';
-import UsersSelect from 'components/containers/Forms/User/UsersSelect';
 import React from 'react';
 import { IEventForm } from 'types/forms';
 import { Space } from 'antd';
 import ResourcesSelect from '../Resource/ResourcesSelect';
-import ResourceService from 'services/Resource';
-import EdgeService from 'services/Edge';
 import EdgesSelect from '../Edge/EdgeSelect';
 
 
 const EventForm : React.FC<IEventForm> = (
-  { handleFormSubmit, handleFormChange, handleFormChangeSelect,  data, form, onFinish }
+  { handleFormSubmit, handleFormChange, handleFormChangeSelect,  data, form, onFinish, resource, edge}
   ) => {
-    const { resource } = ResourceService();
-    const { edge } = EdgeService();
     return (
       <Form
       name="basic"

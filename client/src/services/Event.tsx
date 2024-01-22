@@ -6,10 +6,12 @@ import { ToastifyMockify } from "utils";
 import { Form } from "antd";
 import ResourceService from "./Resource";
 import { IFetchedResourceData } from "types/Resource";
+import EdgeService from "./Edge";
 
 const EventService = () => {
   const { event, loading } = useAppSelector((state) => state.event);
   const { resource } = ResourceService();
+  const {edge, getEdgeByResourceName } = EdgeService();
   const [ key, setKey ] = React.useState<number>(0);
   const  [ resourceName, setResourceName ] = React.useState<string>(resource[0]?.resourceName ?? "");
 
@@ -26,7 +28,9 @@ const EventService = () => {
 
   const handleTabChange = (key : string, resources : IFetchedResourceData[]) => {
     setKey(parseInt(key))
-    setResourceName(resources[parseInt(key)]?.resourceName as string);
+    const resName = resources[parseInt(key)]?.resourceName as string;
+    setResourceName(resName);
+    getEdgeByResourceName(resName)
   }
 
   
@@ -141,6 +145,7 @@ const EventService = () => {
     handleFormChangeSelect,
     // services
     resource,
+    edge,
     // tabs
     handleTabChange,
     key,

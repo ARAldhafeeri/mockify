@@ -149,6 +149,9 @@ const EdgeService = () => {
     setCurrentStep(currentStep + 1);
   }
 
+  const getEdgeByResourceName = (resourceName : string) => {
+   dispatch(fetchEdge(resourceName));
+  }
 
 
 
@@ -187,6 +190,7 @@ const EdgeService = () => {
     currentStep,
     nextStep,
     prevStep,
+    getEdgeByResourceName,
 
   }
 }
