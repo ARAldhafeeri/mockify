@@ -1,9 +1,12 @@
 import React from 'react'
 import { Row, Typography, Col, Switch,  } from 'antd'
 import { IResourceFormFeatureStepProps } from 'types/forms';
+import features from 'constants/features';
 
 export default function FeatureStep(props : IResourceFormFeatureStepProps) {
   const { data, handleFormChangeFeatures} = props;
+  
+  const feats = data?.features ?? features;
 
   return (
     <>
@@ -12,13 +15,13 @@ export default function FeatureStep(props : IResourceFormFeatureStepProps) {
 
     <Row gutter={16}>
     {
-      Object.keys(data?.features ?? {}).map((name : String, index : number) =>{
+      Object.keys(feats).map((name : String, index : number) =>{
         return (
           <Col span={8} key={index}>
             <Switch 
               checkedChildren={name} 
               unCheckedChildren={name} 
-              defaultChecked={data?.features[name as keyof typeof data.features]}
+              defaultChecked={feats[name as keyof typeof feats]}
               onChange={(checked : boolean) => handleFormChangeFeatures(checked, name)}
               />
           </Col>

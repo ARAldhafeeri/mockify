@@ -43,8 +43,6 @@ const Cache : React.FC = () => {
 
   } = CacheService();
 
-  console.log('cache', cache)
-  console.log("selectedCache", selectedCache)
   const actions = [
     {
       icon: <EditOutlined />,

@@ -19,7 +19,6 @@ const Swagger  : React.FC = () => {
     key,
     handleTabChange
   } = SwaggerService();
-  console.log(selectedResourceSwaggerDocs)
   return (
   <>
     <Tabs

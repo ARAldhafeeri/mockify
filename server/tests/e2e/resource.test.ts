@@ -43,13 +43,16 @@ describe('end-to-end tests project endpoint', () => {
 
   test('should create resource', async () => {
 
-    projectObj = await projectService.find({});
-    mockData.project =  projectObj[0]._id;
+    projectObj = await projectService.findOne({name : "default"});
+
+    mockData.project = projectObj._id;
+
     const response = await request.agent(app).post(`${API_ROUTE}${RESOURCE_ROUTE}`).send({
       ...mockData
     })
     .set('Authorization', 'bearer ' + token)
 
+    
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     // check all properties are defined
@@ -60,10 +63,19 @@ describe('end-to-end tests project endpoint', () => {
 
   });
 
-  test('should get resources', async () => {
+  test('should get resources related to user projects', async () => {
 
-    const response = await request.agent(app).get(`${API_ROUTE}${RESOURCE_ROUTE}`)
+    let projectId = projectObj._id.toString();
+    const response = await request.agent(app).get(`${API_ROUTE}${RESOURCE_ROUTE}?projectId=${projectId}`)
     .set('Authorization', 'bearer ' + token)
+
+    // check all resources are related to the project
+    const resources = response.body.data;
+
+    for (const resource of resources) {
+      expect(resource.project.toString()).toBe(projectId);
+    }
+
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     expect(response.body.data?.length).toBeGreaterThan(0);

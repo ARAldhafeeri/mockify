@@ -16,6 +16,7 @@ const ResourceService = () => {
   const [ showCreateModal, setShowCreateModal ] = React.useState<boolean>(false);
   const [currentStep, setCurrentStep] = React.useState<number>(0);
   const [selectedResource, setSelectedResource ] = React.useState<any>(resource[0]);
+
   const dispatch = useAppDispatch();
 
   const prevStep = () => {
@@ -25,7 +26,7 @@ const ResourceService = () => {
   const nextStep = () => {
     setCurrentStep(currentStep + 1);
   }
-
+  
   const handleTabChange = (key : string, projects : IFetchedProjectData[]) => {
     setKey(parseInt(key))
     setProject(projects[parseInt(key)]);
@@ -145,10 +146,9 @@ const ResourceService = () => {
   
 
   React.useEffect(() =>{
-    const dispatched = dispatch(fetchResources());
+    const dispatched = dispatch(fetchResources(projectT?._id));
     ToastifyMockify(dispatched);
-    setShowEditModal(false);
-  }, [dispatch])
+  }, [dispatch, key])
 
   return {
     // globals

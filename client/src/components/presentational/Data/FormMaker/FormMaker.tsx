@@ -34,7 +34,6 @@ const FieldsFactory = (
   ) => {
   
   const Component : React.FC<any> = DynamicField[type];
-  console.log("value", value)
   return   (
     <div className="floating-label-container">
       <label>{name} {required && <div className="required">*</div>}</label>

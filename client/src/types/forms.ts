@@ -190,6 +190,8 @@ export interface IFormMakerPolicyProps {
     data: IFetchedEventData;
     form: any;
     onFinish?: (values: any) => void;
+    resource: IFetchedResourceData[];
+    edge: IFetchEdgeResponse[];
   }
 
 

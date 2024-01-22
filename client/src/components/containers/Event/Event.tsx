@@ -34,6 +34,7 @@ const Event : React.FC = () => {
     handleFormChangeSelect,
     // services
     resource,
+    edge,
     // tabs
     handleTabChange,
     key,
@@ -98,6 +99,8 @@ const Event : React.FC = () => {
                           handleFormChangeSelect={handleFormChangeSelect}
                           data={selectedEvent} 
                           form={form}
+                          edge={edge}
+                          resource={resource}
                           onFinish={() => handleHideEditModal()}
                           />
                       }
@@ -116,6 +119,8 @@ const Event : React.FC = () => {
                           data={selectedEvent} 
                           handleFormChangeSelect={handleFormChangeSelect}
                           form={form}
+                          edge={edge}
+                          resource={resource}
                           onFinish={() => handleHideEditModal()}
                           />
                       }
