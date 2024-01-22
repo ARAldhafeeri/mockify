@@ -20,6 +20,7 @@ import { IData } from "./types/Data";
 import UserService from "./services/user";
 import EdgeService from "./services/Edge";
 import EventService from "./services/event";
+
 var superAdminDefaultData;
 var user;
 

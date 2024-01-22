@@ -27,7 +27,7 @@ describe('end-to-end tests project cache', () => {
     })
     .set('Authorization', 'bearer ' + token)
 
-    console.log(response.body)
+    
    
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -41,8 +41,6 @@ describe('end-to-end tests project cache', () => {
     const response = await request.agent(app).get(`${API_ROUTE}${CAACHE_ROUTE_ONLY}/default?key=${mockKey}`)
     .set('Authorization', 'bearer ' + token)
 
-    console.log(response.body)
-
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     expect(response.body.data).toBe(mockValue);
@@ -54,7 +52,7 @@ describe('end-to-end tests project cache', () => {
     const response = await request.agent(app).delete(`${API_ROUTE}${CAACHE_ROUTE_ONLY}/default?key=${mockKey}`)
     .set('Authorization', 'bearer ' + token)
 
-    console.log(response.body)
+    
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -64,7 +62,7 @@ describe('end-to-end tests project cache', () => {
     const response = await request.agent(app).get(`${API_ROUTE}${CAACHE_ROUTE_ONLY}/default`)
     .set('Authorization', 'bearer ' + token)
 
-    console.log(response.body)
+    
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);

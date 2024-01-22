@@ -11,9 +11,11 @@ const SwaggerService = () => {
   const [ selectedResource, setSelectedResource  ] = React.useState<any>(resource[0]);
   const [ key, setKey ] = React.useState<number>(0);
 
+  console.log("swagger", selectedResource, selectedResourceSwaggerDocs, resource)
   React.useEffect(() =>{
     swaggerDocsCache();
-  }, [selectedResource])
+  }, [selectedResource, key])
+
 
   const handleTabChange = (key : string, resource : any) => {
     setKey(parseInt(key));
@@ -42,8 +44,9 @@ const SwaggerService = () => {
     });
 
     return formattedBody;
-    
+  
   }
+
   const generateSwaggerDocs = (data : any) => {
     const swaggerTemplate  : any = {
         swagger: "2.0",
@@ -51,7 +54,8 @@ const SwaggerService = () => {
             title: `API Documentation for ${selectedResource?.resourceName}`,
             description: `The following endpoints are available for ${selectedResource?.resourceName}`,
         },
-        host: "api.mockify.com",
+        host: "api.mockify.io",
+        schemes: ["https"],
         basePath: "/v1",
         paths: {},
     };

@@ -16,6 +16,7 @@ const ResourceService = () => {
   const [ showCreateModal, setShowCreateModal ] = React.useState<boolean>(false);
   const [currentStep, setCurrentStep] = React.useState<number>(0);
   const [selectedResource, setSelectedResource ] = React.useState<any>(resource[0]);
+
   const dispatch = useAppDispatch();
 
   const prevStep = () => {
@@ -145,10 +146,8 @@ const ResourceService = () => {
   
 
   React.useEffect(() =>{
-    console.log(projectT)
     const dispatched = dispatch(fetchResources(projectT?._id));
     ToastifyMockify(dispatched);
-    setShowEditModal(false);
   }, [dispatch, key])
 
   return {

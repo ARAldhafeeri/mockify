@@ -52,7 +52,7 @@ describe('end-to-end tests project endpoint', () => {
     })
     .set('Authorization', 'bearer ' + token)
 
-    console.log(response.body)
+    
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     // check all properties are defined

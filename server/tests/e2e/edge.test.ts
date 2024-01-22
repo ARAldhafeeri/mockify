@@ -319,7 +319,7 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
     const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
     .set(apiKeyHeader, apiKey);
 
-    console.log(response.body)
+    
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     expect(response.body.data).toBeDefined();
@@ -341,7 +341,7 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
     const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
     .set(apiKeyHeader, apiKey);
 
-    console.log(response.body)
+    
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     expect(response.body.data).toBeDefined();

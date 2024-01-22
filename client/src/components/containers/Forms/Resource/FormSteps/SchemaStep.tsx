@@ -7,6 +7,8 @@ import { IResourceFormFieldsStepProps } from 'types/forms'
 
 export default function SchemaStep(props : IResourceFormFieldsStepProps) {
   const {handleAddField, data, handleFormChangeFields, handleRemoveField} = props;
+  
+  const fields = data?.fields ?? [];
   return (
     <>
       {/* Schemas */}
@@ -19,8 +21,8 @@ export default function SchemaStep(props : IResourceFormFieldsStepProps) {
             />
         </Space>
         <FormMakerResource 
-          data={data?.fields}
-          fieldsSchema={data?.fields}
+          data={fields}
+          fieldsSchema={fields}
           handleAddField={handleAddField}
           handleFormChangeFields={handleFormChangeFields}
           handleRemoveField={handleRemoveField}
