@@ -13,6 +13,7 @@ import Dashboard from 'components/containers/Dashboard/Dashboard';
 import {
   PieChartOutlined,
   TeamOutlined,
+  RadarChartOutlined,
   UserOutlined,
   SlackCircleFilled, 
   DatabaseFilled,
@@ -43,84 +44,65 @@ interface MenuItem {
   to?: string;
   subItems?: MenuItem[];
   element?: React.ReactNode;
+  children?: MenuItem[];
+  type?: string | null;
+}
+
+interface IRoute {
+  path: string;
+  element: React.ReactNode;
 }
 
 const newPage = (Icon : React.FC<{className: string}>) => {
   return <><Icon className="newPageIconLeft" /><Tag color="green"className="newPageText">new</Tag></>
 };
 
+const GetItem = (
+  label: React.ReactNode,
+  key?: React.Key | null,
+  icon?: React.ReactNode,
+  to?: string | null,
+  children?: MenuItem[],
+  type: string | null = null,
+) : MenuItem => {
+  return  !to ?  {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  } as MenuItem : {
+    key,
+    icon,
+    to,
+    label,
+  } as MenuItem;
+}
+
+const GetRoute = (
+  path: string,  
+  element: React.ReactNode,
+) : IRoute => {
+  return {
+    path,
+    element,
+  };
+}
+
 export const items: MenuItem[] = [
-  // {
-  //   key: 'dashbaord',
-  //   icon: <PieChartOutlined />,
-  //   label: 'Dashboard',
-  //   to: '/dashboard',
-  //   element:  <Dashboard />
-  // },
-  {
-    key: 'user',
-    icon: <UserOutlined />,
-    label: 'Users',
-    to: ROUTES_NAMES.USER,
-    element: <User />
-  }, 
-  {
-    key: 'project',
-    icon: <SlackCircleFilled />,
-    label: 'Projects',
-    to: ROUTES_NAMES.PROJECT,
-    element: <Project />
-  }, 
-  {
-    key: "resources", 
-    icon: <DatabaseFilled />,
-    label: 'Resources',
-    to: ROUTES_NAMES.RESOURCE,
-    element: <Resource />
-  },
-  {
-    key: "data",
-    icon: <FolderAddFilled />,
-    label: 'Data',
-    to: ROUTES_NAMES.DATA,
-  }, 
-  {
-    key: "policy",
-    icon: <ControlOutlined />,
-    label: 'Policy',
-    to: ROUTES_NAMES.POLICY,
-  }, 
-  {
-    key: "endpoint",
-    icon: <DeploymentUnitOutlined />,
-    label: 'Endpoint',
-    to: ROUTES_NAMES.ENDPOINT,
-  }, 
-  {
-    key: "Edge",
-    icon: <FunctionOutlined />,
-    label: 'Edge Functions',
-    to: ROUTES_NAMES.EDGE,
-  }, 
-  {
-    key: "Swagger",
-    icon: ,
-    label: "Swagger",
-    to: ROUTES_NAMES.SWAGGER,
-  },
-  {
-    key: "cache",
-    icon:<DatabaseFilled/>,
-    label: "Cache",
-    to: ROUTES_NAMES.CACHE,
-  },
-  {
-    key: "event",
-    icon: <TransactionOutlined />,
-    label: "Event",
-    to: ROUTES_NAMES.EVENT,
-  }
-  // Add more menu items if needed
+  GetItem('Configuration', 'configuration', <ControlOutlined />, null,  [
+  GetItem('Clients', 'clients', <UserOutlined />, ROUTES_NAMES.CLIENTS),
+  ]),
+  GetItem('Users', 'user', <UserOutlined />, ROUTES_NAMES.USER),
+  GetItem('Projects', 'project', <SlackCircleFilled />, ROUTES_NAMES.PROJECT),
+  GetItem('Resources', 'resources', <DatabaseFilled />, ROUTES_NAMES.RESOURCE),
+  GetItem('Data', 'data', <FolderAddFilled />, ROUTES_NAMES.DATA),
+  GetItem('Policy', 'policy', <ControlOutlined />, ROUTES_NAMES.POLICY),
+  GetItem('Endpoint', 'endpoint', <DeploymentUnitOutlined />, ROUTES_NAMES.ENDPOINT),
+  GetItem('Edge Functions', 'Edge', <FunctionOutlined />, ROUTES_NAMES.EDGE),
+  GetItem('Swagger', 'Swagger', <FolderAddOutlined />, ROUTES_NAMES.SWAGGER),
+  GetItem('Cache', 'cache', <DatabaseFilled />, ROUTES_NAMES.CACHE),
+  GetItem('Event', 'event', <TransactionOutlined />, ROUTES_NAMES.EVENT)
 ];
 
 const withLoggedInLayout = (element: React.ReactNode) => (
@@ -128,54 +110,17 @@ const withLoggedInLayout = (element: React.ReactNode) => (
 );
 
 const MainRouter = createBrowserRouter([
-  {
-    path: ROUTES_NAMES.ROOT,
-    element: <NotLoggedInLayout />,
-  },
-  // {
-  //   path: ROUTES_NAMES.DASHBOARD,
-  //   element: withLoggedInLayout(<Dashboard />),
-  // },
-  {
-    path: ROUTES_NAMES.USER,
-    element: withLoggedInLayout(<User />)
-  },
-  {
-    path: ROUTES_NAMES.PROJECT,
-    element: withLoggedInLayout(<Project />)
-  },
-  {
-    path: ROUTES_NAMES.RESOURCE,
-    element: withLoggedInLayout(<Resource />)
-  },
-  {
-    path: ROUTES_NAMES.DATA,
-    element: withLoggedInLayout(<Data />)
-  },
-  {
-    path: ROUTES_NAMES.POLICY,
-    element: withLoggedInLayout(<Policy />)
-  }, 
-  {
-    path: ROUTES_NAMES.ENDPOINT,
-    element: withLoggedInLayout(<Endpoint />)
-  },
-  {
-    path: ROUTES_NAMES.EDGE,
-    element: withLoggedInLayout(<Edge />)
-  },
-  {
-    path: ROUTES_NAMES.SWAGGER,
-    element: withLoggedInLayout(<Swagger />)
-  },
-  {
-    path: ROUTES_NAMES.CACHE,
-    element: withLoggedInLayout(<Cache />)
-  },
-  {
-    path: ROUTES_NAMES.EVENT,
-    element: withLoggedInLayout(<Event />)
-  }
+  GetRoute(ROUTES_NAMES.ROOT, <NotLoggedInLayout />),
+  GetRoute(ROUTES_NAMES.USER, withLoggedInLayout(<User />)),
+  GetRoute(ROUTES_NAMES.PROJECT, withLoggedInLayout(<Project />)),
+  GetRoute(ROUTES_NAMES.RESOURCE, withLoggedInLayout(<Resource />)),
+  GetRoute(ROUTES_NAMES.DATA, withLoggedInLayout(<Data />)),
+  GetRoute(ROUTES_NAMES.POLICY, withLoggedInLayout(<Policy />)),
+  GetRoute(ROUTES_NAMES.ENDPOINT, withLoggedInLayout(<Endpoint />)),
+  GetRoute(ROUTES_NAMES.EDGE, withLoggedInLayout(<Edge />)),
+  GetRoute(ROUTES_NAMES.SWAGGER, withLoggedInLayout(<Swagger />)),
+  GetRoute(ROUTES_NAMES.CACHE, withLoggedInLayout(<Cache />)),
+  GetRoute(ROUTES_NAMES.EVENT, withLoggedInLayout(<Event />)),
 ]);
 
 export default MainRouter;
