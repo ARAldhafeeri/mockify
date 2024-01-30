@@ -45,6 +45,10 @@ interface MenuItem {
   element?: React.ReactNode;
 }
 
+const newPage = (Icon : React.FC<{className: string}>) => {
+  return <><Icon className="newPageIconLeft" /><Tag color="green"className="newPageText">new</Tag></>
+};
+
 export const items: MenuItem[] = [
   // {
   //   key: 'dashbaord',
@@ -100,19 +104,19 @@ export const items: MenuItem[] = [
   }, 
   {
     key: "Swagger",
-    icon: <><FolderAddFilled className="newPageIconLeft" /><Tag color="green"className="newPageText">new</Tag></>,
+    icon: ,
     label: "Swagger",
     to: ROUTES_NAMES.SWAGGER,
   },
   {
     key: "cache",
-    icon: <><DatabaseFilled className="newPageIconLeft" /><Tag color="green" className="newPageText">new</Tag></>,
+    icon:<DatabaseFilled/>,
     label: "Cache",
     to: ROUTES_NAMES.CACHE,
   },
   {
     key: "event",
-    icon: <><TransactionOutlined className="newPageIconLeft" /><Tag color="green" className="newPageText">new</Tag></>,
+    icon: <TransactionOutlined />,
     label: "Event",
     to: ROUTES_NAMES.EVENT,
   }
