@@ -17,6 +17,7 @@ import mockRouter from './routes/mock';
 import edgeRouter from './routes/edge';
 import cacheRouter from './routes/cache';
 import eventRouter from './routes/event';
+import clientRouter from './routes/client';
 
 const app = express();
 
@@ -63,6 +64,8 @@ app.use(API_ROUTE, edgeRouter)
 app.use(API_ROUTE, cacheRouter)
 
 app.use(API_ROUTE, eventRouter)
+
+app.use(API_ROUTE, clientRouter)
 
 applyServerHardening(app)
 
