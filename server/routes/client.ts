@@ -8,25 +8,25 @@ const clientRouter = express.Router();
 clientRouter.get( 
   CLIENT_ROUTE,
     authenticationMiddleWareAdminPortal, 
-    authorization(["client"], ["read", "write", "delete", "update"]),
+    authorization(["clientCred"], ["read", "write", "delete", "update"]),
     getClient, 
   )
   .post( 
     CLIENT_ROUTE, 
       authenticationMiddleWareAdminPortal, 
-      authorization(["client"], ["read", "write", "delete", "update"]),
+      authorization(["clientCred"], ["read", "write", "delete", "update"]),
       createClient, 
     )
   .put( 
     CLIENT_ROUTE, 
       authenticationMiddleWareAdminPortal, 
-      authorization(["client"], ["read", "write", "delete", "update"]),
+      authorization(["clientCred"], ["read", "write", "delete", "update"]),
       updateClient, 
     )
   .delete( 
     CLIENT_ROUTE, 
       authenticationMiddleWareAdminPortal, 
-      authorization(["client"], ["read", "write", "delete", "update"]),
+      authorization(["clientCred"], ["read", "write", "delete", "update"]),
       deleteClient, 
     )
 
