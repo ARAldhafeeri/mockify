@@ -11,4 +11,4 @@ const clientCredSchema = new Schema<IClient>({
 
 clientCredSchema.index({name: "text", data: "text" })
 
-export default model<IClient>("Data", clientCredSchema);
+export default model<IClient>("client", clientCredSchema);

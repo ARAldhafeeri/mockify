@@ -66,6 +66,10 @@ export const updateClient = async function(req: Request, res: Response) : Promis
  
   try{
 
+      let data = req.body;
+
+      if (data._id || data.id || data.secret) return ErrorResponse(res, 'update information should contain only name, project', 400);
+
       const dUpdated = await cService.update(req.body);
   
       if (!dUpdated) return ErrorResponse(res, 'data not updated', 400);

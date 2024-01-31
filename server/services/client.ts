@@ -52,7 +52,7 @@ class ClientService implements IClientService  {
   update = async (data : IClientInputDTO) : Promise<any> => {
     
     const dUpdated = await ClientCredModel.findOneAndUpdate(
-      { name : data.name },
+      { project : new ObjectId(data.project)},
       { $set: data },
       { new: true }
     );
