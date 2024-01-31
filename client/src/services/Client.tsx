@@ -61,9 +61,12 @@ const ClientService = () => {
     e.preventDefault();
     let dispatched;
     if (showEditModal) {
+      delete selectedClient._id;
+      delete selectedClient.secret;
+      delete selectedClient.id;
+      console.log(selectedClient);
       dispatched = dispatch(updateClient(selectedClient))
     } else {
-      delete selectedClient._id;
       dispatched = dispatch(createClient(selectedClient))
     }
     
@@ -95,10 +98,10 @@ const ClientService = () => {
 
   const handleFormChangeSelect = (value : string, type : string) => {
     switch(type) {
-     case "resource":
+     case "project":
        setSelectedClient({
          ...selectedClient,
-         resource: value
+         project: value
        })
        break;
      default:

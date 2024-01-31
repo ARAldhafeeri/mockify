@@ -36,8 +36,7 @@ const ClientCard  : React.FC<IClientCardProps> = (
         name,
         id,
         secret,
-        project,
-        actions,
+        project
       }} classes={["card-action"]} />
     </div>
   )
