@@ -36,6 +36,7 @@ import { Tag } from "antd";
 import Swagger from "components/containers/Swagger/Swagger";
 import Cache from "components/containers/Cache/Cache";
 import Event from "components/containers/Event/Event";
+import Client from "components/containers/Client/Client";
 
 interface MenuItem {
   key: string;
@@ -53,7 +54,7 @@ interface IRoute {
   element: React.ReactNode;
 }
 
-const newPage = (Icon : React.FC<{className: string}>) => {
+const newPage = (Icon : any) => {
   return <><Icon className="newPageIconLeft" /><Tag color="green"className="newPageText">new</Tag></>
 };
 
@@ -90,9 +91,6 @@ const GetRoute = (
 }
 
 export const items: MenuItem[] = [
-  GetItem('Configuration', 'configuration', <ControlOutlined />, null,  [
-  GetItem('Clients', 'clients', <UserOutlined />, ROUTES_NAMES.CLIENTS),
-  ]),
   GetItem('Users', 'user', <UserOutlined />, ROUTES_NAMES.USER),
   GetItem('Projects', 'project', <SlackCircleFilled />, ROUTES_NAMES.PROJECT),
   GetItem('Resources', 'resources', <DatabaseFilled />, ROUTES_NAMES.RESOURCE),
@@ -102,7 +100,10 @@ export const items: MenuItem[] = [
   GetItem('Edge Functions', 'Edge', <FunctionOutlined />, ROUTES_NAMES.EDGE),
   GetItem('Swagger', 'Swagger', <FolderAddOutlined />, ROUTES_NAMES.SWAGGER),
   GetItem('Cache', 'cache', <DatabaseFilled />, ROUTES_NAMES.CACHE),
-  GetItem('Event', 'event', <TransactionOutlined />, ROUTES_NAMES.EVENT)
+  GetItem('Event', 'event', <TransactionOutlined />, ROUTES_NAMES.EVENT),
+  GetItem('Configuration', 'configuration', <ControlOutlined />, null,  [
+    GetItem('Clients', 'clients', newPage(RadarChartOutlined), ROUTES_NAMES.CLIENTS),
+    ]),
 ];
 
 const withLoggedInLayout = (element: React.ReactNode) => (
@@ -121,6 +122,7 @@ const MainRouter = createBrowserRouter([
   GetRoute(ROUTES_NAMES.SWAGGER, withLoggedInLayout(<Swagger />)),
   GetRoute(ROUTES_NAMES.CACHE, withLoggedInLayout(<Cache />)),
   GetRoute(ROUTES_NAMES.EVENT, withLoggedInLayout(<Event />)),
+  GetRoute(ROUTES_NAMES.CLIENTS, withLoggedInLayout(<Client />)),
 ]);
 
 export default MainRouter;

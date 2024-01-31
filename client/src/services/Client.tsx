@@ -1,0 +1,158 @@
+import React from "react";
+import { IFetchedClientData } from "types/Client";
+import { fetchClients, deleteClient, updateClient, createClient } from "redux/features/client/clientThunk";
+import { useAppDispatch, useAppSelector } from "redux/hooks";
+import { ToastifyMockify } from "utils";
+import { Form } from "antd";
+import { IFetchedProjectData } from "types/Project";
+import ProjectService from "./Project";
+import ResourceService from "./Resource";
+const ClientService = () => {
+  const { resource } = ResourceService();
+  const { project } = ProjectService();
+  const { client, loading } = useAppSelector((state) => state.client);
+  const [ key, setKey ] = React.useState<number>(0);
+  const [ projectT, setProject ] = React.useState<IFetchedProjectData>(project[0]);
+  const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
+  const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
+  const [ showCreateModal, setShowCreateModal ] = React.useState<boolean>(false);
+  const [selectedClient, setSelectedClient ] = React.useState<any>(client[0]);
+
+  const dispatch = useAppDispatch();
+  
+  const handleTabChange = (key : string, projects : IFetchedProjectData[]) => {
+    setKey(parseInt(key))
+    setProject(projects[parseInt(key)]);
+  }
+
+  // antd form 
+  const [form] = Form.useForm();
+
+  // delete client event
+  const handleDeleteClient = (id : string) => {
+    ToastifyMockify(
+      dispatch(
+        deleteClient(id)
+        )
+    );
+    setShowDeleteModal(false);
+  }
+
+  const handleShowDeleteModal = (record : IFetchedClientData) => {
+    setSelectedClient(record);
+    setShowDeleteModal(true);
+  }
+
+  const handleHideDeleteModal = () => {
+    setShowDeleteModal(false);
+  }
+
+  // update client event
+  const handleShowEditModal = (record: IFetchedClientData) => {
+    setSelectedClient(record);
+    setShowEditModal(true);
+  }
+
+  const handleHideEditModal = () => {
+    setShowEditModal(false);
+  }
+
+  const handleSubmitClientForm = (e : any) => {
+    e.preventDefault();
+    let dispatched;
+    if (showEditModal) {
+      dispatched = dispatch(updateClient(selectedClient))
+    } else {
+      delete selectedClient._id;
+      dispatched = dispatch(createClient(selectedClient))
+    }
+    
+    ToastifyMockify(dispatched);
+  }
+
+  const handleFormChange = (e : any, name : any=null) => {
+      if(typeof e === "string") {
+        setSelectedClient({
+          ...selectedClient,
+          [name]: e
+        })
+      } else {
+        setSelectedClient({
+          ...selectedClient,
+          [e.target.name]: e.target.value
+        })
+      }
+  };
+
+  // create events
+  const handleShowCreateClientModal = () => {
+    setShowCreateModal(true);
+  }
+
+  const handleHideCreateClientModal = () => {
+    setShowCreateModal(false);
+  }
+
+  const handleFormChangeSelect = (value : string, type : string) => {
+    switch(type) {
+     case "resource":
+       setSelectedClient({
+         ...selectedClient,
+         resource: value
+       })
+       break;
+     default:
+       break;
+    }
+   }
+
+
+  
+
+  React.useEffect(() =>{
+    const dispatched = dispatch(fetchClients(projectT?._id));
+    ToastifyMockify(dispatched);
+  }, [dispatch, key])
+
+  return {
+    // globals
+    client, 
+    loading,
+    selectedClient, 
+    setSelectedClient,
+
+    // delete event
+    handleDeleteClient,
+    showDeleteModal,
+    handleShowDeleteModal,
+    handleHideDeleteModal,
+
+    // update event
+    showEditModal,
+    handleShowEditModal,
+    handleHideEditModal,
+    handleSubmitClientForm,
+    
+    // form change 
+    handleFormChange,
+
+    // create event
+    showCreateModal, 
+    handleShowCreateClientModal,
+    handleHideCreateClientModal,
+    form,
+
+    // tabs 
+    handleTabChange,
+    key,
+
+    // services
+    resource,
+    // form change select
+    handleFormChangeSelect,
+
+
+  }
+}
+
+export default ClientService;

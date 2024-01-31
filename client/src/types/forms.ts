@@ -1,4 +1,5 @@
 import { IFetchedCacheData } from './Cache';
+import { IFetchedClientData } from './Client';
 import { IFetchedDataData } from './Data';
 import { IFetchEdgeResponse, IFetchedEdgeData } from './Edge';
 import { IFetchedEventData } from './Event';
@@ -193,6 +194,18 @@ export interface IFormMakerPolicyProps {
     resource: IFetchedResourceData[];
     edge: IFetchEdgeResponse[];
   }
+
+
+export interface IClientForm {
+  handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleFormChangeSelect: (value : string, type : string) => void;
+  data: IFetchedClientData;
+  form: any;
+  onFinish?: (values: any) => void;
+  resource: IFetchedResourceData[];
+}
+
 
 
   export interface IEdgeSelectProps {

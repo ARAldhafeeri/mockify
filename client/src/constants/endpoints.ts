@@ -25,4 +25,8 @@ export const ENDPOINTS = {
   EVENT: "/event",
   EVENT_DELETE: (id : string) => `/event/?id=${id}`,
   EVENT_PARAM: (resourceName: string) => `/event?resourceName=${resourceName}`,
-}
+  // client
+  CLIENT: "/client",
+  CLIENT_DELETE: (id : string) => `/client/?id=${id}`,
+  CLIENT_PARAM: (projectID: string | undefined) => `/client?projectId=${projectID}`,
+};

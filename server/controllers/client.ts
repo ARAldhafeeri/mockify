@@ -15,9 +15,9 @@ export const getClient = async function(req: Request, res: Response) : Promise<a
 
       const found : IClient = await cService.find({project: new ObjectId(projectId)});
 
-      if (!found) return ErrorResponse(found, 'datas not found', 400);
+      if (!found) return ErrorResponse(found, 'client not found', 400);
 
-      return SuccessResponse(res, found, 'fetching datas was successful', 200)
+      return SuccessResponse(res, found, 'fetching client was successful', 200)
 
   } catch (err){
     return ErrorResponse(res, `error ${err}`, 400);
@@ -33,9 +33,9 @@ export const deleteClient = async function(req: Request, res: Response) : Promis
 
     const deleted = await cService.delete(id);
 
-    if (!deleted) return ErrorResponse(res, 'data not deleted', 400);
+    if (!deleted) return ErrorResponse(res, 'client not deleted', 400);
 
-    return SuccessResponse(res, deleted, 'data deleted', 200);
+    return SuccessResponse(res, deleted, 'client deleted', 200);
 
   } catch (err){
     return ErrorResponse(res, `error ${err}`, 400);
@@ -72,9 +72,9 @@ export const updateClient = async function(req: Request, res: Response) : Promis
 
       const dUpdated = await cService.update(req.body);
   
-      if (!dUpdated) return ErrorResponse(res, 'data not updated', 400);
+      if (!dUpdated) return ErrorResponse(res, 'client not updated', 400);
   
-      return SuccessResponse(res, dUpdated, 'data updated', 200);
+      return SuccessResponse(res, dUpdated, 'client updated', 200);
 
   } catch (err){
     return ErrorResponse(res, `error ${err}`, 400);
