@@ -71,6 +71,7 @@ const ClientService = () => {
       selectedClient.project = projectT?._id;
       dispatched = dispatch(updateClient(selectedClient))
     } else {
+      selectedClient.project = projectT?._id;
       dispatched = dispatch(createClient(selectedClient))
     }
     
