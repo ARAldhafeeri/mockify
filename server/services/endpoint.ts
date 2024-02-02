@@ -104,6 +104,8 @@ class EndpointService implements IEndpointService {
   }
 
   async create(resource : IResource) : Promise<Array<Object>>{
+    // clean this.endpoint
+    this.endpoint = [];
     let resourceName = resource.resourceName;
     let features : IEndpointFeatures = resource.features;
     
