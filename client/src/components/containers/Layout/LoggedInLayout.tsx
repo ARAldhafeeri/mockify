@@ -38,11 +38,21 @@ const LoggedInLayout: React.FC<LoggedInLayoutProps> = (props) => {
     <Layout hasSider={true} className='layout'>
       <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" selectedKeys={[current]} mode="inline">
+        <Menu theme="dark" selectedKeys={[current]} mode="inline" inlineCollapsed>
           {items.map(item => (
-            <Menu.Item key={item.key} onClick={handleClick} icon={item.icon}>
-              <Link to={item.to || '/'}>{item.label}</Link>
+            item.children ? (
+            <Menu.SubMenu key={item.key} icon={item.icon} title={item.label}>
+              {item.children.map(child => (
+                <Menu.Item onClick={handleClick} key={child.key} icon={child.icon}>
+                  <Link to={child.to || "/"}>{child.label}</Link>
+                </Menu.Item>
+              ))}
+            </Menu.SubMenu>
+            ) : (
+            <Menu.Item onClick={handleClick} key={item.key} icon={item.icon}>
+              <Link to={item.to || "/"}>{item.label}</Link>
             </Menu.Item>
+            )
           ))}
         </Menu>
       </Sider>

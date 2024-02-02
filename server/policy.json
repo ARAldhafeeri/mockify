@@ -1,5 +1,5 @@
 {
-  "resources": ["data", "policy", "project", "resource", "user", "mock", "endpoint", "edge"],
+  "resources": ["data", "policy", "project", "resource", "user", "mock", "endpoint", "edge","clientCred"],
   "actions": ["delete", "create", "update", "read"],
   "roles": ["user", "admin", "super-admin"],
   "policies": [
@@ -12,7 +12,7 @@
       {
           "role": "admin",
           "can": ["*"], 
-          "on": ["data", "policy", "project", "resource", "mock", "endpoint"]
+          "on": ["data", "clientCred", "policy", "project", "resource", "mock", "endpoint"]
       },
 
       {

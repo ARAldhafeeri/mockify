@@ -12,4 +12,6 @@ export const ROUTES_NAMES = {
    SWAGGER: '/swagger',
    CACHE: '/cache',
    EVENT: '/event',
+   CONFIG: '/config',
+   CLIENTS: '/config/clients',
 }

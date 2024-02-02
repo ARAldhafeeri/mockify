@@ -47,3 +47,12 @@ export interface IEventCardProps {
   resource: string;
   handler: string;
 }
+
+export interface IClientCardProps {
+  name: string;
+  _id : string;
+  actions: ICardAction[];
+  id: string;
+  secret: string;
+  project: string;
+}

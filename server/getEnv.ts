@@ -25,3 +25,6 @@ export const ADMIN_PSWD = `${process.env.ADMIN_PSWD}`
 //  redis
 export const REDIS_URL = `${process.env.REDIS_URL}`
 export const REDIS_PASSWORD = `${process.env.REDIS_PASSWORD}`
+
+// websocket 
+export const WEB_SOCKET_PORT = parseInt(`${process.env.WEB_SOCKET_PORT}`);

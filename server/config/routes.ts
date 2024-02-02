@@ -22,3 +22,6 @@ export const EDGE_ROUTE_WITH_PARAMS : string = "/:resourceName/edge/:functionNam
 
 export const EVENT_ROUTE : string = "/event";
 export const EVENT_ROUTE_WITH_PARAMS : string = "/event/:resourceName";
+
+
+export const CLIENT_ROUTE : string = "/client";

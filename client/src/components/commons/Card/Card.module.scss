@@ -10,6 +10,7 @@ $card-content-padding: 20px;
 $button-bg: #007bff;
 $button-text-color: #ffffff;
 
+
 .mockify-card-login-page {
   background-color: $card-bg-color;
   border-radius: $card-border-radius;
@@ -72,7 +73,7 @@ $button-text-color: #ffffff;
 
 .titleCard {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
 
 }
@@ -83,12 +84,14 @@ $button-text-color: #ffffff;
   margin-top: 5px;
 }
 
-.projectname {
-  font-size: 1rem;
+.projectname  .cardTitle {
+  font-size: small;
   font-family: 'Courier New', Courier, monospace;
   margin-left: 5px;
   margin-top: 5px;
 }
+
+
 
 .cardId {
   font-size: 0.6rem!important;
@@ -100,11 +103,11 @@ $button-text-color: #ffffff;
 .titleAndIcon {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-self: center;
 }
 
 .titleExtra {
-  align-self: end;
+  align-self: center;
 }
 
 .userCardBody {
