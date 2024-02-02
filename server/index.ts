@@ -9,10 +9,7 @@ import { IncomingMessage, createServer } from 'http';
 import { Socket } from 'dgram';
 import { readFileSync } from 'fs';
 import { Duplex } from 'stream';
-import ClientService from './services/client';
-import {WEB_SOCKET_PORT} from "./getEnv"
 
-const wssClientService = new ClientService();
 
 const eventService = new EventService();
 
@@ -22,14 +19,6 @@ const PORT = process.env.PORT || 5000;
 connect(DATABASE_URL).then(async () => {
   console.log("Connected to database");
 }).then(async () => {
-  // wss client credentials verification
-  const verifyClient = async (info : any, done : any) => {
-    let id = info.req.headers["websocket-clientId"];
-    let secret = info.req.headers["websocket-clientSecret"];
-    let client = await wssClientService.find({id, secret});
-    if (!client) return done(false, 401, "Unauthorized");
-    return done(true);
-  };
 
   app.set('port', PORT);
   // wss server
@@ -38,23 +27,14 @@ connect(DATABASE_URL).then(async () => {
   server.listen(PORT).on('listening', () => {
     console.log(`Listening on port ${PORT}`);
   });
-  
+
   // handle server upgrade request
   server.on('upgrade', function upgrade(request : IncomingMessage, socket : Duplex, head) {
     console.log('upgrade request')
     wss.handleUpgrade(request, socket, head, function  done(ws){
-      // verify client credentials
-      const info = {req: request};
 
-      verifyClient(info, function (verified : boolean, code : number, message : string) {
-        if (!verified) {
-          ws.send(`HTTP/1.1 ${code} ${message}\r\n\r\n`);
-          ws.close();
+    wss.emit('connection', ws, request);
 
-        }else {
-          wss.emit('connection', ws, request);
-        }
-      });
     })
   });
 
