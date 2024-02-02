@@ -32,12 +32,6 @@ const ClientForm : React.FC<IClientForm> = (
           value={data?.name as string}
           onChange={handleFormChange}
         />
-
-        {/* resource select */}
-        <ResourcesSelect
-          resourceOptions={resource}
-          handleFormChange={(value) => handleFormChangeSelect(value, 'resource')}
-        />
         <MockifyButton 
           classes={['mockify-btn']}
           text="send"

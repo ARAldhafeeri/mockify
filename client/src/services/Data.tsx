@@ -18,7 +18,10 @@ const DataService = () => {
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
   const [ showCreateModal, setShowCreateModal ] = React.useState<boolean>(false);
-  const [selectedData, setSelectedData ] = React.useState<any>(data[0]);
+  const [selectedData, setSelectedData ] = React.useState<any>({
+    resource: resourceT?._id,
+    data: {}
+  });
 
   // antd form 
   const [form] = Form.useForm();

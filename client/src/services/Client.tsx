@@ -16,7 +16,10 @@ const ClientService = () => {
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
   const [ showCreateModal, setShowCreateModal ] = React.useState<boolean>(false);
-  const [selectedClient, setSelectedClient ] = React.useState<any>(client[0]);
+  const [selectedClient, setSelectedClient ] = React.useState<any>({
+    project: projectT?._id,
+    client: {}
+  });
 
   const dispatch = useAppDispatch();
   
@@ -65,6 +68,7 @@ const ClientService = () => {
       delete selectedClient.secret;
       delete selectedClient.id;
       console.log(selectedClient);
+      selectedClient.project = projectT?._id;
       dispatched = dispatch(updateClient(selectedClient))
     } else {
       dispatched = dispatch(createClient(selectedClient))
