@@ -82,3 +82,22 @@ export const updateClient = async function(req: Request, res: Response) : Promis
   }
   
 }
+
+export const verifyClientCredentials = async function(req: Request, res: Response) : Promise<any> {
+
+  try {
+    let data  = req.body;
+
+    if (!data.clientId || data.clientSecret)return ErrorResponse(res, 'request body must have clientId, clientSecret to verify', 400);
+
+    const found = await cService.findOne({id: data.clientId, secret: data.clientSecret})
+    
+    if (!found) return ErrorResponse(res, 'incorrect client credintiaals', 400);
+
+    return SuccessResponse(res, true, 'client verified', 200);
+
+
+  } catch (err){
+
+  }
+}

@@ -67,6 +67,7 @@ app.use(API_ROUTE, eventRouter)
 
 app.use(API_ROUTE, clientRouter)
 
+
 applyServerHardening(app)
 
 // catch errors 
