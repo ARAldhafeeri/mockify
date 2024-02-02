@@ -19,4 +19,5 @@ export interface IClientService {
   delete(id: Types.ObjectId): Promise<IClient>;
   findOne(data: Object): Promise<IClient>;
   generateClientCredentials(): Promise<IClient> ;
+  findClientsByPorjectId(id: Types.ObjectId): Promise<IClient[]>;
 }

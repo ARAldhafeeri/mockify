@@ -85,6 +85,11 @@ class ClientService implements IClientService  {
         secret: await this.CryptoService.generateAPIKey()
       }
   }
+
+  findClientsByPorjectId = async (projectId: Types.ObjectId) : Promise<any> => {
+    const found = await ClientCredModel.find({ project: projectId}).lean();
+    return found;
+  }
   
 }
 

@@ -12,6 +12,7 @@ const methodsColorScheme : any = {
 const typesColorScheme : any = {
   "Generic": "#2db7f5",
   "Edge Function": "#87d068",
+  "WebSocket": "#108ee9",
 }
 
 
