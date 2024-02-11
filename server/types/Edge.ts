@@ -18,3 +18,8 @@ export interface IEdgeService {
     addImmediatelyInvokedAsync(code: string): string;
     runFunctionInContext(code: string, asyncc : boolean, additionalContext: any): Promise<any>;
   }
+
+
+type additionalContext = {
+    [key: string]: any;
+  }
