@@ -14,4 +14,5 @@ export const ROUTES_NAMES = {
    EVENT: '/event',
    CONFIG: '/config',
    CLIENTS: '/config/clients',
+   LOGOUT: '/logout'
 }
