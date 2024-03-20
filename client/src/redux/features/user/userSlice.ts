@@ -19,7 +19,7 @@ const userSlice = createSlice({
       .addCase(fetchUsers.pending, (state, _ ) => {
         state.loading = true;
       })
-      .addCase(fetchUsers.rejected, (state, _) => {
+      .addCase(fetchUsers.rejected, (state, action : PayloadAction<  IFetchUserResponse | any>) => {
         state.loading = false;
       })
       .addCase(fetchUsers.fulfilled, (

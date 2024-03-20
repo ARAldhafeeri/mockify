@@ -21,14 +21,18 @@ export const ToastGuid = () => {
 }
 
 
-export const ToastifyMockify = (dispatchEvent : any) => {
-
-    dispatchEvent.then((res : any) => {
-        let payload = res?.payload;
-        payload?.status 
-        ? toast.success(payload?.message,ToastGuid()) 
-        : toast.error(payload?.message , ToastGuid());
-    })
+export const ToastifyMockify = (dispatchEvent: Promise<any>) => {
+    dispatchEvent
+        .then((res: any) => {
+            let payload = res?.payload;
+            payload?.status 
+                ? toast.success(payload?.message, ToastGuid()) 
+                : toast.error(payload?.message, ToastGuid());
+        })
+        .catch((error: any) => {
+            console.error("Error in dispatchEvent:", error);
+            toast.error("An error occurred", ToastGuid());
+        });
 }
 
 export const getProjectNameByProjectId = (projects : any, projectId : string) => {
