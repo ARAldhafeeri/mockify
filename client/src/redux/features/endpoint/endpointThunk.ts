@@ -7,8 +7,8 @@ export const fetchEndpoints = createAsyncThunk(
   "endpoint/fetch",
   async (resource : IFetchedResourceData , thunkAPI) : Promise<any> => {
     try {
-      const res : any = await instance.get(ENDPOINTS.ENDPOINT);
-      return  res.data;
+      const res : any = await instance.post(ENDPOINTS.ENDPOINT, resource);
+      return   res.data?.data;
     } catch (e : any) {
       return thunkAPI.rejectWithValue(e.response.data)
     }
