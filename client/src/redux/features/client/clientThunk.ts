@@ -34,7 +34,7 @@ export const updateClient = createAsyncThunk(
   async(data : IFetchedClientData, thunkAPI): Promise<any> => {
     try {
       const res : any =  instance.put(ENDPOINTS.CLIENT, data);
-      return res;      
+      return res.data;      
     } catch (e : any){
       return thunkAPI.rejectWithValue(e.response.data)
     }
