@@ -24,6 +24,7 @@ export const ToastGuid = () => {
 export const ToastifyMockify = (dispatchEvent: Promise<any>) => {
     dispatchEvent
         .then((res: any) => {
+            console.log("res in dispatchEvent:", res)
             let payload = res?.payload;
             payload?.status 
                 ? toast.success(payload?.message, ToastGuid()) 

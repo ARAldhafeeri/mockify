@@ -14,12 +14,12 @@ interface IRejectWIthValue {
 
 export const fetchUsers = createAsyncThunk(
   "user/fetch",
-  async (_ , thunkAPI) : Promise<IAPINormalizedResponse | void > => {
+  async (_ , thunkAPI) : Promise<any> => {
     try {
       const res : any = await instance.get(ENDPOINTS.USER);
       return  res.data?.data;
     } catch (e : any) {
-      thunkAPI.rejectWithValue(e.response.data)
+      return thunkAPI.rejectWithValue(e.response.data)
     }
 
   }
@@ -27,7 +27,7 @@ export const fetchUsers = createAsyncThunk(
 
 export const deleteUser = createAsyncThunk(
   "user/delete",
-  async(id : string, thunkAPI): Promise<IAPINormalizedResponse | void > => {
+  async(id : string, thunkAPI): Promise<any> => {
     try {
       const res : any = await instance.delete(ENDPOINTS.USER_DELETE(id));
       return res.data;
@@ -39,12 +39,12 @@ export const deleteUser = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
   "user/update", 
-  async(data : IFetchedUserData, {rejectWithValue }): Promise<IAPINormalizedResponse | void> => {
+  async(data : IFetchedUserData, thunkAPI): Promise<any> => {
     try {
       const res : any =  instance.put(ENDPOINTS.USER, data);
       return res;
     } catch (e : any){
-      rejectWithValue(e.response.data)
+      return thunkAPI.rejectWithValue(e.response.data)
     }
   }
 )
@@ -52,12 +52,12 @@ export const updateUser = createAsyncThunk(
 
 export const createUser = createAsyncThunk(
   "user/create",
-  async(data : IFetchedUserData, {rejectWithValue }): Promise<IAPINormalizedResponse | void > =>{
+  async(data : IFetchedUserData, thunkAPI): Promise<any> =>{
    try {
     const res : any = await instance.post(ENDPOINTS.USER, data);
     return res.data;
    } catch (e: any) {
-      rejectWithValue(e.response.data)
+      return thunkAPI.rejectWithValue(e.response.data);
    }
   }
 )
