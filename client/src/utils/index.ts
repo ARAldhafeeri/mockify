@@ -24,14 +24,12 @@ export const ToastGuid = () => {
 export const ToastifyMockify = (dispatchEvent: Promise<any>) => {
     dispatchEvent
         .then((res: any) => {
-            console.log("res in dispatchEvent:", res)
             let payload = res?.payload;
             payload?.status 
                 ? toast.success(payload?.message, ToastGuid()) 
                 : toast.error(payload?.message, ToastGuid());
         })
         .catch((error: any) => {
-            console.error("Error in dispatchEvent:", error);
             toast.error("An error occurred", ToastGuid());
         });
 }
@@ -39,4 +37,10 @@ export const ToastifyMockify = (dispatchEvent: Promise<any>) => {
 export const getProjectNameByProjectId = (projects : any, projectId : string) => {
     let project = projects.find((item : any) => item._id === projectId);
     return project?.name;
+}
+
+
+export const ConditionalProp = (condition : boolean, prop : any) => {
+    return {...(condition ? prop : {})}
+
 }

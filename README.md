@@ -9,27 +9,14 @@ Mocking APIs is a very important step in API-first design. Allow development tea
 ```bash
 docker compose -f docker-compose.dev.yml build 
 ```
-2- run mockify docker container
+2- run mockify docker container for server
 ```bash
 docker compose -f docker-compose.dev.yml up -d
 ```
 3- run client using npm start, tsch --watch
-
-## running prod environment :
-1- build and run mockify docker container
 ```bash
-docker compose -f docker-compose.prod.yml build
-docker compose -f docker-compose.prod.yml up -d
+npm run start
 ```
-make sure to set the following environment variables in the .env file
-```bash
-GRAFANA_USER=admin
-GRAFANA_PASSWORD=admin
-```
-2 for configuring modsecurity observability platform check out secopsdeploy 
-
-https://github.com/ARAldhafeeri/SecOpsDeploy
-
 
 ## running integration tests 
 1- build and run mockify docker container

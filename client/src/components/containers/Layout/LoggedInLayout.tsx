@@ -10,6 +10,7 @@ import { ROUTES_NAMES } from 'constants/routes';
 import { Navigate } from 'react-router';
 import MockifyLoader from 'components/commons/Loader/MockifyLoader';
 import styles from "./LoggedInLayout.module.scss";
+import GlobalTabs from '../GlobalTabs/GlobalTabs';
 
 const { Content, Footer, Sider } = Layout;
 
@@ -66,6 +67,7 @@ const LoggedInLayout: React.FC<LoggedInLayoutProps> = (props) => {
             style={{ width: "450px" }}
           />
             {props.children}
+            
           </Content>
         </Suspense>
         <Footer className='footer'>MOCKIFY.IO ©2023</Footer>

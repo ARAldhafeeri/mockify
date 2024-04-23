@@ -64,6 +64,7 @@ const UserService = () => {
   }
 
   const handleFormChange = (e : any) => {
+    e.preventDefault();
     setSelectedUser({
       ...selectedUser,
       [e.target.name]: e.target.value

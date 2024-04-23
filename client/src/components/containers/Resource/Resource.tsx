@@ -10,8 +10,11 @@ import { IFetchedResourceData } from "types/Resource";
 import ResourceForm from "../Forms/Resource/ResourceForm";
 import { Tabs } from "antd";
 import ProjectService from "services/Project";
+import GlobalTabs from "../GlobalTabs/GlobalTabs";
 
 const Resource : React.FC = () => {
+
+  // service 
   const {
     project,
   }   = ProjectService();
@@ -42,8 +45,8 @@ const Resource : React.FC = () => {
     handleAddField,
     handleRemoveField,
     // tabs 
-    handleTabChange,
-    key,
+    handleResourceTabChange,
+    resourceKey,
     // client side filter
     filterResourceBasedOnProjectId,
 
@@ -53,6 +56,7 @@ const Resource : React.FC = () => {
     nextStep
   } = ResourceService();
 
+  // actions 
   const actions = [
     {
       icon: <EditOutlined />,
@@ -65,30 +69,17 @@ const Resource : React.FC = () => {
       onclick: (record: IFetchedResourceData) => handleShowDeleteModal(record)
     }
   ]
+
+  // render component with global tabs
   return (
     <>
     {
-      loading ? <MockifyLoader size="large" /> 
-      : (
-        <Tabs
-        defaultActiveKey={`${key}`}
-        tabPosition="top"
-        tabBarExtraContent={
-          <MockifyButton 
-          classes={['table-action-third', 'table-action', 'left-tab-action']} 
-          onClick={handleShowCreateResourceModal} 
-          icon={<PlusCircleOutlined />} 
-        />
-        }
-        style={{ height: "100%" }}
-        onTabClick={(e) => handleTabChange(e, project)}
-        items={project.map((proj : any, index : number) => {
-          return {
-            label: `${proj.name}`,
-            key: `${index}`,
-            disabled: false,
-            children: (
-              <>
+      loading ? <MockifyLoader size="large" /> : (
+          <GlobalTabs
+              handleTabChange={handleResourceTabChange}
+              key={resourceKey}
+              content={
+                <React.Fragment>
                 <MockifyModal 
                   show={showDeleteModal}
                   title="Delete resource"
@@ -150,15 +141,19 @@ const Resource : React.FC = () => {
                   columns={ColumnsWithActions(actions)} 
                   data={filterResourceBasedOnProjectId(resource)} 
                   classes={["mockify-table"]} />
-              </>
-            )
-          };
-        })}/>
+                </ React.Fragment>
+              } 
+              withCreateBtn={true} 
+              createBtn={
+              <MockifyButton 
+                classes={['table-action-third', 'table-action', 'left-tab-action']}
+                onClick={handleShowCreateResourceModal} 
+                icon={<PlusCircleOutlined />} />} 
+          />
       )
     }
     </>
   )
-
 }
 
 export default Resource;

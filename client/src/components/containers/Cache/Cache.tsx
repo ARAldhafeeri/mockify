@@ -8,13 +8,10 @@ import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/ic
 import MockifyModal from "components/commons/Modal/Modal";
 import { IFetchedCacheData } from "types/Cache";
 import CacheForm from "../Forms/Cache/CacheForm";
-import { Tabs } from "antd";
-import ProjectService from "services/Project";
+import GlobalTabs from "../GlobalTabs/GlobalTabs";
 
 const Cache : React.FC = () => {
-  const {
-    project,
-  }   = ProjectService();
+  // services
   const { 
     cache, 
     loading, 
@@ -43,6 +40,7 @@ const Cache : React.FC = () => {
 
   } = CacheService();
 
+  // actions
   const actions = [
     {
       icon: <EditOutlined />,
@@ -55,84 +53,77 @@ const Cache : React.FC = () => {
       onclick: (record: IFetchedCacheData) => handleShowDeleteModal(record)
     }
   ]
+
+  // render component with global tabs
   return (
     <>
     {
-      loading ? <MockifyLoader size="large" /> 
-      : (
-        <Tabs
-        defaultActiveKey={`${key}`}
-        tabPosition="top"
-        tabBarExtraContent={
-          <MockifyButton 
-          classes={['table-action-third', 'table-action', 'left-tab-action']} 
-          onClick={handleShowCreateCacheModal} 
-          icon={<PlusCircleOutlined />} 
-        />
-        }
-        style={{ height: "100%" }}
-        onTabClick={(e) => handleTabChange(e, project)}
-        items={project.map((proj : any, index : number) => {
-          return {
-            label: `${proj.name}`,
-            key: `${index}`,
-            disabled: false,
-            children: (
-              <>
-                <MockifyModal 
-                  show={showDeleteModal}
-                  title="Delete cache"
-                  onOk={() => handleDeleteCache(selectedCache?.key)}
-                  onCancel={() => handleHideDeleteModal()}
-                  children={<p>Are you sure delete {selectedCache?.key} ?</p>}
-                  />
-                <MockifyModal
-                  show={showEditModal}
-                  title="Update cache"
-                  onOk={ () => handleHideEditModal()}
-                  onCancel={() => handleHideEditModal()}
-                  okButtonProps={{ style: { display: 'none' } }}
-                  cancelButtonProps={{ style: { display: 'none' } }}
-                  children={
-                      <CacheForm 
-                        handleFormChange={handleFormChange} 
-                        handleFormSubmit={handleSubmitCacheForm}
-                        data={selectedCache} 
-                        form={form}
-                        onFinish={() => handleHideEditModal()}
-                        />
-                    }
-                  />
-                <MockifyModal
-                  show={showCreateModal}
-                  title="Create cache"
-                  onOk={ () => handleShowCreateCacheModal()}
-                  onCancel={() => handleHideCreateCacheModal()}
-                  okButtonProps={{ style: { display: 'none' } }}
-                  cancelButtonProps={{ style: { display: 'none' } }}
-                  children={
+        loading ? <MockifyLoader size="large" /> : (
+        <GlobalTabs
+          handleTabChange={handleTabChange}
+          key={key}
+          content={
+            <>
+              <MockifyModal 
+                show={showDeleteModal}
+                title="Delete cache"
+                onOk={() => handleDeleteCache(selectedCache?.key)}
+                onCancel={() => handleHideDeleteModal()}
+                children={<p>Are you sure delete {selectedCache?.key} ?</p>}
+                />
+              <MockifyModal
+                show={showEditModal}
+                title="Update cache"
+                onOk={ () => handleHideEditModal()}
+                onCancel={() => handleHideEditModal()}
+                okButtonProps={{ style: { display: 'none' } }}
+                cancelButtonProps={{ style: { display: 'none' } }}
+                children={
                     <CacheForm 
                       handleFormChange={handleFormChange} 
                       handleFormSubmit={handleSubmitCacheForm}
                       data={selectedCache} 
                       form={form}
                       onFinish={() => handleHideEditModal()}
-                    />
-                    }
+                      />
+                  }
+                />
+              <MockifyModal
+                show={showCreateModal}
+                title="Create cache"
+                onOk={ () => handleShowCreateCacheModal()}
+                onCancel={() => handleHideCreateCacheModal()}
+                okButtonProps={{ style: { display: 'none' } }}
+                cancelButtonProps={{ style: { display: 'none' } }}
+                children={
+                  <CacheForm 
+                    handleFormChange={handleFormChange} 
+                    handleFormSubmit={handleSubmitCacheForm}
+                    data={selectedCache} 
+                    form={form}
+                    onFinish={() => handleHideEditModal()}
                   />
-                <MockifyTable 
-                  columns={ColumnsWithActions(actions)} 
-                  data={cache} 
-                  classes={["mockify-table"]} />
-              </>
-            )
-          };
-        })}/>
+                  }
+                />
+              <MockifyTable 
+                columns={ColumnsWithActions(actions)} 
+                data={cache} 
+                classes={["mockify-table"]} />
+            </>
+            } 
+            withCreateBtn={true} 
+            createBtn={
+              <MockifyButton 
+              classes={['table-action-third', 'table-action', 'left-tab-action']} 
+              onClick={handleShowCreateCacheModal} 
+              icon={<PlusCircleOutlined />} 
+              />
+            } 
+        />
       )
     }
-    </>
-  )
-
+</>
+)
 }
 
 export default Cache;

@@ -9,8 +9,11 @@ import ClientForm from "../Forms/Client/ClientForm";
 import { Tabs } from "antd";
 import ProjectService from "services/Project";
 import ClientCards from "components/presentational/Client/ClientCards";
+import GlobalTabs from "../GlobalTabs/GlobalTabs";
 
 const Client : React.FC = () => {
+
+  // services
   const {
     project,
   }   = ProjectService();
@@ -46,6 +49,7 @@ const Client : React.FC = () => {
 
   } = ClientService();
 
+  // actions 
   const actions = [
     {
       icon: <EditOutlined />,
@@ -60,86 +64,73 @@ const Client : React.FC = () => {
       onclick: (record: IFetchedClientData) => handleShowDeleteModal(record)
     }
   ]
-  return (
-    <>
-    {
-      loading ? <MockifyLoader size="large" /> 
-      : (
-        <Tabs
-        defaultActiveKey={`${key}`}
-        tabPosition="top"
-        tabBarExtraContent={
-          <MockifyButton 
-          classes={['table-action-third', 'table-action', 'left-tab-action']} 
-          onClick={handleShowCreateClientModal} 
-          icon={<PlusCircleOutlined />} 
-        />
-        }
-        style={{ height: "100%" }}
-        onTabClick={(e) => handleTabChange(e, project)}
-        items={project.map((proj : any, index : number) => {
-          return {
-            label: `${proj.name}`,
-            key: `${index}`,
-            disabled: false,
-            children: (
-              <>
-                <MockifyModal 
-                  show={showDeleteModal}
-                  title="Delete client"
-                  onOk={() => handleDeleteClient(selectedClient?._id || '')}
-                  onCancel={() => handleHideDeleteModal()}
-                  children={<p>Are you sure delete {selectedClient?.clientName} ?</p>}
-                  />
-                <MockifyModal
-                  show={showEditModal}
-                  title="Update client"
-                  onOk={ () => handleHideEditModal()}
-                  onCancel={() => handleHideEditModal()}
-                  okButtonProps={{ style: { display: 'none' } }}
-                  cancelButtonProps={{ style: { display: 'none' } }}
-                  children={
-                      <ClientForm 
-                        handleFormChange={handleFormChange} 
-                        handleFormSubmit={handleSubmitClientForm}
-                        handleFormChangeSelect={handleFormChangeSelect}
-                        data={selectedClient} 
-                        form={form}
-                        resource={resource}
-                        onFinish={() => handleHideEditModal()}
-                      />
-                    }
-                  />
-                <MockifyModal
-                  show={showCreateModal}
-                  title="Create client"
-                  onOk={ () => handleShowCreateClientModal()}
-                  onCancel={() => handleHideCreateClientModal()}
-                  okButtonProps={{ style: { display: 'none' } }}
-                  cancelButtonProps={{ style: { display: 'none' } }}
-                  children={
-                      <ClientForm 
-                        handleFormChange={handleFormChange} 
-                        handleFormSubmit={handleSubmitClientForm}
-                        handleFormChangeSelect={handleFormChangeSelect}
-                        data={selectedClient} 
-                        form={form}
-                        resource={resource}
-                        onFinish={() => handleHideEditModal()}
-                      />
-                    }
-                  />
-                <ClientCards data={client} actions={actions} />
 
-              </>
-            )
-          };
-        })}/>
-      )
-    }
-    </>
-  )
+  
+  // render component with global tabs
+    return <GlobalTabs
+      handleTabChange={handleTabChange}
+      key={key}
+      content={
+        <>
+        <MockifyModal 
+          show={showDeleteModal}
+          title="Delete client"
+          onOk={() => handleDeleteClient(selectedClient?._id || '')}
+          onCancel={() => handleHideDeleteModal()}
+          children={<p>Are you sure delete {selectedClient?.clientName} ?</p>}
+          />
+        <MockifyModal
+          show={showEditModal}
+          title="Update client"
+          onOk={ () => handleHideEditModal()}
+          onCancel={() => handleHideEditModal()}
+          okButtonProps={{ style: { display: 'none' } }}
+          cancelButtonProps={{ style: { display: 'none' } }}
+          children={
+              <ClientForm 
+                handleFormChange={handleFormChange} 
+                handleFormSubmit={handleSubmitClientForm}
+                handleFormChangeSelect={handleFormChangeSelect}
+                data={selectedClient} 
+                form={form}
+                projectOptions={project}
+                onFinish={() => handleHideEditModal()}
+              />
+            }
+          />
+        <MockifyModal
+          show={showCreateModal}
+          title="Create client"
+          onOk={ () => handleShowCreateClientModal()}
+          onCancel={() => handleHideCreateClientModal()}
+          okButtonProps={{ style: { display: 'none' } }}
+          cancelButtonProps={{ style: { display: 'none' } }}
+          children={
+              <ClientForm 
+                handleFormChange={handleFormChange} 
+                handleFormSubmit={handleSubmitClientForm}
+                handleFormChangeSelect={(handleFormChangeSelect)}
+                data={selectedClient} 
+                form={form}
+                projectOptions={project}
+                onFinish={() => handleHideEditModal()}
+              />
+            }
+          />
+        <ClientCards data={client} actions={actions} />
+  
+      </>
+      } 
+      withCreateBtn={true} 
+      createBtn={
+        <MockifyButton 
+        classes={['table-action-third', 'table-action', 'left-tab-action']} 
+        onClick={handleShowCreateClientModal} 
+        icon={<PlusCircleOutlined />} 
+    />
+    } 
+      />
 
-}
+  } 
 
 export default Client;

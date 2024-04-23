@@ -11,9 +11,11 @@ import PolicyForm from "../Forms/Policy/PolicyForm";
 import { Space, Tabs } from "antd";
 import ProjectService from "services/Project";
 import Policies from "../../presentational/Policy/Policies";
+import GlobalTabs from "../GlobalTabs/GlobalTabs";
 
 
 const Policy : React.FC = () => {
+  // services 
   const { 
     policy, 
     loading, 
@@ -51,10 +53,9 @@ const Policy : React.FC = () => {
     handleRemovePolicies,
   } = PolicyService();
 
-  const {
-    project,
-  }   = ProjectService();
+  const { project } = ProjectService(); 
 
+  // actions
   const actions = [
     {
       icon: <EditOutlined />,
@@ -69,111 +70,91 @@ const Policy : React.FC = () => {
 
   ]
 
-  return (
-    <>
-    {
-      loading ? <MockifyLoader size="large" /> 
-      : (
-        <>
-          <Tabs
-          defaultActiveKey={`${key}`}
-          tabPosition="top"
-          tabBarExtraContent={
-            <MockifyButton 
-            classes={['table-action-third', 'table-action']} 
-            onClick={handleShowCreatePolicyModal} 
-            icon={<PlusCircleOutlined />} 
-          />
+  // render component with global tabs
+  return <GlobalTabs
+    handleTabChange={handleTabChange}
+    key={key}
+    content={
+      <>
+      <MockifyModal 
+        show={showDeleteModal}
+        title="Delete policy"
+        onOk={() => handleDeletePolicy(selectedPolicy._id || '')}
+        onCancel={() => handleHideDeleteModal()}
+        children={<p>Are you sure delete {selectedPolicy._id} ?</p>}
+        />
+      <MockifyModal
+        show={showEditModal}
+        title="Update policy"
+        onOk={ () => handleHideEditModal()}
+        onCancel={() => handleHideEditModal()}
+        okButtonProps={{ style: { display: 'none' } }}
+        cancelButtonProps={{ style: { display: 'none' } }}
+        children={
+            <PolicyForm 
+                handleFormChange={handleFormChange}
+                handleFormSubmit={handleSubmitPolicyForm}
+                data={selectedPolicy}
+                projectOptions={project}
+                form={form}
+                onFinish={() => handleHideEditModal()}
+                currentStep={currentStep}
+                prevStep={prevStep}
+                nextStep={nextStep}
+                handleAdd={handleAdd}
+                handleRemove={handleRemove}
+                handleFormChangePolicies={handleFormChangePolicies}
+                handleAddPolicies={handleAddPolicies}
+                handleRemovePolicies={handleRemovePolicies}
+              />
           }
-          style={{ height: "100%" }}
-          onTabClick={(e) => handleTabChange(e, project)}
-          activeKey={`${key}`}
-          onLoad={(e) => handleTabChange(`${key}`, project)}
-          
-          items={project?.map((proj : any, index : number) => {
-            return {
-              label: `${proj.name}`,
-              key: `${index}`,
-              disabled: false,
-              children: (
-                <>
-                  <MockifyModal 
-                    show={showDeleteModal}
-                    title="Delete policy"
-                    onOk={() => handleDeletePolicy(selectedPolicy._id || '')}
-                    onCancel={() => handleHideDeleteModal()}
-                    children={<p>Are you sure delete {selectedPolicy._id} ?</p>}
-                    />
-                  <MockifyModal
-                    show={showEditModal}
-                    title="Update policy"
-                    onOk={ () => handleHideEditModal()}
-                    onCancel={() => handleHideEditModal()}
-                    okButtonProps={{ style: { display: 'none' } }}
-                    cancelButtonProps={{ style: { display: 'none' } }}
-                    children={
-                        <PolicyForm 
-                            handleFormChange={handleFormChange}
-                            handleFormSubmit={handleSubmitPolicyForm}
-                            data={selectedPolicy}
-                            projectOptions={project}
-                            form={form}
-                            onFinish={() => handleHideEditModal()}
-                            currentStep={currentStep}
-                            prevStep={prevStep}
-                            nextStep={nextStep}
-                            handleAdd={handleAdd}
-                            handleRemove={handleRemove}
-                            handleFormChangePolicies={handleFormChangePolicies}
-                            handleAddPolicies={handleAddPolicies}
-                            handleRemovePolicies={handleRemovePolicies}
-                          />
-                      }
-                    />
-                  <MockifyModal
-                    show={showCreateModal}
-                    title="Create policy"
-                    onOk={ () => handleShowCreatePolicyModal()}
-                    onCancel={() => handleHideCreatePolicyModal()}
-                    okButtonProps={{ style: { display: 'none' } }}
-                    cancelButtonProps={{ style: { display: 'none' } }}
-                    children={
-                        <PolicyForm 
-                          handleFormChange={handleFormChange} 
-                          handleFormSubmit={handleSubmitPolicyForm}
-                          data={selectedPolicy} 
-                          projectOptions={project}
-                          form={form}
-                          onFinish={() => handleHideEditModal()}
-                          currentStep={currentStep}
-                          prevStep={prevStep}
-                          nextStep={nextStep}
-                          handleAdd={handleAdd}
-                          handleRemove={handleRemove}
-                          handleFormChangePolicies={handleFormChangePolicies}
-                          handleAddPolicies={handleAddPolicies}
-                          handleRemovePolicies={handleRemovePolicies}
-                          />
-                      }
-                    />
-                  <MockifyTable 
-                    columns={ColumnsWithActions(actions)} 
-                    data={policy} 
-                    expandable={{
-                      expandedRowRender: (record : IFetchedPolicyData) => <Policies policies={record?.policies} />,
-                    }}
-                    expandRowByClick
-                    classes={["mockify-table"]} />
-                </>
-              )
-            };
-          })}/>
-        </>
-       
-      )
-    }
+        />
+      <MockifyModal
+        show={showCreateModal}
+        title="Create policy"
+        onOk={ () => handleShowCreatePolicyModal()}
+        onCancel={() => handleHideCreatePolicyModal()}
+        okButtonProps={{ style: { display: 'none' } }}
+        cancelButtonProps={{ style: { display: 'none' } }}
+        children={
+            <PolicyForm 
+              handleFormChange={handleFormChange} 
+              handleFormSubmit={handleSubmitPolicyForm}
+              data={selectedPolicy} 
+              projectOptions={project}
+              form={form}
+              onFinish={() => handleHideEditModal()}
+              currentStep={currentStep}
+              prevStep={prevStep}
+              nextStep={nextStep}
+              handleAdd={handleAdd}
+              handleRemove={handleRemove}
+              handleFormChangePolicies={handleFormChangePolicies}
+              handleAddPolicies={handleAddPolicies}
+              handleRemovePolicies={handleRemovePolicies}
+              />
+          }
+        />
+      <MockifyTable 
+        columns={ColumnsWithActions(actions)} 
+        data={policy} 
+        expandable={{
+          expandedRowRender: (record : IFetchedPolicyData) => <Policies policies={record?.policies} />,
+        }}
+        expandRowByClick
+        classes={["mockify-table"]} />
     </>
-  )
+    } 
+    withCreateBtn={true} 
+    createBtn={
+      <MockifyButton 
+      classes={['table-action-third', 'table-action']} 
+      onClick={handleShowCreatePolicyModal} 
+      icon={<PlusCircleOutlined />}
+      />
+    } 
+  />
+    
 
 }
 

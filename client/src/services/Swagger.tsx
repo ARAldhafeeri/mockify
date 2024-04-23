@@ -1,27 +1,21 @@
-import React from 'react'
-import EndpointService from './Endpoint';
-import ResourceService from './Resource';
+import React from "react";
+import { fetchEndpoints } from "redux/features/endpoint/endpointThunk";
+import { useAppDispatch, useAppSelector } from "redux/hooks";
+import { ToastifyMockify } from "utils";
+import ResourceService from "./Resource";
 
 const SwaggerService = () => {
 
-  const { endpoint } = EndpointService();
-  const { resource } = ResourceService();
+  const { endpoint  } =  useAppSelector((state) => state.endpoint);
+
+  const { resource,
+  } = ResourceService();
+  const dispatch = useAppDispatch();
   const [ selectedResourceSwaggerDocs, setSelectedResourceSwaggerDocs ] = React.useState<any>("");
   const [ swaggerDrawerVisible, setSwaggerDrawerVisible ] = React.useState<boolean>(false);
   const [ selectedResource, setSelectedResource  ] = React.useState<any>(resource[0]);
   const [ key, setKey ] = React.useState<number>(0);
 
-  console.log("swagger", selectedResource, selectedResourceSwaggerDocs, resource)
-  React.useEffect(() =>{
-    swaggerDocsCache();
-  }, [selectedResource, key])
-
-
-  const handleTabChange = (key : string, resource : any) => {
-    setKey(parseInt(key));
-    setSelectedResource(resource[key]);
-    swaggerDocsCache();
-  }
   const formatSwaggerBody = (body : any) => {
     /**
      * from this :
@@ -39,9 +33,15 @@ const SwaggerService = () => {
       }
      */
     let formattedBody : any = {};
-    body.forEach((field : any) => {
-      formattedBody[field.name] = field;
-    });
+    console.log("body", body)
+    if(Array.isArray(body)){
+      body?.forEach((field : any) => {
+        formattedBody[field.name] = {
+          type: field.type,
+          required: field.required,
+        };
+      });
+    }
 
     return formattedBody;
   
@@ -77,9 +77,10 @@ const SwaggerService = () => {
                 200: { description: "OK" },
             },
         };
+        console.log(swaggerTemplate)
 
         if ("query" in endpoint) {
-            endpoint?.query.forEach((param : any) => {
+            endpoint?.query?.forEach((param : any) => {
                 swaggerTemplate.paths[path][method].parameters.push({
                     name: param,
                     in: "query",
@@ -89,7 +90,7 @@ const SwaggerService = () => {
             });
         }
         if ("params" in endpoint) {
-            endpoint?.params.forEach((param : any) => {
+            endpoint?.params?.forEach((param : any) => {
                 swaggerTemplate.paths[path][method].parameters.push({
                     name: param,
                     in: "path",
@@ -112,7 +113,7 @@ const SwaggerService = () => {
         }
 
         if ("headers" in endpoint){
-            endpoint?.headers.forEach((header : any) => {
+            endpoint?.headers?.forEach((header : any) => {
                 swaggerTemplate.paths[path][method].parameters.push({
                     name: header,
                     in: "header",
@@ -127,15 +128,18 @@ const SwaggerService = () => {
   }
 
   const swaggerDocsCache = () => {
-    let resourceCache : string | null = localStorage.getItem(selectedResource?.resourceName);
-    if (!resourceCache) {
       let swaggerDocs : any = generateSwaggerDocs(endpoint);
-      localStorage.setItem(selectedResource?.resourceName, JSON.stringify(swaggerDocs, null, 2));
-    } else {
-      setSelectedResourceSwaggerDocs(JSON.parse(resourceCache));
-    }
-
+      setSelectedResourceSwaggerDocs(swaggerDocs);
+  
   }
+
+
+  const handleTabChange = (key : string, resource : any) => {
+    setKey(parseInt(key));
+    setSelectedResource(resource[key]);
+    swaggerDocsCache();
+  }
+
 
   const handleShowSwaggerDrawer = () => {
     setSwaggerDrawerVisible(true);
@@ -144,6 +148,15 @@ const SwaggerService = () => {
   const handleCloseSwaggerDrawer = () => {
     setSwaggerDrawerVisible(false);
   }
+
+
+  React.useEffect(() =>{
+    
+    const dispatched = dispatch(fetchEndpoints(resource[key]));
+      ToastifyMockify(dispatched);
+    }, [dispatch, key])
+
+
   return {
     swaggerDocsCache,
     swaggerDrawerVisible,

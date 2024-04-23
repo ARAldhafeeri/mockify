@@ -1,4 +1,3 @@
-import { url } from "inspector";
 import { domain } from "../getEnv";
 import { IEdge, IEdgeService } from "../types/Edge";
 import { IEndpointService } from "../types/Endpoint";

@@ -5,8 +5,9 @@ import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { ToastifyMockify } from "utils";
 import { Form } from "antd";
 const ProjectService = () => {
-  const { project, loading } = useAppSelector((state) => state.project);
-
+  let { project, loading } = useAppSelector((state) => state.project);
+  const [ keyword, setKeyword ] = React.useState<string>("");
+  let [projects, setProjects] = React.useState<IFetchedProjectData[]>(project);
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
   const [ showCreateModal, setShowCreateModal ] = React.useState<boolean>(false);
@@ -86,12 +87,26 @@ const ProjectService = () => {
   const handleHideCreateProjectModal = () => {
     setShowCreateModal(false);
   }
+
+  const handleFilterProjectTabsBasedOnKeyWord = (e : any) => {
+    e.preventDefault();
+    console.log( typeof e.target.value);
+    setKeyword(e.target.value);
+    if (!e.target.value ) {
+      setProjects(project);
+      setKeyword("");
+    } else {
+      const filteredProjects = projects.filter((project) => project.name.includes(keyword));
+      setProjects(filteredProjects);
+    
+    }
+  }
   
   React.useEffect(() =>{
     const dispatched = dispatch(fetchProjects());
     ToastifyMockify(dispatched);
     setShowEditModal(false);
-  }, [dispatch])
+  }, [dispatch, keyword])
 
   return {
     // globals
@@ -115,7 +130,11 @@ const ProjectService = () => {
     handleShowCreateProjectModal,
     handleHideCreateProjectModal,
     form,
-    handleFormChangeSelect
+    handleFormChangeSelect,
+    // filter tabs
+    handleFilterProjectTabsBasedOnKeyWord,
+    keyword,
+    projects
 
   }
 }
