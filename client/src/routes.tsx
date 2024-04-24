@@ -22,7 +22,8 @@ import {
   FolderAddOutlined,
   FolderAddFilled,
   FunctionOutlined,
-  TransactionOutlined
+  TransactionOutlined,
+  LogoutOutlined
   
 } from '@ant-design/icons';
 import { ROUTES_NAMES } from "constants/routes";
@@ -37,6 +38,7 @@ import Swagger from "components/containers/Swagger/Swagger";
 import Cache from "components/containers/Cache/Cache";
 import Event from "components/containers/Event/Event";
 import Client from "components/containers/Client/Client";
+import Logout from "components/containers/User/Logout";
 
 interface MenuItem {
   key: string;
@@ -104,6 +106,7 @@ export const items: MenuItem[] = [
   GetItem('Configuration', 'configuration', <ControlOutlined />, null,  [
     GetItem('Clients', 'clients', newPage(RadarChartOutlined), ROUTES_NAMES.CLIENTS),
     ]),
+  GetItem("Logout", "logout",<LogoutOutlined />, ROUTES_NAMES.LOGOUT )
 ];
 
 const withLoggedInLayout = (element: React.ReactNode) => (
@@ -123,6 +126,7 @@ const MainRouter = createBrowserRouter([
   GetRoute(ROUTES_NAMES.CACHE, withLoggedInLayout(<Cache />)),
   GetRoute(ROUTES_NAMES.EVENT, withLoggedInLayout(<Event />)),
   GetRoute(ROUTES_NAMES.CLIENTS, withLoggedInLayout(<Client />)),
+  GetRoute(ROUTES_NAMES.LOGOUT, withLoggedInLayout(<Logout />))
 ]);
 
 export default MainRouter;

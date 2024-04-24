@@ -12,3 +12,8 @@ export const checkForExpiredToken = () => {
   };
   return token
 }
+
+
+export const logout  = () => {
+  Cookies.remove("token")
+}

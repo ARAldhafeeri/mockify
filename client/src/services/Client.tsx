@@ -67,7 +67,6 @@ const ClientService = () => {
       delete selectedClient._id;
       delete selectedClient.secret;
       delete selectedClient.id;
-      console.log(selectedClient);
       selectedClient.project = projectT?._id;
       dispatched = dispatch(updateClient(selectedClient))
     } else {
@@ -78,18 +77,13 @@ const ClientService = () => {
     ToastifyMockify(dispatched);
   }
 
-  const handleFormChange = (e : any, name : any=null) => {
-      if(typeof e === "string") {
-        setSelectedClient({
-          ...selectedClient,
-          [name]: e
-        })
-      } else {
+  const handleFormChange = (e : any) => {
+    e.preventDefault();
+    console.log(e)
         setSelectedClient({
           ...selectedClient,
           [e.target.name]: e.target.value
         })
-      }
   };
 
   // create events
@@ -101,17 +95,11 @@ const ClientService = () => {
     setShowCreateModal(false);
   }
 
-  const handleFormChangeSelect = (value : string, type : string) => {
-    switch(type) {
-     case "project":
-       setSelectedClient({
-         ...selectedClient,
-         project: value
-       })
-       break;
-     default:
-       break;
-    }
+  const handleFormChangeSelect = (value : string) => {
+    setSelectedClient({
+      ...selectedClient,
+      project: value
+    })
    }
 
 
@@ -120,6 +108,8 @@ const ClientService = () => {
   React.useEffect(() =>{
     const dispatched = dispatch(fetchClients(projectT?._id));
     ToastifyMockify(dispatched);
+    setShowEditModal(false);
+    setShowCreateModal(false);
   }, [dispatch, key])
 
   return {

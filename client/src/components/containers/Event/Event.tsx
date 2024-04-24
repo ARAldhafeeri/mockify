@@ -8,6 +8,8 @@ import { IFetchedEventData } from "types/Event";
 import EventForm from "../Forms/Event/EventForm";
 import EventCards from "components/presentational/Event/EventCards";
 import { Tabs } from "antd";
+import GlobalTabs from "../GlobalTabs/GlobalTabs";
+import ResourceService from "services/Resource";
 
 const Event : React.FC = () => {
   const { 
@@ -33,13 +35,17 @@ const Event : React.FC = () => {
     form,
     handleFormChangeSelect,
     // services
-    resource,
     edge,
     // tabs
     handleTabChange,
     key,
   } = EventService();
 
+  const { 
+    resource,
+    handleResourceTabChange,
+    resourceKey,
+   } = ResourceService();
   const actions = [
     {
       icon: <EditOutlined />,
@@ -54,90 +60,106 @@ const Event : React.FC = () => {
       onclick: (record: IFetchedEventData) => handleShowDeleteModal(record)
     }
   ]
+
   return (
     <>
     {
-      loading ? <MockifyLoader size="large" /> 
-      : (
-        <Tabs
-        defaultActiveKey={`${key}`}
-        tabPosition="top"
-        tabBarExtraContent={
-          <MockifyButton 
-          classes={['table-action-third', 'table-action']} 
-          onClick={handleShowCreateEventModal} 
-          icon={<PlusCircleOutlined />} 
-        />
-        }
-        style={{ height: "100%" }}
-        onTabClick={(e) => handleTabChange(e, resource)}
-          items={resource.map((reso : any, index : number) => {
-            return {
-              label: `${reso.resourceName}`,
-              key: `${index}`,
-              disabled: false,
-              children: (
-                <>
-                  <MockifyModal 
-                    show={showDeleteModal}
-                    title="Delete Event Function"
-                    onOk={() => handleDeleteEvent(selectedEvent._id || '')}
-                    onCancel={() => handleHideDeleteModal()}
-                    children={<p>Are you sure delete {selectedEvent.name} ?</p>}
-                    />
-                  <MockifyModal
-                    show={showEditModal}
-                    title="Update Event Function"
-                    onOk={ () => handleHideEditModal()}
-                    onCancel={() => handleHideEditModal()}
-                    okButtonProps={{ style: { display: 'none' } }}
-                    cancelButtonProps={{ style: { display: 'none' } }}
-                    children={
-                        <EventForm 
-                          handleFormChange={handleFormChange} 
-                          handleFormSubmit={handleSubmitEventForm}
-                          handleFormChangeSelect={handleFormChangeSelect}
-                          data={selectedEvent} 
-                          form={form}
-                          edge={edge}
-                          resource={resource}
-                          onFinish={() => handleHideEditModal()}
-                          />
-                      }
-                    />
-                  <MockifyModal
-                    show={showCreateModal}
-                    title="Create Event Function"
-                    onOk={ () => handleShowCreateEventModal()}
-                    onCancel={() => handleHideCreateEventModal()}
-                    okButtonProps={{ style: { display: 'none' } }}
-                    cancelButtonProps={{ style: { display: 'none' } }}
-                    children={
-                        <EventForm 
-                          handleFormChange={handleFormChange} 
-                          handleFormSubmit={handleSubmitEventForm}
-                          data={selectedEvent} 
-                          handleFormChangeSelect={handleFormChangeSelect}
-                          form={form}
-                          edge={edge}
-                          resource={resource}
-                          onFinish={() => handleHideEditModal()}
-                          />
-                      }
-                    />
-                  <EventCards data={event} actions={actions} />
-                </>
-              )
+      loading ? <MockifyLoader size="large" /> : (
+          <GlobalTabs
+              handleTabChange={handleResourceTabChange}
+              key={resourceKey}
+              withCreateBtn={true}
+              createBtn={
+                <MockifyButton 
+                  classes={['table-action-third', 'table-action']} 
+                  onClick={handleShowCreateEventModal} 
+                  icon={<PlusCircleOutlined />
+                } 
+              />
               }
-
-          })}
-        />
+              content={
+               <React.Fragment>
+                                         <Tabs
+                          defaultActiveKey={`${key}`}
+                          tabPosition="top"
+                          tabBarExtraContent={
+                            <MockifyButton 
+                            classes={['table-action-third', 'table-action']} 
+                            onClick={handleShowCreateEventModal} 
+                            icon={<PlusCircleOutlined />} 
+                          />
+                          }
+                          style={{ height: "100%" }}
+                          onTabClick={(e) => handleTabChange(e, resource)}
+                            items={resource.map((reso : any, index : number) => {
+                              return {
+                                label: `${reso.resourceName}`,
+                                key: `${index}`,
+                                disabled: false,
+                                children: (
+                                  <>
+                                    <MockifyModal 
+                                      show={showDeleteModal}
+                                      title="Delete Event"
+                                      onOk={() => handleDeleteEvent(selectedEvent._id || '')}
+                                      onCancel={() => handleHideDeleteModal()}
+                                      children={<p>Are you sure delete {selectedEvent.name} ?</p>}
+                                      />
+                                    <MockifyModal
+                                      show={showEditModal}
+                                      title="Update Event"
+                                      onOk={ () => handleHideEditModal()}
+                                      onCancel={() => handleHideEditModal()}
+                                      okButtonProps={{ style: { display: 'none' } }}
+                                      cancelButtonProps={{ style: { display: 'none' } }}
+                                      children={
+                                          <EventForm 
+                                            handleFormChange={handleFormChange} 
+                                            handleFormSubmit={handleSubmitEventForm}
+                                            handleFormChangeSelect={handleFormChangeSelect}
+                                            data={selectedEvent} 
+                                            form={form}
+                                            edge={edge}
+                                            resource={resource}
+                                            onFinish={() => handleHideEditModal()}
+                                            />
+                                        }
+                                      />
+                                    <MockifyModal
+                                      show={showCreateModal}
+                                      title="Create Event"
+                                      onOk={ () => handleShowCreateEventModal()}
+                                      onCancel={() => handleHideCreateEventModal()}
+                                      okButtonProps={{ style: { display: 'none' } }}
+                                      cancelButtonProps={{ style: { display: 'none' } }}
+                                      children={
+                                          <EventForm 
+                                            handleFormChange={handleFormChange} 
+                                            handleFormSubmit={handleSubmitEventForm}
+                                            data={selectedEvent} 
+                                            handleFormChangeSelect={handleFormChangeSelect}
+                                            form={form}
+                                            edge={edge}
+                                            resource={resource}
+                                            onFinish={() => handleHideEditModal()}
+                                            />
+                                        }
+                                      />
+                                    <EventCards data={event} actions={actions} />
+                                  </>
+                                )
+                                }
+                  
+                            })}
+                          />
+               </React.Fragment>
+              } 
+          />
       )
     }
     </>
-        
   )
 
-}
+  }
 
 export default Event;

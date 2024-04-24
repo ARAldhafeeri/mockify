@@ -20,7 +20,7 @@ class CacheService {
     return result !== null ? result.toString() : null;
   }
 
-  async set(key: string, value: string, exp=null): Promise<any> {
+  async set(key: string, value: string, exp : number | null = null): Promise<any> {
     const keyIsValid = this.validate(key);
     if (!keyIsValid) {
       return false;
@@ -29,7 +29,7 @@ class CacheService {
 
     if (exp) {
       // If exp is provided, set the expiration time
-      await setAsync(key, value, {'EX': exp});
+      await setAsync(key, value, 'EX', exp);
     } else {
       // If exp is not provided, set the value without expiration
       await setAsync(key, value);

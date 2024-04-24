@@ -33,7 +33,7 @@ describe('end-to-end tests mock endpoints on data entity', () => {
 
     dataObj = await resourceService.find({resourceName: 'default'});
     mockData.resource =  dataObj[0]._id;
-    let fields = dataObj[0].fields;
+    let fields = dataObj[0]?.fields;
     fields.forEach((field: any) => {
       mockData.data = { ...mockData.data, [field.name] : "value" + field.name}
     });

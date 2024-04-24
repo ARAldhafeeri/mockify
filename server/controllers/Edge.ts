@@ -103,7 +103,10 @@ export const runFunction = (method : string, featureName : string) => {
           queries,
           headers,
           body,
-          params
+          params,
+          resourceId: "",
+          projectId: "",
+
         }
   
         const resource : IResource = await rService.findOne({resourceName: resourceName});
@@ -116,7 +119,10 @@ export const runFunction = (method : string, featureName : string) => {
   
         if(!(resource.features as any)[featureName] && !resource.features.functions) return ErrorResponse(res, `${featureName} and/or function are disabled`, 400)
         const {code} = found;
-  
+        
+        additionalContext.resourceId = resource._id;
+        additionalContext.projectId = resource.project.toString();
+                
         const {data, safeRes} = await edgeService.runFunctionInContext(code, true, additionalContext);
         
         let message = safeRes.message ?? 'fetching data was successful';
@@ -130,7 +136,7 @@ export const runFunction = (method : string, featureName : string) => {
         return SuccessResponse(res, data, message, status)
   
     } catch (err){
-      return ErrorResponse(res, `error ${err}`, 400);
+      return ErrorResponse(res, `error ${err} `, 400);
   
     }
   

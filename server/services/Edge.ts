@@ -92,6 +92,30 @@ class EdgeService implements IEdgeService  {
     return newCode;
   }
 
+  cleanUpData = (data: any, projectId: string, resourceId: string) : any => {
+    /**
+     * recieve a data object
+     * remove all records that do not relate to resourceId or resourceProjectId
+     * return the new data object
+     */
+    let newData : Array<any> = [];
+
+    for (let i = 0; i < data.length; i++) {
+      let entity = data[i];
+      if (entity.project) {
+        if (entity.project.toString() === projectId) {
+          newData.push(entity);
+        }
+      }
+      if (entity.resource) {
+        if (entity.resource.toString() === resourceId) {
+          newData.push(entity);
+        }
+      }
+    }
+    return newData;
+  }
+
 
   runFunctionInContext = async ( code : string, asyncc = false, additionalContext : any =null ) : Promise<any> => {
     /**
@@ -112,6 +136,7 @@ class EdgeService implements IEdgeService  {
     if (additionalContext) {
       Object.assign(CONTEXT, additionalContext);
     }
+
     if (asyncc) {
       code = this.addImmediatelyInvokedAsync(code);
       vm.createContext(CONTEXT);
@@ -130,12 +155,13 @@ class EdgeService implements IEdgeService  {
     } else {
       vm.createContext(CONTEXT);
       vm.runInContext(code, CONTEXT);
-      return CONTEXT.data;
-    }
-
-   
-  
+      let data = CONTEXT.data;
+      if(code.includes("Model")){
+        data = this.cleanUpData(CONTEXT.data, additionalContext?.projectId, additionalContext?.resourceId);
+      }
+      return data;
   }
+}
   
 }
 

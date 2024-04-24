@@ -33,6 +33,7 @@ export interface ICacheForm {
   data: IFetchedCacheData;
   form: any;
   onFinish?: (values: any) => void;
+  
 }
 
 
@@ -184,6 +185,11 @@ export interface IFormMakerPolicyProps {
     resourceOptions?: IFetchedResourceData[];
   }
 
+  export interface IProjectSelectProps {
+    handleFormChangeSelect: (value : string) => void;
+    projectOptions?: IFetchedProjectData[];
+  }
+
   export interface IEventForm {
     handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
     handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -199,11 +205,11 @@ export interface IFormMakerPolicyProps {
 export interface IClientForm {
   handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleFormChangeSelect: (value : string, type : string) => void;
+  handleFormChangeSelect: (value : string) => void;
   data: IFetchedClientData;
   form: any;
   onFinish?: (values: any) => void;
-  resource: IFetchedResourceData[];
+  projectOptions: IFetchedProjectData[];
 }
 
 

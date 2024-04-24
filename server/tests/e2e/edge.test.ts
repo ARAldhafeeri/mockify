@@ -191,12 +191,11 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
   test("should run edge function with gatewatch context", async () => {
     
     let code = `
-    const project = await ProjectModel.findOne({name: 'default'});
-    const policy =  await PolicyModel.findOne({project: project._id});
+    const policy =  await PolicyModel.findOne({project: "65c87fc65cd7f4c8fe98ecb5" });
     var ac = new AccessControl(policy);
     var enforcedPolicy = ac.enforce();
     const grant = new GrantQuery(policy).role('user').can(['getx']).on(['default']).grant();
-    data = grant
+    data = grant;
     `
 
     let resource = await resourceService.findOne({resourceName: 'default'});
@@ -209,6 +208,8 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
     await edgeService.create(edge as IEdge);
     const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
     .set(apiKeyHeader, apiKey);
+    
+    console.log(response.body);
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     expect(response.body.data).toBeDefined();
@@ -319,6 +320,7 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
     const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
     .set(apiKeyHeader, apiKey);
 
+    console.log(response.body)
     
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);

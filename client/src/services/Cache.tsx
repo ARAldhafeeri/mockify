@@ -88,13 +88,16 @@ const CacheService = () => {
     const dispatched = dispatch(fetchCaches(data));
     ToastifyMockify(dispatched);
     setShowEditModal(false);
-  }, [dispatch,  key, selectedProject])
+  }, [dispatch,  key])
 
   // tabs 
   const handleTabChange = (key : string, projects : IFetchedProjectData[]) => {
     setKey(parseInt(key))
     setSelectedProject(projects[parseInt(key)]);
+    console.log(selectedProject)
+
   }
+  
 
   return {
     // globals

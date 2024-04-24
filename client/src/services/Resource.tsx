@@ -9,7 +9,7 @@ import ProjectService from "./Project";
 const ResourceService = () => {
   const { project } = ProjectService();
   const { resource, loading } = useAppSelector((state) => state.resource);
-  const [ key, setKey ] = React.useState<number>(0);
+  const [ resourceKey, setKey ] = React.useState<number>(0);
   const [ projectT, setProject ] = React.useState<IFetchedProjectData>(project[0]);
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
@@ -27,7 +27,7 @@ const ResourceService = () => {
     setCurrentStep(currentStep + 1);
   }
   
-  const handleTabChange = (key : string, projects : IFetchedProjectData[]) => {
+  const handleResourceTabChange = (key : string, projects : IFetchedProjectData[]) => {
     setKey(parseInt(key))
     setProject(projects[parseInt(key)]);
   }
@@ -148,7 +148,7 @@ const ResourceService = () => {
   React.useEffect(() =>{
     const dispatched = dispatch(fetchResources(projectT?._id));
     ToastifyMockify(dispatched);
-  }, [dispatch, key])
+  }, [dispatch, resourceKey])
 
   return {
     // globals
@@ -185,8 +185,8 @@ const ResourceService = () => {
     handleRemoveField,
 
     // tabs 
-    handleTabChange,
-    key,
+    handleResourceTabChange,
+    resourceKey,
 
     // filter 
     filterResourceBasedOnProjectId,
