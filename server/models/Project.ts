@@ -2,7 +2,7 @@ import { Document, Schema, model} from "mongoose";
 import { IProject } from "../types/Project";
 
 const projectSchema = new Schema<IProject>({
-  name: {type: String, required: true, unique: true},
+  name: {type: String, required: true},
   apiKey: {type: String },
   user: {type: Schema.Types.ObjectId , ref: "User", required: true},
 

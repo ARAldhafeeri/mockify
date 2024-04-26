@@ -11,23 +11,23 @@ interface ITypesMenu {
 }
 const typesMenu : ITypesMenu[] = [
   {
-    value: "1",
+    value: "string",
     label: "string",
   },
   {
-    value: "2",
+    value: "number",
     label: "number",
   },
   {
-    value: "3",
+    value: "boolean",
     label: "boolean",
   },
   {
-    value: "4",
+    value: "object",
     label: "object",
   },
   {
-    value: "5",
+    value: "array",
     label: "array",
   }
 ]

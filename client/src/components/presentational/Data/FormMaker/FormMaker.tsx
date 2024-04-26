@@ -36,8 +36,8 @@ const FieldsFactory = (
   const Component : React.FC<any> = DynamicField[type];
   return   (
     <div className="floating-label-container">
-      <label>{name} {required && <div className="required">*</div>}</label>
       <Component 
+          label={name}
           name={name}
           value={value}
           onChange={ type === "boolean" || type === "array" || type === "object" ? (e : any) => hanldeFormChangeFields(name, e, type) : (e : any) => onChange(e)}
@@ -52,7 +52,6 @@ const FieldsFactory = (
 const editorExtraProps = {
   height: "200px",
   width: "200px",
-
 }
 
 
@@ -64,6 +63,7 @@ export const FormMakerData = (props: IFormMakerDataProps) => {
     data,
     fieldsSchema
     } = props;
+    console.log(fieldsSchema)
   return (
     <Space direction="vertical">
      {fieldsSchema?.map((field : any, index : number) => {
