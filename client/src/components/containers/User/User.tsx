@@ -7,6 +7,7 @@ import MockifyModal from "components/commons/Modal/Modal";
 import { IFetchedUserData } from "types/User";
 import UserForm from "../Forms/User/UserForm";
 import UserCards from "components/presentational/User/UserCards";
+import NextPrevCards from "../Pagination/NextPrevCards";
 
 const User : React.FC = () => {
   const { 
@@ -100,7 +101,12 @@ const User : React.FC = () => {
                   />
               }
             />
-            <UserCards data={user} actions={actions}/>
+            <NextPrevCards
+              data={user}
+              itemsPerPage={5}
+              actions={actions}
+              Cards={UserCards}
+            />
         </>
       )
     }

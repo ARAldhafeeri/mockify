@@ -54,10 +54,10 @@ const UserCard  : React.FC<IUserCardProps> = (
   )
 }
 
-const UserCards :  React.FC<ICardsProps> = ({data, actions}) => {
+const UserCards :  React.FC<ICardsProps> = ({currentItems, actions}) => {
   return (
     <div className='grid grid-cols-3 gap-4'>
-      {data?.map((item : any) => (
+      {currentItems?.map((item : any) => (
           <MockifyCard 
             title={
             <CardTitleWithIcon 

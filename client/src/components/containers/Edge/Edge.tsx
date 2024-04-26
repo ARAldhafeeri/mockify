@@ -11,6 +11,7 @@ import EdgeCards from "components/presentational/Edge/EdgeCards";
 import { useAppSelector } from "redux/hooks";
 import ResourceService from "services/Resource";
 import GlobalTabs from "../GlobalTabs/GlobalTabs";
+import NextPrevCards from "../Pagination/NextPrevCards";
 
 const Edge : React.FC = () => {
   const { 
@@ -125,7 +126,12 @@ const Edge : React.FC = () => {
                                     />
                                 }
                               />
-                            <EdgeCards data={edge} actions={actions} itemsPerPage={6} />
+                            <NextPrevCards 
+                              data={edge} 
+                              actions={actions} 
+                              itemsPerPage={6}
+                              Cards={EdgeCards}
+                              />
                           </>
                         )
                         }

@@ -1,7 +1,7 @@
-import React, { useState, useEffect }from 'react';
+import React, { useState, useEffect, ReactNode }from 'react';
 import MockifyCard from 'components/commons/Card/Card';
 import { Drawer } from 'antd';
-import {  IEdgeCardProps } from 'types/Cards';
+import { IEdgeCardProps, ICardsProps } from 'types/Cards';
 import CardTitleWithIcon from 'components/commons/Card/CardTitleWithIcon';
 import { AiFillEye, AiOutlineFunction} from 'react-icons/ai';
 import CardActions from 'components/commons/CardAction/CardActions';
@@ -67,37 +67,16 @@ const EdgeCard  : React.FC<IEdgeCardProps> = (
 }
 
 
-interface ICardsProps<T> { // Changed slightly to focus on 'data'
-  data: T[];  
-  itemsPerPage: number;
-  actions: any; 
-}
 
-const EdgeCards: React.FC<ICardsProps<any>> = ({ data, itemsPerPage, actions }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [currentItems, setCurrentItems] = useState<any[]>([]);
 
-  useEffect(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    setCurrentItems(data.slice(startIndex, endIndex));
-  }, [currentPage, data, itemsPerPage]);
-
-  const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1)); // Prevent going below page 1
-  };
-
-  const handleNextPage = () => {
-    const maxPages = Math.ceil(data.length / itemsPerPage);
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, maxPages)); // Prevent going past the last page
-  };
+const EdgeCards: React.FC<ICardsProps> = ({ currentItems, actions }) => {
 
   return (
-    <div> {/* Added the outer div */}
+    <div> 
       <div className='grid grid-cols-3 gap-4'>
-        {currentItems?.map((item) => (  // Using 'currentItems'
+        {currentItems?.map((item : any) => ( 
           <MockifyCard 
-            key={item._id}     //  Assuming _id is your unique identifier
+            key={item._id}     
             title={ 
               <CardTitleWithIcon 
                 title={<p className='edgename'>{item.name}</p>} 
@@ -109,12 +88,6 @@ const EdgeCards: React.FC<ICardsProps<any>> = ({ data, itemsPerPage, actions }) 
             classes={['mockify-card']}
           />
         ))}
-      </div>
-
-      {/* Pagination controls */}
-      <div className="pagination-controls mt-4 flex items-center justify-between">
-          <button className=' bg-light-secondary rounded-lg hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-l' onClick={handlePreviousPage}>Previous</button>
-          <button className='bg-light-secondary rounded-lg  hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-r' onClick={handleNextPage}>Next</button>
       </div>
     </div>
   );

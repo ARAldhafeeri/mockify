@@ -10,6 +10,7 @@ import EventCards from "components/presentational/Event/EventCards";
 import { Tabs } from "antd";
 import GlobalTabs from "../GlobalTabs/GlobalTabs";
 import ResourceService from "services/Resource";
+import NextPrevCards from "../Pagination/NextPrevCards";
 
 const Event : React.FC = () => {
   const { 
@@ -145,7 +146,12 @@ const Event : React.FC = () => {
                                             />
                                         }
                                       />
-                                    <EventCards data={event} actions={actions} />
+                                    <NextPrevCards
+                                      data={event}
+                                      actions={actions}
+                                      itemsPerPage={6}
+                                      Cards={EventCards}
+                                      />
                                   </>
                                 )
                                 }

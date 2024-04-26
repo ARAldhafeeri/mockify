@@ -1,11 +1,12 @@
 import React from 'react';
-import { Col, Divider, Row, Tag, Typography } from 'antd';
 import MockifyCard from 'components/commons/Card/Card';
 import { ICardsProps, IClientCardProps } from 'types/Cards';
 import CardTitleWithIcon from 'components/commons/Card/CardTitleWithIcon';
-import { KeyOutlined } from '@ant-design/icons';
+import { AiOutlineKey } from 'react-icons/ai';
 import CardActions from 'components/commons/CardAction/CardActions';
 import { Invisible } from 'components/commons/Invisible/Invisible';
+import Horz from 'components/commons/Dividers/Horz';
+import Tag from 'components/commons/Tag/Tag';
 const ClientCard  : React.FC<IClientCardProps> = (
   {
     _id,
@@ -19,18 +20,18 @@ const ClientCard  : React.FC<IClientCardProps> = (
 
   return (
     <div>
-      <div className="clientCardBody">
-        <div className="cardBodyItem">
+      <div className="flex flex-col ml-10">
+        <div className="flex flex-row space-x-5 my-1">
 
-          <Typography className='cardBodyItemTitle'>Client Id:</Typography>
-          <Typography className='cardId'>{id}</Typography>
+          <p className='font-bold'>Client Id:</p>
+          <p className='cardId'>{id}</p>
         </div>
-        <div className="cardBodyItem">
-          <Typography className='cardBodyItemTitle'>Client Credentials:</Typography>
-          <Typography className='cardBodyItemValue'>{Invisible(secret)}</Typography>
+        <div className="flex flex-row space-x-5 my-1">
+          <p className='font-bold'>Client Credentials:</p>
+          <p className='cardBodyItemValue'>{Invisible(secret)}</p>
         </div>
       </div>
-      <Divider />
+      <Horz />
       <CardActions actions={actions} record={{
         _id,
         name,
@@ -42,24 +43,22 @@ const ClientCard  : React.FC<IClientCardProps> = (
   )
 }
 
-const ClientCards :  React.FC<ICardsProps> = ({data, actions}) => {
+const ClientCards :  React.FC<ICardsProps> = ({currentItems, actions}) => {
   return (
-    <Row>
-      {data?.map((item : any) => (
-        <Col xs={20} sm={14} md={8} lg={8} xl={6}>
+    <div className='grid grid-cols-3 gap-4'>
+      {currentItems?.map((item : any) => (
           <MockifyCard 
             title={
             <CardTitleWithIcon 
-              title={<Typography className='cardTitle'>{item.name}</Typography>} 
-              icon={<KeyOutlined />}
-              extra={<Tag><Typography className='cardId'>{item.project}</Typography></Tag>}
+              title={<p className='cardTitle'>{item.name}</p>} 
+              icon={<AiOutlineKey />}
+              extra={<Tag text={item._id} />}
             /> }
             children={<ClientCard  { ...item } actions={actions} /> }
             classes={['mockify-card']}
           />
-        </Col>
       ))}
-    </Row>
+    </div>
   )
 }
 

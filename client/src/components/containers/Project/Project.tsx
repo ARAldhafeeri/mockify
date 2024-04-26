@@ -8,6 +8,7 @@ import { IFetchedProjectData } from "types/Project";
 import ProjectForm from "../Forms/Project/ProjectForm";
 import { Space } from "antd";
 import ProjectCards from "components/presentational/Project/ProjectCards";
+import NextPrevCards from "../Pagination/NextPrevCards";
 
 const Project : React.FC = () => {
   const { 
@@ -97,7 +98,12 @@ const Project : React.FC = () => {
                   />
               }
             />
-          <ProjectCards data={project} actions={actions} />
+          <NextPrevCards
+            data={project}
+            itemsPerPage={5}
+            actions={actions}
+            Cards={ProjectCards}
+          />
         </>
       )
     }

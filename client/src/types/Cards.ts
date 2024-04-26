@@ -1,8 +1,15 @@
 import { ReactNode } from "react";
 
-export interface ICardsProps {
-  actions: ICardAction[];
-  data: any;
+export interface ICardsProps{
+  currentItems: any[];
+  actions: any;
+}
+
+export interface INextPrevCardsProps<T> { // Changed slightly to focus on 'data'
+  data: T[];  
+  itemsPerPage: number;
+  actions: any;
+  Cards: React.FC<any>;
 }
 
 

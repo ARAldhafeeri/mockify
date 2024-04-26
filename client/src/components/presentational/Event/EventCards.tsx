@@ -1,10 +1,12 @@
 import React from 'react';
-import { Col, Divider, Row, Tag, Typography } from 'antd';
 import MockifyCard from 'components/commons/Card/Card';
 import { ICardsProps, IEventCardProps } from 'types/Cards';
 import CardTitleWithIcon from 'components/commons/Card/CardTitleWithIcon';
 import { TransactionOutlined } from '@ant-design/icons';
+import { AiOutlineTransaction } from "react-icons/ai";
 import CardActions from 'components/commons/CardAction/CardActions';
+import Tag from 'components/commons/Tag/Tag';
+import Horz from 'components/commons/Dividers/Horz';
 const EventCard  : React.FC<IEventCardProps> = (
   {
     _id,
@@ -17,15 +19,15 @@ const EventCard  : React.FC<IEventCardProps> = (
 
   return (
     <div>
-      <div className="eventCardBody">
-        <div className="cardBodyItem">
+      <div className="flex flex-col ml-10">
+        <div className="flex flex-row space-x-5 my-1">
 
-          <Typography className='cardBodyItemTitle'>Handler:</Typography>
-          <Typography className='cardBodyItemValue'>{handler}</Typography>
+          <p className='font-bold'>Handler:</p>
+          <p className='flex flex-row space-x-5 my-1'>{handler}</p>
 
         </div>
       </div>
-      <Divider />
+      <Horz />
       <CardActions actions={actions} record={{
         _id,
         name,
@@ -36,24 +38,25 @@ const EventCard  : React.FC<IEventCardProps> = (
   )
 }
 
-const EventCards :  React.FC<ICardsProps> = ({data, actions}) => {
+const EventCards :  React.FC<ICardsProps> = ({currentItems, actions}) => {
   return (
-    <Row>
-      {data?.map((item : any) => (
-        <Col xs={20} sm={14} md={8} lg={8} xl={6}>
+    <div>
+      <div className='grid grid-cols-3 gap-4'>
+      {currentItems?.map((item : any) => (
           <MockifyCard 
             title={
             <CardTitleWithIcon 
-              title={<Typography className='eventname'>{item.name}</Typography>} 
-              icon={<TransactionOutlined />}
-              extra={<Tag><Typography className='eventHandler'>{item.handler}</Typography></Tag>}
+              title={<p className='eventname'>{item.name}</p>} 
+              icon={<AiOutlineTransaction size={40} />}
+              extra={<Tag text={item._id}
+              />}
             /> }
             children={<EventCard  { ...item } actions={actions} /> }
             classes={['mockify-card']}
           />
-        </Col>
       ))}
-    </Row>
+      </div>
+    </div>
   )
 }
 
