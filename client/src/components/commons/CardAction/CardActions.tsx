@@ -6,7 +6,7 @@ import MockifyButton from "components/commons/Button/Button";
 const CardActions= (props: any) => {
   const { record , actions } = props;
   return (
-  <div className="cardActions">
+  <div className="flex flex-row justify-center">
     {
       actions.map((action : any, key : any) => {
         return (

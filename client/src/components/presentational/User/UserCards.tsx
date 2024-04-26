@@ -1,12 +1,13 @@
 import React from 'react';
-import { Col, Divider, Row, Tag, Typography } from 'antd';
+import { Col, Divider, Row} from 'antd';
 import MockifyCard from 'components/commons/Card/Card';
 import { ICardsProps, IUserCardProps } from 'types/Cards';
 import CardTitleWithIcon from 'components/commons/Card/CardTitleWithIcon';
-import { UserOutlined } from '@ant-design/icons';
+import { AiOutlineUser } from 'react-icons/ai';
 import { Header } from 'antd/es/layout/layout';
 import CardActions from 'components/commons/CardAction/CardActions';
-
+import Horz from 'components/commons/Dividers/Horz';
+import Tag from 'components/commons/Tag/Tag';
 
 const UserCard  : React.FC<IUserCardProps> = (
   {
@@ -22,25 +23,25 @@ const UserCard  : React.FC<IUserCardProps> = (
 
   return (
     <div>
-      <div className="userCardBody">
-        <div className="cardBodyItem">
-          <Typography className='cardBodyItemTitle'>Email</Typography>
-          <Typography className='cardBodyItemValue'>{email}</Typography>
+      <div className="flex flex-col ml-10">
+        <div className="flex flex-row space-x-5 my-1">
+          <p className=' font-bold'>Email</p>
+          <p className='text-xs'>{email}</p>
         </div>
-        <div className="cardBodyItem">
-          <Typography className='cardBodyItemTitle'>Role</Typography>
-          <Typography className='cardBodyItemValue'>{role}</Typography>
+        <div className="flex flex-row space-x-5 my-1">
+          <p className='font-bold'>Role</p>
+          <p className='text-xs'>{role}</p>
         </div>
-        <div className="cardBodyItem">
-          <Typography className='cardBodyItemTitle'>Created At</Typography>
-          <Typography className='cardBodyItemValue'>{createdAt}</Typography>
+        <div className="flex flex-row space-x-5 my-1">
+          <p className='font-bold'>Created At</p>
+          <p className='text-xs'>{createdAt}</p>
         </div>
-        <div className="cardBodyItem">
-          <Typography className='cardBodyItemTitle'>Created By</Typography>
-          <Typography className='cardBodyItemValue'>{createdBy}</Typography>
+        <div className="flex flex-row space-x-5 my-1">
+          <p className='font-bold'>Created By</p>
+          <p className='cardBodyItemValue'>{createdBy}</p>
         </div>
       </div>
-      <Divider />
+      <Horz />
       <CardActions actions={actions} record={{
         username,
         email,
@@ -55,22 +56,20 @@ const UserCard  : React.FC<IUserCardProps> = (
 
 const UserCards :  React.FC<ICardsProps> = ({data, actions}) => {
   return (
-    <Row>
+    <div className='grid grid-cols-3 gap-4'>
       {data?.map((item : any) => (
-        <Col xs={20} sm={16} md={12} lg={8} xl={6}>
           <MockifyCard 
             title={
             <CardTitleWithIcon 
-              title={<Typography className='username'>{item.username}</Typography>} 
-              icon={<UserOutlined />}
-              extra={<Tag><Typography className='cardId'>{item._id}</Typography></Tag>}
+              title={<p className='text-1xl'>{item.username}</p>} 
+              icon={<AiOutlineUser  size={40} className='mt-2' />}
+              extra={<Tag text={item?._id} />}
             /> }
             children={<UserCard  { ...item } actions={actions} /> }
             classes={['mockify-card']}
           />
-        </Col>
       ))}
-    </Row>
+    </div>
   )
 }
 

@@ -125,7 +125,7 @@ const Edge : React.FC = () => {
                                     />
                                 }
                               />
-                            <EdgeCards data={edge} actions={actions} />
+                            <EdgeCards data={edge} actions={actions} itemsPerPage={6} />
                           </>
                         )
                         }

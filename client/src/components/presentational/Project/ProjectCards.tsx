@@ -1,11 +1,12 @@
 import React from 'react';
-import { Col, Divider, Row, Tag, Typography } from 'antd';
 import MockifyCard from 'components/commons/Card/Card';
 import { ICardsProps, IProjectCardProps } from 'types/Cards';
 import CardTitleWithIcon from 'components/commons/Card/CardTitleWithIcon';
-import { ProjectOutlined } from '@ant-design/icons';
+import { AiFillProject } from 'react-icons/ai';
 import CardActions from 'components/commons/CardAction/CardActions';
 import { Invisible } from 'components/commons/Invisible/Invisible';
+import Tag from 'components/commons/Tag/Tag';
+import Horz from 'components/commons/Dividers/Horz';
 
 
 const ProjectCard  : React.FC<IProjectCardProps> = (
@@ -20,17 +21,17 @@ const ProjectCard  : React.FC<IProjectCardProps> = (
 
   return (
     <div>
-      <div className="projectCardBody">
-        <div className="cardBodyItem">
-          <Typography className='cardBodyItemTitle'>API key</Typography>
-          <Typography className='cardBodyItemValue'>{Invisible(apiKey)}</Typography>
+      <div className="flex flex-col ml-10">
+        <div className="flex flex-row space-x-5 my-1">
+          <p className='font-bold'>API key</p>
+          <p className='text-xs'>{Invisible(apiKey)}</p>
         </div>
-        <div className="cardBodyItem">
-          <Typography className='cardBodyItemTitle'>User</Typography>
-          <Typography className='cardBodyItemValue'>{user}</Typography>
+        <div className="flex flex-row space-x-5 my-1">
+          <p className='font-bold'>User</p>
+          <p className='text-xs'>{user}</p>
         </div>
       </div>
-      <Divider />
+      <Horz />
       <CardActions actions={actions} record={{
         name,
         apiKey,
@@ -43,22 +44,20 @@ const ProjectCard  : React.FC<IProjectCardProps> = (
 
 const ProjectCards :  React.FC<ICardsProps> = ({data, actions}) => {
   return (
-    <Row>
-      {data?.map((item : any) => (
-        <Col xs={20} sm={16} md={12} lg={8} xl={6}>
+    <div className='grid grid-cols-3 gap-4'>      
+    {data?.map((item : any) => (
           <MockifyCard 
             title={
             <CardTitleWithIcon 
-              title={<Typography className='projectname'>{item.name}</Typography>} 
-              icon={<ProjectOutlined />}
-              extra={<Tag><Typography className='cardId'>{item._id}</Typography></Tag>}
+              title={<p className='text-1xl'>{item.name}</p>} 
+              icon={<AiFillProject className='mt-2' size={40} />}
+              extra={<Tag text={item._id} />}
             /> }
             children={<ProjectCard  { ...item } actions={actions} /> }
             classes={['mockify-card']}
           />
-        </Col>
       ))}
-    </Row>
+    </div>
   )
 }
 

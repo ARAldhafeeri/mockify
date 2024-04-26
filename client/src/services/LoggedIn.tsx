@@ -7,7 +7,8 @@ const LoggedInLayoutService = () => {
   const [current, setCurrent] = React.useState('dashbaord' as string);
 
   const handleClick = (e: any) => {
-    setCurrent(e.key);
+    console.log(e);
+    setCurrent(e);
   };
 
   return {

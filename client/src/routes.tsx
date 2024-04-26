@@ -11,21 +11,19 @@ import LoggedInLayout from "components/containers/Layout/LoggedInLayout";
 import User from "components/containers/User/User";
 import Dashboard from 'components/containers/Dashboard/Dashboard';
 import {
-  PieChartOutlined,
-  TeamOutlined,
-  RadarChartOutlined,
-  UserOutlined,
-  SlackCircleFilled, 
-  DatabaseFilled,
-  DeploymentUnitOutlined,
-  ControlOutlined,
-  FolderAddOutlined,
-  FolderAddFilled,
-  FunctionOutlined,
-  TransactionOutlined,
-  LogoutOutlined
+  AiFillPieChart ,
+  AiOutlineTeam ,
+  AiOutlineRadarChart ,
+  AiFillDatabase ,
+  AiOutlineDeploymentUnit ,
+  AiFillControl ,
+  AiFillFolderAdd ,
+  AiOutlineCodeSandbox ,
+  AiOutlineFunction ,
+  AiOutlineThunderbolt ,
+  AiOutlineLogout 
   
-} from '@ant-design/icons';
+} from 'react-icons/ai';
 import { ROUTES_NAMES } from "constants/routes";
 import Project from "components/containers/Project/Project";
 import Resource from "components/containers/Resource/Resource";
@@ -39,6 +37,7 @@ import Cache from "components/containers/Cache/Cache";
 import Event from "components/containers/Event/Event";
 import Client from "components/containers/Client/Client";
 import Logout from "components/containers/User/Logout";
+import { ISiderItem } from "components/commons/Sider/Sider.types";
 
 interface MenuItem {
   key: string;
@@ -65,21 +64,19 @@ const GetItem = (
   key?: React.Key | null,
   icon?: React.ReactNode,
   to?: string | null,
-  children?: MenuItem[],
-  type: string | null = null,
-) : MenuItem => {
+  children?: ISiderItem[],
+) : ISiderItem => {
   return  !to ?  {
     key,
     icon,
     children,
     label,
-    type,
-  } as MenuItem : {
+  } as ISiderItem : {
     key,
     icon,
     to,
     label,
-  } as MenuItem;
+  } as ISiderItem;
 }
 
 const GetRoute = (
@@ -92,21 +89,19 @@ const GetRoute = (
   };
 }
 
-export const items: MenuItem[] = [
-  GetItem('Users', 'user', <UserOutlined />, ROUTES_NAMES.USER),
-  GetItem('Projects', 'project', <SlackCircleFilled />, ROUTES_NAMES.PROJECT),
-  GetItem('Resources', 'resources', <DatabaseFilled />, ROUTES_NAMES.RESOURCE),
-  GetItem('Data', 'data', <FolderAddFilled />, ROUTES_NAMES.DATA),
-  GetItem('Policy', 'policy', <ControlOutlined />, ROUTES_NAMES.POLICY),
-  GetItem('Endpoint', 'endpoint', <DeploymentUnitOutlined />, ROUTES_NAMES.ENDPOINT),
-  GetItem('Edge Functions', 'Edge', <FunctionOutlined />, ROUTES_NAMES.EDGE),
-  GetItem('Swagger', 'Swagger', <FolderAddOutlined />, ROUTES_NAMES.SWAGGER),
-  GetItem('Cache', 'cache', <DatabaseFilled />, ROUTES_NAMES.CACHE),
-  GetItem('Event', 'event', <TransactionOutlined />, ROUTES_NAMES.EVENT),
-  GetItem('Configuration', 'configuration', <ControlOutlined />, null,  [
-    GetItem('Clients', 'clients', newPage(RadarChartOutlined), ROUTES_NAMES.CLIENTS),
-    ]),
-  GetItem("Logout", "logout",<LogoutOutlined />, ROUTES_NAMES.LOGOUT )
+export const items: ISiderItem[]= [
+  GetItem('Users', 'user', <AiOutlineTeam size={25} />, ROUTES_NAMES.USER),
+  GetItem('Projects', 'project', <AiFillPieChart  size={25}/>, ROUTES_NAMES.PROJECT),
+  GetItem('Resources', 'resources', <AiFillDatabase  size={25}/>, ROUTES_NAMES.RESOURCE),
+  GetItem('Data', 'data', <AiOutlineCodeSandbox  size={25}/>, ROUTES_NAMES.DATA),
+  GetItem('Policy', 'policy', <AiFillControl  size={25}/>, ROUTES_NAMES.POLICY),
+  GetItem('Endpoint', 'endpoint', <AiOutlineDeploymentUnit  size={25}/>, ROUTES_NAMES.ENDPOINT),
+  GetItem('Edge', 'Edge', <AiOutlineFunction  size={25}/>, ROUTES_NAMES.EDGE),
+  GetItem('Swagger', 'Swagger', <AiFillFolderAdd  size={25}/>, ROUTES_NAMES.SWAGGER),
+  GetItem('Cache', 'cache', <AiFillDatabase  size={25}/>, ROUTES_NAMES.CACHE),
+  GetItem('Event', 'event', <AiOutlineThunderbolt  size={25}/>, ROUTES_NAMES.EVENT),
+  GetItem('Clients', 'clients', <AiOutlineRadarChart size={25} />, ROUTES_NAMES.CLIENTS),
+  GetItem("Logout", "logout",<AiOutlineLogout  size={25} />, ROUTES_NAMES.LOGOUT )
 ];
 
 const withLoggedInLayout = (element: React.ReactNode) => (
