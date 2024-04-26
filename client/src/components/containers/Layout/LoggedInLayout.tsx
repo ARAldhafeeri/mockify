@@ -9,8 +9,6 @@ import AuthCheckService from 'services/AuthCheck';
 import { ROUTES_NAMES } from 'constants/routes';
 import { Navigate } from 'react-router';
 import MockifyLoader from 'components/commons/Loader/MockifyLoader';
-import styles from "./LoggedInLayout.module.scss";
-import GlobalTabs from '../GlobalTabs/GlobalTabs';
 
 const { Content, Footer, Sider } = Layout;
 
@@ -59,7 +57,7 @@ const LoggedInLayout: React.FC<LoggedInLayoutProps> = (props) => {
       </Sider>
       <Layout className='layout'>
         <Suspense fallback={<MockifyLoader/>}>
-          <Content className={styles.content}>
+          <Content className="">
           <ToastContainer
             position="top-right" autoClose={5000} 
             hideProgressBar={false} newestOnTop={false} 

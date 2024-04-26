@@ -1,5 +1,4 @@
 import React from "react";
-import "./Loader.module.scss";
 import { Spin } from "antd";
 import { LoadingOutlined } from '@ant-design/icons';
 import MockifyLoaderTypes from "./Loader.types";

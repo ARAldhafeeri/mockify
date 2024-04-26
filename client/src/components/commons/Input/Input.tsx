@@ -1,5 +1,4 @@
 import React from "react";
-import "./Input.module.scss";
 import IInputProps from "./Input.types";
 import { addtionalClasses } from "../../../utils";
 import { Input } from "antd";

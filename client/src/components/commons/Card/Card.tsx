@@ -1,5 +1,4 @@
 import React from "react";
-import "./Card.module.scss"
 import MockifyCardTypes from "./Card.types";
 import { Card } from "antd";
 import { addtionalClasses } from "utils";

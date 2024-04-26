@@ -1,6 +1,5 @@
 import React from "react";
 import { Modal } from "antd";
-import "./Modal.module.scss";
 import MockifyModelProps from "./Modal.types";
 
 const MockifyModal : React.FC<MockifyModelProps> = (props: MockifyModelProps) => {
