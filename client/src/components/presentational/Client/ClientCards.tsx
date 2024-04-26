@@ -23,11 +23,11 @@ const ClientCard  : React.FC<IClientCardProps> = (
       <div className="flex flex-col ml-10">
         <div className="flex flex-row space-x-5 my-1">
 
-          <p className='font-bold'>Client Id:</p>
+          <p className='font-bold'>Id:</p>
           <p className='cardId'>{id}</p>
         </div>
         <div className="flex flex-row space-x-5 my-1">
-          <p className='font-bold'>Client Credentials:</p>
+          <p className='font-bold'>Credentials:</p>
           <p className='cardBodyItemValue'>{Invisible(secret)}</p>
         </div>
       </div>
@@ -45,7 +45,7 @@ const ClientCard  : React.FC<IClientCardProps> = (
 
 const ClientCards :  React.FC<ICardsProps> = ({currentItems, actions}) => {
   return (
-    <div className='grid grid-cols-3 gap-4'>
+    <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
       {currentItems?.map((item : any) => (
           <MockifyCard 
             title={

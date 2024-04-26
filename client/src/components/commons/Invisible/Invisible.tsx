@@ -1,20 +1,25 @@
 import { CopyOutlined, EyeInvisibleOutlined } from "@ant-design/icons"
 import MockifyButton from "../Button/Button"
-import { Tooltip } from "antd"
 
-const withCopyButton = (apiKey : string) => {
+const CopyButton : React.FC<any> = (props) => {
+  const { apiKey } = props;
   return (
-    <div>
-      <p style={{marginTop: "23px"}}>{apiKey}</p>
+    <div className="tooltiptext relative bg-light-text text-white w-[150px] h-[100px]">
+      <p className="text-[#fff] break-words ml-2 mr-2 text-clip">{apiKey}</p>
       <MockifyButton 
       icon={<CopyOutlined style={{fontSize: "20px"}} />} 
       onClick={() => navigator.clipboard.writeText(apiKey)}
-      classes={['copy-api-key-btn']}
+      classes={['absolute', 'right-0', 'bottom-0']}
       />
     </div>
     )
 }
 
 export const Invisible = (data : string) => {
-  return <Tooltip title={withCopyButton(data)}><EyeInvisibleOutlined /></Tooltip>
+  return (
+    <div className="tooltiptop">
+      <EyeInvisibleOutlined />
+      <CopyButton apiKey={data} />
+    </div>
+  )
 }

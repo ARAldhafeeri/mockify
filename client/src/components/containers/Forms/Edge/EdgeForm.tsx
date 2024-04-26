@@ -1,10 +1,11 @@
-import { Form, Select, Typography } from 'antd';
+import { Form, Typography } from 'antd';
 import MockifyButton from 'components/commons/Button/Button';
 import MockifyCodeEditor from 'components/commons/CodeEditor/CodeEditor';
 import MockifyInput from 'components/commons/Input/Input';
+import MockifySelect from 'components/commons/Select/Select';
 import React from 'react';
 import { IEdgeForm } from 'types/forms';
-
+import { normlizeOptions } from '../Resource/ResourcesSelect';
 
 const EdgeForm : React.FC<IEdgeForm> = (
   { handleFormSubmit, handleFormChange, data, form, onFinish, resourceOptions, methodOptions }
@@ -21,19 +22,6 @@ const EdgeForm : React.FC<IEdgeForm> = (
       autoComplete="off"
       onSubmitCapture={handleFormSubmit}
       >
-        <div className="mockify-input">
-          <Select
-            value={data?.resource as string}
-            onChange={(e : any) => handleFormChange(e, 'resource', 0)}
-          >
-          {resourceOptions?.map((res : any, index : number) => {
-            return (
-              <Select.Option key={index} value={res._id}>{res.resourceName}</Select.Option>
-            )
-          })}
-          </Select>
-          <label className="input-label">resource</label>
-        </div>
         <MockifyInput 
           placeholder='name' 
           type='text'
@@ -43,19 +31,22 @@ const EdgeForm : React.FC<IEdgeForm> = (
           value={data?.name as string}
           onChange={(e : any) => handleFormChange(e, 'name', 0)}
         />
-        <div className="mockify-input">
-        <Select
-        value={data?.method as string}
+        <MockifySelect
+          options={normlizeOptions(resourceOptions)}
+          onChange={(e : any) => handleFormChange(e, 'resource', 0)}
+          label='resources'
+        />
+        <MockifySelect 
+          options={[
+            {value: 'GET', label: 'GET'},
+            {value: 'POST', label: 'POST'},
+            {value: 'DELETE', label: 'DELETE'},
+            {value: 'PUT', label: 'PUT'}
+          
+          ]}
           onChange={(e : any) => handleFormChange(e, 'method', 0)}
-        >
-        {["GET", "POST", "DELETE", "PUT"].map((res : any, index : number) => {
-          return (
-            <Select.Option key={index} value={res}>{res}</Select.Option>
-          )
-        })}
-        </Select>
-        <label className="input-label">method</label>
-        </div>
+          label='method'
+          />
         <Typography>Edge Function Code:</Typography>
         <MockifyCodeEditor
           value={data?.code as string}

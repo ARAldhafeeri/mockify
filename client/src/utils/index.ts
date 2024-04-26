@@ -44,3 +44,21 @@ export const ConditionalProp = (condition : boolean, prop : any) => {
     return {...(condition ? prop : {})}
 
 }
+
+export const normlizeSelectOptions = (items: any, value: string, label: string) => {
+    return items.map((item : any) => {
+        return {
+            value: item[value],
+            label: item[label]
+        }
+    })
+}
+
+export const normlizeSelectOptionsList = (items: any) => {
+    return items.map((item : any) => {
+        return {
+            value: item,
+            label: item
+        }
+    })
+}

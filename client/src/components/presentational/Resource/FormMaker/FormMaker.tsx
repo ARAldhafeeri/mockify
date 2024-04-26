@@ -3,26 +3,31 @@ import MockifyInput from "components/commons/Input/Input";
 import {IFormMakerResoruceProps } from "./FormMaker.types";
 import { MinusCircleFilled } from "@ant-design/icons";
 import MockifyButton from "components/commons/Button/Button";
+import MockifySelect from "components/commons/Select/Select";
 
-const typesMenu : MenuProps['items'] = [
+interface ITypesMenu {
+  value: string;
+  label: string;
+}
+const typesMenu : ITypesMenu[] = [
   {
-    key: "1",
+    value: "1",
     label: "string",
   },
   {
-    key: "2",
+    value: "2",
     label: "number",
   },
   {
-    key: "3",
+    value: "3",
     label: "boolean",
   },
   {
-    key: "4",
+    value: "4",
     label: "object",
   },
   {
-    key: "5",
+    value: "5",
     label: "array",
   }
 ]
@@ -38,9 +43,11 @@ export const FormMakerResource = (props: IFormMakerResoruceProps) => {
   } = props;
     return (
       <Space wrap>
+        
        {fieldsSchema?.map((field : any, index : number) => {
         return (
           <>
+        <div className="flex flex-row">
           <MockifyInput 
             name={"fieldName"} 
             label={"field name"} 
@@ -48,31 +55,25 @@ export const FormMakerResource = (props: IFormMakerResoruceProps) => {
             value={field.name}
             onChange={(e) => handleFormChangeFields(index, "name", e.target.value)} 
           />
-          <Space wrap>
-            <Select 
-              defaultValue={field.type} 
-              style={{ width: 120 }} 
-              onChange={(value : string) => handleFormChangeFields(index, "type", value)}>
-              {
-                typesMenu.map((type : any, index : number) => {
-                  return (
-                    <Select.Option key={index} value={type.label}>{type.label}</Select.Option>
-                  )
-                })
-              }
-            </Select>
+
+            <MockifySelect
+              label='types'
+              options={typesMenu}
+              onChange={(value : string) => handleFormChangeFields(index, "type", value)}
+            />
             <Switch 
             checkedChildren="required" 
             unCheckedChildren="required" 
             defaultChecked={field.required}
+            className="mt-5"
             onChange={(checked : boolean) => handleFormChangeFields(index, "required", checked)}
             />
             <MockifyButton
-              classes={['table-action-secondary', 'table-action']}
+              classes={['h-[30px]', 'w-[30px]', 'mt-5']}
               icon={<MinusCircleFilled />}
               onClick={() => handleRemoveField(index)}
             />  
-          </Space> 
+          </div> 
         </>        
         )})}   
       </Space>

@@ -25,3 +25,26 @@
   .tooltip:hover .tooltiptext {
     visibility: visible;
   }
+
+
+  .tooltiptop {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltiptop .tooltiptext {
+    visibility: hidden;
+    border-radius: 6px;
+    padding: 5px 0;
+    text-wrap: balance;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    bottom: 105%;
+    left: -250%;
+  }
+  
+  .tooltiptop:hover .tooltiptext {
+    visibility: visible;
+  }

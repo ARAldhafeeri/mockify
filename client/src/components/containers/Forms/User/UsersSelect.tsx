@@ -1,21 +1,15 @@
 import React from 'react';
-import { Select } from 'antd'
 import { IUsersSelectProps } from 'types/forms';
+import MockifySelect from 'components/commons/Select/Select';
+import { normlizeSelectOptions } from 'utils';
 
 const UsersSelect : React.FC<IUsersSelectProps>= (props) => {
-  const { userOptions, handleFormChange} = props;
-  return (
-    <Select 
-      className='mockify-select'
-      placeholder="Select a user"
+  const { userOptions, handleFormChange} = props;  return (
+    <MockifySelect
+      label='users'
+      options={normlizeSelectOptions(userOptions, "_id", "username")}
       onChange={handleFormChange}
-      >
-        {userOptions?.map((user : any, index : number) => {
-          return (
-            <Select.Option key={index} value={user._id}>{user.username}</Select.Option>
-          )
-        })}
-    </Select>
+      />
   )
 }
 

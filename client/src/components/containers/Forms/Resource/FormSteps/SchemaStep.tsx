@@ -17,6 +17,7 @@ export default function SchemaStep(props : IResourceFormFieldsStepProps) {
           <MockifyButton
               classes={['table-action-primary', 'table-action']}
               icon={<PlusCircleOutlined />}
+              htmlType='button'
               onClick={() => handleAddField("", "", false)}
             />
         </Space>

@@ -14,6 +14,7 @@ export default function PoliciesStep( props : IPolicyPolciesStepProps) {
             <MockifyButton
                 classes={['policy-add-button']}
                 text="Add policy"
+                htmlType='button'
                 onClick={() => handleAddPolicies({on : [], can  : [], role: ""}, 0, "policy")}
               />
           </Space>

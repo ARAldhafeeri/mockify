@@ -6,6 +6,8 @@ import { MinusCircleFilled, MinusCircleOutlined, PlusOutlined } from "@ant-desig
 import { ChangeEvent } from "react";
 import MockifyButton from "components/commons/Button/Button";
 import MockifyInput from 'components/commons/Input/Input';
+import MockifySelect from 'components/commons/Select/Select';
+import { normlizeSelectOptionsList } from 'utils';
 
 export const PoliciesFormMaker = (props: IPolicyPolciesStepProps) => {
   const { 
@@ -34,6 +36,7 @@ export const PoliciesFormMaker = (props: IPolicyPolciesStepProps) => {
               <MockifyButton
                 classes={['mokify-button']}
                 text="Delete Policy"
+                htmlType='button'
                 onClick={() => handleRemovePolicies(policyIndex, policyIndex, "policy")}
                 />
               </Space>
@@ -45,28 +48,22 @@ export const PoliciesFormMaker = (props: IPolicyPolciesStepProps) => {
                   <MockifyButton
                     classes={['table-action-third', 'table-action']}
                     icon={<PlusOutlined  size={32} />}
+                    htmlType='button'
                     onClick={() => handleAddPolicies("", policyIndex, "resource")}
                   /> 
                 </Space>
                 {pp?.on?.map((reso : any, resourceIndex : number) => {
                   return (
                     <Space direction="horizontal">
-                      <Select
-                          style={{ width: 200, margin: "0 1px" }}
-                          defaultValue={reso}
-                          onChange={(e) => handleFormChangePolicies(e, resourceIndex, policyIndex, "resource")}
-                        >
-                        {policy?.resources?.map((res : any) => {
-                          return (
-                            <Select.Option value={res}>
-                              {res}
-                            </Select.Option>
-                          )
-                        })}
-                      </Select>
+                      <MockifySelect
+                        options={normlizeSelectOptionsList(policy?.actions)}
+                        onChange={(e) => handleFormChangePolicies(e, resourceIndex, policyIndex, "resource")}
+                        label="resources"
+                      />
                       <MockifyButton
                         classes={['table-action-secondary', 'table-action']}
                         icon={<MinusCircleOutlined />}
+                        htmlType='button'
                         onClick={() => handleRemovePolicies(resourceIndex, policyIndex, "resource")}
                       /> 
                     </ Space>
@@ -80,29 +77,22 @@ export const PoliciesFormMaker = (props: IPolicyPolciesStepProps) => {
                   <MockifyButton
                     classes={['table-action-third', 'table-action']}
                     icon={<PlusOutlined />}
+                    htmlType='button'
                     onClick={() => handleAddPolicies("", policyIndex, "action")}
                   /> 
                 </Space>
                 {pp?.can?.map((action : any, actionIndex : number) => {
                   return (
                     <Space direction="horizontal">
-                      <Select
-                        style={{ width: 200 }}
-                        defaultValue={action}
-                        optionFilterProp="children"
+                      <MockifySelect
+                        options={normlizeSelectOptionsList(policy?.actions)}
                         onChange={(e) => handleFormChangePolicies(e, actionIndex, policyIndex, "action")}
-                      >
-                        {policy?.actions?.map((act : any) => {
-                          return (
-                            <Select.Option value={act}>
-                              {act}
-                            </Select.Option>
-                          )
-                        })}
-                      </Select>
+                        label="actions"
+                        />
                       <MockifyButton
                         classes={['table-action-secondary', 'table-action']}
                         icon={<MinusCircleOutlined />}
+                        htmlType='button'
                         onClick={() => handleRemovePolicies(actionIndex, policyIndex, "action")}
                       /> 
                     </Space>

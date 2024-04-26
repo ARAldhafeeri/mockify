@@ -8,14 +8,13 @@ import { IPolicyFieldsStepProps } from 'types/forms';
 export default function FieldsStep(props : IPolicyFieldsStepProps ) {
   const {data, handleAdd, handleRemove, handleFormChange, fieldsType} = props;
   return (
-    <>
-        <Space direction='horizontal' style={{width: "100%", justifyContent: "end"}}>
+        <form>
             <MockifyButton
                 classes={['table-action-primary', 'table-action']}
                 icon={<PlusCircleOutlined />}
+                htmlType='button'
                 onClick={() => handleAdd("", fieldsType)}
               />
-          </Space>
           <FormMakerPolicy 
             fields={data}
             handleAdd={handleAdd}
@@ -23,6 +22,6 @@ export default function FieldsStep(props : IPolicyFieldsStepProps ) {
             handleRemove={handleRemove}
             fieldsType={fieldsType}
           />
-      </>
+      </form>
   )
 }
