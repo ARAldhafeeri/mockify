@@ -13,7 +13,7 @@ const EventService = () => {
   const { resource } = ResourceService();
   const {edge, getEdgeByResourceName } = EdgeService();
   const [ key, setKey ] = React.useState<number>(0);
-  const  [ resourceName, setResourceName ] = React.useState<string>(resource[0]?.resourceName ?? "");
+  const  [ resourceId, setResourceId ] = React.useState<string>(resource[0]?.resourceName ?? "");
 
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
@@ -28,9 +28,10 @@ const EventService = () => {
 
   const handleTabChange = (key : string, resources : IFetchedResourceData[]) => {
     setKey(parseInt(key))
-    const resName = resources[parseInt(key)]?.resourceName as string;
-    setResourceName(resName);
-    getEdgeByResourceName(resName)
+    const res  = resources[parseInt(key)];
+
+    setResourceId(res._id as string);
+    getEdgeByResourceName(res.resourceName as string)
   }
 
   
@@ -115,7 +116,7 @@ const EventService = () => {
   }
   
   React.useEffect(() =>{
-    const dispatched = dispatch(fetchEvents(resourceName));
+    const dispatched = dispatch(fetchEvents(resourceId));
     ToastifyMockify(dispatched);
     setShowEditModal(false);
   }, [dispatch, key])

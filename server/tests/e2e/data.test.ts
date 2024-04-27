@@ -52,7 +52,7 @@ describe('end-to-end tests resource data', () => {
 
   test('should get resource data', async () => {
 
-    const response = await request.agent(app).get(`${API_ROUTE}${DATA_ROUTE}/?resourceName=default`)
+    const response = await request.agent(app).get(`${API_ROUTE}${DATA_ROUTE}/?resourceId=${createdResource.resource}`)
     .set('Authorization', 'bearer ' + token)
 
     expect(response.status).toBe(200);

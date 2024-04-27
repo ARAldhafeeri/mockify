@@ -6,7 +6,7 @@ export const ENDPOINTS = {
   RESOURCE: "/resource",
   RESOURCE_PROJECT_ID: (projectID: string | undefined) => `/resource?projectId=${projectID}`,
   DATA: "/data",
-  DATA_RESOURCE_NAME: (name: string) => `/data?resourceName=${name}`,
+  DATA_RESOURCE_ID: (name: string) => `/data?resourceId=${name}`,
   ENDPOINT: "/endpoint",
   USER_DELETE: (id : string) => `/user/?id=${id}`,
   PROJECT_DELETE: (id : string) => `/project/?id=${id}`,
@@ -24,7 +24,7 @@ export const ENDPOINTS = {
   // event
   EVENT: "/event",
   EVENT_DELETE: (id : string) => `/event/?id=${id}`,
-  EVENT_PARAM: (resourceName: string) => `/event?resourceName=${resourceName}`,
+  EVENT_PARAM: (resourceId: string) => `/event?resourceId=${resourceId}`,
   // client
   CLIENT: "/client",
   CLIENT_DELETE: (id : string) => `/client/?id=${id}`,

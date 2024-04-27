@@ -7,9 +7,9 @@ import { ENDPOINTS } from "constants/endpoints";
 
 export const fetchEvents = createAsyncThunk(
   "event/fetch",
-  async (resourceName : string, thunkAPI) : Promise<any> => {
+  async (resourceId : string, thunkAPI) : Promise<any> => {
     try {
-      const res : any = await instance.get(ENDPOINTS.EVENT_PARAM(resourceName));
+      const res : any = await instance.get(ENDPOINTS.EVENT_PARAM(resourceId));
       return   res.data?.data;
     } catch (e : any) {
       return thunkAPI.rejectWithValue(e.response.data)

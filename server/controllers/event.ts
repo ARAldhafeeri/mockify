@@ -14,11 +14,11 @@ export const getEvent = async function(req: Request, res: Response) : Promise<an
  
   try{
 
-      let resourceName : string = req.query.resourceName as string;
+      let resourceId : string = req.query.resourceId as string;
 
-      const resource : IResource = await rService.findOne({resourceName: resourceName});
+      const resource : IResource = await rService.findById(new ObjectId(resourceId));
 
-      if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
+      if (!resource) return ErrorResponse(res, `resource not found`, 400);
       
       const found : IEvent = await eService.find({resource: resource._id});
 

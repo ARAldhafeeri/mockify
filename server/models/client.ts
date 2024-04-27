@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose";
 import { IClient } from "../types/client";
 
 const clientCredSchema = new Schema<IClient>({
-  name: { type: String, required: true, unique: true },
+  name: { type: String, required: true},
   id: { type: String, required: true, unique: true },
   secret: { type: String, required: true },
   project: { type: Schema.Types.ObjectId, ref: "Project" },

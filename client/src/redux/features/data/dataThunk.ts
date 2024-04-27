@@ -9,7 +9,7 @@ export const fetchData = createAsyncThunk(
   "data/fetch",
   async (resourceName: string , thunkAPI) : Promise<any> => {
       try {
-        const res : any = await instance.get(ENDPOINTS.DATA_RESOURCE_NAME(resourceName));
+        const res : any = await instance.get(ENDPOINTS.DATA_RESOURCE_ID(resourceName));
         return   res.data?.data;
       } catch (e : any) {
         return thunkAPI.rejectWithValue(e.response.data)

@@ -116,7 +116,7 @@ const DataService = () => {
   
 
   React.useEffect(() =>{
-    const dispatched = dispatch(fetchData(resourceT?.resourceName));
+    const dispatched = dispatch(fetchData(resourceT?._id as string));
     ToastifyMockify(dispatched);
   }, [dispatch, key])
 

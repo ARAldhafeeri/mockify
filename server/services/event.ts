@@ -81,7 +81,7 @@ class EventService implements IEventService  {
   }
 
   dynamicallyAddEvent = async (event: IEvent) : Promise<any> => {
-    events.on(event?.name, async (eventData: any) => {
+    events.on(event?._id, async (eventData: any) => {
       const edge = await this.edgeService.findOne({name: event?.handler})
       // add line of code eventData to edge.code
       edge.code = `eventData = ${JSON.stringify(eventData)};` + edge.code;
@@ -90,7 +90,7 @@ class EventService implements IEventService  {
   }
 
   dynamicallyRemoveEvent = async (event: IEvent) : Promise<any> => {
-    events.removeAllListeners(event?.name);
+    events.removeAllListeners(event?._id);
   }
 
   dynamicallyAddAllEventsOnRuntime = async () : Promise<any> => {
