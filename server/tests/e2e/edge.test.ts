@@ -56,7 +56,7 @@ describe('end-to-end tests curd edge functions', () => {
 
   test('should get resource edge', async () => {
 
-    const response = await request.agent(app).get(`${API_ROUTE}/default/edge`)
+    const response = await request.agent(app).get(`${API_ROUTE}/edge/${createdResource.resource}`)
     .set('Authorization', 'bearer ' + token)
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -66,7 +66,7 @@ describe('end-to-end tests curd edge functions', () => {
 
   test('should edit resource edge', async () => {
     let rand = genRandomName();
-    const response = await request.agent(app).put(`${API_ROUTE}/default/edge`).send({
+    const response = await request.agent(app).put(`${API_ROUTE}/edge/${createdResource.resource}`).send({
       ...createdResource,
       name: rand
       })
@@ -79,7 +79,7 @@ describe('end-to-end tests curd edge functions', () => {
   });
 
   test('should delete resource edge', async () => {
-    const response = await request.agent(app).delete(`${API_ROUTE}/default/edge?id=${createdResource._id}`)
+    const response = await request.agent(app).delete(`${API_ROUTE}/edge/${createdResource.resource}/?id=${createdResource._id}`)
     .set('Authorization', 'bearer ' + token)
 
     expect(response.status).toBe(200);
@@ -111,11 +111,13 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
   test('should run getx function', async () => {
     const f = await resourceService.findOne({resourceName: 'default'});
     createdResource = f;
-    const edge = await edgeService.findOne(
-      {resource: f._id, method: 'GET', name: 'edgeTest'}
+    const newEdge = await edgeService.findOne(
+      {resource: f._id, method: 'GET'}
       );
-    const response = await request.agent(app).get(`${API_ROUTE}/${createdResource.resourceName}/edge/${edge.name}`)
+    const edgeId = newEdge._id.toString();
+    const response = await request.agent(app).get(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
     .set(apiKeyHeader, apiKey);
+    
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -125,13 +127,15 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
 
 
   test('should run postx function', async () => {
-    const f = await resourceService.findOne({resourceName: 'default'});
-    createdResource = f;
-    const edge = await edgeService.findOne(
-      {resource: f._id, method: 'POST', name: 'edgeTest1'}
+    const newEdge = await edgeService.findOne(
+      {resource: createdResource._id, method: 'POST'}
       );
-    const response = await request.agent(app).post(`${API_ROUTE}/${createdResource.resourceName}/edge/${edge.name}`)
-    .set(apiKeyHeader, apiKey);
+      const edgeId = newEdge._id.toString();
+
+    const response = await request.agent(app)
+      .post(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
+      .set(apiKeyHeader, apiKey);
+
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -140,13 +144,14 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
   });
 
   test('should run delete function', async () => {
-    const f = await resourceService.findOne({resourceName: 'default'});
-    createdResource = f;
-    const edge = await edgeService.findOne(
-      {resource: f._id, method: 'DELETE', name: 'edgeTest3'}
+    const newEdge = await edgeService.findOne(
+      {resource: createdResource._id, method: 'DELETE'}
       );
-    const response = await request.agent(app).delete(`${API_ROUTE}/${createdResource.resourceName}/edge/${edge.name}`)
+    const edgeId = newEdge._id.toString();
+
+    const response = await request.agent(app).delete(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
     .set(apiKeyHeader, apiKey);
+
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -156,13 +161,13 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
 
 
   test('should run put function', async () => {
-    const f = await resourceService.findOne({resourceName: 'default'});
-    createdResource = f;
-    const edge = await edgeService.findOne(
-      {resource: f._id, method: 'PUT', name: 'edgeTest2'}
+    const newEdge = await edgeService.findOne(
+      {resource: createdResource._id, method: 'PUT'}
       );
-    const response = await request.agent(app).put(`${API_ROUTE}/${createdResource.resourceName}/edge/${edge.name}`)
+    const edgeId = newEdge._id.toString();
+    const response = await request.agent(app).put(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
     .set(apiKeyHeader, apiKey);
+
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -172,16 +177,18 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
 
   test("should run edge function wtih faker contenxt", async () => {
   let code = "data = faker.person.firstName('female')";
-  let resource = await resourceService.findOne({resourceName: 'default'});
   const edge = {
-    resource: resource._id,
+    resource: createdResource._id,
     name: genRandomName(),
     code,
     method: "GET"
   }
-  await edgeService.create(edge as IEdge);
-  const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
+  const newEdge = await edgeService.create(edge as IEdge);
+  const edgeId = newEdge._id.toString();
+  const response = await request.agent(app).get(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
   .set(apiKeyHeader, apiKey);
+  console.log(response.body)
+
   expect(response.status).toBe(200);
   expect(response.body.status).toBe(true);
   expect(response.body.data).toBeDefined();
@@ -189,27 +196,26 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
 
 
   test("should run edge function with gatewatch context", async () => {
-    
     let code = `
-    const policy =  await PolicyModel.findOne({project: "65c87fc65cd7f4c8fe98ecb5" });
+    const policy =  await PolicyModel.findOne({project: "${createdResource.project}" });
     var ac = new AccessControl(policy);
     var enforcedPolicy = ac.enforce();
     const grant = new GrantQuery(policy).role('user').can(['getx']).on(['default']).grant();
     data = grant;
     `
 
-    let resource = await resourceService.findOne({resourceName: 'default'});
     const edge = {
-      resource: resource._id,
+      resource: createdResource._id,
       name: genRandomName(),
       code,
       method: "GET"
     }
-    await edgeService.create(edge as IEdge);
-    const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
+    const newEdge = await edgeService.create(edge as IEdge);
+    const edgeId = newEdge._id.toString();
+    const response = await request.agent(app).get(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
     .set(apiKeyHeader, apiKey);
     
-    console.log(response.body);
+;
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     expect(response.body.data).toBeDefined();
@@ -227,15 +233,15 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
       safeRes.status = true;
       data = { test : 'test' }
     `
-    const resource = await resourceService.findOne({resourceName: 'default'});
     const edge = {
-      resource: resource._id,
+      resource: createdResource._id,
       name: genRandomName(),
       code,
       method: "GET"
     }
-    await edgeService.create(edge as IEdge);
-    const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
+    const newEdge = await edgeService.create(edge as IEdge);
+    const edgeId = newEdge._id.toString();
+    const response = await request.agent(app).get(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
     .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(201);
@@ -251,15 +257,15 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
       let code = `
         data = { test : 'test' }
       `
-      const resource = await resourceService.findOne({resourceName: 'default'});
       const edge = {
-        resource: resource._id,
+        resource: createdResource._id,
         name: genRandomName(),
         code,
         method: "GET"
       }
-      await edgeService.create(edge as IEdge);
-      const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
+      const newEdge = await edgeService.create(edge as IEdge);
+      const edgeId = newEdge._id.toString();
+      const response = await request.agent(app).get(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, apiKey);
   
       expect(response.status).toBe(200);
@@ -273,15 +279,15 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
   test("access control should fail if no  api key provided", async () => {
 
     let code = "data = { test : 'test' }";
-    const resource = await resourceService.findOne({resourceName: 'default'});
     const edge = {
-      resource: resource._id,
+      resource: createdResource._id,
       name: genRandomName(),
       code,
       method: "GET"
     }
-    await edgeService.create(edge as IEdge);
-    const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
+    const newEdge = await edgeService.create(edge as IEdge);
+    const edgeId = newEdge._id.toString();
+    const response = await request.agent(app).get(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
 
     expect(response.status).toBe(403);
   });
@@ -289,15 +295,15 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
   test("invlid api key should fail", async () => { 
 
     let code = "data = { test : 'test' }";
-    const resource = await resourceService.findOne({resourceName: 'default'});
-    const edge = {
-      resource: resource._id,
+    let edge = {
+      resource: createdResource._id,
       name: genRandomName(),
       code,
       method: "GET"
     }
-    await edgeService.create(edge as IEdge);
-    const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
+     const newEdge =await edgeService.create(edge as IEdge);
+     const edgeId = newEdge._id.toString();
+    const response = await request.agent(app).get(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
     .set(apiKeyHeader, 'invalid api key')
 
     expect(response.status).toBe(403);
@@ -309,18 +315,18 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
     await CacheSet('test:test', 'test', 1000);
     data = await CacheGet('test:test');
     `
-    const resource = await resourceService.findOne({resourceName: 'default'});
     const edge = {
-      resource: resource._id,
+      resource: createdResource._id,
       name: genRandomName(),
       code,
       method: "GET"
     }
-    await edgeService.create(edge as IEdge);
-    const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
+    const newEdge = await edgeService.create(edge as IEdge);
+    const edgeId = newEdge._id.toString();
+    const response = await request.agent(app).get(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
     .set(apiKeyHeader, apiKey);
 
-    console.log(response.body)
+
     
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -332,15 +338,15 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
     let code = `
     Emit('eventTest', 'eventTest');
     `
-    const resource = await resourceService.findOne({resourceName: 'default'});
     const edge = {
-      resource: resource._id,
+      resource: createdResource._id,
       name: genRandomName(),
       code,
       method: "GET"
     }
-    await edgeService.create(edge as IEdge);
-    const response = await request.agent(app).get(`${API_ROUTE}/${resource.resourceName}/edge/${edge.name}`)
+    const newEdge = await edgeService.create(edge as IEdge);
+    const edgeId = newEdge._id.toString();
+    const response = await request.agent(app).get(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
     .set(apiKeyHeader, apiKey);
 
     

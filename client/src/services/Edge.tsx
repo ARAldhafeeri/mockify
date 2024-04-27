@@ -13,6 +13,7 @@ const EdgeService = () => {
   const [ key, setKey ] = React.useState<number>(0);
   const [ currentStep, setCurrentStep ] = React.useState<number>(0);
   const  [ resourceName, setResourceName ] = React.useState<string>(resource[0]?.resourceName ?? "");
+  const [resourceId, setResourceId] = React.useState<string>("");
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
   const [ showCreateModal, setShowCreateModal ] = React.useState<boolean>(false);
@@ -28,6 +29,7 @@ const EdgeService = () => {
   const handleTabChange = (key : string, resources : IFetchedResourceData[]) => {
     setKey(parseInt(key))
     setResourceName(resources[parseInt(key)]?.resourceName as string);
+    setResourceId(resources[parseInt(key)]?._id as string);
   }
 
   // antd form 
@@ -37,7 +39,7 @@ const EdgeService = () => {
   const handleDeleteEdge = (id : string) => {
     ToastifyMockify(
       dispatch(
-        deleteEdge({id: id, resourceName: resourceName})
+        deleteEdge({id: id, resId: resourceId})
         )
     );
     setShowDeleteModal(false);
@@ -78,10 +80,10 @@ const EdgeService = () => {
     e.preventDefault();
     let dispatched;
     if (showEditModal) {
-      dispatched = dispatch(updateEdge({edge: selectedEdge, resourceName: resourceName}))
+      dispatched = dispatch(updateEdge({edge: selectedEdge, _id: resourceId}))
     } else {
       delete selectedEdge._id;
-      dispatched = dispatch(createEdge({edge : selectedEdge, resourceName: resourceName}))
+      dispatched = dispatch(createEdge({edge : selectedEdge,  _id: resourceId}))
     }
 
     // invalidate endpoint swagger docs cache
@@ -135,7 +137,7 @@ const EdgeService = () => {
 
 
   React.useEffect(() =>{
-    const dispatched = dispatch(fetchEdge(resourceName));
+    const dispatched = dispatch(fetchEdge(resourceId));
     ToastifyMockify(dispatched);
     setShowEditModal(false);
   }, [dispatch, key])

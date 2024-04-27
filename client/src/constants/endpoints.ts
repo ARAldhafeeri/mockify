@@ -16,8 +16,8 @@ export const ENDPOINTS = {
   DATA_POLICY_NAME: (projectID: string) => `/policy?projectID=${projectID}`,
   // edge 
   EDGE: "/edge",
-  EDGE_DELETE: (name: string, id : string) => `/${name}/edge/?id=${id}`,
-  EDGE_NAME: (res: string) => `/${res}/edge`,
+  EDGE_DELETE: (res: string, id : string) => `/edge/${res}/?id=${id}`,
+  EDGE_ID: (res: string) => `/edge/${res}`,
   // cache 
   CACHE: (projectName : string) => `/cache/${projectName}`,
   CACHE_KEY: (projectName : string, key : string) => `/cache/${projectName}?key=${key}`,

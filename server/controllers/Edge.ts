@@ -14,11 +14,11 @@ export const getEdge = async function(req: Request, res: Response) : Promise<any
  
   try{
 
-      let resourceName : string = req.params.resourceName as string;
+      let resourceId : string = req.params.resourceId as string;
 
-      const resource : IResource = await rService.findOne({resourceName: resourceName});
+      const resource : IResource = await rService.findById(new ObjectId(resourceId));
 
-      if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
+      if (!resource) return ErrorResponse(res, `resource not found`, 400);
       
       const found : IEdge = await edgeService.find({resource: resource._id});
 
@@ -92,8 +92,8 @@ export const runFunction = (method : string, featureName : string) => {
    
     try{
   
-        const resourceName : string = req.params.resourceName as string;
-        const functionName : string = req.params.functionName as string;
+        const resourceId : string = req.params.resourceId as string;
+        const edgeId : string = req.params.edgeId as string;
         const queries : any = req.query;
         const headers : any = req.headers;
         const body : any = req.body;
@@ -109,11 +109,11 @@ export const runFunction = (method : string, featureName : string) => {
 
         }
   
-        const resource : IResource = await rService.findOne({resourceName: resourceName});
+        const resource : IResource = await rService.findOne(new ObjectId(resourceId));
   
-        if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
+        if (!resource) return ErrorResponse(res, `resource not found`, 400);
         
-        const found : IEdge = await edgeService.findOne({resource: resource._id, name: functionName, method: method});
+        const found : IEdge = await edgeService.findById(new ObjectId(edgeId));
   
         if (!found) return ErrorResponse(found, 'function does not exists', 400);
   

@@ -39,7 +39,6 @@ const eventService = new EventService();
 export const initDefaultData = async () => {
     [superAdminDefaultData] = await adminModel.find({username: SUPER_ADMIN_USERNAME})
 
-    console.log("superAdminDefaultData", superAdminDefaultData)
     if (!superAdminDefaultData) {
         
         const {hashedPassword, salt} = await passwordService.createPassword(SUPER_ADMIN_PSWD)
@@ -70,6 +69,9 @@ export const initDefaultData = async () => {
             createdBy: "system"
         })
     }   
+
+    console.log("superAdminDefaultData", superAdminDefaultData)
+
 
     // create project , super  admin is owner
     let project = await projService.findOrCreate({
