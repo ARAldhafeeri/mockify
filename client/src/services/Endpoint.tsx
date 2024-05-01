@@ -5,9 +5,9 @@ import { ToastifyMockify } from "utils";
 import ResourceService from "./Resource";
 const EndpointService = () => {
   const {
-    resource, 
     handleResourceTabChange,
   } = ResourceService();
+  const { resource } = useAppSelector((state) => state.resource);
   const { endpoint, loading } = useAppSelector((state) => state.endpoint);
   const dispatch = useAppDispatch();
   const [ key, setKey ] = React.useState<number>(0);

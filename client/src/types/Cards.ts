@@ -5,7 +5,7 @@ export interface ICardsProps{
   actions: any;
 }
 
-export interface INextPrevCardsProps<T> { // Changed slightly to focus on 'data'
+export interface INextPrevPaginationProps<T> { // Changed slightly to focus on 'data'
   data: T[];  
   itemsPerPage: number;
   actions: any;

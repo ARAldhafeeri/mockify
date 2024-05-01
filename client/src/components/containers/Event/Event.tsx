@@ -10,7 +10,7 @@ import EventCards from "components/presentational/Event/EventCards";
 import { Tabs } from "antd";
 import GlobalTabs from "../GlobalTabs/GlobalTabs";
 import ResourceService from "services/Resource";
-import NextPrevCards from "../Pagination/NextPrevCards";
+import NextPrevPagination from "../Pagination/NextPrevPagination";
 
 const Event : React.FC = () => {
   const { 
@@ -80,16 +80,9 @@ const Event : React.FC = () => {
               }
               content={
                <React.Fragment>
-                                         <Tabs
+                        <Tabs
                           defaultActiveKey={`${key}`}
-                          tabPosition="top"
-                          tabBarExtraContent={
-                            <MockifyButton 
-                            classes={['table-action-third', 'table-action']} 
-                            onClick={handleShowCreateEventModal} 
-                            icon={<PlusCircleOutlined />} 
-                          />
-                          }
+                          tabPosition="left"
                           style={{ height: "100%" }}
                           onTabClick={(e) => handleTabChange(e, resource)}
                             items={resource.map((reso : any, index : number) => {
@@ -146,7 +139,7 @@ const Event : React.FC = () => {
                                             />
                                         }
                                       />
-                                    <NextPrevCards
+                                    <NextPrevPagination
                                       data={event}
                                       actions={actions}
                                       itemsPerPage={6}

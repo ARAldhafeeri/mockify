@@ -10,7 +10,7 @@ import EdgeService from "./Edge";
 
 const EventService = () => {
   const { event, loading } = useAppSelector((state) => state.event);
-  const { resource } = ResourceService();
+  const { resource } = useAppSelector((state) => state.resource);
   const {edge, getEdgeByResourceName } = EdgeService();
   const [ key, setKey ] = React.useState<number>(0);
   const  [ resourceId, setResourceId ] = React.useState<string>(resource[0]?.resourceName ?? "");

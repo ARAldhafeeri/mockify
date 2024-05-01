@@ -16,7 +16,7 @@ export const MOCK_ROUTE_SEARCH : string = "/search";
 export const MOCK_ROUTE_VALIDATE : string = "/validate";
 
 export const EDGE_ROUTE : string = "/edge/:resourceId";
-export const CACHE_ROUTE : string = "/cache/:projectName";
+export const CACHE_ROUTE : string = "/cache/:projectId";
 export const CAACHE_ROUTE_ONLY : string = "/cache";
 export const EDGE_ROUTE_WITH_PARAMS : string = "/edge/mock/:edgeId/:resourceId";
 

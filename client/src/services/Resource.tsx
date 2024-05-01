@@ -5,9 +5,9 @@ import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { ToastifyMockify } from "utils";
 import { Form } from "antd";
 import { IFetchedProjectData } from "types/Project";
-import ProjectService from "./Project";
+
 const ResourceService = () => {
-  const { project } = ProjectService();
+  const { project } = useAppSelector((state) => state.project);
   const { resource, loading } = useAppSelector((state) => state.resource);
   const [ resourceKey, setKey ] = React.useState<number>(0);
   const [ projectT, setProject ] = React.useState<IFetchedProjectData>(project[0]);

@@ -41,9 +41,9 @@ class EndpointService implements IEndpointService {
 
       functions.forEach((func : any) => {
       if (func.method === "POST" || func.method === "PUT") {
-        this.endpoint.push({method: func.method, url: this.getFunctionURL(func.name, resourceId), path: this.getFunctionPath(func.name, resourceId), body: {}, type: "Edge Function"});
+        this.endpoint.push({method: func.method, url: this.getFunctionURL(func._id, resourceId), path: this.getFunctionPath(func._id, resourceId), body: {}, type: "Edge Function"});
       } else {
-        this.endpoint.push({method: func.method, url: this.getFunctionURL(func.name, resourceId), path: this.getFunctionPath(func.name, resourceId), type: "Edge Function"});
+        this.endpoint.push({method: func.method, url: this.getFunctionURL(func._id, resourceId), path: this.getFunctionPath(func._id, resourceId), type: "Edge Function"});
       }
     })
   }
@@ -80,7 +80,7 @@ class EndpointService implements IEndpointService {
       {method: "POST", url: postx, type: "Generic", body: resource.fields, path: postxPath}
       );
     if (features.putx) this.endpoint.push(
-      {method: "PUT", url: deleteAndPutx, type: "Generic", body: resource.fields, path: deleteAndPutxPath}
+      {method: "PUT", url: deleteAndPutx, params: ["id"], type: "Generic", body: resource.fields, path: deleteAndPutxPath}
       );
     if (features.deletex) this.endpoint.push(
       {method: "DELETE", url: deleteAndPutx, params: ["id"], type: "Generic", path: deleteAndPutxPath}

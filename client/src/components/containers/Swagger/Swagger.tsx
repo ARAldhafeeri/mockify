@@ -1,4 +1,4 @@
-import { Drawer, Tabs } from 'antd';
+import { Drawer, Pagination, Tabs } from 'antd';
 import MockifyButton from 'components/commons/Button/Button';
 import React from 'react'
 import SwaggerService from 'services/Swagger';
@@ -20,7 +20,12 @@ const Swagger  : React.FC = () => {
     selectedResource,
     resource,
     key,
-    handleTabChange
+    handleTabChange,
+    page,
+    setPage,
+    pageSize,
+    setPageSize, 
+    swaggerDocsPaginated
   } = SwaggerService();
 
   
@@ -42,24 +47,28 @@ const Swagger  : React.FC = () => {
         
         <Tabs
             defaultActiveKey={`${key}`}
-            tabPosition="top"
+            tabPosition="left"
             style={{ height: "100%" }}
             onTabClick={(e) => handleTabChange(e, resource)}
-            tabBarExtraContent={
-              <MockifyButton 
+            tabBarExtraContent={{
+              left:      <MockifyButton 
               classes={['table-action-third', 'textAndIcon', ]} 
               onClick={() => {handleShowSwaggerDrawer(); swaggerDocsCache();}} 
               icon={<EyeOutlined />}
-              text={`Swagger 2.0 Docs`}
+              text={``}
               />
-              }
+            }}
               items={resource.map((resource : any, index : number) => {
                 return {
                   label: `${resource?.resourceName}`,
                   key: `${index}`,
                   disabled: false,
                   children: (
-                      <SwaggerUI spec={selectedResourceSwaggerDocs} />
+                    <React.Fragment>
+                      <SwaggerUI spec={swaggerDocsPaginated} />
+                      <Pagination  current={page} pageSize={pageSize} total={Object.entries(selectedResourceSwaggerDocs?.paths)?.length} onChange={(page, pageSize) => {setPage(page); setPageSize(pageSize)}} />
+
+                    </React.Fragment>
                   ),
                 };
               })}

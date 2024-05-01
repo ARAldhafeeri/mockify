@@ -8,6 +8,7 @@ import { ROUTES_NAMES } from 'constants/routes';
 import { Navigate } from 'react-router';
 import { ISiderItem } from 'components/commons/Sider/Sider.types';
 import Button from 'components/commons/Button/Button';
+import { ToastContainer } from 'react-toastify';
 
 interface LoggedInLayoutProps {
   children: React.ReactNode;
@@ -73,10 +74,20 @@ const LoggedInLayout: React.FC<LoggedInLayoutProps> = (props) => {
             </div> */}
         </ul>
       <div className='m-5'>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         {props.children}
       </div>
     </div>
-    <footer className='bg-green1 items- text-center text-xl text-white p-5 font-bold'>MOCKIFY.IO ©2023</footer>
   </>
   );
 };

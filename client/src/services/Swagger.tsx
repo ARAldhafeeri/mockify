@@ -8,13 +8,37 @@ const SwaggerService = () => {
 
   const { endpoint  } =  useAppSelector((state) => state.endpoint);
 
-  const { resource,
-  } = ResourceService();
+  const { resource } = useAppSelector((state) => state.resource);
+
   const dispatch = useAppDispatch();
-  const [ selectedResourceSwaggerDocs, setSelectedResourceSwaggerDocs ] = React.useState<any>("");
+  const [ selectedResourceSwaggerDocs, setSelectedResourceSwaggerDocs ] = React.useState<any>({
+    swagger: "2.0",
+    info: {
+        title: `API Documentation for ${resource[0]?.resourceName}`,
+        description: `The following endpoints are available for ${resource[0]?.resourceName}`,
+    },
+    host: "api.mockify.io",
+    schemes: ["https"],
+    basePath: "/v1",
+    paths: {},
+  
+  });
   const [ swaggerDrawerVisible, setSwaggerDrawerVisible ] = React.useState<boolean>(false);
+  const [swaggerDocsPaginated, setSwaggerDocsPaginated] = React.useState<any>({
+    swagger: "2.0",
+    info: {
+        title: `API Documentation for ${resource[0]?.resourceName}`,
+        description: `The following endpoints are available for ${resource[0]?.resourceName}`,
+    },
+    host: "api.mockify.io",
+    schemes: ["https"],
+    basePath: "/v1",
+    paths: {},  
+  });
   const [ selectedResource, setSelectedResource  ] = React.useState<any>(resource[0]);
   const [ key, setKey ] = React.useState<number>(0);
+  const [page , setPage] = React.useState<number>(1);
+  const [pageSize, setPageSize] = React.useState<number>(5);
 
   const formatSwaggerBody = (body : any) => {
     /**
@@ -149,12 +173,14 @@ const SwaggerService = () => {
     setSwaggerDrawerVisible(false);
   }
 
-
   React.useEffect(() =>{
-    
-    const dispatched = dispatch(fetchEndpoints(resource[key]));
-      ToastifyMockify(dispatched);
-    }, [dispatch, key])
+    dispatch(fetchEndpoints(resource[key]));
+    setSwaggerDocsPaginated({
+      ...selectedResourceSwaggerDocs,
+      paths: Object.fromEntries(Object.entries(selectedResourceSwaggerDocs.paths).slice((page - 1) * pageSize, page * pageSize))
+    });
+
+    }, [dispatch, key, page, resource, pageSize, selectedResourceSwaggerDocs])
 
 
   return {
@@ -167,6 +193,11 @@ const SwaggerService = () => {
     selectedResource,
     key, 
     handleTabChange,
+    page, 
+    setPage,
+    pageSize,
+    setPageSize, 
+    swaggerDocsPaginated
   }
 }
 

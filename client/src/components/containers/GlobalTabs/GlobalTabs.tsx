@@ -17,7 +17,7 @@ const  GlobalTabs : React.FC<GlobalTabsProps> = ({content, createBtn, withCreate
   }   = ProjectService();
 
   return <Tabs
-          defaultActiveKey={`${key}`}
+          defaultActiveKey={`${0}`}
           tabPosition="top"
           onTabClick={(e) => handleTabChange(e, projects)}
           {...ConditionalProp(
@@ -26,7 +26,7 @@ const  GlobalTabs : React.FC<GlobalTabsProps> = ({content, createBtn, withCreate
               tabBarExtraContent : 
               {
                 right : createBtn, 
-                left: <MockifyInput placeholder='Search Projects' value={keyword} type='text' classes={['input']} name="Search" label="Search Projects" onChange={handleFilterProjectTabsBasedOnKeyWord} />
+                left: <MockifyInput placeholder='Search Projects' value={keyword} type='text' classes={['input']} name="Search" label="Projects" onChange={handleFilterProjectTabsBasedOnKeyWord} />
               } 
             } 
             ) 
@@ -36,7 +36,7 @@ const  GlobalTabs : React.FC<GlobalTabsProps> = ({content, createBtn, withCreate
             {
               tabBarExtraContent : 
               {
-                left: <MockifyInput placeholder='Search Projects' value={keyword} type='text' classes={['input']} name="Search" label="Search Projects" onChange={handleFilterProjectTabsBasedOnKeyWord} />
+                left: <MockifyInput placeholder='Search Projects' value={keyword} type='text' classes={['input']} name="Search" label="Projects" onChange={handleFilterProjectTabsBasedOnKeyWord} />
               } 
             } 
             ) 

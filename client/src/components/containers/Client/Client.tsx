@@ -10,7 +10,7 @@ import { Tabs } from "antd";
 import ProjectService from "services/Project";
 import ClientCards from "components/presentational/Client/ClientCards";
 import GlobalTabs from "../GlobalTabs/GlobalTabs";
-import NextPrevCards from "../Pagination/NextPrevCards";
+import NextPrevPagination from "../Pagination/NextPrevPagination";
 
 const Client : React.FC = () => {
 
@@ -118,7 +118,7 @@ const Client : React.FC = () => {
               />
             }
           />
-        <NextPrevCards
+        <NextPrevPagination
           data={client}
           actions={actions}
           itemsPerPage={6}

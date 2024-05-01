@@ -9,12 +9,12 @@ const cacheService = new CacheService();
 const getCache = async function(req : Request, res: Response) : Promise<any> {
   try {
 
-    let projectName = req.params.projectName as string;
+    let projectId = req.params.projectId as string;
     
     let key = req.query.key as string;
 
 
-    let tenantKey = cacheService.addProjectNameToKey(projectName, key);
+    let tenantKey = cacheService.addProjectNameToKey(projectId, key);
     let data : any;
     if (key){
         
@@ -22,7 +22,7 @@ const getCache = async function(req : Request, res: Response) : Promise<any> {
 
     } else {
 
-      data = await cacheService.getAllProjectDataJSON(projectName);
+      data = await cacheService.getAllProjectDataJSON(projectId);
 
     }
 
@@ -44,9 +44,9 @@ const setCacheKey = async function(req : Request, res: Response) : Promise<any> 
 
     let body : any = req.body;
 
-    let projectName = req.params.projectName as string;
+    let projectId = req.params.projectId as string;
 
-    let tenantKey = cacheService.addProjectNameToKey(projectName, key);
+    let tenantKey = cacheService.addProjectNameToKey(projectId, key);
 
     const seted = await cacheService.set(tenantKey, body.value);
 
@@ -67,9 +67,9 @@ const deleteCacheKey = async function(req : Request, res: Response) : Promise<an
     
     let key = req.query.key as string;
 
-    let projectName = req.params.projectName as string;
+    let projectId = req.params.projectId as string;
 
-    let tenantKey = cacheService.addProjectNameToKey(projectName, key);
+    let tenantKey = cacheService.addProjectNameToKey(projectId, key);
 
     const deleted = await cacheService.del(tenantKey);
 

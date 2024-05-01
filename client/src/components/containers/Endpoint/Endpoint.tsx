@@ -35,7 +35,7 @@ const Endpoint : React.FC = () => {
                <React.Fragment>
                <Tabs
                   defaultActiveKey={`${resourceKey}`}
-                  tabPosition="top"
+                  tabPosition="left"
                   style={{ height: "100%" }}
                   onTabClick={(e) => handleTabChange(e, resource)}
                   items={resource.map((resource : any, index : number) => {

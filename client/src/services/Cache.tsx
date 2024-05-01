@@ -57,7 +57,7 @@ const CacheService = () => {
   const handleSubmitCacheForm = (e : any) => {
     e.preventDefault();
     let dispatched;
-    const data = {record : selectedCache, key : selectedCache.key, projectName : selectedProject?.name}
+    const data = {record : selectedCache, key : selectedCache.key, projectName : selectedProject?._id ?? ""}
     if (showEditModal) {
       dispatched = dispatch(createCache(data))
     } else {
@@ -84,7 +84,7 @@ const CacheService = () => {
   }
   
   React.useEffect(() =>{
-    const data = { projectName : selectedProject?.name }
+    const data = { projectName : selectedProject?._id ?? "" }
     const dispatched = dispatch(fetchCaches(data));
     ToastifyMockify(dispatched);
     setShowEditModal(false);

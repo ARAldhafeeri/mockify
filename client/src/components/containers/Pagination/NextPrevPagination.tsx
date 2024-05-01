@@ -1,9 +1,9 @@
 import React, { useState, useEffect, ReactNode  } from 'react'
-import { INextPrevCardsProps } from 'types/Cards';
+import { INextPrevPaginationProps } from 'types/Cards';
 
 
 
-const NextPrevCards: React.FC<INextPrevCardsProps<any>> = ({ data, itemsPerPage, actions, Cards }) => {
+const NextPrevPagination: React.FC<INextPrevPaginationProps<any>> = ({ data, itemsPerPage, actions, Cards }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentItems, setCurrentItems] = useState<any[]>([]);
 
@@ -35,4 +35,4 @@ const NextPrevCards: React.FC<INextPrevCardsProps<any>> = ({ data, itemsPerPage,
   );
 };
 
-export default NextPrevCards;
+export default NextPrevPagination;

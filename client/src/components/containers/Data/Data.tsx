@@ -86,8 +86,7 @@ const Data : React.FC = () => {
       <React.Fragment>
       {/* resource selection */}
       <Tabs
-        defaultActiveKey={`${key}`}
-        tabPosition="top"
+        tabPosition="left"
         style={{ height: "100%" }}
         onTabClick={(e) => handleTabChange(e, resource)}
         items={(Array.isArray(resource) ? resource : []).map((resource : any, index : number) => {

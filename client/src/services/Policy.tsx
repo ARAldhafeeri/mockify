@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import ProjectService from "./Project";
 const PolicyService = () => {
   const { policy, loading } = useAppSelector((state) => state.policy);
-  const { project } = ProjectService();
+  const { project } = useAppSelector((state) => state.project);
   const [ key, setKey ] = React.useState<number>(0);
   const [ currentStep, setCurrentStep ] = React.useState<number>(0);
   const  [ projectID, setProjectID ] = React.useState<string>(project?.[0]?._id ?? "");

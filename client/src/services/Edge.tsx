@@ -9,7 +9,7 @@ import { IFetchedResourceData } from "types/Resource";
 import ResourceService from "./Resource";
 const EdgeService = () => {
   const { edge, loading } = useAppSelector((state) => state.edge);
-  const { resource } = ResourceService();
+  const { resource } = useAppSelector((state) => state.resource);
   const [ key, setKey ] = React.useState<number>(0);
   const [ currentStep, setCurrentStep ] = React.useState<number>(0);
   const  [ resourceName, setResourceName ] = React.useState<string>(resource[0]?.resourceName ?? "");

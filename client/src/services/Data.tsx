@@ -9,7 +9,7 @@ import ResourceService from "./Resource";
 
 const DataService = () => {
   const { data, loading } = useAppSelector((state) => state.data);
-  const { resource } = ResourceService();
+  const { resource } = useAppSelector((state) => state.resource);
   const dispatch = useAppDispatch();
   const [ key, setKey ] = React.useState<number>(0);
   const [ resourceT, setResource ] = React.useState<IFetchedResourceData>(resource[0]);
@@ -118,7 +118,7 @@ const DataService = () => {
   React.useEffect(() =>{
     const dispatched = dispatch(fetchData(resourceT?._id as string));
     ToastifyMockify(dispatched);
-  }, [dispatch, key])
+  }, [dispatch, key, resourceT])
 
   const handleTabChange = (key : string, resource : any ) => {
     setKey(parseInt(key));
