@@ -68,6 +68,7 @@ const CacheService = () => {
   }
 
   const handleFormChange = (e : any) => {
+    console.log(e.target.value)
     setSelectedCache({
       ...selectedCache,
       [e.target.name]: e.target.value
