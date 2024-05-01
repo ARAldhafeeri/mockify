@@ -38,7 +38,7 @@ describe('end-to-end tests mock endpoints on data entity', () => {
       mockData.data = { ...mockData.data, [field.name] : "value" + field.name}
     });
 
-    const response = await request.agent(app).get(`${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}`)
+    const response = await request.agent(app).get(`${API_ROUTE}${MOCK_ROUTE}/${dataObj[0]._id}`)
     .set(apiKeyHeader, token);
 
     expect(response.status).toBe(200);
@@ -50,7 +50,7 @@ describe('end-to-end tests mock endpoints on data entity', () => {
 
   test("should get mock endpoint data with GET request with pagination query params", async () => {
       
-      const response = await request.agent(app).get(`${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_PAGINATE}?page=1&limit=10`)
+      const response = await request.agent(app).get(`${API_ROUTE}${MOCK_ROUTE}/${dataObj[0]._id}${MOCK_ROUTE_PAGINATE}?page=1&limit=10`)
       .set(apiKeyHeader, token);
 
       let data = response.body.data;
@@ -66,7 +66,7 @@ describe('end-to-end tests mock endpoints on data entity', () => {
 
   test("should get mock endpoint data with GET request with filteration", async () => {
     const response = await request.agent(app).get(
-      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_FILTER}?name=name&value=a`)
+      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0]._id}${MOCK_ROUTE_FILTER}?name=name&value=a`)
     .set(apiKeyHeader, token);
 
     let data = response.body.data;
@@ -85,7 +85,7 @@ describe('end-to-end tests mock endpoints on data entity', () => {
   
   test("should not  validate posted data and return 200 even if data invalid", async () => {
     const response = await request.agent(app).post(
-      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}`)
+      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0]._id}`)
     .set(apiKeyHeader, token)
     .send(
         {
@@ -99,7 +99,7 @@ describe('end-to-end tests mock endpoints on data entity', () => {
   
   test("should not validate edited data and return 200 even if data invalid", async () => {
     const response = await request.agent(app).put(
-      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}`)
+      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0]._id}`)
     .set(apiKeyHeader, token)
     .send(
         {
@@ -114,7 +114,7 @@ describe('end-to-end tests mock endpoints on data entity', () => {
 
   test("should delete and return 200 for deletex mock endpoint ", async () => {
     const response = await request.agent(app).delete(
-      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}?id=${createdData._id}`)
+      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0]._id}?id=${createdData._id}`)
     .set(apiKeyHeader, token)
     .send(
         {
@@ -128,7 +128,7 @@ describe('end-to-end tests mock endpoints on data entity', () => {
 
   test("should validate posted data and return 400 if invalid - extra field", async () => {
     const response = await request.agent(app).post(
-      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_VALIDATE}`)
+      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0]._id}${MOCK_ROUTE_VALIDATE}`)
     .set(apiKeyHeader, token)
     .send(
       {
@@ -141,7 +141,7 @@ describe('end-to-end tests mock endpoints on data entity', () => {
   
   test("should validate edited data and return 400 if invalid -extra field", async () => {
     const response = await request.agent(app).put(
-      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_VALIDATE}`)
+      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0]._id}${MOCK_ROUTE_VALIDATE}`)
     .set(apiKeyHeader, token)
     .send(
       {
@@ -159,7 +159,7 @@ describe('end-to-end tests mock endpoints on data entity', () => {
     delete createdDataCopy.data?.name;
     createdDataCopy.data.koko = "koko";
     const response = await request.agent(app).post(
-      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_VALIDATE}`)
+      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0]._id}${MOCK_ROUTE_VALIDATE}`)
     .set(apiKeyHeader, token)
     .send(
       {
@@ -174,7 +174,7 @@ describe('end-to-end tests mock endpoints on data entity', () => {
     let createdDataCopy = {...createdData};
     delete createdDataCopy.data?.name;
     const response = await request.agent(app).put(
-      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_VALIDATE}`)
+      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0]._id}${MOCK_ROUTE_VALIDATE}`)
     .set(apiKeyHeader, token)
     .send(
       {
@@ -190,7 +190,7 @@ describe('end-to-end tests mock endpoints on data entity', () => {
     let createdDataCopy = {...createdData};
     createdDataCopy.data.name = 123;
     const response = await request.agent(app).post(
-      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_VALIDATE}`)
+      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0]._id}${MOCK_ROUTE_VALIDATE}`)
     .set(apiKeyHeader, token)
     .send(
       {
@@ -205,7 +205,7 @@ describe('end-to-end tests mock endpoints on data entity', () => {
     let createdDataCopy = {...createdData};
     createdDataCopy.data.name = 123;
     const response = await request.agent(app).put(
-      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0].resourceName}${MOCK_ROUTE_VALIDATE}`)
+      `${API_ROUTE}${MOCK_ROUTE}/${dataObj[0]._id}${MOCK_ROUTE_VALIDATE}`)
     .set(apiKeyHeader, token)
     .send(
       {

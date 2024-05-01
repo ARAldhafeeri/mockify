@@ -17,12 +17,12 @@ export const getx = async function(req: Request, res: Response) : Promise<any> {
  
   try{
 
-      let resourceName : string = req.params.resourceName as string;
+      let resourceId : string = req.params.resourceId as string;
 
-      const resource : IResource = await rService.findOne({resourceName: resourceName});
+      const resource : IResource = await rService.findById(new ObjectId(resourceId));
 
-      if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
-      
+      if (!resource) return ErrorResponse(res, `resource not found`, 400);
+
       if(!resource.features.getx) return ErrorResponse(res, `getx feature disabled`, 400);
 
       const found : IData = await dService.find({resource: resource._id});
@@ -42,16 +42,15 @@ export const getXPagination = async function(req: Request, res: Response) : Prom
  
   try{
 
-      let resourceName : string = req.params.resourceName as string;
-      
+      const resourceId : string = req.params.resourceId as string;      
       let page : string = req.query.page as string;
       let limit : string = req.query.limit as string;
 
 
-      const resource : IResource = await rService.findOne({resourceName: resourceName});
+      const resource : IResource = await rService.findById(new ObjectId(resourceId));
 
-      if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
 
+      if (!resource) return ErrorResponse(res, `resource not found`, 400);
       if(!resource.features.getx) return ErrorResponse(res, `getx feature disabled`, 400);
 
       const params : IPaginateParams = {
@@ -82,15 +81,14 @@ export const getXFilteration = async function(req: Request, res: Response) : Pro
  
   try{
 
-      let resourceName : string = req.params.resourceName as string;
-      
+      const resourceId : string = req.params.resourceId as string;  
       let name : string = req.query.name as string;
       let value : string = req.query.value as string;
 
-      const resource : IResource = await rService.findOne({resourceName: resourceName});
+      const resource : IResource = await rService.findById(new ObjectId(resourceId));
 
-      if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
 
+      if (!resource) return ErrorResponse(res, `resource not found`, 400);
       if(!resource.features.getx) return ErrorResponse(res, `getx feature disabled`, 400);
 
       const params : IFilterParams = {
@@ -103,13 +101,10 @@ export const getXFilteration = async function(req: Request, res: Response) : Pro
 
       if (!validParams) return ErrorResponse(res, `invalid params or filter feature disabled`, 400);
 
-      
       const projection = {
         ["data." + params.name] : params.value,
         resource: resource._id
       }
-
-
 
       const found : any = await mService.filterQuery(projection);
 
@@ -137,6 +132,7 @@ export const delx = async function(req: Request, res: Response) : Promise<any> {
     return SuccessResponse(res, deleted, 'data deleted', 200);
 
   } catch (err){
+
     return ErrorResponse(res, `error ${err}`, 400);
 
   }
@@ -147,12 +143,12 @@ export const postx = async function(req: Request, res: Response) : Promise<any> 
  
   try{
     
-    let resourceName : string = req.params.resourceName as string;
+    const resourceId : string = req.params.resourceId as string;    
     
-    const resource : IResource = await rService.findOne({resourceName: resourceName});
+    const resource : IResource = await rService.findById(new ObjectId(resourceId));
 
-    if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
 
+    if (!resource) return ErrorResponse(res, `resource not found`, 400);
     if(!resource.features.postx) return ErrorResponse(res, `postx feature disabled`, 400);
 
     const dNew = await dService.create(
@@ -175,12 +171,12 @@ export const postXValidate = async function(req: Request, res: Response) : Promi
  
   try{
     
-    let resourceName : string = req.params.resourceName as string;
+    const resourceId : string = req.params.resourceId as string;    
     
-    const resource : IResource = await rService.findOne({resourceName: resourceName});
+    const resource : IResource = await rService.findById(new ObjectId(resourceId));
 
-    if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
 
+    if (!resource) return ErrorResponse(res, `resource not found`, 400);
     if(!resource.features.postx) return ErrorResponse(res, `postx feature disabled`, 400);
     if(!resource.features.validation) return ErrorResponse(res, `validation feature disabled`, 400);
 
@@ -205,12 +201,12 @@ export const putx = async function(req: Request, res: Response) : Promise<any> {
  
   try{
     
-    let resourceName : string = req.params.resourceName as string;
-    
-    const resource : IResource = await rService.findOne({resourceName: resourceName});
+    const resourceId : string = req.params.resourceId as string;    
 
-    if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
+    const resource : IResource = await rService.findById(new ObjectId(resourceId));
 
+
+    if (!resource) return ErrorResponse(res, `resource not found`, 400);
     if(!resource.features.putx) return ErrorResponse(res, `putx feature disabled`, 400);
 
     const dNew = await dService.update(req.body);
@@ -231,12 +227,12 @@ export const putXValidate = async function(req: Request, res: Response) : Promis
  
   try{
     
-    let resourceName : string = req.params.resourceName as string;
-    
-    const resource : IResource = await rService.findOne({resourceName: resourceName});
+    const resourceId : string = req.params.resourceId as string; 
 
-    if (!resource) return ErrorResponse(res, `resource ${resourceName} not found`, 400);
+    const resource : IResource = await rService.findById(new ObjectId(resourceId));
 
+
+    if (!resource) return ErrorResponse(res, `resource not found`, 400);
     if(!resource.features.putx) return ErrorResponse(res, `putx feature disabled`, 400);
     if(!resource.features.validation) return ErrorResponse(res, `validation feature disabled`, 400);
 

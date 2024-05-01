@@ -9,7 +9,7 @@ export const DATA_ROUTE : string = "/data";
 export const ENDPOINT_ROUTE : string = "/endpoint";
 
 export const MOCK_ROUTE : string = "/mock";
-export const MOCK_ROUTE_RESOURCE_PARAM : string = "/:resourceName";
+export const MOCK_ROUTE_RESOURCE_PARAM : string = "/:resourceId";
 export const MOCK_ROUTE_PAGINATE : string = "/paginate";
 export const MOCK_ROUTE_FILTER : string = "/filter";
 export const MOCK_ROUTE_SEARCH : string = "/search";
@@ -21,7 +21,7 @@ export const CAACHE_ROUTE_ONLY : string = "/cache";
 export const EDGE_ROUTE_WITH_PARAMS : string = "/edge/mock/:edgeId/:resourceId";
 
 export const EVENT_ROUTE : string = "/event";
-export const EVENT_ROUTE_WITH_PARAMS : string = "/event/:resourceName";
+export const EVENT_ROUTE_WITH_PARAMS : string = "/event/:resourceId";
 
 
 export const CLIENT_ROUTE : string = "/client";

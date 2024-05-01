@@ -27,23 +27,23 @@ class EndpointService implements IEndpointService {
     });
   };
 
-  getFunctionURL(name : string, resourceName : string) {
-    return this.urlConstructor(domain, "https", `${resourceName}/edge/${name}`);
+  getFunctionURL(name : string, resourceId : string) {
+    return this.urlConstructor(domain, "https", `${resourceId}/edge/${name}`);
   }
 
-  getFunctionPath(name : string, resourceName : string) {
-    return `/${resourceName}/edge/${name}`;
+  getFunctionPath(name : string, resourceId : string) {
+    return `/${resourceId}/edge/${name}`;
   }
 
-  addEdgeEndpoints = async (resourceName : string) => {
-    let functions  : any = await this.edgeService.findEdgeFunctionsBYResourceName(
-      resourceName);
+  addEdgeEndpoints = async (resourceId : string) => {
+    let functions  : any = await this.edgeService.findEdgeFunctionsBYresourceId(
+      resourceId);
 
       functions.forEach((func : any) => {
       if (func.method === "POST" || func.method === "PUT") {
-        this.endpoint.push({method: func.method, url: this.getFunctionURL(func.name, resourceName), path: this.getFunctionPath(func.name, resourceName), body: {}, type: "Edge Function"});
+        this.endpoint.push({method: func.method, url: this.getFunctionURL(func.name, resourceId), path: this.getFunctionPath(func.name, resourceId), body: {}, type: "Edge Function"});
       } else {
-        this.endpoint.push({method: func.method, url: this.getFunctionURL(func.name, resourceName), path: this.getFunctionPath(func.name, resourceName), type: "Edge Function"});
+        this.endpoint.push({method: func.method, url: this.getFunctionURL(func.name, resourceId), path: this.getFunctionPath(func.name, resourceId), type: "Edge Function"});
       }
     })
   }
@@ -53,25 +53,25 @@ class EndpointService implements IEndpointService {
   }
 
   addGenericEndpoints = async (resource : IResource) => {
-    let resourceName = resource.resourceName;
+    let resourceId = resource._id;
     let features : IEndpointFeatures = resource.features;
-    let getx : string = this.urlConstructor(domain, "https", `/mock/${resourceName}/`);
-    let postx : string = this.urlConstructor(domain, "https", `/mock/${resourceName}/`);
-    let deleteAndPutx : string = this.urlConstructor(domain, "https", `/mock/${resourceName}/{id}`);
+    let getx : string = this.urlConstructor(domain, "https", `/mock/${resourceId}/`);
+    let postx : string = this.urlConstructor(domain, "https", `/mock/${resourceId}/`);
+    let deleteAndPutx : string = this.urlConstructor(domain, "https", `/mock/${resourceId}/{id}`);
 
-    let paginateX : string = this.urlConstructor(domain, "https",`/mock/${resourceName}/paginate?page=1&limit=10`)
-    let searchX : string = this.urlConstructor(domain, "https",`/mock/${resourceName}/search/?search=fullTextSearchAgainstString`)
-    let filterX : string = this.urlConstructor(domain, "https",`/mock/${resourceName}/filter/?name=name&value=value`)
-    let validateX : string = this.urlConstructor(domain, "https",`/mock/${resourceName}/validate`)
+    let paginateX : string = this.urlConstructor(domain, "https",`/mock/${resourceId}/paginate?page=1&limit=10`)
+    let searchX : string = this.urlConstructor(domain, "https",`/mock/${resourceId}/search/?search=fullTextSearchAgainstString`)
+    let filterX : string = this.urlConstructor(domain, "https",`/mock/${resourceId}/filter/?name=name&value=value`)
+    let validateX : string = this.urlConstructor(domain, "https",`/mock/${resourceId}/validate`)
 
     // paths for swagger  docs 
-    let getxPath : string = `/mock/${resourceName}/{id}`
-    let postxPath : string = `/mock/${resourceName}/`
-    let deleteAndPutxPath : string = `/mock/${resourceName}/{id}`
-    let paginateXPath : string = `/mock/${resourceName}/paginate`
-    let searchXPath : string = `/mock/${resourceName}/search`
-    let filterXPath : string = `/mock/${resourceName}/filter`
-    let validateXPath : string = `/mock/${resourceName}/validate`
+    let getxPath : string = `/mock/${resourceId}/{id}`
+    let postxPath : string = `/mock/${resourceId}/`
+    let deleteAndPutxPath : string = `/mock/${resourceId}/{id}`
+    let paginateXPath : string = `/mock/${resourceId}/paginate`
+    let searchXPath : string = `/mock/${resourceId}/search`
+    let filterXPath : string = `/mock/${resourceId}/filter`
+    let validateXPath : string = `/mock/${resourceId}/validate`
 
     if (features.getx) this.endpoint.push(
       {method: "GET", url: getx, type: "Generic", path: getxPath, params: ["id"]}
@@ -105,7 +105,7 @@ class EndpointService implements IEndpointService {
   async create(resource : IResource) : Promise<Array<Object>>{
     // clean this.endpoint
     this.endpoint = [];
-    let resourceName = resource.resourceName;
+    let resourceId = resource._id;
     let features : IEndpointFeatures = resource.features;
     
     // add generic endpoints
@@ -113,7 +113,7 @@ class EndpointService implements IEndpointService {
 
     if (features.functions) {
       //  add edge endpoints
-      await this.addEdgeEndpoints(resourceName);
+      await this.addEdgeEndpoints(resourceId);
     }
     
     // add headers to all resource endpoints except wss

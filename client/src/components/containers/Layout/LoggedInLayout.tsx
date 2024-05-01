@@ -30,16 +30,27 @@ const LoggedInLayout: React.FC<LoggedInLayoutProps> = (props) => {
     return <Navigate to={ROUTES_NAMES.ROOT} />
   }
 
+  const shrinkSideBar = () =>{
+    setCollapsed(true)
+  }
+
+  const expandSideBar = () =>{
+    setCollapsed(false)
+  }
+
   console.log(current)
  const sideBarCollapsed = collapsed ? 'grid-cols-[50px_auto]' : 'grid-cols-[200px_auto]';
  return (
   <>
-    <div className={`h-screen grid ${sideBarCollapsed}`} >
-          <ul className="flex flex-col space-y-2 pt-5  px-2 h-full font-medium border dark:bg-dark-bg text-white dark:text-white">
+    <div className={`h-screen grid ${sideBarCollapsed}`}>
+          <ul 
+            className="flex flex-col space-y-2 pt-5  px-2 h-full font-medium border dark:bg-dark-bg text-white dark:text-white"
+            onMouseOver={expandSideBar} onMouseOut={shrinkSideBar}
+            >
             {items.map((item : ISiderItem, index: number) => (
               <>
-                <li key={index} className={current.toString() === index.toString() && !collapsed ? 'bg-light-primary w-[150px] rounded-xl' : (current.toString() === index.toString() && collapsed ? "bg-light-primary w-[30px] rounded-xl" : "")} onClick={() => handleClick(index)}>
-                  <Link to={item.to} key={index} className='flex flex-row'>
+                <li key={index} className={current.toString() === index.toString() && !collapsed ? 'bg-light-primary w-[150px] rounded-xl py-4 px-2' : (current.toString() === index.toString() && collapsed ? "bg-light-primary w-[30px] rounded-xl" : "")} onClick={() => handleClick(index)}>
+                  <Link to={item.to} key={index} className={current.toString() !== index.toString() ? 'flex flex-row hover:bg-light-secondary rounded-lg py-4 px-2' : 'flex flex-row'}>
                     {!collapsed ? (
                     <>
                       {item.icon}
@@ -57,9 +68,9 @@ const LoggedInLayout: React.FC<LoggedInLayoutProps> = (props) => {
               </>
           
             ))}
-            <div className=' absolute bottom-0'>
+            {/* <div className=' absolute bottom-0'>
               <Button text={collapsed ? '>' : '<'} classes={[""]} onClick={() => setCollapsed(!collapsed)} />
-            </div>
+            </div> */}
         </ul>
       <div className='m-5'>
         {props.children}

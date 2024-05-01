@@ -1,4 +1,4 @@
-import { Document, Types } from "mongoose";
+import { Document, ObjectId, Types } from "mongoose";
 
 export interface IEdge extends Document {
     resource: Types.ObjectId;
@@ -14,7 +14,7 @@ export interface IEdgeService {
     update(data: IEdge): Promise<IEdge>;
     delete(id: Types.ObjectId): Promise<IEdge>;
     findOne(data: Object): Promise<IEdge>;
-    findEdgeFunctionsBYResourceName(resourceName: string): Promise<IEdge>;
+    findEdgeFunctionsBYresourceId(resourceId: string): Promise<IEdge>;
     addImmediatelyInvokedAsync(code: string): string;
     runFunctionInContext(code: string, asyncc : boolean, additionalContext: any): Promise<any>;
   }
