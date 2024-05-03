@@ -57,7 +57,6 @@ const SwaggerService = () => {
       }
      */
     let formattedBody : any = {};
-    console.log("body", body)
     if(Array.isArray(body)){
       body?.forEach((field : any) => {
         formattedBody[field.name] = {
@@ -101,7 +100,6 @@ const SwaggerService = () => {
                 200: { description: "OK" },
             },
         };
-        console.log(swaggerTemplate)
 
         if ("query" in endpoint) {
             endpoint?.query?.forEach((param : any) => {

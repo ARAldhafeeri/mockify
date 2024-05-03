@@ -8,7 +8,7 @@ import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/ic
 import MockifyModal from "components/commons/Modal/Modal";
 import { IFetchedCacheData } from "types/Cache";
 import CacheForm from "../Forms/Cache/CacheForm";
-import GlobalTabs from "../GlobalTabs/GlobalTabs";
+import GlobalTabsProjects from "../GlobalTabs/GlobalTabsProjects";
 
 const Cache : React.FC = () => {
   // services
@@ -59,9 +59,9 @@ const Cache : React.FC = () => {
     <>
     {
         loading ? <MockifyLoader size="large" /> : (
-        <GlobalTabs
+        <GlobalTabsProjects
           handleTabChange={handleTabChange}
-          key={key}
+          tabKey={key}
           content={
             <>
               <MockifyModal 

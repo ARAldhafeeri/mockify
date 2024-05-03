@@ -8,7 +8,7 @@ import { EyeOutlined } from "@ant-design/icons";
 import MockifyCodeEditor from 'components/commons/CodeEditor/CodeEditor';
 import ResourceService from 'services/Resource';
 import MockifyLoader from 'components/commons/Loader/MockifyLoader';
-import GlobalTabs from '../GlobalTabs/GlobalTabs';
+import GlobalTabsProjects from '../GlobalTabs/GlobalTabsProjects';
 
 const Swagger  : React.FC = () => {
   const {
@@ -39,9 +39,9 @@ const Swagger  : React.FC = () => {
     <>
     {
   loading ? <MockifyLoader size="large" /> : (
-    <GlobalTabs
+    <GlobalTabsProjects
       handleTabChange={handleResourceTabChange}
-      key={resourceKey}
+      tabKey={resourceKey}
       content={
         <React.Fragment>
         

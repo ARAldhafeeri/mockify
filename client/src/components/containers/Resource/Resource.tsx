@@ -3,21 +3,17 @@ import MockifyTable from "../../commons/Table/Table";
 import ResourceService from "services/Resource";
 import MockifyButton from "components/commons/Button/Button";
 import ColumnsWithActions from "../../presentational/Resource/ResourceData";
-import MockifyLoader from "components/commons/Loader/MockifyLoader";
 import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import MockifyModal from "components/commons/Modal/Modal";
 import { IFetchedResourceData } from "types/Resource";
 import ResourceForm from "../Forms/Resource/ResourceForm";
-import { Tabs } from "antd";
-import ProjectService from "services/Project";
-import GlobalTabs from "../GlobalTabs/GlobalTabs";
+import GlobalTabsProjects from "../GlobalTabs/GlobalTabsProjects";
+import { useAppSelector } from "redux/hooks";
 
 const Resource : React.FC = () => {
 
-  // service 
-  const {
-    project,
-  }   = ProjectService();
+  const { project } = useAppSelector(project => project.project); 
+
   const { 
     resource, 
     loading, 
@@ -69,15 +65,17 @@ const Resource : React.FC = () => {
       onclick: (record: IFetchedResourceData) => handleShowDeleteModal(record)
     }
   ]
-
-  // render component with global tabs
+    // render component with global tabs
   return (
-    <>
-    {
-      loading ? <MockifyLoader size="large" /> : (
-          <GlobalTabs
+          <GlobalTabsProjects
               handleTabChange={handleResourceTabChange}
-              key={resourceKey}
+              tabKey={1}
+              withCreateBtn={true} 
+              createBtn={
+              <MockifyButton 
+                classes={['table-action-third', 'table-action', 'left-tab-action']}
+                onClick={handleShowCreateResourceModal} 
+                icon={<PlusCircleOutlined />} />} 
               content={
                 <React.Fragment>
                 <MockifyModal 
@@ -135,25 +133,16 @@ const Resource : React.FC = () => {
                         form={form}
                         onFinish={() => handleHideEditModal()}
                         />
-                    }
-                  />
+                  }
+                />
                 <MockifyTable 
                   columns={ColumnsWithActions(actions)} 
                   data={filterResourceBasedOnProjectId(resource)} 
                   classes={["mockify-table"]} />
                 </ React.Fragment>
               } 
-              withCreateBtn={true} 
-              createBtn={
-              <MockifyButton 
-                classes={['table-action-third', 'table-action', 'left-tab-action']}
-                onClick={handleShowCreateResourceModal} 
-                icon={<PlusCircleOutlined />} />} 
           />
-      )
-    }
-    </>
-  )
-}
+  );
+};
 
 export default Resource;

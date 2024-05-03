@@ -7,7 +7,7 @@ import { Form } from "antd";
 import ProjectService from "./Project";
 import { IFetchedProjectData } from "types/Project";
 const CacheService = () => {
-  const { project } = ProjectService();
+  const { project } = useAppSelector(state => state.project);
   const { cache, loading } = useAppSelector((state) => state.cache);
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
@@ -68,7 +68,6 @@ const CacheService = () => {
   }
 
   const handleFormChange = (e : any) => {
-    console.log(e.target.value)
     setSelectedCache({
       ...selectedCache,
       [e.target.name]: e.target.value
@@ -95,7 +94,6 @@ const CacheService = () => {
   const handleTabChange = (key : string, projects : IFetchedProjectData[]) => {
     setKey(parseInt(key))
     setSelectedProject(projects[parseInt(key)]);
-    console.log(selectedProject)
 
   }
   

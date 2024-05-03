@@ -39,7 +39,6 @@ const LoggedInLayout: React.FC<LoggedInLayoutProps> = (props) => {
     setCollapsed(false)
   }
 
-  console.log(current)
  const sideBarCollapsed = collapsed ? 'grid-cols-[50px_auto]' : 'grid-cols-[200px_auto]';
  return (
   <>

@@ -5,11 +5,10 @@ import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { ToastifyMockify } from "utils";
 import { Form } from "antd";
 import { IFetchedProjectData } from "types/Project";
-import ProjectService from "./Project";
 import ResourceService from "./Resource";
 const ClientService = () => {
   const { resource } = ResourceService();
-  const { project } = ProjectService();
+  const { project } = useAppSelector(state => state.project);
   const { client, loading } = useAppSelector((state) => state.client);
   const [ key, setKey ] = React.useState<number>(0);
   const [ projectT, setProject ] = React.useState<IFetchedProjectData>(project[0]);
@@ -79,7 +78,6 @@ const ClientService = () => {
 
   const handleFormChange = (e : any) => {
     e.preventDefault();
-    console.log(e)
         setSelectedClient({
           ...selectedClient,
           [e.target.name]: e.target.value

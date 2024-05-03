@@ -10,7 +10,8 @@ import { DeleteColumnOutlined, DeleteOutlined, EditOutlined, PlusCircleOutlined 
 import MockifyButton from "components/commons/Button/Button";
 import MockifyModal from "components/commons/Modal/Modal";
 import DataForm from "../Forms/Data/DataForm";
-import GlobalTabs from "../GlobalTabs/GlobalTabs";
+import GlobalTabsProjects from "../GlobalTabs/GlobalTabsProjects";
+import GlobalTabsResource from "../GlobalTabs/GlobalTabsResource";
 
 const Data : React.FC = () => {
 
@@ -54,8 +55,6 @@ const Data : React.FC = () => {
   
   } = DataService();
 
-  console.log('data', data)
-
   
   const actions = [
     {
@@ -71,9 +70,9 @@ const Data : React.FC = () => {
   ]
 
   return (
-    <GlobalTabs
+    <GlobalTabsProjects
       handleTabChange={handleResourceTabChange}
-      key={resourceKey}
+      tabKey={0}
       withCreateBtn={true}
       createBtn={
         <MockifyButton 
@@ -83,19 +82,13 @@ const Data : React.FC = () => {
         />
       }
       content={
-      <React.Fragment>
-      {/* resource selection */}
-      <Tabs
-        tabPosition="left"
-        style={{ height: "100%" }}
-        onTabClick={(e) => handleTabChange(e, resource)}
-        items={(Array.isArray(resource) ? resource : []).map((resource : any, index : number) => {
-          return {
-            label: `${resource?.resourceName}`,
-            key: `${index}`,
-            disabled: false,
-            children: (
-              <>
+        <GlobalTabsResource
+          handleTabChange={handleTabChange}
+          tabKey={key}
+          withCreateBtn={false}
+          content={
+            <>
+               <>
                 <MockifyModal 
                   show={showDeleteModal}
                   title="Delete resource"
@@ -118,7 +111,7 @@ const Data : React.FC = () => {
                         handleFormChangeSelect={handleFormChangeSelect}
                         hanldeFormChangeFields={hanldeFormChangeFields}
                         form={form}
-                        fieldsSchema={resource?.fields}
+                        fieldsSchema={resource?.[resourceKey]?.fields}
                         onFinish={() => handleHideEditModal()}
                         />
                     }
@@ -138,7 +131,7 @@ const Data : React.FC = () => {
                         handleFormChangeSelect={handleFormChangeSelect}
                         hanldeFormChangeFields={hanldeFormChangeFields}
                         form={form}
-                        fieldsSchema={resource?.fields}
+                        fieldsSchema={resource?.[resourceKey]?.fields}
                         onFinish={() => handleHideEditModal()}
                         />
                     }
@@ -149,15 +142,11 @@ const Data : React.FC = () => {
                   classes={["mockify-table"]} />
 
               </>
-            )
-
+            </>
           }
-        })}
-        />
-
-      </React.Fragment>
-      } 
     />
+        }
+        />
   )
   }
 

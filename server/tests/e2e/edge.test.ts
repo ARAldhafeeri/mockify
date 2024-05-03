@@ -187,7 +187,6 @@ describe('end-to-end tests running  functions with post, get, delete, put reques
   const edgeId = newEdge._id.toString();
   const response = await request.agent(app).get(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
   .set(apiKeyHeader, apiKey);
-  console.log(response.body)
 
   expect(response.status).toBe(200);
   expect(response.body.status).toBe(true);

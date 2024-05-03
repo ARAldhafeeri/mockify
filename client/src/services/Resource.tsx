@@ -28,6 +28,7 @@ const ResourceService = () => {
   }
   
   const handleResourceTabChange = (key : string, projects : IFetchedProjectData[]) => {
+    console.log(key)
     setKey(parseInt(key))
     setProject(projects[parseInt(key)]);
   }
@@ -148,7 +149,7 @@ const ResourceService = () => {
   React.useEffect(() =>{
     const dispatched = dispatch(fetchResources(projectT?._id));
     ToastifyMockify(dispatched);
-  }, [dispatch, resourceKey])
+  }, [dispatch, resourceKey, projectT?._id])
 
   return {
     // globals

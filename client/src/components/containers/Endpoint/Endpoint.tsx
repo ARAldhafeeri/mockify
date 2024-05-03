@@ -1,14 +1,12 @@
 import React from "react"; 
 import MockifyTable from "../../commons/Table/Table";
 import EndpointService from "services/Endpoint";
-import MockifyButton from "components/commons/Button/Button";
 import ColumnsWithActions from "../../presentational/Endpoint/EndpointData";
 import MockifyLoader from "components/commons/Loader/MockifyLoader";
-import { EyeOutlined } from "@ant-design/icons";
-import { Tabs } from "antd";
-import GlobalTabs from "../GlobalTabs/GlobalTabs";
-import ResourceService from "services/Resource";
+import GlobalTabsProjects from "../GlobalTabs/GlobalTabsProjects";
+import GlobalTabsResource from "../GlobalTabs/GlobalTabsResource";
 const Endpoint : React.FC = () => {
+
   const { 
     endpoint, 
     loading,
@@ -18,50 +16,31 @@ const Endpoint : React.FC = () => {
   
   } = EndpointService();
 
-  const {
-    resource,
-    resourceKey,
-  } = ResourceService();
-
-
   return (
-    <>
-    {
-      loading ? <MockifyLoader size="large" /> : (
-          <GlobalTabs
-              handleTabChange={handleResourceTabChange}
-              key={resourceKey}
-              content={
-               <React.Fragment>
-               <Tabs
-                  defaultActiveKey={`${resourceKey}`}
-                  tabPosition="left"
-                  style={{ height: "100%" }}
-                  onTabClick={(e) => handleTabChange(e, resource)}
-                  items={resource.map((resource : any, index : number) => {
-                    return {
-                      label: `${resource?.resourceName}`,
-                      key: `${index}`,
-                      disabled: false,
-                      children: (
-                        <MockifyTable 
-                          columns={ColumnsWithActions([])} 
-                          data={endpoint} 
-                          classes={["mockify-table"]} />
-                      ),
-                    };
-                  })}
-                  />
-               </React.Fragment>
-              } 
-              withCreateBtn={false} 
-          />
-      )
-    }
-    </>
+    <GlobalTabsProjects
+        handleTabChange={handleResourceTabChange}
+        tabKey={0}
+        content={
+          <GlobalTabsResource
+            handleTabChange={handleTabChange}
+            tabKey={key}
+            withCreateBtn={false}
+            content={
+               <>
+                {loading ? <MockifyLoader /> : (
+                  <MockifyTable 
+                    columns={ColumnsWithActions([])} 
+                    data={endpoint} 
+                    classes={["mockify-table"]} />
+                )}
+               </>
+            }
+        />
+        } 
+        withCreateBtn={false} 
+    />
   )
 
 }
 
 export default Endpoint;
-

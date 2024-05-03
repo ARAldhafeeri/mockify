@@ -11,7 +11,8 @@ import PolicyForm from "../Forms/Policy/PolicyForm";
 import { Space, Tabs } from "antd";
 import ProjectService from "services/Project";
 import Policies from "../../presentational/Policy/Policies";
-import GlobalTabs from "../GlobalTabs/GlobalTabs";
+import GlobalTabsProjects from "../GlobalTabs/GlobalTabsProjects";
+import { useAppSelector } from "redux/hooks";
 
 
 const Policy : React.FC = () => {
@@ -53,7 +54,7 @@ const Policy : React.FC = () => {
     handleRemovePolicies,
   } = PolicyService();
 
-  const { project } = ProjectService(); 
+  const { project } = useAppSelector(state => state.project); 
 
   // actions
   const actions = [
@@ -71,9 +72,9 @@ const Policy : React.FC = () => {
   ]
 
   // render component with global tabs
-  return <GlobalTabs
+  return <GlobalTabsProjects
     handleTabChange={handleTabChange}
-    key={key}
+    tabKey={key}
     content={
       <>
       <MockifyModal 

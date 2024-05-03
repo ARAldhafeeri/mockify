@@ -6,18 +6,16 @@ import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/ic
 import MockifyModal from "components/commons/Modal/Modal";
 import { IFetchedClientData } from "types/Client";
 import ClientForm from "../Forms/Client/ClientForm";
-import { Tabs } from "antd";
-import ProjectService from "services/Project";
 import ClientCards from "components/presentational/Client/ClientCards";
-import GlobalTabs from "../GlobalTabs/GlobalTabs";
+import GlobalTabsProjects from "../GlobalTabs/GlobalTabsProjects";
 import NextPrevPagination from "../Pagination/NextPrevPagination";
+import { useAppSelector } from "redux/hooks";
 
 const Client : React.FC = () => {
 
   // services
-  const {
-    project,
-  }   = ProjectService();
+  const { project } = useAppSelector(project => project.project); 
+
   const { 
     client, 
     loading, 
@@ -68,9 +66,9 @@ const Client : React.FC = () => {
 
   
   // render component with global tabs
-    return <GlobalTabs
+    return <GlobalTabsProjects
       handleTabChange={handleTabChange}
-      key={key}
+      tabKey={key}
       content={
         <>
         <MockifyModal 

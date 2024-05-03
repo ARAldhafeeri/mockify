@@ -30,7 +30,6 @@ const randomNane = () => {
 const passwordService = new PasswordService();
 const projService = new ProjectService();
 const dataService = new DataService();
-const endpointService = new EndpointService();
 const policyService = new PolicyService();
 const resourceService = new ResourceService();
 const edgeService = new EdgeService();

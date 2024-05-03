@@ -8,9 +8,10 @@ import { IFetchedEventData } from "types/Event";
 import EventForm from "../Forms/Event/EventForm";
 import EventCards from "components/presentational/Event/EventCards";
 import { Tabs } from "antd";
-import GlobalTabs from "../GlobalTabs/GlobalTabs";
+import GlobalTabsProjects from "../GlobalTabs/GlobalTabsProjects";
 import ResourceService from "services/Resource";
 import NextPrevPagination from "../Pagination/NextPrevPagination";
+import GlobalTabsResource from "../GlobalTabs/GlobalTabsResource";
 
 const Event : React.FC = () => {
   const { 
@@ -63,100 +64,85 @@ const Event : React.FC = () => {
   ]
 
   return (
-    <>
-    {
-      loading ? <MockifyLoader size="large" /> : (
-          <GlobalTabs
-              handleTabChange={handleResourceTabChange}
-              key={resourceKey}
-              withCreateBtn={true}
-              createBtn={
-                <MockifyButton 
-                  classes={['table-action-third', 'table-action']} 
-                  onClick={handleShowCreateEventModal} 
-                  icon={<PlusCircleOutlined />
-                } 
-              />
-              }
-              content={
-               <React.Fragment>
-                        <Tabs
-                          defaultActiveKey={`${key}`}
-                          tabPosition="left"
-                          style={{ height: "100%" }}
-                          onTabClick={(e) => handleTabChange(e, resource)}
-                            items={resource.map((reso : any, index : number) => {
-                              return {
-                                label: `${reso.resourceName}`,
-                                key: `${index}`,
-                                disabled: false,
-                                children: (
-                                  <>
-                                    <MockifyModal 
-                                      show={showDeleteModal}
-                                      title="Delete Event"
-                                      onOk={() => handleDeleteEvent(selectedEvent._id || '')}
-                                      onCancel={() => handleHideDeleteModal()}
-                                      children={<p>Are you sure delete {selectedEvent.name} ?</p>}
-                                      />
-                                    <MockifyModal
-                                      show={showEditModal}
-                                      title="Update Event"
-                                      onOk={ () => handleHideEditModal()}
-                                      onCancel={() => handleHideEditModal()}
-                                      okButtonProps={{ style: { display: 'none' } }}
-                                      cancelButtonProps={{ style: { display: 'none' } }}
-                                      children={
-                                          <EventForm 
-                                            handleFormChange={handleFormChange} 
-                                            handleFormSubmit={handleSubmitEventForm}
-                                            handleFormChangeSelect={handleFormChangeSelect}
-                                            data={selectedEvent} 
-                                            form={form}
-                                            edge={edge}
-                                            resource={resource}
-                                            onFinish={() => handleHideEditModal()}
-                                            />
-                                        }
-                                      />
-                                    <MockifyModal
-                                      show={showCreateModal}
-                                      title="Create Event"
-                                      onOk={ () => handleShowCreateEventModal()}
-                                      onCancel={() => handleHideCreateEventModal()}
-                                      okButtonProps={{ style: { display: 'none' } }}
-                                      cancelButtonProps={{ style: { display: 'none' } }}
-                                      children={
-                                          <EventForm 
-                                            handleFormChange={handleFormChange} 
-                                            handleFormSubmit={handleSubmitEventForm}
-                                            data={selectedEvent} 
-                                            handleFormChangeSelect={handleFormChangeSelect}
-                                            form={form}
-                                            edge={edge}
-                                            resource={resource}
-                                            onFinish={() => handleHideEditModal()}
-                                            />
-                                        }
-                                      />
-                                    <NextPrevPagination
-                                      data={event}
-                                      actions={actions}
-                                      itemsPerPage={6}
-                                      Cards={EventCards}
-                                      />
-                                  </>
-                                )
-                                }
-                  
-                            })}
-                          />
-               </React.Fragment>
-              } 
+    <GlobalTabsProjects
+      handleTabChange={handleResourceTabChange}
+      tabKey={resourceKey}
+      withCreateBtn={true}
+      createBtn={
+        <MockifyButton 
+          classes={['table-action-third', 'table-action']} 
+          onClick={handleShowCreateEventModal} 
+          icon={<PlusCircleOutlined />
+        } 
+      />
+      }
+      content={
+      <React.Fragment>
+          <GlobalTabsResource
+            handleTabChange={handleTabChange}
+            tabKey={key}
+            withCreateBtn={false}
+            content={
+              <>
+                <MockifyModal 
+                  show={showDeleteModal}
+                  title="Delete Event"
+                  onOk={() => handleDeleteEvent(selectedEvent._id || '')}
+                  onCancel={() => handleHideDeleteModal()}
+                  children={<p>Are you sure delete {selectedEvent.name} ?</p>}
+                  />
+                <MockifyModal
+                  show={showEditModal}
+                  title="Update Event"
+                  onOk={ () => handleHideEditModal()}
+                  onCancel={() => handleHideEditModal()}
+                  okButtonProps={{ style: { display: 'none' } }}
+                  cancelButtonProps={{ style: { display: 'none' } }}
+                  children={
+                      <EventForm 
+                        handleFormChange={handleFormChange} 
+                        handleFormSubmit={handleSubmitEventForm}
+                        handleFormChangeSelect={handleFormChangeSelect}
+                        data={selectedEvent} 
+                        form={form}
+                        edge={edge}
+                        resource={resource}
+                        onFinish={() => handleHideEditModal()}
+                        />
+                    }
+                  />
+                <MockifyModal
+                  show={showCreateModal}
+                  title="Create Event"
+                  onOk={ () => handleShowCreateEventModal()}
+                  onCancel={() => handleHideCreateEventModal()}
+                  okButtonProps={{ style: { display: 'none' } }}
+                  cancelButtonProps={{ style: { display: 'none' } }}
+                  children={
+                      <EventForm 
+                        handleFormChange={handleFormChange} 
+                        handleFormSubmit={handleSubmitEventForm}
+                        data={selectedEvent} 
+                        handleFormChangeSelect={handleFormChangeSelect}
+                        form={form}
+                        edge={edge}
+                        resource={resource}
+                        onFinish={() => handleHideEditModal()}
+                        />
+                    }
+                  />
+                  <NextPrevPagination
+                    data={event}
+                    actions={actions}
+                    itemsPerPage={6}
+                    Cards={EventCards}
+                    />
+              </>
+            }
           />
-      )
-    }
-    </>
+     </React.Fragment>
+    } 
+/>
   )
 
   }

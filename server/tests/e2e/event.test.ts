@@ -69,7 +69,6 @@ describe('end-to-end tests resource event', () => {
       })
     .set('Authorization', 'bearer ' + token)
 
-    console.log(response.body)
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);

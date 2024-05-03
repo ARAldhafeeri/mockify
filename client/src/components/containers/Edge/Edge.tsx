@@ -6,12 +6,11 @@ import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/ic
 import MockifyModal from "components/commons/Modal/Modal";
 import { IFetchedEdgeData } from "types/Edge";
 import EdgeForm from "../Forms/Edge/EdgeForm";
-import { Space, Tabs } from "antd";
 import EdgeCards from "components/presentational/Edge/EdgeCards";
-import { useAppSelector } from "redux/hooks";
 import ResourceService from "services/Resource";
-import GlobalTabs from "../GlobalTabs/GlobalTabs";
+import GlobalTabsProjects from "../GlobalTabs/GlobalTabsProjects";
 import NextPrevPagination from "../Pagination/NextPrevPagination";
+import GlobalTabsResource from "../GlobalTabs/GlobalTabsResource";
 
 const Edge : React.FC = () => {
   const { 
@@ -54,98 +53,83 @@ const Edge : React.FC = () => {
   } = ResourceService() 
 
   return (
-    <>
-    {
-      loading ? <MockifyLoader size="large" /> : (
-          <GlobalTabs
-              handleTabChange={handleResourceTabChange}
-              key={key}
-              withCreateBtn={true}
-              createBtn={
-                <MockifyButton 
-                  classes={['table-action-third', 'table-action']} 
-                  onClick={handleShowCreateEdgeModal} 
-                  icon={<PlusCircleOutlined />
-                } 
+    <GlobalTabsProjects
+      handleTabChange={handleResourceTabChange}
+      tabKey={key}
+      withCreateBtn={true}
+      createBtn={
+        <MockifyButton 
+          classes={['table-action-third', 'table-action']} 
+          onClick={handleShowCreateEdgeModal} 
+          icon={<PlusCircleOutlined />
+        } 
+      />
+      }
+      content={
+        <React.Fragment>
+        <GlobalTabsResource
+          handleTabChange={handleTabChange}
+          tabKey={resourceKey}
+          withCreateBtn={false}
+          content={
+            <>
+            <MockifyModal 
+              show={showDeleteModal}
+              title="Delete Edge Function"
+              onOk={() => handleDeleteEdge(selectedEdge._id || '')}
+              onCancel={() => handleHideDeleteModal()}
+              children={<p>Are you sure delete {selectedEdge.name} ?</p>}
               />
-              }
-              content={
-               <React.Fragment>
-                <Tabs
-                  defaultActiveKey={`${resourceKey}`}
-                  tabPosition="left"
-                  style={{ height: "100%" }}
-                  onTabClick={(e) => handleTabChange(e, resource)}
-                    items={resource.map((reso : any, index : number) => {
-                      return {
-                        label: `${reso.resourceName}`,
-                        key: `${index}`,
-                        disabled: false,
-                        children: (
-                          <>
-                            <MockifyModal 
-                              show={showDeleteModal}
-                              title="Delete Edge Function"
-                              onOk={() => handleDeleteEdge(selectedEdge._id || '')}
-                              onCancel={() => handleHideDeleteModal()}
-                              children={<p>Are you sure delete {selectedEdge.name} ?</p>}
-                              />
-                            <MockifyModal
-                              show={showEditModal}
-                              title="Update Edge Function"
-                              onOk={ () => handleHideEditModal()}
-                              onCancel={() => handleHideEditModal()}
-                              okButtonProps={{ style: { display: 'none' } }}
-                              cancelButtonProps={{ style: { display: 'none' } }}
-                              children={
-                                  <EdgeForm 
-                                    handleFormChange={handleFormChange} 
-                                    handleFormSubmit={handleSubmitEdgeForm}
-                                    data={selectedEdge} 
-                                    resourceOptions={resource}
-                                    form={form}
-                                    onFinish={() => handleHideEditModal()}
-                                    />
-                                }
-                              />
-                            <MockifyModal
-                              show={showCreateModal}
-                              title="Create Edge Function"
-                              onOk={ () => handleShowCreateEdgeModal()}
-                              onCancel={() => handleHideCreateEdgeModal()}
-                              okButtonProps={{ style: { display: 'none' } }}
-                              cancelButtonProps={{ style: { display: 'none' } }}
-                              children={
-                                  <EdgeForm 
-                                    handleFormChange={handleFormChange} 
-                                    handleFormSubmit={handleSubmitEdgeForm}
-                                    data={selectedEdge} 
-                                    resourceOptions={resource}
-                                    form={form}
-                                    onFinish={() => handleHideEditModal()}
-                                    />
-                                }
-                              />
-                            <NextPrevPagination 
-                              data={edge} 
-                              actions={actions} 
-                              itemsPerPage={6}
-                              Cards={EdgeCards}
-                              />
-                          </>
-                        )
-                        }
-
-                    })}
-                />
-               </React.Fragment>
-              } 
-          />
-      )
-    }
-    </>
+            <MockifyModal
+              show={showEditModal}
+              title="Update Edge Function"
+              onOk={ () => handleHideEditModal()}
+              onCancel={() => handleHideEditModal()}
+              okButtonProps={{ style: { display: 'none' } }}
+              cancelButtonProps={{ style: { display: 'none' } }}
+              children={
+                  <EdgeForm 
+                    handleFormChange={handleFormChange} 
+                    handleFormSubmit={handleSubmitEdgeForm}
+                    data={selectedEdge} 
+                    resourceOptions={resource}
+                    form={form}
+                    onFinish={() => handleHideEditModal()}
+                    />
+                }
+              />
+            <MockifyModal
+              show={showCreateModal}
+              title="Create Edge Function"
+              onOk={ () => handleShowCreateEdgeModal()}
+              onCancel={() => handleHideCreateEdgeModal()}
+              okButtonProps={{ style: { display: 'none' } }}
+              cancelButtonProps={{ style: { display: 'none' } }}
+              children={
+                  <EdgeForm 
+                    handleFormChange={handleFormChange} 
+                    handleFormSubmit={handleSubmitEdgeForm}
+                    data={selectedEdge} 
+                    resourceOptions={resource}
+                    form={form}
+                    onFinish={() => handleHideEditModal()}
+                    />
+                }
+              />
+            <NextPrevPagination 
+              data={edge} 
+              actions={actions} 
+              itemsPerPage={6}
+              Cards={EdgeCards}
+              />
+            </>
+          }
+        />
+        </React.Fragment>
+      } 
+  />
   )
 
-  }
+}
 
 export default Edge;

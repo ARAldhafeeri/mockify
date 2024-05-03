@@ -15,7 +15,7 @@ const AuthCheckService = () => {
       } else {
         dispatch(setCurrentUser(null));
       }
-    }, []);
+    }, [dispatch]);
   
     return {
         auth
