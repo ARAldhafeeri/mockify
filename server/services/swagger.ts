@@ -1,19 +1,14 @@
 import { domain } from "../getEnv";
-import { IEdge, IEndpointService,  } from "../types/Endpoint";
-import { IEndpointFeatures } from "../types/Resource";
-import EdgeService from "./Edge";
-
-
+import { IEdge, IEndpointService } from "../entities/endpoint";
+import { IEndpointFeatures } from "../entities/resource";
+import EdgeService from "./edge";
 
 class SwaggerService {
-
-  endpointService : IEndpointService;
+  endpointService: IEndpointService;
 
   constructor() {
     this.endpointService = new this.EndpointService();
   }
-
-
 }
 
 export default SwaggerService;

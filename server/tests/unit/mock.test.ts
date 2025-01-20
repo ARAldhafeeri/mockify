@@ -1,15 +1,15 @@
-import MockService from '../../services/mock';
-import { IEndpointFeatures, IResource } from '../../types/Resource';
-import ResourceService from '../../services/resource';
-import { DATABASE_URL } from '../../getEnv';
-import mongoose from 'mongoose';
-import { generateDataBasedOnType  } from '../utils';
+import MockService from "../../services/mock";
+import { IEndpointFeatures, IResource } from "../../entities/resource";
+import ResourceService from "../../services/resource";
+import { DATABASE_URL } from "../../getEnv";
+import mongoose from "mongoose";
+import { generateDataBasedOnType } from "../utils";
 
 const mockService = new MockService();
 
 const resService = new ResourceService();
 
-describe('Mock service ', () => {
+describe("Mock service ", () => {
   beforeEach(async () => {
     await mongoose.connect(DATABASE_URL);
   });
@@ -42,136 +42,133 @@ describe('Mock service ', () => {
   });
 
   test("mockService.isPaginated should return true if the data has pagination and params are numbers", () => {
-    const endpointFeatures : IEndpointFeatures = {
+    const endpointFeatures: IEndpointFeatures = {
       filter: true,
       pagination: true,
       search: true,
-      validation: true, 
+      validation: true,
       getx: true,
       postx: true,
       putx: true,
       deletex: true,
       functions: true,
-    }
+    };
     const params = {
       page: "1",
-      limit: "1"
-    }
+      limit: "1",
+    };
     expect(mockService.isPaginated(endpointFeatures, params)).toBeTruthy();
   });
 
   test("mockService.isPaginated should return false if the data has pagination and params are not numbers", () => {
-    const endpointFeatures : IEndpointFeatures = {
+    const endpointFeatures: IEndpointFeatures = {
       filter: true,
       pagination: true,
       search: true,
-      validation: true, 
+      validation: true,
       getx: true,
       postx: true,
       putx: true,
       deletex: true,
       functions: true,
-    }
+    };
     const params = {
       page: "a",
-      limit: "a"
-    }
+      limit: "a",
+    };
     expect(mockService.isPaginated(endpointFeatures, params)).toBeFalsy();
   });
 
   test("mockService.isPaginated should return false if the data has no pagination and params are numbers", () => {
-    const endpointFeatures : IEndpointFeatures = {
+    const endpointFeatures: IEndpointFeatures = {
       filter: true,
       pagination: false,
       search: true,
-      validation: true, 
+      validation: true,
       getx: true,
       postx: true,
       putx: true,
       deletex: true,
       functions: true,
-
-    }
+    };
     const params = {
       page: "1",
-      limit: "1"
-    }
+      limit: "1",
+    };
     expect(mockService.isPaginated(endpointFeatures, params)).toBeFalsy();
   });
 
   test("mockService.isSearch should return true if the data has search and params are not empty", () => {
-    const endpointFeatures : IEndpointFeatures = {
+    const endpointFeatures: IEndpointFeatures = {
       filter: true,
       pagination: true,
       search: true,
-      validation: true, 
+      validation: true,
       getx: true,
       postx: true,
       putx: true,
       deletex: true,
       functions: true,
-    }
+    };
     const params = {
       search: "a",
-    }
+    };
     expect(mockService.isSearch(endpointFeatures, params)).toBeTruthy();
   });
 
   test("mockService.isSearch should return false if the data has search and params are empty", () => {
-    const endpointFeatures : IEndpointFeatures = {
+    const endpointFeatures: IEndpointFeatures = {
       filter: true,
       pagination: true,
       search: true,
-      validation: true, 
+      validation: true,
       getx: true,
       postx: true,
       putx: true,
       deletex: true,
       functions: true,
-
-    }
+    };
     const params = {
       search: "",
-    }
+    };
     expect(mockService.isSearch(endpointFeatures, params)).toBeFalsy();
   });
 
   test("mockservice.isFilter should return true if the data has filter and params are not empty", () => {
-    const endpointFeatures : IEndpointFeatures = {
+    const endpointFeatures: IEndpointFeatures = {
       filter: true,
       pagination: true,
       search: true,
-      validation: true, 
+      validation: true,
       getx: true,
       postx: true,
       putx: true,
       deletex: true,
       functions: true,
-    }
+    };
     const params = {
       name: "a",
-      value: "a"
-    }
+      value: "a",
+    };
     expect(mockService.isFilter(endpointFeatures, params)).toBeTruthy();
   });
 
   test("mockservice.isFilter should return false if the data has filter and params are empty", () => {
-    const endpointFeatures : IEndpointFeatures = {
+    const endpointFeatures: IEndpointFeatures = {
       filter: true,
       pagination: true,
       search: true,
-      validation: true, 
+      validation: true,
       getx: true,
       postx: true,
       putx: true,
       deletex: true,
       functions: true,
-
-    }
+    };
     const params = {
       name: "",
-      value: ""
-    }
+      value: "",
+    };
     expect(mockService.isFilter(endpointFeatures, params)).toBeFalsy();
   });
 
@@ -179,8 +176,8 @@ describe('Mock service ', () => {
     const projection = {};
     const params = {
       page: "1",
-      limit: "1"
-    }
+      limit: "1",
+    };
     const response = await mockService.paginatedQuery(projection, params);
     expect(response).toHaveProperty("total");
     expect(response).toHaveProperty("page");
@@ -195,25 +192,30 @@ describe('Mock service ', () => {
   });
 
   test("mockservice.filterQuery should return a filter response", async () => {
-    const projection = { name: "a"};
+    const projection = { name: "a" };
     const response = await mockService.filterQuery(projection);
     expect(response).toBeDefined();
-    });
+  });
 
   test("mockservice.validateAndMutateQuery should return a validate response", async () => {
-    let res = await resService.find({resourceName: "default"});
+    let res = await resService.find({ resourceName: "default" });
     res = res[0];
     let fields = res.fields;
-    const fieldNames = fields.map((field : {name : string, type:  string, required: boolean}) => field.name);
-    const data : any = {};
+    const fieldNames = fields.map(
+      (field: { name: string; type: string; required: boolean }) => field.name
+    );
+    const data: any = {};
     const map = mockService.getSchemaFieldTypeMap(fields);
 
-
-    fieldNames.forEach((fieldName : string) => {
+    fieldNames.forEach((fieldName: string) => {
       data[fieldName] = generateDataBasedOnType(map.get(fieldName));
     });
 
-    const response = await mockService.validateAndCreateQuery(data, fields, res._id);
+    const response = await mockService.validateAndCreateQuery(
+      data,
+      fields,
+      res._id
+    );
     expect(response).toBeDefined();
   });
 

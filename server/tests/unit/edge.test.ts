@@ -1,12 +1,11 @@
-import EdgeService from '../../services/Edge';
-import ResourceService from '../../services/resource';
-
+import EdgeService from "../../services/edge";
+import ResourceService from "../../services/resource";
 
 const edgeService = new EdgeService();
 
 const resService = new ResourceService();
 
-describe('Edge run sandbox services ', () => {
+describe("Edge run sandbox services ", () => {
   /**
    * only testing the sandbox services
    * curd methods are tested in e2e tests
@@ -23,6 +22,4 @@ describe('Edge run sandbox services ', () => {
     const data = await edgeService.runFunctionInContext(code);
     expect(data).not.toEqual(null);
   });
-
 });
-

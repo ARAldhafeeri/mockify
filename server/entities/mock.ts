@@ -1,6 +1,6 @@
-import { IData } from "./Data";
-import { Types} from "mongoose";
-import { IEndpointFeatures, IResource } from "./Resource";
+import { IData } from "./data";
+import { Types } from "mongoose";
+import { IEndpointFeatures, IResource } from "./resource";
 
 export interface IPaginatedResponse {
   total: number;
@@ -12,7 +12,6 @@ export interface IPaginatedResponse {
 export interface IPaginateParams {
   page: string; // parsed as int
   limit: string; // parsed as int
-
 }
 
 export interface ISearchParams {
@@ -33,11 +32,22 @@ export interface IMockService {
   isPaginated(data: IEndpointFeatures, params: IPaginateParams): boolean;
   isSearch(data: IEndpointFeatures, params: ISearchParams): boolean;
   isFilter(data: IEndpointFeatures, params: IFilterParams): boolean;
-  paginatedQuery(data: Object, params: IPaginateParams): Promise<IPaginatedResponse>;
+  paginatedQuery(
+    data: Object,
+    params: IPaginateParams
+  ): Promise<IPaginatedResponse>;
   searchQuery(data: Object, params: ISearchParams): Promise<IPaginatedResponse>;
   filterQuery(data: Object, params: IFilterParams): Promise<IPaginatedResponse>;
-  validateAndCreateQuery(data: IData, schema: IResource["fields"], resource: string): Promise<IPaginatedResponse>;
-  validateAndUpdateQuery(data: IData, schema: IResource["fields"], resource: string): Promise<IPaginatedResponse>;
+  validateAndCreateQuery(
+    data: IData,
+    schema: IResource["fields"],
+    resource: string
+  ): Promise<IPaginatedResponse>;
+  validateAndUpdateQuery(
+    data: IData,
+    schema: IResource["fields"],
+    resource: string
+  ): Promise<IPaginatedResponse>;
   find(data: Object): Promise<IData>;
   create(data: IData): Promise<IData>;
   update(data: IData): Promise<IData>;
@@ -46,5 +56,4 @@ export interface IMockService {
 
 export interface IMockFieldsMap {
   [key: string]: any;
-
 }

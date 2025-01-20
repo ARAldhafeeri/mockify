@@ -1,27 +1,30 @@
-import { Document, Schema, Types, model} from "mongoose";
-import { IResource, ISchemaField } from "../types/Resource";
+import { Document, Schema, Types, model } from "mongoose";
+import { IResource, ISchemaField } from "../entities/resource";
 
-const resourceSchema = new Schema<IResource>({
-  resourceName: {type: String, required: true},
-  project: {type: Schema.Types.ObjectId , ref: "Project", required: true},
-  features: {
-    filter: {type: Boolean, required: true},
-    pagination: {type: Boolean, required: true},
-    search: {type: Boolean, required: true},
-    validation: {type: Boolean, required: true},
-    getx: {type: Boolean, required: true},
-    postx: {type: Boolean, required: true},
-    putx: {type: Boolean, required: true},
-    deletex: {type: Boolean, required: true},
-    functions: {type: Boolean, required: true},
-  
+const resourceSchema = new Schema<IResource>(
+  {
+    name: { type: String },
+    features: {
+      filter: { type: Boolean },
+      pagination: { type: Boolean },
+      search: { type: Boolean },
+      validation: { type: Boolean },
+      getx: { type: Boolean },
+      postx: { type: Boolean },
+      putx: { type: Boolean },
+      deletex: { type: Boolean },
+      functions: { type: Boolean },
+    },
+    fields: [
+      {
+        name: { type: String },
+        type: { type: String },
+        required: { type: Boolean },
+      },
+    ],
+    userUID: { type: String, maxlength: 100 },
   },
-  fields: [{
-    name: {type: String, required: true},
-    type: {type: String, required: true},
-    required: {type: Boolean, required: true},
-  
-  }],
-})
+  { timestamps: true }
+);
 
 export default model<IResource>("Resource", resourceSchema);

@@ -1,51 +1,52 @@
-'use strict'
+"use strict";
 import assert from "assert";
 import crypto from "crypto";
-import { IPassword } from "../types/Auth"
+import { IPassword } from "../entities/auth";
 
 class PasswordService implements IPassword {
+  /**
+   *
+   * one-way password hashing and verifiction only user know its password
+   */
+  async createPassword(
+    string: string
+  ): Promise<{ hashedPassword: string; salt: string }> {
+    var salt = crypto.randomBytes(16).toString("hex");
 
-    /**
-     * 
-     * one-way password hashing and verifiction only user know its password
-     */
-    async createPassword(string : string) : Promise<{hashedPassword: string, salt: string}> {
+    const hmac = crypto.createHmac("sha256", salt);
 
-        var salt = crypto.randomBytes(16).toString('hex');
+    hmac.update(string);
+    const hashedPassword = hmac.digest("hex");
 
-        const hmac = crypto.createHmac('sha256', salt);
+    return { hashedPassword, salt };
+  }
 
-        hmac.update(string);
-        const hashedPassword = hmac.digest('hex');
+  async createHashedPassword(password: string, salt: string): Promise<string> {
+    const hmac = crypto.createHmac("sha256", salt);
 
-        return {hashedPassword, salt}
-    }
+    hmac.update(password);
+    const hashedPassword = hmac.digest("hex");
 
-    async createHashedPassword(password : string, salt : string) : Promise<string> {
-        const hmac = crypto.createHmac('sha256', salt);
+    return hashedPassword;
+  }
 
-        hmac.update(password);
-        const hashedPassword = hmac.digest('hex');
+  async verifyPassword(
+    password: string,
+    hashedPassword: string,
+    salt: string
+  ): Promise<boolean> {
+    if (typeof password !== "string") return false;
+    if (typeof hashedPassword !== "string") return false;
 
-        return hashedPassword
-    }
+    const hmac = crypto.createHmac("sha256", salt);
 
-    async verifyPassword(password: string, hashedPassword: string, salt: string): Promise<boolean> {
+    hmac.update(password);
+    const passwordHash = hmac.digest("hex");
 
-        if (typeof password !== 'string') return false;
-        if (typeof hashedPassword !== 'string') return false;
+    if (passwordHash !== hashedPassword) return false;
 
-
-        const hmac = crypto.createHmac('sha256', salt);
-
-        hmac.update(password);
-        const passwordHash = hmac.digest('hex');
-
-        if (passwordHash !== hashedPassword) return false;
-
-        return true;
-
-    }
+    return true;
+  }
 }
 
 export default PasswordService;

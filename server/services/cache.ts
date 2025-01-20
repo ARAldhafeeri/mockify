@@ -1,78 +1,76 @@
-import redisClient from "../redis";
-import { promisify } from 'util';
+import { ICacheService } from "../entities/cache";
 
-class CacheService {
+class CacheService implements ICacheService {
+  private client: any;
+
+  constructor(client: any) {
+    this.client = client;
+  }
 
   validate(key: string): boolean {
-    // keys must be set like tihs "projectName:key"
-    const pattern = /[a-zA-Z0-9]:[a-zA-Z0-9]/;
-    const keyIsValid = pattern.test(key);
-    return keyIsValid;
-  }
-  async get(key: string): Promise<string | boolean | null > {
-    const keyIsValid = this.validate(key);
-    if (!keyIsValid) {
-      return false;
-    }
-    const getAsync = promisify(redisClient.get).bind(redisClient);
-    const result = await getAsync(key);
-
-    return result !== null ? result.toString() : null;
+    // Keys must be in the format "projectName:key"
+    const pattern = /^[a-zA-Z0-9]+:[a-zA-Z0-9]+$/;
+    return pattern.test(key);
   }
 
-  async set(key: string, value: string, exp : number | null = null): Promise<any> {
-    const keyIsValid = this.validate(key);
-    if (!keyIsValid) {
+  private async executeIfValid<T>(
+    key: string,
+    action: () => Promise<T>
+  ): Promise<T | boolean> {
+    if (!this.validate(key)) {
       return false;
     }
-    const setAsync = promisify(redisClient.set).bind(redisClient);
-
-    if (exp) {
-      // If exp is provided, set the expiration time
-      await setAsync(key, value, 'EX', exp);
-    } else {
-      // If exp is not provided, set the value without expiration
-      await setAsync(key, value);
-    }
-    return true;
-
+    return action();
   }
 
-  async del(key: string): Promise<any> {
-    const keyIsValid = this.validate(key);
-    if (!keyIsValid) {
-      return false;
-    }
-    await promisify(redisClient.del).bind(redisClient)(key);
-    return true;
+  async get(key: string): Promise<string | null | boolean> {
+    return this.executeIfValid(key, async () => {
+      const result = await this.client.get(key);
+      return result !== null ? result.toString() : null;
+    });
+  }
+
+  async set(
+    key: string,
+    value: string,
+    exp: number | null = null
+  ): Promise<boolean> {
+    return this.executeIfValid(key, async () => {
+      if (exp) {
+        await this.client.set(key, value, { EX: exp });
+      } else {
+        await this.client.set(key, value);
+      }
+      return true;
+    });
+  }
+
+  async del(key: string): Promise<boolean> {
+    return this.executeIfValid(key, async () => {
+      await this.client.del(key);
+      return true;
+    });
   }
 
   addProjectNameToKey(projectName: string, key: string): string {
     return `${projectName}:${key}`;
   }
 
-  async getAllProjectDataJSON(projectName: string): Promise<any> {
-    let data  : any = [];
-    const keys: string[] = await promisify(redisClient.keys).bind(redisClient)(`${projectName}:*`);
-      
-
+  async getAllProjectDataJSON(projectName: string): Promise<Array<any> | null> {
+    const keys = await this.client.keys(`${projectName}:*`);
     if (!keys || keys.length === 0) {
-      return data;
+      return [];
     }
 
-    for (const key of keys) {
-      const value = await promisify(redisClient.get).bind(redisClient)(key);
-      const parsedData = { key: key.split(":")[1], value: value };
-      data.push(parsedData);
-    }
+    const data = await Promise.all(
+      keys.map(async (key: string) => {
+        const value = await this.client.get(key);
+        return { key: key.split(":")[1], value };
+      })
+    );
 
-    if (data.length === 0) {
-      return null; // Returning null instead of false when there's no data
-    }
-
-    return data;
+    return data.length > 0 ? data : null;
   }
-
 }
 
 export default CacheService;

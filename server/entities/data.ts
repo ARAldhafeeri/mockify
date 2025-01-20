@@ -1,7 +1,8 @@
-import { Document, Types} from "mongoose";
+import { Document, Types } from "mongoose";
+import { IBaseEntity } from "./generic";
 
-export interface IData extends Document {
-  resource: Types.ObjectId;
+export interface IData extends IBaseEntity {
+  resource: string;
   data: Object;
 }
 

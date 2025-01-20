@@ -1,11 +1,12 @@
-import { Document, Schema, model} from "mongoose";
-import { IProject } from "../types/Project";
+import { Document, Schema, model } from "mongoose";
+import { IProject } from "../entities/project";
 
-const projectSchema = new Schema<IProject>({
-  name: {type: String},
-  apiKey: {type: String },
-  user: {type: Schema.Types.ObjectId , ref: "User", required: true},
-
-})
-
+const projectSchema = new Schema<IProject>(
+  {
+    name: { type: String },
+    apiKey: { type: String },
+    userUID: { type: String, maxlength: 100 },
+  },
+  { timestamps: true }
+);
 export default model<IProject>("Project", projectSchema);

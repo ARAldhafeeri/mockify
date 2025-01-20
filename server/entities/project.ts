@@ -1,9 +1,9 @@
 import { Document, Schema } from "mongoose";
-import {Types} from "mongoose";
+import { Types } from "mongoose";
+import { IBaseEntity } from "./generic";
 
-export interface IProject extends Document {
+export interface IProject extends IBaseEntity {
   name: string;
-  user: Schema.Types.ObjectId;
   apiKey: string;
 }
 

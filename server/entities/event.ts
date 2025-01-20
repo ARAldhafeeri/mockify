@@ -1,6 +1,7 @@
-import { Document, Types} from "mongoose";
+import { Document, Types } from "mongoose";
+import { IBaseEntity } from "./generic";
 
-export interface IEvent extends Document {
+export interface IEvent extends IBaseEntity {
   resource: Types.ObjectId;
   name: string;
   handler: string;
