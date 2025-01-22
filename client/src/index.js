@@ -10,7 +10,7 @@ const App_1 = __importDefault(require("./App"));
 const reportWebVitals_1 = __importDefault(require("./reportWebVitals"));
 const root = client_1.default.createRoot(document.getElementById('root'));
 root.render(<react_1.default.StrictMode>
-    <App_1.default />
+        <App_1.default />
   </react_1.default.StrictMode>);
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

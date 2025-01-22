@@ -48,8 +48,8 @@ export class Repository<T> implements IRepository<any> {
     });
   }
 
-  async delete(id: string, organization: string): Promise<any> {
-    return this.model.findOneAndDelete({ _id: id, organization }).exec();
+  async delete(id: string): Promise<any> {
+    return this.model.findOneAndDelete({ _id: id }).exec();
   }
 
   async count(filter: FilterQuery<any>): Promise<number> {

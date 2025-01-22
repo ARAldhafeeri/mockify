@@ -1,120 +1,83 @@
-import { Response, Request} from "express";
-import ProjectService from "../services/project";
-import { SuccessResponse, ErrorResponse } from "../utils/responses";
+import { Response, Request } from "express";
 import { Types } from "mongoose";
-import CryptoService from "../services/crypto";
 import { getUserRoleFromToken } from "../middleware/authorization";
-const {ObjectId} = Types;
+import { asyncController } from "../utils/handlers";
 import { superAdmin } from "../config/roles";
+import Controller from "./generic";
+import { IProjectController } from "../entities/project";
+import { IProjectService } from "../entities/project";
+import CryptoService from "../services/crypto";
 
-const pService = new ProjectService();
-const cryptoService = new CryptoService();
+const { ObjectId } = Types;
 
-export const getProjects = async function(req: Request, res: Response) : Promise<any> {
- 
-  try{
+class ProjectController
+  extends Controller<IProjectService>
+  implements IProjectController
+{
+  private cryptoService: CryptoService;
 
-      let token : string | undefined  = req.headers["authorization"]
-      token = token?.split(" ")[1];
-      let authenticatedUserData = await getUserRoleFromToken(token as string);
-
-      let foundProjects : any;
-      const isSuperAdmin = authenticatedUserData.role === superAdmin;
-      if(isSuperAdmin){
-        foundProjects = await pService.find({});
-      } else {
-        foundProjects =  await pService.find({user : new ObjectId(authenticatedUserData.id)});
-      }
-
-      if (!foundProjects) return ErrorResponse(res, 'projects not found', 400);
-
-      return SuccessResponse(res, foundProjects, 'fetching projects was successful', 200)
-
-  } catch (err){
-    return ErrorResponse(res, `error ${err}`, 400);
-
+  constructor(projectService: IProjectService, cryptoService: CryptoService) {
+    super(projectService);
+    this.cryptoService = cryptoService;
   }
+
+  fetch = asyncController(async (req: Request, res: Response) => {
+    const token = req.headers["authorization"]?.split(" ")[1];
+    const authenticatedUserData = await getUserRoleFromToken(token as string);
+
+    const isSuperAdmin = authenticatedUserData.role === superAdmin;
+    const filter = isSuperAdmin
+      ? {}
+      : { user: new ObjectId(authenticatedUserData.id) };
+
+    const foundProjects = await this.service.find(filter);
+    if (!foundProjects) {
+      throw new Error("Projects not found");
+    }
+
+    return res.status(200).json({
+      data: foundProjects,
+      status: true,
+      message: "Fetching projects was successful",
+    });
+  });
+
+  create = asyncController(async (req: Request, res: Response) => {
+    const data = req.body;
+    data.apiKey = await this.cryptoService.generateAPIKey();
+
+    const newProject = await this.service.create(data);
+    if (!newProject) {
+      throw new Error("Project not created");
+    }
+
+    return res.status(200).json({
+      data: newProject,
+      status: true,
+      message: "Project created successfully",
+    });
+  });
+
+  update = asyncController(async (req: Request, res: Response) => {
+    const data = req.body;
+
+    if (data?.apiKey) {
+      throw new Error("apiKey cannot be updated");
+    }
+
+    const updatedProject = await this.service.update(data);
+    if (!updatedProject) {
+      throw new Error("Project not updated");
+    }
+
+    return res.status(200).json({
+      data: updatedProject,
+      status: true,
+      message: "Project updated successfully",
+    });
+  });
+
 
 }
 
-export const deleteProject = async function(req: Request, res: Response) : Promise<any> {
-
-  try{
-    const id : Types.ObjectId = new ObjectId(req.query.id as string);
-
-    const deletedP = await pService.delete(id);
-
-    if (!deletedP) return ErrorResponse(res, 'project not deleted', 400);
-
-    return SuccessResponse(res, deletedP, 'project deleted', 200);
-
-  } catch (err){
-    return ErrorResponse(res, `error ${err}`, 400);
-
-  }
-  
-}
-
-export const createProject = async function(req: Request, res: Response) : Promise<any> {
- 
-  try{
-
-    let  data : any = req.body;
-    
-    data.apiKey = await cryptoService.generateAPIKey();
-
-    const newP = await pService.create(req.body);
-    
-    if (!newP) return ErrorResponse(res, 'project not created', 400);
-
-    return SuccessResponse(res, newP, 'project created', 200);
-
-  } catch (err){
-
-    return ErrorResponse(res, `error ${err}`, 400);
-
-  }
-  
-}
-
-export const updateProjects = async function(req: Request, res: Response) : Promise<any> {
- 
-  try{
-
-      let data = req.body;
-      
-      if(data?.apiKey) return ErrorResponse(res, 'apiKey cannot be updated', 400);
-
-      const updatedP = await pService.update(req.body);
-  
-      if (!updatedP) return ErrorResponse(res, 'project not updated', 400);
-  
-      return SuccessResponse(res, updatedP, 'project updated', 200);
-  } catch (err){
-    return ErrorResponse(res, `error ${err}`, 400);
-
-  }
-  
-}
-
-export const refreshProjectApiKey = async function(req: Request, res: Response) : Promise<any> {
- 
-  try{      
-      let data = req.body;
-
-      let apiKey = await cryptoService.generateAPIKey();
-
-      data.apiKey = apiKey; // refresh api key and update
-
-      const updatedP = await pService.update(data);
-  
-      if (!updatedP) return ErrorResponse(res, 'project not updated', 400);
-  
-      return SuccessResponse(res, updatedP, 'project updated', 200);
-      
-  } catch (err){
-
-    return ErrorResponse(res, `error ${err}`, 400);
-
-  }
-}
+export default ProjectController;

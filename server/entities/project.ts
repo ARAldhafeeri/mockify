@@ -1,6 +1,6 @@
 import { Document, Schema } from "mongoose";
 import { Types } from "mongoose";
-import { IBaseEntity, IRepository, IService } from "./generic";
+import { IBaseEntity, IController, IRepository, IService } from "./generic";
 
 export interface IProject extends IBaseEntity {
   name: string;
@@ -10,3 +10,5 @@ export interface IProject extends IBaseEntity {
 export interface IProjectRepository extends IRepository<IProject> {}
 
 export interface IProjectService extends IService<IProject> {}
+
+export interface IProjectController extends IController {}

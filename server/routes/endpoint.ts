@@ -1,15 +1,15 @@
-import express from 'express';
-import { ENDPOINT_ROUTE } from '../config/routes';
-import authenticationMiddleWareAdminPortal from '../middleware/authentication';
-import { endpointCreateController } from '../controllers/endpoint';
-import authorization from '../middleware/authorization';
+import express from "express";
+import { ENDPOINT_ROUTE } from "../config/routes";
+import authenticationMiddleWareAdminPortal from "../middleware/authentication";
+import { endpointCreateController } from "../controllers/endpoint";
+import { authorizeWrite } from "../utils/authorize";
 const endpointRouter = express.Router();
 
-endpointRouter.post( 
-    ENDPOINT_ROUTE,  
-    authenticationMiddleWareAdminPortal, 
-    authorization(["endpoint"], ["read", "write", "delete", "update"]),
-    endpointCreateController, 
-)
+endpointRouter.post(
+  ENDPOINT_ROUTE,
+  authenticationMiddleWareAdminPortal,
+  authorizeWrite("endpoint"),
+  endpointCreateController
+);
 
 export default endpointRouter;

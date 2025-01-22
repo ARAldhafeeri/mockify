@@ -1,5 +1,5 @@
 import { Document, Types } from "mongoose";
-import { IBaseEntity, IRepository, IService } from "./generic";
+import { IBaseEntity, IController, IRepository, IService } from "./generic";
 
 export interface IEvent extends IBaseEntity {
   resource: Types.ObjectId;
@@ -10,3 +10,5 @@ export interface IEvent extends IBaseEntity {
 export interface IEventService extends IService<IEvent> {}
 
 export interface IEventRepository extends IRepository<IEvent> {}
+
+export interface IEventController extends IController {}

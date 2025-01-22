@@ -3,93 +3,74 @@ import UserService from "../services/user";
 import { SUPER_ADMIN_USERNAME } from "../getEnv";
 import PasswordService from "../services/password";
 import { Types } from "mongoose";
-const { ObjectId } = Types;
 import { SuccessResponse, ErrorResponse } from "../utils/responses";
+import Controller from "./generic";
+import { asyncController } from "../utils/handlers";
+import { IUserService } from "../entities/user";
 
-const userService = new UserService();
-const passwordService = new PasswordService();
+const { ObjectId } = Types;
 
-
-export const getUsers = async function(req : Request, res: Response) : Promise<any> {
-  try {
-    const foundUsers = await userService.findAll(
-      {hashedPassword: 0, salt: 0}
-    )
-
-    if (!foundUsers) return ErrorResponse(res, 'users not found', 400);
-
-    return SuccessResponse(res, foundUsers, 'users found', 200);
-
-  } catch (error) {
-
-    return ErrorResponse(res, `error ${error}`, 400);
-
+class UserController {
+  service: IUserService;
+  passwordService: PasswordService;
+  constructor(service: IUserService, passwordService: PasswordService) {
+    this.passwordService = passwordService;
+    this.service = service;
   }
-}
 
-export const createUser = async function(req : Request, res: Response) : Promise<any> {
+  getUsers = asyncController(async (req: Request, res: Response) => {
+    const foundUsers = await this.service.find({
+      hashedPassword: 0,
+      salt: 0,
+    });
 
-    try {
-      const data = req.body;
+    if (!foundUsers) return ErrorResponse(res, "users not found", 400);
 
-      data.createdBy  = SUPER_ADMIN_USERNAME;
-      data.createdAt = new Date() ;
+    return SuccessResponse(res, foundUsers, "users found", 200);
+  });
 
+  createUser = asyncController(async (req: Request, res: Response) => {
+    const data = req.body;
+    data.createdBy = SUPER_ADMIN_USERNAME;
+    data.createdAt = new Date();
 
-      const {salt, hashedPassword} = await passwordService.createPassword(data?.password)
+    const { salt, hashedPassword } = await this.passwordService.createPassword(
+      data?.password
+    );
+    data.salt = salt;
+    data.hashedPassword = hashedPassword;
 
-      data.salt = salt as string;
-      data.hashedPassword = hashedPassword ;
+    const newUser = await this.service.create(data);
 
-      const newUser = await userService.createUser(data)
+    if (!newUser) return ErrorResponse(res, "user not created", 400);
 
-      if (!newUser) return ErrorResponse(res, 'user not created', 400);
-      
-      return SuccessResponse(res, newUser, 'user created', 200);
+    return SuccessResponse(res, newUser, "user created", 200);
+  });
 
-    } catch (error) {
-      return ErrorResponse(res, `error ${error}`, 400); 
-    }
- 
-}
-
-export const updateUser = async function(req : any, res: Response) : Promise<any> {
-  try {
-    
+  updateUser = asyncController(async (req: Request, res: Response) => {
     const data = req.body;
 
-    if (data?.password){
-     const {salt, hashedPassword} = await passwordService.createPassword(data?.password);
-     data.salt = salt;
-     data.hashedPassword = hashedPassword;
+    if (data?.password) {
+      const { salt, hashedPassword } =
+        await this.passwordService.createPassword(data?.password);
+      data.salt = salt;
+      data.hashedPassword = hashedPassword;
     }
-    
-    const updatedUser = await userService.updateUser(data);
 
-    if (!updatedUser) return ErrorResponse(res, 'user not updated', 400);
+    const updatedUser = await this.service.update(data);
 
-    return res.status(200).send({status: true, data: updatedUser, message: 'user updated'});
-  } catch (error) {
-    return res.status(400).send({status: false, message: `error ${error}`})
-  }
+    if (!updatedUser) return ErrorResponse(res, "user not updated", 400);
+
+    return SuccessResponse(res, updatedUser, "user updated", 200);
+  });
+
+  deleteUser = asyncController(async (req: Request, res: Response) => {
+    const deletedUser = await this.service.delete(req.query.id as string);
+
+    if (!deletedUser) return ErrorResponse(res, "user not deleted", 400);
+
+    return SuccessResponse(res, deletedUser, "user deleted", 200);
+  });
 }
 
-export const deleteUser = async function(req : any, res: Response) : Promise<any> {
-  try {
-    let id :  Types.ObjectId = req.query.id;
-
-    id = new ObjectId(id);
-
-    const deletedUser = await userService.deleteUser(id)
-
-    if (!deletedUser) return ErrorResponse(res, 'user not deleted', 400);
-
-    return SuccessResponse(res, deletedUser, 'user deleted', 200);
-    
-  } catch (error) {
-
-    return ErrorResponse(res, `error ${error}`, 400);
-
-  }
- 
-}
+export default UserController;

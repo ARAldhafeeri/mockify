@@ -1,6 +1,6 @@
 import { IData } from "./data";
 import { IEndpointFeatures, IResource } from "./resource";
-import { IService } from "./generic";
+import { IController, IService } from "./generic";
 
 export interface IPaginatedResponse {
   total: number;
@@ -35,8 +35,8 @@ export interface IMockService extends IService<any> {
     data: Object,
     params: IPaginateParams
   ): Promise<IPaginatedResponse>;
-  searchQuery(data: Object, params: ISearchParams): Promise<IPaginatedResponse>;
-  filterQuery(data: Object, params: IFilterParams): Promise<IPaginatedResponse>;
+  searchQuery(data: string): Promise<IPaginatedResponse>;
+  filterQuery(params: IFilterParams): Promise<IPaginatedResponse>;
   validateAndCreateQuery(
     data: IData,
     schema: IResource["fields"],
@@ -52,3 +52,5 @@ export interface IMockService extends IService<any> {
 export interface IMockFieldsMap {
   [key: string]: any;
 }
+
+export interface IMockController extends IController {}

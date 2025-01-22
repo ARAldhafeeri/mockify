@@ -5,8 +5,7 @@ import ObjectId = Types.ObjectId;
 export class Service<T extends IBaseEntity> implements IService<T> {
   constructor(protected repository: IRepository<T>) {}
 
-  async find(userUID: string): Promise<any> {
-    const filter = { userUID: userUID };
+  async find(filter: FilterQuery<T>): Promise<any> {
     const data = await this.repository.find(filter, {});
     return {
       data: data,
@@ -17,25 +16,20 @@ export class Service<T extends IBaseEntity> implements IService<T> {
     return this.repository.findOne(filter);
   }
 
-  async create(record: T, userUID: string): Promise<T> {
-    record.userUID = userUID;
+  async create(record: T): Promise<T> {
     return this.repository.create(record);
   }
 
-  async update(record: T, userUID: string, recordID: string): Promise<T> {
-    const filter = {
-      userUID: userUID,
-      _id: new ObjectId(recordID),
-    };
-    return this.repository.update(filter, record);
+  async update(record: T): Promise<T> {
+    return this.repository.update({ _id: new ObjectId(record._id) }, record);
   }
 
-  async delete(id: string, userUID: string): Promise<T> {
-    return this.repository.delete(id, userUID);
+  async delete(id: string): Promise<T> {
+    return this.repository.delete(id);
   }
 
-  async search(text: string, userUID: string): Promise<T[]> {
-    const filter = { userUID: userUID, $text: { $search: text } };
+  async search(text: string): Promise<T[]> {
+    const filter = { $text: { $search: text } };
     return this.repository.find(filter, {});
   }
 

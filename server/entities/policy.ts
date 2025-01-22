@@ -1,5 +1,5 @@
 import { Document, Types } from "mongoose";
-import { IBaseEntity, IRepository, IService } from "./generic";
+import { IBaseEntity, IController, IRepository, IService } from "./generic";
 
 export interface IPolicy extends IBaseEntity {
   project: Types.ObjectId;
@@ -14,3 +14,5 @@ export interface IPolicy extends IBaseEntity {
 export interface IPolicyRepository extends IRepository<IPolicy> {}
 
 export interface IPolicyService extends IService<IPolicy> {}
+
+export interface IPolicyController extends IController {}

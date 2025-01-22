@@ -1,33 +1,22 @@
-import express from 'express';
-import {getEvent, createEvent, deleteEvent, updateEvent} from '../controllers/event';
-import { EVENT_ROUTE } from '../config/routes';
-import authenticationMiddleWareAdminPortal from '../middleware/authentication';
-import authorization from '../middleware/authorization';
+import express from "express";
+import {  ROOT_ROUTE } from "../config/routes";
+import authenticationMiddleWareAdminPortal from "../middleware/authentication";
+import {
+  authorizeDelete,
+  authorizeUpdate,
+  authorizeWrite,
+  authorizerRead,
+} from "../utils/authorize";
+import { eventController } from "../controllers";
 const eventRouter = express.Router();
+const resourceName = "event";
 
-eventRouter.get( 
-    EVENT_ROUTE,
-    authenticationMiddleWareAdminPortal, 
-    authorization(["event"], ["read", "write", "delete", "update"]),
-    getEvent, 
-  )
-  .post( 
-      EVENT_ROUTE, 
-      authenticationMiddleWareAdminPortal, 
-      authorization(["event"], ["read", "write", "delete", "update"]),
-      createEvent, 
-    )
-  .put( 
-      EVENT_ROUTE, 
-      authenticationMiddleWareAdminPortal, 
-      authorization(["event"], ["read", "write", "delete", "update"]),
-      updateEvent, 
-    )
-  .delete( 
-      EVENT_ROUTE, 
-      authenticationMiddleWareAdminPortal, 
-      authorization(["event"], ["read", "write", "delete", "update"]),
-      deleteEvent, 
-    )
+eventRouter.use(authenticationMiddleWareAdminPortal);
+
+eventRouter
+  .get(ROOT_ROUTE, authorizerRead(resourceName), eventController.fetch)
+  .post(ROOT_ROUTE, authorizeWrite(resourceName), eventController.create)
+  .put(ROOT_ROUTE, authorizeUpdate(resourceName), eventController.update)
+  .delete(ROOT_ROUTE, authorizeDelete(resourceName), eventController.delete);
 
 export default eventRouter;

@@ -1,42 +1,22 @@
-import express from 'express';
-import { getProjects, deleteProject, updateProjects, createProject, refreshProjectApiKey } from '../controllers/project';
-import { PROJECT_ROUTE, PROJECT_ROUTE_REFRESH } from '../config/routes';
-import authenticationMiddleWareAdminPortal from '../middleware/authentication';
-import authorization from '../middleware/authorization';
+import express from "express";
+import { CLIENT_ROUTE, ROOT_ROUTE } from "../config/routes";
+import authenticationMiddleWareAdminPortal from "../middleware/authentication";
+import {
+  authorizeDelete,
+  authorizeUpdate,
+  authorizeWrite,
+  authorizerRead,
+} from "../utils/authorize";
+import { projectController } from "../controllers";
 const projectRouter = express.Router();
+const resourceName = "project";
 
+projectRouter.use(authenticationMiddleWareAdminPortal);
 
 projectRouter
-  .get( 
-    PROJECT_ROUTE, 
-    authenticationMiddleWareAdminPortal,
-    authorization(["policy"], ["read", "write", "delete", "update"]),
-    getProjects,
-  )
-  .post( 
-    PROJECT_ROUTE, 
-    authenticationMiddleWareAdminPortal,
-    authorization(["policy"], ["read", "write", "delete", "update"]),
-    createProject,
-  )
-  .put(
-     PROJECT_ROUTE, 
-     authenticationMiddleWareAdminPortal,
-     authorization(["policy"], ["read", "write", "delete", "update"]),
-     updateProjects,
-  )
-  .delete(
-     PROJECT_ROUTE, 
-     authenticationMiddleWareAdminPortal,
-     authorization(["policy"], ["read", "write", "delete", "update"]),
-     deleteProject,
-  );
-
-projectRouter.post( 
-  PROJECT_ROUTE_REFRESH, 
-  authenticationMiddleWareAdminPortal,
-  authorization(["policy"], ["read", "write", "delete", "update"]),
-  refreshProjectApiKey,
-  )
+  .get(ROOT_ROUTE, authorizerRead(resourceName), projectController.fetch)
+  .post(ROOT_ROUTE, authorizeWrite(resourceName), projectController.create)
+  .put(ROOT_ROUTE, authorizeUpdate(resourceName), projectController.update)
+  .delete(ROOT_ROUTE, authorizeDelete(resourceName), projectController.delete);
 
 export default projectRouter;

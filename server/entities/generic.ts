@@ -36,18 +36,18 @@ export interface IRepository<T extends IBaseEntity> {
     record: UpdateQuery<T>,
     queryOptions: QueryOptions<T>
   ): Promise<any>;
-  delete(id: string, userUID: string): Promise<T>;
+  delete(id: string): Promise<T>;
   count(filter: FilterQuery<T>): Promise<number>;
   findOne(filter: FilterQuery<T>): Promise<T>;
   findById(id: Types.ObjectId): Promise<T>;
 }
 
 export interface IService<T extends IBaseEntity> {
-  find(userUID: string): Promise<T[]>;
-  create(record: T, userUID: string): Promise<T>;
-  update(record: T, userUID: string, recordID: string): Promise<T>;
+  find(filter: FilterQuery<T>): Promise<T[]>;
+  create(record: T): Promise<T>;
+  update(record: T): Promise<T>;
   findOne(filter: FilterQuery<T>): Promise<T>;
-  delete(id: string, userUID: string): Promise<T>;
+  delete(id: string): Promise<T>;
   findById(id: Types.ObjectId): Promise<T>;
 }
 

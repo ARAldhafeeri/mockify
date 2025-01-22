@@ -1,7 +1,6 @@
 import express from "express";
 import { CLIENT_ROUTE, ROOT_ROUTE } from "../config/routes";
 import authenticationMiddleWareAdminPortal from "../middleware/authentication";
-import authorization from "../middleware/authorization";
 import {
   authorizeDelete,
   authorizeUpdate,

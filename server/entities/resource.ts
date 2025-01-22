@@ -1,5 +1,5 @@
 import { Document, Types } from "mongoose";
-import { IBaseEntity, IRepository, IService } from "./generic";
+import { IBaseEntity, IController, IRepository, IService } from "./generic";
 
 export interface IEndpointFeatures {
   filter: boolean;
@@ -29,3 +29,5 @@ export interface IResource extends IBaseEntity {
 export interface IResourceRepository extends IRepository<IResource> {}
 
 export interface IResService extends IService<IResource> {}
+
+export interface IResourceController extends IController {}

@@ -1,7 +1,19 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-import { API_ROUTE, CACHE_ROUTE } from "./config/routes";
+import {
+  API_ROUTE,
+  CACHE_ROUTE,
+  CLIENT_ROUTE,
+  DATA_ROUTE,
+  EDGE_ROUTE,
+  ENDPOINT_ROUTE,
+  EVENT_ROUTE,
+  MOCK_ROUTE,
+  POLICY_ROUTE,
+  PROJECT_ROUTE,
+  RESOURCE_ROUTE,
+} from "./config/routes";
 import applyServerHardening from "./middleware/security";
 import policyRouter from "./routes/policy";
 import morgan from "morgan";
@@ -48,25 +60,25 @@ app.use(API_ROUTE, authRouter);
 
 app.use(API_ROUTE, userRouter);
 
-app.use(API_ROUTE, policyRouter);
+app.use(POLICY_ROUTE, policyRouter);
 
-app.use(API_ROUTE, projectRouter);
+app.use(PROJECT_ROUTE, projectRouter);
 
-app.use(API_ROUTE, resourceRouter);
+app.use(RESOURCE_ROUTE, resourceRouter);
 
-app.use(API_ROUTE, dataRouter);
+app.use(DATA_ROUTE, dataRouter);
 
-app.use(API_ROUTE, endpointRouter);
+app.use(ENDPOINT_ROUTE, endpointRouter);
 
-app.use(API_ROUTE, mockRouter);
+app.use(MOCK_ROUTE, mockRouter);
 
-app.use(API_ROUTE, edgeRouter);
+app.use(EDGE_ROUTE, edgeRouter);
 
 app.use(CACHE_ROUTE, cacheRouter);
 
-app.use(API_ROUTE, eventRouter);
+app.use(EVENT_ROUTE, eventRouter);
 
-app.use(API_ROUTE, clientRouter);
+app.use(CLIENT_ROUTE, clientRouter);
 
 applyServerHardening(app);
 

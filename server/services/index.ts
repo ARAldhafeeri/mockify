@@ -17,6 +17,7 @@ import EdgeService from "./edge";
 import EndpointService from "./endpoint";
 import EventService from "./event";
 import MockService from "./mock";
+import PasswordService from "./password";
 import PolicyService from "./policy";
 import ProjectService from "./project";
 import ResourceService from "./resource";
@@ -43,3 +44,4 @@ export const policyService = new PolicyService(
 );
 export const swaggerService = new SwaggerService(endpointService);
 export const userService = new UserService(userRepository);
+export const passwordService = new PasswordService();

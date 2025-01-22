@@ -1,257 +1,192 @@
-import { Response, Request } from "express";
+import { asyncController } from "../utils/handlers";
 import { SuccessResponse, ErrorResponse } from "../utils/responses";
 import { Types } from "mongoose";
-import DataService from "../services/data";
-import ResourceService from "../services/resource";
-import { IResource } from "../entities/resource";
-import { IData } from "../entities/data";
-import MockService from "../services/mock";
+import Controller from "./generic";
 import {
-  IFilterParams,
+  IMockController,
+  IMockService,
   IPaginateParams,
-  IPaginatedResponse,
 } from "../entities/mock";
+import { IResService } from "../entities/resource";
+
 const { ObjectId } = Types;
 
-const dService = new DataService();
-const rService = new ResourceService();
-const mService = new MockService();
-
-export const getx = async function (req: Request, res: Response): Promise<any> {
-  try {
-    let resourceId: string = req.params.resourceId as string;
-
-    const resource: IResource = await rService.findById(
-      new ObjectId(resourceId)
-    );
-
-    if (!resource) return ErrorResponse(res, `resource not found`, 400);
-
-    if (!resource.features.getx)
-      return ErrorResponse(res, `getx feature disabled`, 400);
-
-    const found: IData = await dService.find({ resource: resource._id });
-
-    if (!found) return ErrorResponse(found, "datas not found", 400);
-
-    return SuccessResponse(res, found, "fetching datas was successful", 200);
-  } catch (err) {
-    return ErrorResponse(res, `error ${err}`, 400);
+class MockController
+  extends Controller<IMockService>
+  implements IMockController
+{
+  resourceService: IResService;
+  mockService: IMockService;
+  constructor(mockService: IMockService, resourceService: IResService) {
+    super(mockService);
+    this.resourceService = resourceService;
+    this.mockService = mockService;
   }
-};
 
-export const getXPagination = async function (
-  req: Request,
-  res: Response
-): Promise<any> {
-  try {
-    const resourceId: string = req.params.resourceId as string;
-    let page: string = req.query.page as string;
-    let limit: string = req.query.limit as string;
-
-    const resource: IResource = await rService.findById(
+  getx = asyncController(async (req, res) => {
+    const resourceId = req.params.resourceId;
+    const resource = await this.resourceService.findById(
       new ObjectId(resourceId)
     );
 
-    if (!resource) return ErrorResponse(res, `resource not found`, 400);
+    if (!resource) ErrorResponse(res, "resource not found", 400);
     if (!resource.features.getx)
-      return ErrorResponse(res, `getx feature disabled`, 400);
+      ErrorResponse(res, "getx feature disabled", 400);
 
-    const params: IPaginateParams = {
-      page: page,
-      limit: limit,
-    };
+    const data = await this.service.findOne({ resource: resource._id });
+    if (!data) ErrorResponse(res, "datas not found", 400);
 
-    const validParams = mService.isPaginated(resource.features, params);
+    return SuccessResponse(res, data, "fetching datas was successful", 200);
+  });
+
+  getXPagination = asyncController(async (req, res) => {
+    const resourceId = req.params.resourceId;
+    const { page, limit } = req.query;
+
+    const resource = await this.resourceService.findById(
+      new ObjectId(resourceId)
+    );
+    if (!resource) return ErrorResponse(res, "resource not found", 400);
+    if (!resource.features.getx)
+      return ErrorResponse(res, "getx feature disabled", 400);
+
+    const params = { page, limit } as IPaginateParams;
+    const validParams = this.mockService.isPaginated(resource.features, params);
 
     if (!validParams)
       return ErrorResponse(
         res,
-        `invalid params or pagination feature disabled`,
+        "invalid params or pagination feature disabled",
         400
       );
 
-    const found: IPaginatedResponse = await mService.paginatedQuery(
+    const data = await this.mockService.paginatedQuery(
       { resource: resource._id },
       params
     );
+    if (!data) return ErrorResponse(res, "datas not found", 400);
 
-    if (!found) return ErrorResponse(found, "datas not found", 400);
+    return SuccessResponse(res, data, "fetching datas was successful", 200);
+  });
 
-    return SuccessResponse(res, found, "fetching datas was successful", 200);
-  } catch (err) {
-    return ErrorResponse(res, `error ${err}`, 400);
-  }
-};
+  getXFilteration = asyncController(async (req, res) => {
+    const resourceId = req.params.resourceId;
+    const { name, value } = req.query;
 
-export const getXFilteration = async function (
-  req: Request,
-  res: Response
-): Promise<any> {
-  try {
-    const resourceId: string = req.params.resourceId as string;
-    let name: string = req.query.name as string;
-    let value: string = req.query.value as string;
-
-    const resource: IResource = await rService.findById(
+    const resource = await this.resourceService.findById(
       new ObjectId(resourceId)
     );
-
-    if (!resource) return ErrorResponse(res, `resource not found`, 400);
+    if (!resource) return ErrorResponse(res, "resource not found", 400);
     if (!resource.features.getx)
-      return ErrorResponse(res, `getx feature disabled`, 400);
+      return ErrorResponse(res, "getx feature disabled", 400);
 
-    const params: IFilterParams = {
-      name: name,
-      value: value,
-    };
-
-    const validParams = mService.isFilter(resource.features, params);
+    const params = { name, value } as any;
+    const validParams = this.mockService.isFilter(resource.features, params);
 
     if (!validParams)
       return ErrorResponse(
         res,
-        `invalid params or filter feature disabled`,
+        "invalid params or filter feature disabled",
         400
       );
 
     const projection = {
-      ["data." + params.name]: params.value,
+      [`data.${params.name}`]: params.value,
       resource: resource._id,
     };
 
-    const found: any = await mService.filterQuery(projection);
+    const data = await this.mockService.filterQuery(projection as any);
+    if (!data) return ErrorResponse(res, "datas not found", 400);
 
-    if (!found) return ErrorResponse(found, "datas not found", 400);
+    return SuccessResponse(res, data, "fetching datas was successful", 200);
+  });
 
-    return SuccessResponse(res, found, "fetching datas was successful", 200);
-  } catch (err) {
-    return ErrorResponse(res, `error ${err}`, 400);
-  }
-};
-
-export const delx = async function (req: Request, res: Response): Promise<any> {
-  try {
-    const id: Types.ObjectId = new ObjectId(req.query.id as string);
-
-    const deleted = await dService.delete(id);
+  delx = asyncController(async (req, res) => {
+    const deleted = await this.service.delete(req.query.id as string);
 
     if (!deleted) return ErrorResponse(res, "data not deleted", 400);
 
     return SuccessResponse(res, deleted, "data deleted", 200);
-  } catch (err) {
-    return ErrorResponse(res, `error ${err}`, 400);
-  }
-};
+  });
 
-export const postx = async function (
-  req: Request,
-  res: Response
-): Promise<any> {
-  try {
-    const resourceId: string = req.params.resourceId as string;
-
-    const resource: IResource = await rService.findById(
+  postx = asyncController(async (req, res) => {
+    const resourceId = req.params.resourceId;
+    const resource = await this.resourceService.findById(
       new ObjectId(resourceId)
     );
 
-    if (!resource) return ErrorResponse(res, `resource not found`, 400);
+    if (!resource) ErrorResponse(res, "resource not found", 400);
     if (!resource.features.postx)
-      return ErrorResponse(res, `postx feature disabled`, 400);
+      ErrorResponse(res, "postx feature disabled", 400);
 
-    const dNew = await dService.create({
+    const newData = await this.service.create({
       resource: resource._id,
       data: req.body,
-    } as IData);
+    });
+    if (!newData) ErrorResponse(res, "data not created", 400);
 
-    if (!dNew) return ErrorResponse(res, "data not created", 400);
+    return SuccessResponse(res, newData, "data created", 200);
+  });
 
-    return SuccessResponse(res, dNew, "data created", 200);
-  } catch (err) {
-    return ErrorResponse(res, `error ${err}`, 400);
-  }
-};
-
-export const postXValidate = async function (
-  req: Request,
-  res: Response
-): Promise<any> {
-  try {
-    const resourceId: string = req.params.resourceId as string;
-
-    const resource: IResource = await rService.findById(
+  postXValidate = asyncController(async (req, res) => {
+    const resourceId = req.params.resourceId;
+    const resource = await this.resourceService.findById(
       new ObjectId(resourceId)
     );
 
-    if (!resource) return ErrorResponse(res, `resource not found`, 400);
-    if (!resource.features.postx)
-      return ErrorResponse(res, `postx feature disabled`, 400);
-    if (!resource.features.validation)
-      return ErrorResponse(res, `validation feature disabled`, 400);
+    if (!resource) return ErrorResponse(res, "resource not found", 400);
+    if (!resource.features.postx || !resource.features.validation) {
+      return ErrorResponse(res, "postx or validation feature disabled", 400);
+    }
 
-    const dNew = await mService.validateAndCreateQuery(
+    const validatedData = await this.mockService.validateAndCreateQuery(
       req.body,
       resource.fields,
-      resource._id
+      resource._id?.toString() as string
     );
 
-    if (!dNew) return ErrorResponse(res, "data not created", 400);
+    if (!validatedData) return ErrorResponse(res, "data not created", 400);
 
-    return SuccessResponse(res, dNew, "data created", 200);
-  } catch (err) {
-    return ErrorResponse(res, `error ${err}`, 400);
-  }
-};
+    return SuccessResponse(res, validatedData, "data created", 200);
+  });
 
-export const putx = async function (req: Request, res: Response): Promise<any> {
-  try {
-    const resourceId: string = req.params.resourceId as string;
-
-    const resource: IResource = await rService.findById(
+  putx = asyncController(async (req, res) => {
+    const resourceId = req.params.resourceId;
+    const resource = await this.resourceService.findById(
       new ObjectId(resourceId)
     );
 
-    if (!resource) return ErrorResponse(res, `resource not found`, 400);
+    if (!resource) ErrorResponse(res, "resource not found", 400);
     if (!resource.features.putx)
-      return ErrorResponse(res, `putx feature disabled`, 400);
+      ErrorResponse(res, "putx feature disabled", 400);
 
-    const dNew = await dService.update(req.body);
+    const updatedData = await this.service.update(req.body);
+    if (!updatedData) ErrorResponse(res, "data not updated", 400);
 
-    if (!dNew) return ErrorResponse(res, "data not created", 400);
+    return SuccessResponse(res, updatedData, "data updated", 200);
+  });
 
-    return SuccessResponse(res, dNew, "data created", 200);
-  } catch (err) {
-    return ErrorResponse(res, `error ${err}`, 400);
-  }
-};
-
-export const putXValidate = async function (
-  req: Request,
-  res: Response
-): Promise<any> {
-  try {
-    const resourceId: string = req.params.resourceId as string;
-
-    const resource: IResource = await rService.findById(
+  putXValidate = asyncController(async (req, res) => {
+    const resourceId = req.params.resourceId;
+    const resource = await this.resourceService.findById(
       new ObjectId(resourceId)
     );
 
-    if (!resource) return ErrorResponse(res, `resource not found`, 400);
-    if (!resource.features.putx)
-      return ErrorResponse(res, `putx feature disabled`, 400);
-    if (!resource.features.validation)
-      return ErrorResponse(res, `validation feature disabled`, 400);
+    if (!resource) return ErrorResponse(res, "resource not found", 400);
+    if (!resource.features.putx || !resource.features.validation) {
+      return ErrorResponse(res, "putx or validation feature disabled", 400);
+    }
 
-    const dNew = await mService.validateAndUpdateQuery(
+    const validatedUpdate = await this.mockService.validateAndUpdateQuery(
       req.body,
       resource.fields,
-      resource._id
+      resource._id?.toString() as string
     );
 
-    if (!dNew) return ErrorResponse(res, "data not created", 400);
+    if (!validatedUpdate) return ErrorResponse(res, "data not updated", 400);
 
-    return SuccessResponse(res, dNew, "data created", 200);
-  } catch (err) {
-    return ErrorResponse(res, `error ${err}`, 400);
-  }
-};
+    return SuccessResponse(res, validatedUpdate, "data updated", 200);
+  });
+}
+
+export default MockController;

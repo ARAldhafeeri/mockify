@@ -2,83 +2,15 @@ import { Response, Request } from "express";
 import { SuccessResponse, ErrorResponse } from "../utils/responses";
 import { Types } from "mongoose";
 import EdgeService from "../services/edge";
-import ResourceService from "../services/resource";
 import { IResource } from "../entities/resource";
-import { IEdge } from "../entities/edge";
+import { IEdge, IEdgeController, IEdgeService } from "../entities/edge";
+import Controller from "./generic";
+import { edgeService, resourceService } from "../services";
 const { ObjectId } = Types;
 
-const edgeService = new EdgeService();
-const rService = new ResourceService();
-
-export const getEdge = async function (
-  req: Request,
-  res: Response
-): Promise<any> {
-  try {
-    let resourceId: string = req.params.resourceId as string;
-
-    const resource: IResource = await rService.findById(
-      new ObjectId(resourceId)
-    );
-
-    if (!resource) return ErrorResponse(res, `resource not found`, 400);
-
-    const found: IEdge = await edgeService.find({ resource: resource._id });
-
-    if (!found) return ErrorResponse(found, "datas not found", 400);
-
-    return SuccessResponse(res, found, "fetching datas was successful", 200);
-  } catch (err) {
-    return ErrorResponse(res, `error ${err}`, 400);
-  }
-};
-
-export const deleteEdge = async function (
-  req: Request,
-  res: Response
-): Promise<any> {
-  try {
-    const id: Types.ObjectId = new ObjectId(req.query.id as string);
-
-    const deleted = await edgeService.delete(id);
-
-    if (!deleted) return ErrorResponse(res, "edge not deleted", 400);
-
-    return SuccessResponse(res, deleted, "edge deleted", 200);
-  } catch (err) {
-    return ErrorResponse(res, `error ${err}`, 400);
-  }
-};
-
-export const createEdge = async function (
-  req: Request,
-  res: Response
-): Promise<any> {
-  try {
-    const dNew = await edgeService.create(req.body);
-
-    if (!dNew) return ErrorResponse(res, "edge not created", 400);
-
-    return SuccessResponse(res, dNew, "edge created", 200);
-  } catch (err) {
-    return ErrorResponse(res, `error ${err}`, 400);
-  }
-};
-
-export const updateEdge = async function (
-  req: Request,
-  res: Response
-): Promise<any> {
-  try {
-    const dUpdated = await edgeService.update(req.body);
-
-    if (!dUpdated) return ErrorResponse(res, "edge not updated", 400);
-
-    return SuccessResponse(res, dUpdated, "edge updated", 200);
-  } catch (err) {
-    return ErrorResponse(res, `error ${err}`, 400);
-  }
-};
+class EdgeController
+  extends Controller<EdgeService>
+  implements IEdgeController {}
 
 export const runFunction = (method: string, featureName: string) => {
   return async function (req: Request, res: Response): Promise<any> {
@@ -99,7 +31,7 @@ export const runFunction = (method: string, featureName: string) => {
         projectId: "",
       };
 
-      const resource: IResource = await rService.findOne(
+      const resource: IResource = await resourceService.findOne(
         new ObjectId(resourceId)
       );
 
@@ -120,7 +52,7 @@ export const runFunction = (method: string, featureName: string) => {
         );
       const { code } = found;
 
-      additionalContext.resourceId = resource._id;
+      additionalContext.resourceId = resource._id?.toString() as string;
       additionalContext.projectId = resource.project.toString();
 
       const { data, safeRes } = await edgeService.runFunctionInContext(
@@ -143,3 +75,5 @@ export const runFunction = (method: string, featureName: string) => {
     }
   };
 };
+
+export default EdgeController;

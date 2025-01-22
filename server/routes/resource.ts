@@ -1,34 +1,22 @@
-import express from 'express';
-import { getResources, deleteResource, updateResources, createResource } from '../controllers/resource';
-import { RESOURCE_ROUTE } from '../config/routes';
-import authenticationMiddleWareAdminPortal from '../middleware/authentication';
-import authorization from '../middleware/authorization';
+import express from "express";
+import { ROOT_ROUTE } from "../config/routes";
+import authenticationMiddleWareAdminPortal from "../middleware/authentication";
+import {
+  authorizeDelete,
+  authorizeUpdate,
+  authorizeWrite,
+  authorizerRead,
+} from "../utils/authorize";
+import { resourceController } from "../controllers";
 const resourceRouter = express.Router();
+const resourceName = "resource";
+
+resourceRouter.use(authenticationMiddleWareAdminPortal);
 
 resourceRouter
-  .get( 
-    RESOURCE_ROUTE,
-    authenticationMiddleWareAdminPortal,
-    authorization(["policy"], ["read", "write", "delete", "update"]), 
-    getResources,
-  )
-  .post( 
-    RESOURCE_ROUTE, 
-    authenticationMiddleWareAdminPortal,
-    authorization(["policy"], ["read", "write", "delete", "update"]),
-    createResource,
-  )
-  .put( 
-    RESOURCE_ROUTE, 
-    authenticationMiddleWareAdminPortal,
-    authorization(["policy"], ["read", "write", "delete", "update"]),
-    updateResources,
-  )
-  .delete( 
-    RESOURCE_ROUTE, 
-    authenticationMiddleWareAdminPortal,
-    authorization(["policy"], ["read", "write", "delete", "update"]),
-    deleteResource,
-  );
+  .get(ROOT_ROUTE, authorizerRead(resourceName), resourceController.fetch)
+  .post(ROOT_ROUTE, authorizeWrite(resourceName), resourceController.create)
+  .put(ROOT_ROUTE, authorizeUpdate(resourceName), resourceController.update)
+  .delete(ROOT_ROUTE, authorizeDelete(resourceName), resourceController.delete);
 
 export default resourceRouter;

@@ -1,5 +1,5 @@
 import { Document, ObjectId, Types } from "mongoose";
-import { IBaseEntity, IRepository, IService } from "./generic";
+import { IBaseEntity, IController, IRepository, IService } from "./generic";
 
 export interface IEdge extends IBaseEntity {
   resource: Types.ObjectId;
@@ -23,3 +23,5 @@ export interface IEdgeService extends IService<IEdge> {
 type additionalContext = {
   [key: string]: any;
 };
+
+export interface IEdgeController extends IController {}
