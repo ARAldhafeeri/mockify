@@ -9,14 +9,14 @@ import {
 } from "../utils/authorize";
 import { userController } from "../controllers";
 const userRouter = express.Router();
-const resourceName = "user";
+const name = "user";
 
 userRouter.use(authenticationMiddleWareAdminPortal);
 
 userRouter
-  .get(ROOT_ROUTE, authorizerRead(resourceName), userController.getUsers)
-  .post(ROOT_ROUTE, authorizeWrite(resourceName), userController.createUser)
-  .put(ROOT_ROUTE, authorizeUpdate(resourceName), userController.updateUser)
-  .delete(ROOT_ROUTE, authorizeDelete(resourceName), userController.deleteUser);
+  .get(ROOT_ROUTE, authorizerRead(name), userController.getUsers)
+  .post(ROOT_ROUTE, authorizeWrite(name), userController.createUser)
+  .put(ROOT_ROUTE, authorizeUpdate(name), userController.updateUser)
+  .delete(ROOT_ROUTE, authorizeDelete(name), userController.deleteUser);
 
 export default userRouter;

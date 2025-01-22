@@ -14,8 +14,8 @@ const SwaggerService = () => {
   const [ selectedResourceSwaggerDocs, setSelectedResourceSwaggerDocs ] = React.useState<any>({
     swagger: "2.0",
     info: {
-        title: `API Documentation for ${resource[0]?.resourceName}`,
-        description: `The following endpoints are available for ${resource[0]?.resourceName}`,
+        title: `API Documentation for ${resource[0]?.name}`,
+        description: `The following endpoints are available for ${resource[0]?.name}`,
     },
     host: "api.mockify.io",
     schemes: ["https"],
@@ -27,8 +27,8 @@ const SwaggerService = () => {
   const [swaggerDocsPaginated, setSwaggerDocsPaginated] = React.useState<any>({
     swagger: "2.0",
     info: {
-        title: `API Documentation for ${resource[0]?.resourceName}`,
-        description: `The following endpoints are available for ${resource[0]?.resourceName}`,
+        title: `API Documentation for ${resource[0]?.name}`,
+        description: `The following endpoints are available for ${resource[0]?.name}`,
     },
     host: "api.mockify.io",
     schemes: ["https"],
@@ -74,8 +74,8 @@ const SwaggerService = () => {
     const swaggerTemplate  : any = {
         swagger: "2.0",
         info: {
-            title: `API Documentation for ${selectedResource?.resourceName}`,
-            description: `The following endpoints are available for ${selectedResource?.resourceName}`,
+            title: `API Documentation for ${selectedResource?.name}`,
+            description: `The following endpoints are available for ${selectedResource?.name}`,
         },
         host: "api.mockify.io",
         schemes: ["https"],
@@ -86,15 +86,15 @@ const SwaggerService = () => {
     data?.forEach((endpoint : any) => {
         const method = endpoint?.method?.toLowerCase();
         const path = endpoint?.path;
-        const resourceName = selectedResource?.resourceName;
+        const name = selectedResource?.name;
 
         if (!(path in swaggerTemplate.paths)) {
             swaggerTemplate.paths[path] = {};
         }
 
         swaggerTemplate.paths[path][method] = {
-            tags: [resourceName],
-            summary: `${method} operation for ${resourceName}`,
+            tags: [name],
+            summary: `${method} operation for ${name}`,
             parameters: [],
             responses: {
                 200: { description: "OK" },

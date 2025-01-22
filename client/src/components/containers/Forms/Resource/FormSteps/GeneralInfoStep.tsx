@@ -9,10 +9,10 @@ export default function GeneralInfoStep(props : IResourceFormGeneralInfoStepProp
   return (
     <>
       <MockifyInput
-        name={"resourceName"}
+        name={"name"}
         label={"resource name"}
-        value={data?.resourceName}
-        onChange={(e) => handleFormChange(e, "resourceName")}
+        value={data?.name}
+        onChange={(e) => handleFormChange(e, "name")}
         classes={['mockify-input', 'input']}
         />
       <MockifySelect

@@ -1,34 +1,29 @@
-import PasswordService from "../../services/password";
+import { passwordService } from "../../services";
 
-describe('Password', () => {
-
-  test('should create password', async () => {
-      
-      const password = new PasswordService();
-      const {hashedPassword, salt} = await password.createPassword('test');
-      expect(hashedPassword).toBeDefined();
-      expect(salt).toBeDefined();
-  
-    });
-
-  test('should create hashed password', async () => {
-
-    const password = new PasswordService();
-    const {hashedPassword, salt} = await password.createPassword('test');
-    const hashed = await password.createHashedPassword('test', salt);
-    expect(hashed).toEqual(hashedPassword);
-
+passwordService;
+describe("Password", () => {
+  test("should create password", async () => {
+    const { hashedPassword, salt } = await passwordService.createPassword(
+      "test"
+    );
+    expect(hashedPassword).toBeDefined();
+    expect(salt).toBeDefined();
   });
 
-  test('should verify password', async () => {
-      
-      const password = new PasswordService();
-      const {hashedPassword, salt} = await password.createPassword('test');
-      const hashed = await password.createHashedPassword('test', salt);
-      const verified = await password.verifyPassword('test', hashed, salt);
-      expect(verified).toEqual(true);
-  
-    });
+  test("should create hashed password", async () => {
+    const { hashedPassword, salt } = await passwordService.createPassword(
+      "test"
+    );
+    const hashed = await passwordService.createHashedPassword("test", salt);
+    expect(hashed).toEqual(hashedPassword);
+  });
 
-
+  test("should verify password", async () => {
+    const { hashedPassword, salt } = await passwordService.createPassword(
+      "test"
+    );
+    const hashed = await passwordService.createHashedPassword("test", salt);
+    const verified = await passwordService.verifyPassword("test", hashed, salt);
+    expect(verified).toEqual(true);
+  });
 });

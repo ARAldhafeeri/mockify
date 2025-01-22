@@ -1,22 +1,16 @@
-import CryptoService from '../../services/crypto';
+import { cryptoService } from "../../services";
 
-describe('Crypto', () => {
-  test('should encrypt and decrypt', async () => {
-
-    const crypto = new CryptoService();
-    const encrypted = await crypto.encrypt('test');
-    const decrypted = await crypto.decrypt(encrypted);
-    expect(decrypted).toEqual('test');
-
+describe("Crypto", () => {
+  test("should encrypt and decrypt", async () => {
+    const encrypted = await cryptoService.encrypt("test");
+    const decrypted = await cryptoService.decrypt(encrypted);
+    expect(decrypted).toEqual("test");
   });
 
-  test('should encrypt and decrypt object', async () => {
-      
-      const crypto = new CryptoService();
-      const obj = {test: 'test'};
-      const encrypted = await crypto.encryptObj(obj);
-      const decrypted = await crypto.decryptObj(encrypted);
-      expect(decrypted).toEqual(obj);
-  
-    });
+  test("should encrypt and decrypt object", async () => {
+    const obj = { test: "test" };
+    const encrypted = await cryptoService.encryptObj(obj);
+    const decrypted = await cryptoService.decryptObj(encrypted);
+    expect(decrypted).toEqual(obj);
+  });
 });

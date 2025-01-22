@@ -1,9 +1,4 @@
-import EdgeService from "../../services/edge";
-import ResourceService from "../../services/resource";
-
-const edgeService = new EdgeService();
-
-const resService = new ResourceService();
+import { edgeService } from "../../services";
 
 describe("Edge run sandbox services ", () => {
   /**

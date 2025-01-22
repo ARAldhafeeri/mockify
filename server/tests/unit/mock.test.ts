@@ -1,13 +1,8 @@
-import MockService from "../../services/mock";
-import { IEndpointFeatures, IResource } from "../../entities/resource";
-import ResourceService from "../../services/resource";
+import { IEndpointFeatures } from "../../entities/resource";
 import { DATABASE_URL } from "../../getEnv";
 import mongoose from "mongoose";
 import { generateDataBasedOnType } from "../utils";
-
-const mockService = new MockService();
-
-const resService = new ResourceService();
+import { mockService, resourceService } from "../../services";
 
 describe("Mock service ", () => {
   beforeEach(async () => {
@@ -198,7 +193,7 @@ describe("Mock service ", () => {
   });
 
   test("mockservice.validateAndMutateQuery should return a validate response", async () => {
-    let res = await resService.find({ resourceName: "default" });
+    let res = await resourceService.find({ name: "default" });
     res = res[0];
     let fields = res.fields;
     const fieldNames = fields.map(

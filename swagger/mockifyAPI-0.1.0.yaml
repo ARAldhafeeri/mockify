@@ -3,17 +3,16 @@ info:
   title: Mock API with JWT Auth
   version: 0.1.0
 paths:
-
   /api/resources:
     get:
       summary: Get a list of resources ( user role required )
       responses:
-        '200':
+        "200":
           description: List of resources
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
+                $ref: "#/components/schemas/SuccessResponse"
     post:
       summary: Create a new resource ( user role required )
       requestBody:
@@ -21,12 +20,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Resource'
+              $ref: "#/components/schemas/Resource"
       responses:
-        '201':
+        "201":
           description: Resource created successfully
-  
-  
+
   /api/resources/{resourceId}:
     get:
       summary: Get resource by ID ( user role required )
@@ -39,12 +37,12 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: Resource details
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
+                $ref: "#/components/schemas/SuccessResponse"
     put:
       summary: Update resource by ID ( user role required )
       security:
@@ -60,14 +58,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Resource'
+              $ref: "#/components/schemas/Resource"
       responses:
-        '200':
+        "200":
           description: "edit resource"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
+                $ref: "#/components/schemas/SuccessResponse"
     delete:
       summary: Delete resource by ID ( user role required )
       parameters:
@@ -77,10 +75,9 @@ paths:
           schema:
             type: integer
       responses:
-        '204':
+        "204":
           description: Resource deleted successfully
-  
-  
+
   /api/auth/login:
     post:
       summary: Authenticate user and get JWT token
@@ -98,25 +95,25 @@ paths:
                 password:
                   type: string
       responses:
-        '200':
+        "200":
           description: Successful login
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
-  
+                $ref: "#/components/schemas/SuccessResponse"
+
   /api/users:
     get:
       summary: Get a list of users (Superadmin role required)
       security:
         - jwt: []
       responses:
-        '200':
+        "200":
           description: List of users
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
+                $ref: "#/components/schemas/SuccessResponse"
     post:
       summary: Create a new user (Superadmin role required)
       security:
@@ -126,12 +123,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
       responses:
-        '201':
+        "201":
           description: User created successfully
-  
-  
+
   /api/users/{userId}:
     get:
       summary: Get user by ID (Superadmin role required)
@@ -144,12 +140,12 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: User details
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
+                $ref: "#/components/schemas/SuccessResponse"
     put:
       summary: Update user by ID (Superadmin role required)
       security:
@@ -165,9 +161,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
       responses:
-        '200':
+        "200":
           description: User updated successfully
     delete:
       summary: Delete user by ID (Superadmin role required)
@@ -178,13 +174,12 @@ paths:
           schema:
             type: integer
       responses:
-        '204':
+        "204":
           description: User deleted successfully
-          
-    
-  '/mock/{resourceName}':
+
+  "/mock/{name}":
     parameters:
-      - name: resourceName
+      - name: name
         in: path
         required: true
         schema:
@@ -192,12 +187,12 @@ paths:
     get:
       summary: Process requests based on resource attributes
       responses:
-        '200':
+        "200":
           description: Processed response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
+                $ref: "#/components/schemas/SuccessResponse"
     post:
       summary: Process POST requests based on resource attributes
       requestBody:
@@ -205,14 +200,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SuccessResponse'
+              $ref: "#/components/schemas/SuccessResponse"
       responses:
-        '201':
+        "201":
           description: Resource created successfully
           content:
             application/json:
               schema:
-               $ref: '#/components/schemas/SuccessResponse'
+                $ref: "#/components/schemas/SuccessResponse"
 
     put:
       summary: Process PUT requests based on resource attributes
@@ -221,24 +216,24 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SuccessResponse'
+              $ref: "#/components/schemas/SuccessResponse"
       responses:
-        '200':
+        "200":
           description: Resource updated successfully
           content:
             application/json:
               schema:
-                 $ref: '#/components/schemas/SuccessResponse'
+                $ref: "#/components/schemas/SuccessResponse"
 
     delete:
       summary: Process DELETE requests based on resource attributes
       responses:
-        '204':
+        "204":
           description: Resource deleted successfully
-  
-  '/mock/{resourceName}/validate':
+
+  "/mock/{name}/validate":
     parameters:
-      - name: resourceName
+      - name: name
         in: path
         required: true
         schema:
@@ -250,14 +245,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SuccessResponse'
+              $ref: "#/components/schemas/SuccessResponse"
       responses:
-        '201':
+        "201":
           description: Resource created successfully
           content:
             application/json:
               schema:
-               $ref: '#/components/schemas/SuccessResponse'
+                $ref: "#/components/schemas/SuccessResponse"
 
     put:
       summary: Process PUT requests based on resource attributes
@@ -266,24 +261,24 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SuccessResponse'
+              $ref: "#/components/schemas/SuccessResponse"
       responses:
-        '200':
+        "200":
           description: Resource updated successfully
           content:
             application/json:
               schema:
-                 $ref: '#/components/schemas/SuccessResponse'
-  '/data/':
+                $ref: "#/components/schemas/SuccessResponse"
+  "/data/":
     get:
       summary: List mock data related to a resource
       responses:
-        '200':
+        "200":
           description: Processed response
           content:
             application/json:
               schema:
-               $ref: '#/components/schemas/SuccessResponse'
+                $ref: "#/components/schemas/SuccessResponse"
 
     post:
       summary: Process POST requests based on resource attributes
@@ -292,14 +287,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SuccessResponse'
+              $ref: "#/components/schemas/SuccessResponse"
       responses:
-        '201':
+        "201":
           description: Resource mock data created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
+                $ref: "#/components/schemas/SuccessResponse"
     put:
       summary: Process PUT requests to edit mock data for a resource
       requestBody:
@@ -307,25 +302,24 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SuccessResponse'
+              $ref: "#/components/schemas/SuccessResponse"
       responses:
-        '200':
+        "200":
           description: Resource updated successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
+                $ref: "#/components/schemas/SuccessResponse"
 
     delete:
       summary: Process DELETE requests based on resource attributes
       responses:
-        '204':
+        "204":
           description: Resource deleted successfully
-          
-          
-  '/mock/{resourceName}/paginate':
+
+  "/mock/{name}/paginate":
     parameters:
-      - name: resourceName
+      - name: name
         in: path
         required: true
         schema:
@@ -340,22 +334,20 @@ paths:
         required: true
         schema:
           type: number
-      
-        
+
     get:
       summary: Process requests based on resource attributes
       responses:
-        '200':
+        "200":
           description: Processed response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
-                
-                
-  '/mock/{resourceName}/filter':
+                $ref: "#/components/schemas/SuccessResponse"
+
+  "/mock/{name}/filter":
     parameters:
-      - name: resourceName
+      - name: name
         in: path
         required: true
         schema:
@@ -373,17 +365,16 @@ paths:
     get:
       summary: Process requests based on resource attributes
       responses:
-        '200':
+        "200":
           description: Processed response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'   
-                
-                
-  '/mock/{resourceName}/search':
+                $ref: "#/components/schemas/SuccessResponse"
+
+  "/mock/{name}/search":
     parameters:
-      - name: resourceName
+      - name: name
         in: path
         required: true
         schema:
@@ -396,35 +387,34 @@ paths:
     get:
       summary: Process requests based on resource attributes
       responses:
-        '200':
+        "200":
           description: Processed response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'  
-                
-                
-  '/project/refresh':
-      post:
-        summary: refresh API key
-        requestBody:
-          required: true
+                $ref: "#/components/schemas/SuccessResponse"
+
+  "/project/refresh":
+    post:
+      summary: refresh API key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Project"
+      responses:
+        "201":
+          description: Resource mock data created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Project'
-        responses:
-          '201':
-            description: Resource mock data created successfully
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/SuccessResponse'
-  '/project/':
+                $ref: "#/components/schemas/SuccessResponse"
+  "/project/":
     get:
       summary: List all user projects
       responses:
-        '200':
+        "200":
           description: Processed response
           content:
             application/json:
@@ -436,7 +426,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Project'
+                      $ref: "#/components/schemas/Project"
 
     post:
       summary: create user project
@@ -445,14 +435,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Project'
+              $ref: "#/components/schemas/Project"
       responses:
-        '201':
+        "201":
           description: project created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
+                $ref: "#/components/schemas/SuccessResponse"
 
     put:
       summary: Process PUT requests to edit user projects, can't update API key
@@ -461,28 +451,27 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Project'
-      
+              $ref: "#/components/schemas/Project"
+
       responses:
-        '200':
+        "200":
           description: Resource updated successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
+                $ref: "#/components/schemas/SuccessResponse"
 
     delete:
       summary: Process DELETE project
       responses:
-        '204':
+        "204":
           description: Resource deleted successfully
-  
-  
-  '/policy/':
+
+  "/policy/":
     get:
       summary: List all policies
       responses:
-        '200':
+        "200":
           description: Processed response
           content:
             application/json:
@@ -494,23 +483,23 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Project'
+                      $ref: "#/components/schemas/Project"
 
     post:
-      summary: create user project policy 
+      summary: create user project policy
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Project'
+              $ref: "#/components/schemas/Project"
       responses:
-        '201':
+        "201":
           description: policy created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
+                $ref: "#/components/schemas/SuccessResponse"
 
     put:
       summary: edit a policy
@@ -519,21 +508,21 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Project'
+              $ref: "#/components/schemas/Project"
       responses:
-        '200':
+        "200":
           description: Resource updated successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
+                $ref: "#/components/schemas/SuccessResponse"
 
     delete:
       summary: Process DELETE policy
       responses:
-        '204':
+        "204":
           description: Resource deleted successfully
-    
+
 components:
   securitySchemes:
     jwt:
@@ -549,17 +538,17 @@ components:
         password:
           type: string
       required:
-        - resourceName
+        - name
         - method
         - username
         - password
-        
+
     Resource:
       type: object
       properties:
         project:
-          $ref: '#/components/schemas/Project'
-        resourceName:
+          $ref: "#/components/schemas/Project"
+        name:
           type: string
         endpoint:
           type: string
@@ -598,10 +587,9 @@ components:
               type: string
 
       required:
-        - resourceName
+        - name
         - method
-        
-          
+
     Project:
       type: object
       properties:
@@ -617,10 +605,10 @@ components:
       type: object
       properties:
         project:
-          $ref: '#/components/schemas/Project'
+          $ref: "#/components/schemas/Project"
         resources:
           type: array
-          items: 
+          items:
             type: string
         actions:
           type: array
@@ -629,26 +617,23 @@ components:
         roles:
           type: array
           items:
-            type: string 
+            type: string
         policies:
           type: array
           items:
-            type:
-              object
+            type: object
             properties:
-              role: 
+              role:
                 type: string
               can:
                 type: array
                 items:
-                  type:
-                    string
+                  type: string
               on:
                 type: array
                 items:
-                  type:
-                    string
-                  
+                  type: string
+
     SuccessResponse:
       type: object
       properties:
@@ -658,7 +643,7 @@ components:
           type: boolean
         data:
           type: object
-            
+
     FailResponse:
       type: object
       properties:
@@ -668,4 +653,3 @@ components:
           type: boolean
         data:
           type: object
-        

@@ -18,15 +18,15 @@ import {
 } from "../utils/authorize";
 import { edgeController } from "../controllers";
 const edgeRouter = express.Router();
-const resourceName = "edge";
+const name = "edge";
 
 edgeRouter.use(authenticationMiddleWareAdminPortal);
 
 edgeRouter
-  .get(ROOT_ROUTE, authorizerRead(resourceName), edgeController.fetch)
-  .post(ROOT_ROUTE, authorizeWrite(resourceName), edgeController.create)
-  .put(ROOT_ROUTE, authorizeUpdate(resourceName), edgeController.update)
-  .delete(ROOT_ROUTE, authorizeDelete(resourceName), edgeController.delete)
+  .get(ROOT_ROUTE, authorizerRead(name), edgeController.fetch)
+  .post(ROOT_ROUTE, authorizeWrite(name), edgeController.create)
+  .put(ROOT_ROUTE, authorizeUpdate(name), edgeController.update)
+  .delete(ROOT_ROUTE, authorizeDelete(name), edgeController.delete)
   .get(
     EDGE_ROUTE_WITH_PARAMS,
     AccessKeyAuthorization,

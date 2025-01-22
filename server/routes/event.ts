@@ -1,5 +1,5 @@
 import express from "express";
-import {  ROOT_ROUTE } from "../config/routes";
+import { ROOT_ROUTE } from "../config/routes";
 import authenticationMiddleWareAdminPortal from "../middleware/authentication";
 import {
   authorizeDelete,
@@ -9,14 +9,14 @@ import {
 } from "../utils/authorize";
 import { eventController } from "../controllers";
 const eventRouter = express.Router();
-const resourceName = "event";
+const name = "event";
 
 eventRouter.use(authenticationMiddleWareAdminPortal);
 
 eventRouter
-  .get(ROOT_ROUTE, authorizerRead(resourceName), eventController.fetch)
-  .post(ROOT_ROUTE, authorizeWrite(resourceName), eventController.create)
-  .put(ROOT_ROUTE, authorizeUpdate(resourceName), eventController.update)
-  .delete(ROOT_ROUTE, authorizeDelete(resourceName), eventController.delete);
+  .get(ROOT_ROUTE, authorizerRead(name), eventController.fetch)
+  .post(ROOT_ROUTE, authorizeWrite(name), eventController.create)
+  .put(ROOT_ROUTE, authorizeUpdate(name), eventController.update)
+  .delete(ROOT_ROUTE, authorizeDelete(name), eventController.delete);
 
 export default eventRouter;

@@ -60,7 +60,7 @@ const Swagger  : React.FC = () => {
             }}
               items={resource.map((resource : any, index : number) => {
                 return {
-                  label: `${resource?.resourceName}`,
+                  label: `${resource?.name}`,
                   key: `${index}`,
                   disabled: false,
                   children: (
@@ -74,7 +74,7 @@ const Swagger  : React.FC = () => {
               })}
     />
     <Drawer
-    title={`${selectedResource?.resourceName} Swagger Docs`}
+    title={`${selectedResource?.name} Swagger Docs`}
     placement="right"
     onClose={handleCloseSwaggerDrawer}
     open={swaggerDrawerVisible}

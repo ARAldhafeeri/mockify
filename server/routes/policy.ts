@@ -9,14 +9,14 @@ import {
 } from "../utils/authorize";
 import { policyController } from "../controllers";
 const policyRouter = express.Router();
-const resourceName = "policy";
+const name = "policy";
 
 policyRouter.use(authenticationMiddleWareAdminPortal);
 
 policyRouter
-  .get(ROOT_ROUTE, authorizerRead(resourceName), policyController.fetch)
-  .post(ROOT_ROUTE, authorizeWrite(resourceName), policyController.create)
-  .put(ROOT_ROUTE, authorizeUpdate(resourceName), policyController.update)
-  .delete(ROOT_ROUTE, authorizeDelete(resourceName), policyController.delete);
+  .get(ROOT_ROUTE, authorizerRead(name), policyController.fetch)
+  .post(ROOT_ROUTE, authorizeWrite(name), policyController.create)
+  .put(ROOT_ROUTE, authorizeUpdate(name), policyController.update)
+  .delete(ROOT_ROUTE, authorizeDelete(name), policyController.delete);
 
 export default policyRouter;

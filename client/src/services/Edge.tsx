@@ -12,7 +12,7 @@ const EdgeService = () => {
   const { resource } = useAppSelector((state) => state.resource);
   const [ key, setKey ] = React.useState<number>(0);
   const [ currentStep, setCurrentStep ] = React.useState<number>(0);
-  const  [ resourceName, setResourceName ] = React.useState<string>(resource[0]?.resourceName ?? "");
+  const  [ name, setname ] = React.useState<string>(resource[0]?.name ?? "");
   const [resourceId, setResourceId] = React.useState<string>("");
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
@@ -28,7 +28,7 @@ const EdgeService = () => {
 
   const handleTabChange = (key : string, resources : IFetchedResourceData[]) => {
     setKey(parseInt(key))
-    setResourceName(resources[parseInt(key)]?.resourceName as string);
+    setname(resources[parseInt(key)]?.name as string);
     setResourceId(resources[parseInt(key)]?._id as string);
   }
 
@@ -87,7 +87,7 @@ const EdgeService = () => {
     }
 
     // invalidate endpoint swagger docs cache
-    localStorage.removeItem(resourceName);
+    localStorage.removeItem(name);
 
     ToastifyMockify(dispatched);
   }
@@ -151,8 +151,8 @@ const EdgeService = () => {
     setCurrentStep(currentStep + 1);
   }
 
-  const getEdgeByResourceName = (resourceName : string) => {
-   dispatch(fetchEdge(resourceName));
+  const getEdgeByname = (name : string) => {
+   dispatch(fetchEdge(name));
   }
 
 
@@ -192,7 +192,7 @@ const EdgeService = () => {
     currentStep,
     nextStep,
     prevStep,
-    getEdgeByResourceName,
+    getEdgeByname,
 
   }
 }

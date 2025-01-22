@@ -4,12 +4,11 @@ import { API_ROUTE, EDGE_ROUTE } from "../../config/routes";
 import { DATABASE_URL } from "../../getEnv";
 import mongoose from "mongoose";
 import TestUtils from "./TestUtils";
-import ResourceService from "../../services/resource";
-import EdgeService from "../../services/edge";
 import { apiKeyHeader } from "../../config/headers";
 import { IEdge } from "../../entities/edge";
 import redisClient from "../../config/redis";
-const edgeService = new EdgeService();
+import { edgeService, resourceService } from "../../services";
+
 const genRandomName = () => {
   return Math.random().toString(36).substring(7);
 };
@@ -19,8 +18,6 @@ const mockEdge = {
   code: "string",
   method: "string", // GET | POST | PUT | DELETE
 };
-
-const resourceService = new ResourceService();
 
 describe("end-to-end tests curd edge functions", () => {
   let token: string;
@@ -34,7 +31,7 @@ describe("end-to-end tests curd edge functions", () => {
   });
 
   test("should create resource edge", async () => {
-    dataObj = await resourceService.find({ resourceName: "default" });
+    dataObj = await resourceService.find({ name: "default" });
     mockEdge.resource = dataObj[0]._id;
 
     const response = await request
@@ -110,7 +107,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
   });
 
   test("should run getx function", async () => {
-    const f = await resourceService.findOne({ resourceName: "default" });
+    const f = await resourceService.findOne({ name: "default" });
     createdResource = f;
     const newEdge = await edgeService.findOne({
       resource: f._id,

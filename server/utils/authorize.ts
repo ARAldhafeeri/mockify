@@ -1,17 +1,17 @@
 import authorization from "../middleware/authorization";
 
-export const authorizerRead = (resourceName: string) => {
-  return authorization([resourceName], ["read"]);
+export const authorizerRead = (name: string) => {
+  return authorization([name], ["read"]);
 };
 
-export const authorizeWrite = (resourceName: string) => {
-  return authorization([resourceName], ["write"]);
+export const authorizeWrite = (name: string) => {
+  return authorization([name], ["write"]);
 };
 
-export const authorizeDelete = (resourceName: string) => {
-  return authorization([resourceName], ["delete"]);
+export const authorizeDelete = (name: string) => {
+  return authorization([name], ["delete"]);
 };
 
-export const authorizeUpdate = (resourceName: string) => {
-  return authorization([resourceName], ["update"]);
+export const authorizeUpdate = (name: string) => {
+  return authorization([name], ["update"]);
 };

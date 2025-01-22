@@ -26,7 +26,7 @@ const CacheService = () => {
 
   // delete cache event
   const handleDeleteCache = (id : string) => {
-    const data = { projectName : selectedProject?.name, key: selectedCache.key}
+    const data = { name : selectedProject?.name, key: selectedCache.key}
     ToastifyMockify(
       dispatch(
         deleteCache(data)
@@ -57,7 +57,7 @@ const CacheService = () => {
   const handleSubmitCacheForm = (e : any) => {
     e.preventDefault();
     let dispatched;
-    const data = {record : selectedCache, key : selectedCache.key, projectName : selectedProject?._id ?? ""}
+    const data = {record : selectedCache, key : selectedCache.key, name : selectedProject?._id ?? ""}
     if (showEditModal) {
       dispatched = dispatch(createCache(data))
     } else {
@@ -84,7 +84,7 @@ const CacheService = () => {
   }
   
   React.useEffect(() =>{
-    const data = { projectName : selectedProject?._id ?? "" }
+    const data = { name : selectedProject?._id ?? "" }
     const dispatched = dispatch(fetchCaches(data));
     ToastifyMockify(dispatched);
     setShowEditModal(false);

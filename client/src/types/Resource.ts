@@ -1,13 +1,13 @@
 import { ReactNode } from "react";
 
 export interface IField {
- name: string;
- type: string;
- required: boolean
+  name: string;
+  type: string;
+  required: boolean;
 }
 export interface IFetchedResourceData {
   _id?: string;
-  resourceName: string;
+  name: string;
   project: string;
   fields: Array<IField>;
   endpoint: string;
@@ -20,11 +20,11 @@ export interface IFetchedResourceData {
     postx: boolean;
     putx: boolean;
     deletex: boolean;
-  }
+  };
 }
 
 export interface IPostedResourceData {
-  resourceName: string;
+  name: string;
   project: string;
   fields: Array<{}>;
   endpoint: string;
@@ -43,7 +43,7 @@ export interface IDeleteResourceData {
 }
 
 export interface IUpdateResourceData {
-  resourceName: string;
+  name: string;
   project: string;
   endpoint: string;
   fields: Array<{}>;
@@ -60,12 +60,12 @@ export interface IUpdateResourceData {
 export interface IFetchResourceResponse {
   message?: string;
   status?: boolean;
-  data?: IFetchedResourceData[]
+  data?: IFetchedResourceData[];
 }
 
 export interface IResourceInitState {
   resource: IFetchedResourceData[];
-  loading: 'loading' | 'pending' | 'rejected' | true | false;
+  loading: "loading" | "pending" | "rejected" | true | false;
   error: string | null;
 }
 

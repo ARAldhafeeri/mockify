@@ -3,7 +3,7 @@ import { IEndpointFeatures } from "./resource";
 export interface ISwaggerService {
   create: (
     features: IEndpointFeatures,
-    projectName: string,
-    resourceName: string
+    name: string,
+    name: string
   ) => Promise<Array<Object>>;
 }

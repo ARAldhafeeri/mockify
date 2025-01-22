@@ -6,7 +6,7 @@ export const normlizeOptions = (items : any) => {
   return items.map((item : any) => {
     return {
       value: item._id,
-      label: item.resourceName
+      label: item.name
     }
   })
 }

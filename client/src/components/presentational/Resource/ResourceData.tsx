@@ -5,9 +5,9 @@ import TableActions from 'components/commons/TableActions/TableActions';
 const ColumnsWithActions = (actions : any) : ColumnsType => {
   return  [
     {
-      title: 'resourceName'.toUpperCase(),
-      dataIndex: 'resourceName',
-      key: 'resourceName',
+      title: 'name'.toUpperCase(),
+      dataIndex: 'name',
+      key: 'name',
     },
     {
       title: 'features'.toUpperCase(),

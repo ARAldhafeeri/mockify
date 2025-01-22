@@ -11,9 +11,9 @@ import EdgeService from "./Edge";
 const EventService = () => {
   const { event, loading } = useAppSelector((state) => state.event);
   const { resource } = useAppSelector((state) => state.resource);
-  const {edge, getEdgeByResourceName } = EdgeService();
+  const {edge, getEdgeByname } = EdgeService();
   const [ key, setKey ] = React.useState<number>(0);
-  const  [ resourceId, setResourceId ] = React.useState<string>(resource[0]?.resourceName ?? "");
+  const  [ resourceId, setResourceId ] = React.useState<string>(resource[0]?.name ?? "");
 
   const  [ showDeleteModal, setShowDeleteModal ] = React.useState<boolean>(false);
   const [ showEditModal, setShowEditModal ] = React.useState<boolean>(false);
@@ -31,7 +31,7 @@ const EventService = () => {
     const res  = resources[parseInt(key)];
 
     setResourceId(res._id as string);
-    getEdgeByResourceName(res.resourceName as string)
+    getEdgeByname(res.name as string)
   }
 
   

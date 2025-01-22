@@ -29,7 +29,7 @@ const  GlobalTabsResource : React.FC<GlobalTabsProjectsProps> = ({content, creat
         
         items={resource.map((res : any, index : number) => {
           return {
-            label: `${res?.resourceName}`,
+            label: `${res?.name}`,
             key: `${index}`,
             disabled: false,
             children: content

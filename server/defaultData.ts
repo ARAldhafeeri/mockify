@@ -93,7 +93,7 @@ export const initDefaultData = async () => {
   // create resource
   let resource = await resourceService.findOrCreate({
     project: project?._id,
-    resourceName: "default",
+    name: "default",
     features: {
       filter: true,
       pagination: true,

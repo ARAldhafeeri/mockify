@@ -8,7 +8,7 @@ class CacheService implements ICacheService {
   }
 
   validate(key: string): boolean {
-    // Keys must be in the format "projectName:key"
+    // Keys must be in the format "name:key"
     const pattern = /^[a-zA-Z0-9]+:[a-zA-Z0-9]+$/;
     return pattern.test(key);
   }
@@ -52,12 +52,12 @@ class CacheService implements ICacheService {
     });
   }
 
-  addProjectNameToKey(projectName: string, key: string): string {
-    return `${projectName}:${key}`;
+  addnameToKey(name: string, key: string): string {
+    return `${name}:${key}`;
   }
 
-  async getAllProjectDataJSON(projectName: string): Promise<Array<any> | null> {
-    const keys = await this.client.keys(`${projectName}:*`);
+  async getAllProjectDataJSON(name: string): Promise<Array<any> | null> {
+    const keys = await this.client.keys(`${name}:*`);
     if (!keys || keys.length === 0) {
       return [];
     }

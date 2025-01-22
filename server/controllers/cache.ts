@@ -13,7 +13,7 @@ class CacheController implements ICacheController {
 
     let key = req.query.key as string;
 
-    let tenantKey = this.service.addProjectNameToKey(projectId, key);
+    let tenantKey = this.service.addnameToKey(projectId, key);
     let data: any;
     if (key) {
       data = await this.service.get(tenantKey);
@@ -33,7 +33,7 @@ class CacheController implements ICacheController {
 
     let projectId = req.params.projectId as string;
 
-    let tenantKey = this.service.addProjectNameToKey(projectId, key);
+    let tenantKey = this.service.addnameToKey(projectId, key);
 
     const seted = await this.service.set(tenantKey, body.value);
 
@@ -49,7 +49,7 @@ class CacheController implements ICacheController {
 
     let projectId = req.params.projectId as string;
 
-    let tenantKey = this.service.addProjectNameToKey(projectId, key);
+    let tenantKey = this.service.addnameToKey(projectId, key);
 
     await this.service.del(tenantKey);
 

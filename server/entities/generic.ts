@@ -8,7 +8,7 @@ import {
 
 // generic base for entities across the source code
 export interface IBaseEntity {
-  _id?: Types.ObjectId;
+  _id: Types.ObjectId;
   userUID?: string;
   createdAt?: Date;
   updatedAt?: Date;

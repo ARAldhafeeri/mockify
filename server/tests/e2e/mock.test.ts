@@ -14,15 +14,13 @@ import ResourceService from "../../services/resource";
 import { apiKeyHeader } from "../../config/headers";
 import DataService from "../../services/data";
 import { IData } from "../../entities/data";
+import { dataService, resourceService } from "../../services";
 const mockData = {
   resource: "string",
   data: {
     name: "a",
   },
 };
-
-const resourceService = new ResourceService();
-const dataService = new DataService();
 
 describe("end-to-end tests mock endpoints on data entity", () => {
   let token: string;
@@ -35,7 +33,7 @@ describe("end-to-end tests mock endpoints on data entity", () => {
   });
 
   test("should get mock endpoint data with generic GET request without any extra features", async () => {
-    dataObj = await resourceService.find({ resourceName: "default" });
+    dataObj = await resourceService.find({ name: "default" });
     mockData.resource = dataObj[0]._id;
     let fields = dataObj[0]?.fields;
     fields.forEach((field: any) => {

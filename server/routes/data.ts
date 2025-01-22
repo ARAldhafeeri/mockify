@@ -11,14 +11,14 @@ import {
 import { dataController } from "../controllers";
 const dataRouter = express.Router();
 
-const resourceName = "clientCred";
+const name = "clientCred";
 
 dataRouter.use(authenticationMiddleWareAdminPortal);
 
 dataRouter
-  .get(ROOT_ROUTE, authorizerRead(resourceName), dataController.fetch)
-  .post(ROOT_ROUTE, authorizeWrite(resourceName), dataController.create)
-  .put(ROOT_ROUTE, authorizeUpdate(resourceName), dataController.update)
-  .delete(ROOT_ROUTE, authorizeDelete(resourceName), dataController.delete);
+  .get(ROOT_ROUTE, authorizerRead(name), dataController.fetch)
+  .post(ROOT_ROUTE, authorizeWrite(name), dataController.create)
+  .put(ROOT_ROUTE, authorizeUpdate(name), dataController.update)
+  .delete(ROOT_ROUTE, authorizeDelete(name), dataController.delete);
 
 export default dataRouter;
