@@ -1,4 +1,25 @@
 import ClientRepository from "./client";
 import ClientModel from "../models/client";
+import DataModel from "../models/data";
+import EdgeModel from "../models/edge";
+import EventModel from "../models/event";
+import PolicyModel from "../models/policy";
+import ProjectModel from "../models/project";
+import ResourceModel from "../models/resource";
+import UserModel from "../models/user";
+import DataRepository from "./data";
+import EdgeRepository from "./edge";
+import EventRepository from "./event";
+import PolicyRepository from "./policy";
+import ProjectRepository from "./project";
+import ResourceRepository from "./resource";
+import UserRepository from "./user";
 
 export const clientRepository = new ClientRepository(ClientModel);
+export const dataRepository = new DataRepository(DataModel);
+export const edgeRepository = new EdgeRepository(EdgeModel);
+export const eventRepository = new EventRepository(EventModel);
+export const policyRepository = new PolicyRepository(PolicyModel);
+export const projectRepository = new ProjectRepository(ProjectModel);
+export const resourceRepository = new ResourceRepository(ResourceModel);
+export const userRepository = new UserRepository(UserModel);

@@ -1,5 +1,5 @@
 import { Document, Types } from "mongoose";
-import { IBaseEntity } from "./generic";
+import { IBaseEntity, IRepository, IService } from "./generic";
 
 export interface IPolicy extends IBaseEntity {
   project: Types.ObjectId;
@@ -11,10 +11,6 @@ export interface IPolicy extends IBaseEntity {
   updatedAt: Date;
 }
 
-export interface IPolicyService {
-  find(projection: Object): Promise<any>;
-  create(policy: IPolicy): Promise<any>;
-  update(policy: IPolicy): Promise<any>;
-  delete(id: Types.ObjectId): Promise<any>;
-  findOrCreate(policy: IPolicy): Promise<any>;
-}
+export interface IPolicyRepository extends IRepository<IPolicy> {}
+
+export interface IPolicyService extends IService<IPolicy> {}

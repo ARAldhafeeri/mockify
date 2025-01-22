@@ -1,5 +1,5 @@
 import { Document, Types } from "mongoose";
-import { IBaseEntity } from "./generic";
+import { IBaseEntity, IRepository, IService } from "./generic";
 
 export interface IEvent extends IBaseEntity {
   resource: Types.ObjectId;
@@ -7,10 +7,6 @@ export interface IEvent extends IBaseEntity {
   handler: string;
 }
 
-export interface IEventService {
-  find(event: Object): Promise<IEvent>;
-  create(event: IEvent): Promise<IEvent>;
-  update(event: IEvent): Promise<IEvent>;
-  delete(id: Types.ObjectId): Promise<IEvent>;
-  findOne(event: Object): Promise<IEvent>;
-}
+export interface IEventService extends IService<IEvent> {}
+
+export interface IEventRepository extends IRepository<IEvent> {}

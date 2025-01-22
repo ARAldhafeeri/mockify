@@ -1,71 +1,20 @@
 import EdgeModel from "../models/edge";
-import { IEdge } from "../entities/edge";
+import { IEdge, IEdgeRepository } from "../entities/edge";
 import { IEdgeService } from "../entities/edge";
 import { IResource, IResService } from "../entities/resource";
-import ResourceService from "./resource";
-import mongoose, { Types } from "mongoose";
+import { Types } from "mongoose";
 import CONTEXT from "../sandbox/context";
 const { ObjectId } = Types;
 import vm from "vm";
+import { Service } from "./generic";
 
-class EdgeService implements IEdgeService {
-  rService: IResService;
-
-  constructor() {
-    this.rService = new ResourceService();
+class EdgeService extends Service<IEdge> implements IEdgeService {
+  private rService: IResService;
+  constructor(resourceService: IResService, repository: IEdgeRepository) {
+    super(repository);
+    this.rService = resourceService;
+    this.repository = repository;
   }
-
-  find = async (projection: Object): Promise<any> => {
-    const found = await EdgeModel.find(projection);
-
-    return found;
-  };
-
-  create = async (record: IEdge): Promise<any> => {
-    const dNew = new EdgeModel(record);
-    const dCreated = await dNew.save();
-    return dCreated;
-  };
-
-  update = async (record: IEdge): Promise<any> => {
-    const dUpdated = await EdgeModel.findOneAndUpdate(
-      { _id: record._id },
-      record,
-      { new: true }
-    );
-
-    return dUpdated;
-  };
-
-  delete = async (id: Types.ObjectId): Promise<any> => {
-    const dDeleted = await EdgeModel.findByIdAndDelete(id);
-
-    return dDeleted;
-  };
-
-  findOne = async (projection: Object): Promise<any> => {
-    const foundRes = await EdgeModel.findOne(projection).lean();
-
-    return foundRes;
-  };
-
-  findById = async (id: Types.ObjectId): Promise<any> => {
-    const foundRes = await EdgeModel.findById(id).lean();
-
-    return foundRes;
-  };
-
-  findOrCreate = async (data: IEdge): Promise<any> => {
-    const found = await EdgeModel.findOne({ name: data?.name });
-
-    if (found) {
-      return found;
-    }
-
-    const NEW = new EdgeModel(data);
-    const created = await NEW.save();
-    return created;
-  };
 
   findEdgeFunctionsBYresourceId = async (resourceId: string): Promise<any> => {
     const res: IResource = await this.rService.findById(

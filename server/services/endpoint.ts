@@ -3,30 +3,26 @@ import { IEdge, IEdgeService } from "../entities/edge";
 import { IEndpointService } from "../entities/endpoint";
 import { IEndpointFeatures, IResource } from "../entities/resource";
 import { IClientService } from "../entities/client";
-import EdgeService from "./edge";
-import ClientService from "./client";
-
 class EndpointService implements IEndpointService {
   edgeService: IEdgeService;
   clientService: IClientService;
-  endpoint: Array<Object>;
 
-  constructor() {
-    this.edgeService = new EdgeService();
-    this.clientService = new ClientService();
-    this.endpoint = [];
+  constructor(edgeService: IEdgeService, clientService: IClientService) {
+    this.edgeService = edgeService;
+    this.clientService = clientService;
   }
 
-  addWssEndpoints = async (projectId: any) => {
+  addWssEndpoints = async (projectId: any, endpoint: any) => {
     let projectClientCredentials =
       await this.clientService.findClientsByPorjectId(projectId);
     projectClientCredentials.forEach((client: any) => {
-      this.endpoint.push({
+      endpoint.push({
         url: this.urlConstructor(domain, "wss", `/${client.id}`),
         type: "WebSocket",
         headers: ["id", "secret"],
       });
     });
+    return endpoint;
   };
 
   getFunctionURL(name: string, resourceId: string) {
@@ -37,14 +33,14 @@ class EndpointService implements IEndpointService {
     return `/${resourceId}/edge/${name}`;
   }
 
-  addEdgeEndpoints = async (resourceId: string) => {
+  addEdgeEndpoints = async (resourceId: any, endpoint: any) => {
     let functions: any = await this.edgeService.findEdgeFunctionsBYresourceId(
       resourceId
     );
 
     functions.forEach((func: any) => {
       if (func.method === "POST" || func.method === "PUT") {
-        this.endpoint.push({
+        endpoint.push({
           method: func.method,
           url: this.getFunctionURL(func._id, resourceId),
           path: this.getFunctionPath(func._id, resourceId),
@@ -52,7 +48,7 @@ class EndpointService implements IEndpointService {
           type: "Edge Function",
         });
       } else {
-        this.endpoint.push({
+        endpoint.push({
           method: func.method,
           url: this.getFunctionURL(func._id, resourceId),
           path: this.getFunctionPath(func._id, resourceId),
@@ -66,7 +62,7 @@ class EndpointService implements IEndpointService {
     return `${protocol}://${domain}${path}`;
   };
 
-  addGenericEndpoints = async (resource: IResource) => {
+  addGenericEndpoints = async (resource: IResource, endpoint: any) => {
     let resourceId = resource._id;
     let features: IEndpointFeatures = resource.features;
     let getx: string = this.urlConstructor(
@@ -116,7 +112,7 @@ class EndpointService implements IEndpointService {
     let validateXPath: string = `/mock/${resourceId}/validate`;
 
     if (features.getx)
-      this.endpoint.push({
+      endpoint.push({
         method: "GET",
         url: getx,
         type: "Generic",
@@ -124,7 +120,7 @@ class EndpointService implements IEndpointService {
         params: ["id"],
       });
     if (features.postx)
-      this.endpoint.push({
+      endpoint.push({
         method: "POST",
         url: postx,
         type: "Generic",
@@ -132,7 +128,7 @@ class EndpointService implements IEndpointService {
         path: postxPath,
       });
     if (features.putx)
-      this.endpoint.push({
+      endpoint.push({
         method: "PUT",
         url: deleteAndPutx,
         params: ["id"],
@@ -141,7 +137,7 @@ class EndpointService implements IEndpointService {
         path: deleteAndPutxPath,
       });
     if (features.deletex)
-      this.endpoint.push({
+      endpoint.push({
         method: "DELETE",
         url: deleteAndPutx,
         params: ["id"],
@@ -149,7 +145,7 @@ class EndpointService implements IEndpointService {
         path: deleteAndPutxPath,
       });
     if (features.pagination)
-      this.endpoint.push({
+      endpoint.push({
         method: "GET",
         url: paginateX,
         query: ["page", "limit"],
@@ -157,7 +153,7 @@ class EndpointService implements IEndpointService {
         path: paginateXPath,
       });
     if (features.search)
-      this.endpoint.push({
+      endpoint.push({
         method: "GET",
         url: searchX,
         query: ["search"],
@@ -165,7 +161,7 @@ class EndpointService implements IEndpointService {
         paath: searchXPath,
       });
     if (features.filter)
-      this.endpoint.push({
+      endpoint.push({
         method: "GET",
         url: filterX,
         query: ["name", "value"],
@@ -173,7 +169,7 @@ class EndpointService implements IEndpointService {
         path: filterXPath,
       });
     if (features.validation)
-      this.endpoint.push({
+      endpoint.push({
         method: "POST",
         url: validateX,
         type: "Generic",
@@ -181,39 +177,43 @@ class EndpointService implements IEndpointService {
         path: validateXPath,
       });
     if (features.validation)
-      this.endpoint.push({
+      endpoint.push({
         method: "PUT",
         url: validateX,
         type: "Generic",
         body: resource.fields,
         path: validateXPath,
       });
+
+    return endpoint;
   };
 
   async create(resource: IResource): Promise<Array<Object>> {
     // clean this.endpoint
-    this.endpoint = [];
-    let resourceId = resource._id;
+    let endpoint: any = [];
     let features: IEndpointFeatures = resource.features;
 
     // add generic endpoints
-    await this.addGenericEndpoints(resource);
+    endpoint = await this.addGenericEndpoints(resource, endpoint);
 
     if (features.functions) {
       //  add edge endpoints
-      await this.addEdgeEndpoints(resourceId);
+      endpoint = await this.addEdgeEndpoints(
+        resource?._id?.toString(),
+        endpoint
+      );
     }
 
     // add headers to all resource endpoints except wss
-    this.endpoint.forEach((end: any) => {
+    endpoint.forEach((end: any) => {
       end.headers = ["x-api-key"];
     });
 
     // add wss endpoints for resource project
     let projectId = resource.project;
-    await this.addWssEndpoints(projectId);
+    endpoint = await this.addWssEndpoints(projectId, endpoint);
 
-    return this.endpoint;
+    return endpoint;
   }
 }
 

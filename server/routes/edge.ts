@@ -1,5 +1,5 @@
 import express from 'express';
-import {getEdge, createEdge, deleteEdge, updateEdge, runFunction} from '../controllers/Edge';
+import {getEdge, createEdge, deleteEdge, updateEdge, runFunction} from '../controllers/edge';
 import { EDGE_ROUTE, EDGE_ROUTE_WITH_PARAMS } from '../config/routes';
 import authenticationMiddleWareAdminPortal from '../middleware/authentication';
 import authorization, { AccessKeyAuthorization } from '../middleware/authorization';

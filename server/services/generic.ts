@@ -34,11 +34,12 @@ export class Service<T extends IBaseEntity> implements IService<T> {
     return this.repository.delete(id, userUID);
   }
 
-  async search(text: string, userUID: string): Promise<any> {
+  async search(text: string, userUID: string): Promise<T[]> {
     const filter = { userUID: userUID, $text: { $search: text } };
-    const data = await this.repository.find(filter, {});
-    return {
-      data: data,
-    };
+    return this.repository.find(filter, {});
   }
+
+  findById = async (id: Types.ObjectId): Promise<T> => {
+    return this.repository.findById(id);
+  };
 }

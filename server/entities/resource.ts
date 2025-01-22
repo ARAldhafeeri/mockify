@@ -1,5 +1,5 @@
 import { Document, Types } from "mongoose";
-import { IBaseEntity } from "./generic";
+import { IBaseEntity, IRepository, IService } from "./generic";
 
 export interface IEndpointFeatures {
   filter: boolean;
@@ -21,15 +21,11 @@ export interface ISchemaField extends Document {
 
 export interface IResource extends IBaseEntity {
   name: string;
-  fields: Array<Object>;
+  fields: ISchemaField[];
   features: IEndpointFeatures;
+  project: string;
 }
 
-export interface IResService {
-  find(reosource: Object): Promise<any>;
-  create(reosource: IResource): Promise<any>;
-  update(reosource: IResource): Promise<any>;
-  delete(id: Types.ObjectId): Promise<any>;
-  findById(id: Types.ObjectId): Promise<any>;
-  findOne(reosource: Object): Promise<any>;
-}
+export interface IResourceRepository extends IRepository<IResource> {}
+
+export interface IResService extends IService<IResource> {}

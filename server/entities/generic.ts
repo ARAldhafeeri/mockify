@@ -9,7 +9,7 @@ import {
 // generic base for entities across the source code
 export interface IBaseEntity {
   _id?: Types.ObjectId;
-  userUID: string;
+  userUID?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -39,15 +39,16 @@ export interface IRepository<T extends IBaseEntity> {
   delete(id: string, userUID: string): Promise<T>;
   count(filter: FilterQuery<T>): Promise<number>;
   findOne(filter: FilterQuery<T>): Promise<T>;
+  findById(id: Types.ObjectId): Promise<T>;
 }
 
 export interface IService<T extends IBaseEntity> {
   find(userUID: string): Promise<T[]>;
   create(record: T, userUID: string): Promise<T>;
   update(record: T, userUID: string, recordID: string): Promise<T>;
-  findOne?(filter: FilterQuery<T>): Promise<T>;
+  findOne(filter: FilterQuery<T>): Promise<T>;
   delete(id: string, userUID: string): Promise<T>;
-  search(text: string, userUID: string): Promise<T[]>;
+  findById(id: Types.ObjectId): Promise<T>;
 }
 
 export interface IController {

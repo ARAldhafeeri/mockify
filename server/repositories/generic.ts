@@ -66,4 +66,10 @@ export class Repository<T> implements IRepository<any> {
   ): Promise<any> {
     return this.model.find(filter, projection);
   }
+
+  findById = async (id: Types.ObjectId): Promise<any> => {
+    const foundRes = await this.model.findById(id).lean();
+
+    return foundRes;
+  };
 }

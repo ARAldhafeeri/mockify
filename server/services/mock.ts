@@ -1,8 +1,6 @@
 import Data from "../models/data";
-import DataModel from "../models/data";
 import { Types } from "mongoose";
-import { IData } from "../entities/data";
-import ResourceService from "./resource";
+import { IData, IDataRepository } from "../entities/data";
 import {
   IEndpointFeatures,
   IResService,
@@ -15,13 +13,11 @@ import {
   IPaginateParams,
   IPaginatedResponse,
   ISearchParams,
-  IValidateParams,
   IMockFieldsMap,
 } from "../entities/mock";
+import { Service } from "./generic";
 
-const { ObjectId } = Types;
-
-class MockService implements IMockService {
+class MockService extends Service<IData> implements IMockService {
   /**
    * keep in mind that this service provide multiple services for /mock
    * 1. should be queried separately
@@ -35,8 +31,10 @@ class MockService implements IMockService {
 
   resourceService: IResService;
 
-  constructor() {
-    this.resourceService = new ResourceService();
+  constructor(resourceService: IResService, repository: IDataRepository) {
+    super(repository);
+    this.resourceService = resourceService;
+    this.repository = this.repository;
   }
 
   isNumber = (value: string): boolean => {
@@ -67,12 +65,9 @@ class MockService implements IMockService {
     const limit = parseInt(params.limit);
     const startIndex = (page - 1) * limit;
 
-    const results = await DataModel.find(projection)
-      .limit(limit)
-      .skip(startIndex)
-      .exec();
+    const results = await this.repository.find(projection, {});
 
-    const total = await DataModel.countDocuments();
+    const total = await this.repository.count(projection);
 
     return Promise.resolve({
       total: total,
@@ -83,20 +78,12 @@ class MockService implements IMockService {
   };
 
   searchQuery = async (data: string): Promise<any> => {
-    const results = await DataModel.find({
-      $text: {
-        $search: data,
-      },
-    }).exec();
-
-    return results;
+    return this.search(data, "");
   };
 
   filterQuery = async (projection: Object): Promise<any> => {
     // projection is {filterName: filterValue}
-    const results = await DataModel.find(projection);
-
-    return results;
+    return this.repository.find(projection, {});
   };
 
   getSchemaFieldTypeMap = (schema: IResource["fields"]): IMockFieldsMap => {
@@ -134,7 +121,7 @@ class MockService implements IMockService {
   };
 
   validateAndCreateQuery = async (
-    data: any,
+    data: IData,
     fields: IResource["fields"],
     resource: string
   ): Promise<any> => {
@@ -142,7 +129,10 @@ class MockService implements IMockService {
 
     if (!dataIsValid) return false;
 
-    const results = await DataModel.create({ data: data, resource: resource });
+    const results = await this.repository.create({
+      data: data,
+      resource: resource,
+    });
     return results;
   };
 
@@ -155,62 +145,11 @@ class MockService implements IMockService {
 
     if (!dataIsValid) return false;
 
-    const results = await DataModel.create({ data: data, resource: resource });
+    const results = await this.repository.create({
+      data: data,
+      resource: resource,
+    });
     return results;
-  };
-
-  find = async (projection: Object): Promise<any> => {
-    const found = await DataModel.find(projection);
-
-    return found;
-  };
-
-  create = async (d: IData): Promise<any> => {
-    let resource = await this.resourceService.findById(d.resource);
-
-    if (!resource) return false;
-
-    let fieldsNames: Array<string> = [];
-
-    resource.fields.forEach(
-      (field: { name: string; type: string; required: string }) => {
-        fieldsNames.push(field.name);
-      }
-    );
-
-    Object.keys(d?.data ?? {}).forEach((key) => {
-      if (!fieldsNames.includes(key)) return false;
-    });
-
-    const dNew = new DataModel(d);
-    const dCreated = await dNew.save();
-    return dCreated;
-  };
-
-  update = async (d: IData): Promise<any> => {
-    const dUpdated = await DataModel.findOneAndUpdate({ _id: d._id }, d, {
-      new: true,
-    });
-
-    return dUpdated;
-  };
-
-  delete = async (id: Types.ObjectId): Promise<any> => {
-    const dDeleted = await DataModel.findByIdAndDelete(id);
-
-    return dDeleted;
-  };
-
-  findOrCreate = async (data: IData): Promise<any> => {
-    const found = await DataModel.findOne({ resource: data?.resource });
-
-    if (found) {
-      return found;
-    }
-
-    const NEW = new DataModel(data);
-    const created = await NEW.save();
-    return created;
   };
 }
 

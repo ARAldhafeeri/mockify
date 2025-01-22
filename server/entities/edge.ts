@@ -1,5 +1,5 @@
 import { Document, ObjectId, Types } from "mongoose";
-import { IBaseEntity } from "./generic";
+import { IBaseEntity, IRepository, IService } from "./generic";
 
 export interface IEdge extends IBaseEntity {
   resource: Types.ObjectId;
@@ -8,12 +8,9 @@ export interface IEdge extends IBaseEntity {
   method: string;
 }
 
-export interface IEdgeService {
-  find(projection: Object): Promise<IEdge>;
-  create(data: IEdge): Promise<IEdge>;
-  update(data: IEdge): Promise<IEdge>;
-  delete(id: Types.ObjectId): Promise<IEdge>;
-  findOne(data: Object): Promise<IEdge>;
+export interface IEdgeRepository extends IRepository<IEdge> {}
+
+export interface IEdgeService extends IService<IEdge> {
   findEdgeFunctionsBYresourceId(resourceId: string): Promise<IEdge>;
   addImmediatelyInvokedAsync(code: string): string;
   runFunctionInContext(

@@ -1,75 +1,27 @@
-import Event from "../models/event";
-import EventModel from "../models/event";
-import { Types } from "mongoose";
-import { IEvent } from "../entities/event";
-import ResourceService from "./resource";
+import { IEvent, IEventRepository } from "../entities/event";
 import { IResService } from "../entities/resource";
 import { IEventService } from "../entities/event";
 import events from "../events";
 import { IEdgeService } from "../entities/edge";
-import EdgeService from "./edge";
-const { ObjectId } = Types;
 
-class EventService implements IEventService {
+import { Service } from "./generic";
+
+class EventService extends Service<IEvent> implements IEventService {
   resourceService: IResService;
   edgeService: IEdgeService;
-
-  constructor() {
-    this.resourceService = new ResourceService();
-    this.edgeService = new EdgeService();
+  repository: IEventRepository;
+  constructor(
+    resourceService: IResService,
+    edgeService: IEdgeService,
+    repository: IEventRepository
+  ) {
+    super(repository);
+    this.resourceService = resourceService;
+    this.edgeService = edgeService;
+    this.repository = repository;
   }
 
-  find = async (projection: Object): Promise<any> => {
-    const found = await EventModel.find(projection);
-
-    return found;
-  };
-
-  findOne = async (projection: Object): Promise<any> => {
-    const foundRes = await EventModel.findOne(projection).lean();
-
-    return foundRes;
-  };
-
-  create = async (event: IEvent): Promise<any> => {
-    let resource = await this.resourceService.findById(event.resource);
-
-    if (!resource) return false;
-
-    const dNew = new EventModel(event);
-    const dCreated = await dNew.save();
-    return dCreated;
-  };
-
-  update = async (event: IEvent): Promise<any> => {
-    const dUpdated = await EventModel.findOneAndUpdate(
-      { _id: event?._id },
-      event,
-      { new: true }
-    );
-
-    return dUpdated;
-  };
-
-  delete = async (id: Types.ObjectId): Promise<any> => {
-    const dDeleted = await EventModel.findByIdAndDelete(id);
-
-    return dDeleted;
-  };
-
-  findOrCreate = async (event: IEvent): Promise<any> => {
-    const found = await EventModel.findOne({ resource: event?.resource });
-
-    if (found) {
-      return found;
-    }
-
-    const NEW = new EventModel(event);
-    const created = await NEW.save();
-    return created;
-  };
-
-  dynamicallyAddEvent = async (event: IEvent): Promise<any> => {
+  dynamicallyAddEvent = async (event: any): Promise<any> => {
     events.on(event?._id, async (eventData: any) => {
       const edge = await this.edgeService.findOne({ name: event?.handler });
       // add line of code eventData to edge.code
@@ -78,12 +30,12 @@ class EventService implements IEventService {
     });
   };
 
-  dynamicallyRemoveEvent = async (event: IEvent): Promise<any> => {
+  dynamicallyRemoveEvent = async (event: any): Promise<any> => {
     events.removeAllListeners(event?._id);
   };
 
   dynamicallyAddAllEventsOnRuntime = async (): Promise<any> => {
-    const events = await this.find({});
+    const events = await this.repository.find({}, {});
     events.forEach(async (event: IEvent) => {
       await this.dynamicallyAddEvent(event);
     });

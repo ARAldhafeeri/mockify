@@ -1,6 +1,6 @@
 import { IData } from "./data";
-import { Types } from "mongoose";
 import { IEndpointFeatures, IResource } from "./resource";
+import { IService } from "./generic";
 
 export interface IPaginatedResponse {
   total: number;
@@ -27,8 +27,7 @@ export interface IValidateParams {
   validate: string; // parsed boolean true or false
 }
 
-export interface IMockService {
-  find(data: Object): Promise<IData>;
+export interface IMockService extends IService<any> {
   isPaginated(data: IEndpointFeatures, params: IPaginateParams): boolean;
   isSearch(data: IEndpointFeatures, params: ISearchParams): boolean;
   isFilter(data: IEndpointFeatures, params: IFilterParams): boolean;
@@ -48,10 +47,6 @@ export interface IMockService {
     schema: IResource["fields"],
     resource: string
   ): Promise<IPaginatedResponse>;
-  find(data: Object): Promise<IData>;
-  create(data: IData): Promise<IData>;
-  update(data: IData): Promise<IData>;
-  delete(id: Types.ObjectId): Promise<IData>;
 }
 
 export interface IMockFieldsMap {

@@ -23,6 +23,7 @@ const resourceSchema = new Schema<IResource>(
       },
     ],
     userUID: { type: String, maxlength: 100 },
+    project: { type: String },
   },
   { timestamps: true }
 );
