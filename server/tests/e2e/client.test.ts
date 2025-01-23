@@ -29,7 +29,7 @@ describe("end-to-end tests project endpoint", () => {
 
     const response = await request
       .agent(app)
-      .post(`${API_ROUTE}${CLIENT_ROUTE}`)
+      .post(`${CLIENT_ROUTE}`)
       .send({
         ...mockData,
       })
@@ -48,7 +48,7 @@ describe("end-to-end tests project endpoint", () => {
     let projectId = projectObj._id.toString();
     const response = await request
       .agent(app)
-      .get(`${API_ROUTE}${CLIENT_ROUTE}?projectId=${projectId}`)
+      .get(`${CLIENT_ROUTE}?projectId=${projectId}`)
       .set("Authorization", "bearer " + token);
 
     // check all clients are related to the project
@@ -67,7 +67,7 @@ describe("end-to-end tests project endpoint", () => {
     delete created.apiKey;
     const response = await request
       .agent(app)
-      .put(`${API_ROUTE}${CLIENT_ROUTE}`)
+      .put(`${CLIENT_ROUTE}`)
       .send({
         project: created.project,
         name: "newName",
@@ -82,7 +82,7 @@ describe("end-to-end tests project endpoint", () => {
   test("should delete client", async () => {
     const response = await request
       .agent(app)
-      .delete(`${API_ROUTE}${CLIENT_ROUTE}/?id=${created._id}`)
+      .delete(`${CLIENT_ROUTE}/?id=${created._id}`)
       .set("Authorization", "bearer " + token);
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);

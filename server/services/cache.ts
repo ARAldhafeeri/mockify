@@ -13,21 +13,11 @@ class CacheService implements ICacheService {
     return pattern.test(key);
   }
 
-  private async executeIfValid<T>(
-    key: string,
-    action: () => Promise<T>
-  ): Promise<T | boolean> {
+  async get(key: string): Promise<string | null | boolean> {
     if (!this.validate(key)) {
       return false;
     }
-    return action();
-  }
-
-  async get(key: string): Promise<string | null | boolean> {
-    return this.executeIfValid(key, async () => {
-      const result = await this.client.get(key);
-      return result !== null ? result.toString() : null;
-    });
+    return this.client.get(key);
   }
 
   async set(
@@ -35,21 +25,18 @@ class CacheService implements ICacheService {
     value: string,
     exp: number | null = null
   ): Promise<boolean> {
-    return this.executeIfValid(key, async () => {
-      if (exp) {
-        await this.client.set(key, value, { EX: exp });
-      } else {
-        await this.client.set(key, value);
-      }
-      return true;
-    });
+    if (!this.validate(key)) return false;
+    if (exp) {
+      return this.client.set(key, value, { EX: exp });
+    } else {
+      return this.client.set(key, value);
+    }
   }
 
   async del(key: string): Promise<boolean> {
-    return this.executeIfValid(key, async () => {
-      await this.client.del(key);
-      return true;
-    });
+    if (!this.validate(key)) return false;
+
+    return this.client.del(key);
   }
 
   addnameToKey(name: string, key: string): string {

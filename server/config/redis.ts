@@ -3,7 +3,7 @@ import * as redis from "redis";
 
 let redisClient = redis.createClient({
   url: REDIS_URL,
-  legacyMode: true,
+  legacyMode: false,
 });
 
 export default redisClient;
