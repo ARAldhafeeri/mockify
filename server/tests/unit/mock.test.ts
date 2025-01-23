@@ -193,8 +193,7 @@ describe("Mock service ", () => {
   });
 
   test("mockservice.validateAndMutateQuery should return a validate response", async () => {
-    let res = await resourceService.find({ name: "default" });
-    res = res[0];
+    let res = await resourceService.findOne({ name: "default" });
     let fields = res.fields;
     const fieldNames = fields.map(
       (field: { name: string; type: string; required: boolean }) => field.name
@@ -209,7 +208,7 @@ describe("Mock service ", () => {
     const response = await mockService.validateAndCreateQuery(
       data,
       fields,
-      res._id
+      res._id.toString()
     );
     expect(response).toBeDefined();
   });

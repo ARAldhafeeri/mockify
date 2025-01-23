@@ -39,18 +39,10 @@ describe("EndpointService", () => {
     );
 
     // funcs
-    let getXFunction = endpoint.filter(
-      (e: any) => e.method === "GET" && e.url.includes("edge")
-    );
-    let postXFunction = endpoint.filter(
-      (e: any) => e.method === "POST" && e.url.includes("edge")
-    );
-    let putXFunction = endpoint.filter(
-      (e: any) => e.method === "PUT" && e.url.includes("edge")
-    );
-    let deleteXFunction = endpoint.filter(
-      (e: any) => e.method === "DELETE" && e.url.includes("edge")
-    );
+    let getXFunction = endpoint.filter((e: any) => e.method === "GET");
+    let postXFunction = endpoint.filter((e: any) => e.method === "POST");
+    let putXFunction = endpoint.filter((e: any) => e.method === "PUT");
+    let deleteXFunction = endpoint.filter((e: any) => e.method === "DELETE");
 
     expect(getx).toBeDefined();
     expect(postx).toBeDefined();

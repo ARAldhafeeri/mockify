@@ -11,7 +11,7 @@ export interface IEdge extends IBaseEntity {
 export interface IEdgeRepository extends IRepository<IEdge> {}
 
 export interface IEdgeService extends IService<IEdge> {
-  findEdgeFunctionsBYresourceId(resourceId: string): Promise<IEdge>;
+  findEdgeFunctionsBYresourceId(resourceId: string): Promise<IEdge[]>;
   addImmediatelyInvokedAsync(code: string): string;
   runFunctionInContext(
     code: string,

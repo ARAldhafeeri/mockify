@@ -3,6 +3,7 @@ import { IEdge, IEdgeService } from "../entities/edge";
 import { IEndpointService } from "../entities/endpoint";
 import { IEndpointFeatures, IResource } from "../entities/resource";
 import { IClientService } from "../entities/client";
+
 class EndpointService implements IEndpointService {
   edgeService: IEdgeService;
   clientService: IClientService;
@@ -12,9 +13,14 @@ class EndpointService implements IEndpointService {
     this.clientService = clientService;
   }
 
-  addWssEndpoints = async (projectId: any, endpoint: any) => {
-    let projectClientCredentials =
+  async addWssEndpoints(projectId: any, endpoint: any[]) {
+    const projectClientCredentials =
       await this.clientService.findClientsByPorjectId(projectId);
+
+    if (!projectClientCredentials?.length) {
+      return endpoint;
+    }
+
     projectClientCredentials.forEach((client: any) => {
       endpoint.push({
         url: this.urlConstructor(domain, "wss", `/${client.id}`),
@@ -22,8 +28,9 @@ class EndpointService implements IEndpointService {
         headers: ["id", "secret"],
       });
     });
+
     return endpoint;
-  };
+  }
 
   getFunctionURL(name: string, resourceId: string) {
     return this.urlConstructor(domain, "https", `${resourceId}/edge/${name}`);
@@ -33,185 +40,156 @@ class EndpointService implements IEndpointService {
     return `/${resourceId}/edge/${name}`;
   }
 
-  addEdgeEndpoints = async (resourceId: any, endpoint: any) => {
-    let functions: any = await this.edgeService.findEdgeFunctionsBYresourceId(
+  async addEdgeEndpoints(resourceId: any, endpoint: any[]) {
+    const functions = await this.edgeService.findEdgeFunctionsBYresourceId(
       resourceId
     );
 
+    if (!functions?.length) {
+      return endpoint;
+    }
+
     functions.forEach((func: any) => {
+      const baseEndpoint = {
+        method: func.method,
+        url: this.getFunctionURL(func._id, resourceId),
+        path: this.getFunctionPath(func._id, resourceId),
+        type: "Edge Function",
+      };
+
       if (func.method === "POST" || func.method === "PUT") {
         endpoint.push({
-          method: func.method,
-          url: this.getFunctionURL(func._id, resourceId),
-          path: this.getFunctionPath(func._id, resourceId),
+          ...baseEndpoint,
           body: {},
-          type: "Edge Function",
         });
       } else {
-        endpoint.push({
-          method: func.method,
-          url: this.getFunctionURL(func._id, resourceId),
-          path: this.getFunctionPath(func._id, resourceId),
-          type: "Edge Function",
-        });
+        endpoint.push(baseEndpoint);
       }
     });
-  };
-
-  urlConstructor = (domain: string, protocol: string, path: string) => {
-    return `${protocol}://${domain}${path}`;
-  };
-
-  addGenericEndpoints = async (resource: IResource, endpoint: any) => {
-    let resourceId = resource._id;
-    let features: IEndpointFeatures = resource.features;
-    let getx: string = this.urlConstructor(
-      domain,
-      "https",
-      `/mock/${resourceId}/`
-    );
-    let postx: string = this.urlConstructor(
-      domain,
-      "https",
-      `/mock/${resourceId}/`
-    );
-    let deleteAndPutx: string = this.urlConstructor(
-      domain,
-      "https",
-      `/mock/${resourceId}/{id}`
-    );
-
-    let paginateX: string = this.urlConstructor(
-      domain,
-      "https",
-      `/mock/${resourceId}/paginate?page=1&limit=10`
-    );
-    let searchX: string = this.urlConstructor(
-      domain,
-      "https",
-      `/mock/${resourceId}/search/?search=fullTextSearchAgainstString`
-    );
-    let filterX: string = this.urlConstructor(
-      domain,
-      "https",
-      `/mock/${resourceId}/filter/?name=name&value=value`
-    );
-    let validateX: string = this.urlConstructor(
-      domain,
-      "https",
-      `/mock/${resourceId}/validate`
-    );
-
-    // paths for swagger  docs
-    let getxPath: string = `/mock/${resourceId}/{id}`;
-    let postxPath: string = `/mock/${resourceId}/`;
-    let deleteAndPutxPath: string = `/mock/${resourceId}/{id}`;
-    let paginateXPath: string = `/mock/${resourceId}/paginate`;
-    let searchXPath: string = `/mock/${resourceId}/search`;
-    let filterXPath: string = `/mock/${resourceId}/filter`;
-    let validateXPath: string = `/mock/${resourceId}/validate`;
-
-    if (features.getx)
-      endpoint.push({
-        method: "GET",
-        url: getx,
-        type: "Generic",
-        path: getxPath,
-        params: ["id"],
-      });
-    if (features.postx)
-      endpoint.push({
-        method: "POST",
-        url: postx,
-        type: "Generic",
-        body: resource.fields,
-        path: postxPath,
-      });
-    if (features.putx)
-      endpoint.push({
-        method: "PUT",
-        url: deleteAndPutx,
-        params: ["id"],
-        type: "Generic",
-        body: resource.fields,
-        path: deleteAndPutxPath,
-      });
-    if (features.deletex)
-      endpoint.push({
-        method: "DELETE",
-        url: deleteAndPutx,
-        params: ["id"],
-        type: "Generic",
-        path: deleteAndPutxPath,
-      });
-    if (features.pagination)
-      endpoint.push({
-        method: "GET",
-        url: paginateX,
-        query: ["page", "limit"],
-        type: "Generic",
-        path: paginateXPath,
-      });
-    if (features.search)
-      endpoint.push({
-        method: "GET",
-        url: searchX,
-        query: ["search"],
-        type: "Generic",
-        paath: searchXPath,
-      });
-    if (features.filter)
-      endpoint.push({
-        method: "GET",
-        url: filterX,
-        query: ["name", "value"],
-        type: "Generic",
-        path: filterXPath,
-      });
-    if (features.validation)
-      endpoint.push({
-        method: "POST",
-        url: validateX,
-        type: "Generic",
-        body: resource.fields,
-        path: validateXPath,
-      });
-    if (features.validation)
-      endpoint.push({
-        method: "PUT",
-        url: validateX,
-        type: "Generic",
-        body: resource.fields,
-        path: validateXPath,
-      });
 
     return endpoint;
-  };
+  }
+
+  urlConstructor(domain: string, protocol: string, path: string) {
+    return `${protocol}://${domain}${path}`;
+  }
+
+  async addGenericEndpoints(resource: IResource, endpoint: any[]) {
+    const { _id: resourceId, features } = resource;
+
+    if (!features) {
+      return endpoint;
+    }
+
+    const baseUrls = {
+      get: this.urlConstructor(domain, "https", `/mock/${resourceId}/`),
+      post: this.urlConstructor(domain, "https", `/mock/${resourceId}/`),
+      putDelete: this.urlConstructor(
+        domain,
+        "https",
+        `/mock/${resourceId}/{id}`
+      ),
+      paginate: this.urlConstructor(
+        domain,
+        "https",
+        `/mock/${resourceId}/paginate?page=1&limit=10`
+      ),
+      search: this.urlConstructor(
+        domain,
+        "https",
+        `/mock/${resourceId}/search/?search=fullTextSearchAgainstString`
+      ),
+      filter: this.urlConstructor(
+        domain,
+        "https",
+        `/mock/${resourceId}/filter/?name=name&value=value`
+      ),
+      validate: this.urlConstructor(
+        domain,
+        "https",
+        `/mock/${resourceId}/validate`
+      ),
+    };
+
+    const paths = {
+      get: `/mock/${resourceId}/{id}`,
+      post: `/mock/${resourceId}/`,
+      putDelete: `/mock/${resourceId}/{id}`,
+      paginate: `/mock/${resourceId}/paginate`,
+      search: `/mock/${resourceId}/search`,
+      filter: `/mock/${resourceId}/filter`,
+      validate: `/mock/${resourceId}/validate`,
+    };
+
+    const addEndpoint = (
+      method: string,
+      url: string,
+      path: string,
+      additionalProps = {}
+    ) => {
+      endpoint.push({
+        method,
+        url,
+        path,
+        type: "Generic",
+        ...additionalProps,
+      });
+    };
+
+    if (features.getx)
+      addEndpoint("GET", baseUrls.get, paths.get, { params: ["id"] });
+    if (features.postx)
+      addEndpoint("POST", baseUrls.post, paths.post, { body: resource.fields });
+    if (features.putx)
+      addEndpoint("PUT", baseUrls.putDelete, paths.putDelete, {
+        params: ["id"],
+        body: resource.fields,
+      });
+    if (features.deletex)
+      addEndpoint("DELETE", baseUrls.putDelete, paths.putDelete, {
+        params: ["id"],
+      });
+    if (features.pagination)
+      addEndpoint("GET", baseUrls.paginate, paths.paginate, {
+        query: ["page", "limit"],
+      });
+    if (features.search)
+      addEndpoint("GET", baseUrls.search, paths.search, { query: ["search"] });
+    if (features.filter)
+      addEndpoint("GET", baseUrls.filter, paths.filter, {
+        query: ["name", "value"],
+      });
+    if (features.validation) {
+      addEndpoint("POST", baseUrls.validate, paths.validate, {
+        body: resource.fields,
+      });
+      addEndpoint("PUT", baseUrls.validate, paths.validate, {
+        body: resource.fields,
+      });
+    }
+
+    return endpoint;
+  }
 
   async create(resource: IResource): Promise<Array<Object>> {
-    // clean this.endpoint
-    let endpoint: any = [];
-    let features: IEndpointFeatures = resource.features;
+    let endpoint: any[] = [];
 
-    // add generic endpoints
     endpoint = await this.addGenericEndpoints(resource, endpoint);
 
-    if (features.functions) {
-      //  add edge endpoints
+    if (resource.features.functions) {
       endpoint = await this.addEdgeEndpoints(
-        resource?._id?.toString(),
+        resource._id?.toString(),
         endpoint
       );
     }
 
-    // add headers to all resource endpoints except wss
     endpoint.forEach((end: any) => {
-      end.headers = ["x-api-key"];
+      if (end.type !== "WebSocket") {
+        end.headers = ["x-api-key"];
+      }
     });
 
-    // add wss endpoints for resource project
-    let projectId = resource.project;
-    endpoint = await this.addWssEndpoints(projectId, endpoint);
+    endpoint = await this.addWssEndpoints(resource.project, endpoint);
 
     return endpoint;
   }
