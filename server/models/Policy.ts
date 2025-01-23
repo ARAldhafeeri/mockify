@@ -3,7 +3,7 @@ import { IPolicy } from "../entities/policy";
 
 const policySchema = new Schema<IPolicy>(
   {
-    project: { type: Schema.ObjectId, required: true, unique: true },
+    project: { type: String },
     resources: { type: [String], required: true },
     actions: { type: [String], required: true },
     roles: { type: [String], required: true },

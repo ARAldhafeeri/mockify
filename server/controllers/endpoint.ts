@@ -9,7 +9,7 @@ export const endpointCreateController = async (
 ): Promise<any> => {
   try {
     const data: IResource = req.body;
-    const project = await projectService.find(data?.project);
+    const project = await projectService.findOne({ project: data?.project });
 
     if (!project) return ErrorResponse(res, "Project not found", 404);
 

@@ -1,4 +1,4 @@
-import { IRepository } from "../entities/generic";
+import { ICreatePayLoad, IRepository } from "../entities/generic";
 import { Model, Document, UpdateQuery, QueryOptions } from "mongoose";
 import { FilterQuery, ProjectionType, Types } from "mongoose";
 
@@ -18,7 +18,7 @@ export class Repository<T> implements IRepository<any> {
     return this.model.find(filter);
   }
 
-  async create(record: T): Promise<any> {
+  async create(record: ICreatePayLoad<T>): Promise<any> {
     const newRecord = new this.model(record);
     return newRecord.save();
   }

@@ -21,6 +21,8 @@ export interface IBaseResponse<T> {
   data: T[];
 }
 
+export type ICreatePayLoad<T> = Partial<Omit<T, "_id">>;
+
 export interface IRepository<T extends IBaseEntity> {
   find(filter: FilterQuery<T>, projection: ProjectionType<T>): Promise<T[]>;
   findAll(filter: FilterQuery<T>): Promise<T[]>;
@@ -29,7 +31,7 @@ export interface IRepository<T extends IBaseEntity> {
     projection: ProjectionType<T>
   ): Promise<T[]>;
 
-  create(record: T): Promise<T>;
+  create(record: ICreatePayLoad<T>): Promise<T>;
   update(filter: FilterQuery<T>, record: UpdateQuery<T>): Promise<T>;
   updateWithQueryOptions(
     filter: FilterQuery<T>,

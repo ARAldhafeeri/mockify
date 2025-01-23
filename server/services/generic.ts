@@ -1,4 +1,9 @@
-import { IService, IBaseEntity, IRepository } from "../entities/generic";
+import {
+  IService,
+  IBaseEntity,
+  IRepository,
+  ICreatePayLoad,
+} from "../entities/generic";
 import { FilterQuery, Types } from "mongoose";
 import ObjectId = Types.ObjectId;
 
@@ -16,7 +21,7 @@ export class Service<T extends IBaseEntity> implements IService<T> {
     return this.repository.findOne(filter);
   }
 
-  async create(record: T): Promise<T> {
+  async create(record: ICreatePayLoad<T>): Promise<T> {
     return this.repository.create(record);
   }
 
@@ -35,5 +40,17 @@ export class Service<T extends IBaseEntity> implements IService<T> {
 
   findById = async (id: Types.ObjectId): Promise<T> => {
     return this.repository.findById(id);
+  };
+
+  findOrCreate = async (
+    filter: FilterQuery<T>,
+    record: ICreatePayLoad<T>
+  ): Promise<any> => {
+    const found = await this.repository.findOne(filter);
+
+    if (found) {
+      return found;
+    }
+    return this.repository.create(record);
   };
 }

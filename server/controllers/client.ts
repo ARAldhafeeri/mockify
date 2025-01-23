@@ -9,7 +9,7 @@ class ClientController
   verifyClientCredentials = asyncController(async (req, res) => {
     let data = req.body;
 
-    const fetchedData = await super.service.findOne({
+    const fetchedData = await this.service.findOne({
       id: data.clientId,
       secret: data.clientSecret,
     });

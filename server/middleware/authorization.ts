@@ -4,21 +4,16 @@ import jwt from "jsonwebtoken";
 import { NextFunction } from "express";
 import { Request, Response } from "express";
 import { SECRET_KEY } from "../getEnv";
-import CryptoService from "../services/crypto";
 import { IPolicy } from "../entities/policy";
 import { IToken, ITokenPayload } from "../entities/auth";
-import ProjectService from "../services/project";
 import { apiKeyHeader } from "../config/headers";
+import { cryptoService, projectService } from "../services";
 
 let globalPolicy = JSON.parse(fs.readFileSync("policy.json", "utf8"));
 
 let AC = new AccessControl(globalPolicy);
 
 AC = AC.enforce();
-
-const cryptoService = new CryptoService();
-
-const projService = new ProjectService();
 
 export const getUserRoleFromToken = async (
   token: string
@@ -106,7 +101,7 @@ export const AccessKeyAuthorization = async (
 ) => {
   // verify access key exists in database
   const apiKey = req.headers[apiKeyHeader];
-  const authorized = await projService.findOne({ apiKey: apiKey });
+  const authorized = await projectService.findOne({ apiKey: apiKey });
   if (!authorized) return res.status(403).send("invalid access key");
   next();
 };

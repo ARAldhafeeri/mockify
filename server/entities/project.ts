@@ -1,5 +1,3 @@
-import { Document, Schema } from "mongoose";
-import { Types } from "mongoose";
 import { IBaseEntity, IController, IRepository, IService } from "./generic";
 
 export interface IProject extends IBaseEntity {

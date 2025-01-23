@@ -9,8 +9,7 @@ import { IncomingMessage, createServer } from "http";
 import { Socket } from "dgram";
 import { readFileSync } from "fs";
 import { Duplex } from "stream";
-
-const eventService = new EventService();
+import { eventService } from "./services";
 
 const PORT = process.env.PORT || 5000;
 

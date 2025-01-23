@@ -1,4 +1,4 @@
-import { Document, Types } from "mongoose";
+import { Document } from "mongoose";
 import { IBaseEntity, IController, IRepository, IService } from "./generic";
 
 export interface IEndpointFeatures {
@@ -13,7 +13,7 @@ export interface IEndpointFeatures {
   functions: boolean;
 }
 
-export interface ISchemaField extends Document {
+export interface ISchemaField {
   name: string;
   type: string;
   required: boolean;
@@ -23,6 +23,7 @@ export interface IResource extends IBaseEntity {
   name: string;
   fields: ISchemaField[];
   features: IEndpointFeatures;
+  funcs: string[];
   project: string;
 }
 

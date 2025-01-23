@@ -78,7 +78,7 @@ class MockService extends Service<IData> implements IMockService {
   };
 
   searchQuery = async (data: string): Promise<any> => {
-    return this.search(data, "");
+    return this.search(data);
   };
 
   filterQuery = async (projection: Object): Promise<any> => {

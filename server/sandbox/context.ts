@@ -7,8 +7,9 @@ import { faker } from "@faker-js/faker";
 import { AccessControl, GrantQuery } from "gatewatch";
 import CacheService from "../services/cache";
 import events from "../events";
+import redisClient from "../config/redis";
 
-const cacheService = new CacheService();
+const cacheService = new CacheService(redisClient);
 const CacheSet = cacheService.set.bind(cacheService);
 const CacheGet = cacheService.get.bind(cacheService);
 const Emit = events.emit.bind(events);
