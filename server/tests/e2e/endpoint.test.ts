@@ -19,7 +19,7 @@ describe("end-to-end tests project endpoint", () => {
     resource = resource[0];
     const response = await request
       .agent(app)
-      .post(`${API_ROUTE}${ENDPOINT_ROUTE}`)
+      .post(`${ENDPOINT_ROUTE}`)
       .send({ ...resource })
       .set("Authorization", "bearer " + token);
 

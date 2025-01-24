@@ -27,7 +27,7 @@ describe("end-to-end tests user endpoint", () => {
   test("should create user", async () => {
     const response = await request
       .agent(app)
-      .post(`${API_ROUTE}${USER_ROUTE}`)
+      .post(`${USER_ROUTE}`)
       .send({
         ...mockUserData,
       })
@@ -44,7 +44,7 @@ describe("end-to-end tests user endpoint", () => {
   test("should get users", async () => {
     const response = await request
       .agent(app)
-      .get(`${API_ROUTE}${USER_ROUTE}`)
+      .get(`${USER_ROUTE}`)
       .set("Authorization", "bearer " + token);
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -54,7 +54,7 @@ describe("end-to-end tests user endpoint", () => {
   test("should edit user", async () => {
     const response = await request
       .agent(app)
-      .put(`${API_ROUTE}${USER_ROUTE}`)
+      .put(`${USER_ROUTE}`)
       .send({
         ...createdUser,
         username: "newUsername",
@@ -68,7 +68,7 @@ describe("end-to-end tests user endpoint", () => {
   test("should delete users", async () => {
     const response = await request
       .agent(app)
-      .delete(`${API_ROUTE}${USER_ROUTE}/?id=${createdUser._id}`)
+      .delete(`${USER_ROUTE}/?id=${createdUser._id}`)
       .set("Authorization", "bearer " + token);
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);

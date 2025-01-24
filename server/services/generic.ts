@@ -11,10 +11,7 @@ export class Service<T extends IBaseEntity> implements IService<T> {
   constructor(protected repository: IRepository<T>) {}
 
   async find(filter: FilterQuery<T>): Promise<any> {
-    const data = await this.repository.find(filter, {});
-    return {
-      data: data,
-    };
+    return this.repository.find(filter, {});
   }
 
   async findOne(filter: FilterQuery<T>): Promise<T> {
@@ -26,7 +23,12 @@ export class Service<T extends IBaseEntity> implements IService<T> {
   }
 
   async update(record: T): Promise<T> {
-    return this.repository.update({ _id: new ObjectId(record._id) }, record);
+    const updatePayload = JSON.parse(JSON.stringify(record));
+    delete updatePayload._id;
+    return this.repository.update(
+      { _id: new ObjectId(record._id) },
+      updatePayload
+    );
   }
 
   async delete(id: string): Promise<T> {

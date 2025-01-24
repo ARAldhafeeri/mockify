@@ -29,7 +29,7 @@ describe("end-to-end tests resource event", () => {
 
     const response = await request
       .agent(app)
-      .post(`${API_ROUTE}${EVENT_ROUTE}`)
+      .post(`${EVENT_ROUTE}`)
       .send({
         ...mockEvent,
       })
@@ -51,7 +51,7 @@ describe("end-to-end tests resource event", () => {
   test("should get resource event", async () => {
     const response = await request
       .agent(app)
-      .get(`${API_ROUTE}${EVENT_ROUTE}/?resourceId=${createdResource.resource}`)
+      .get(`${EVENT_ROUTE}/?resourceId=${createdResource.resource}`)
       .set("Authorization", "bearer " + token);
 
     expect(response.status).toBe(200);
@@ -63,7 +63,7 @@ describe("end-to-end tests resource event", () => {
     createdResource.name = "newName";
     const response = await request
       .agent(app)
-      .put(`${API_ROUTE}${EVENT_ROUTE}`)
+      .put(`${EVENT_ROUTE}`)
       .send({
         ...createdResource,
       })
@@ -80,7 +80,7 @@ describe("end-to-end tests resource event", () => {
   test("should delete resource event", async () => {
     const response = await request
       .agent(app)
-      .delete(`${API_ROUTE}${EVENT_ROUTE}/?id=${createdResource._id}`)
+      .delete(`${EVENT_ROUTE}/?id=${createdResource._id}`)
       .set("Authorization", "bearer " + token);
 
     expect(response.status).toBe(200);

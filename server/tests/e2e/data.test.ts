@@ -31,7 +31,7 @@ describe("end-to-end tests resource data", () => {
 
     const response = await request
       .agent(app)
-      .post(`${API_ROUTE}${DATA_ROUTE}`)
+      .post(`${DATA_ROUTE}`)
       .send({
         ...mockData,
       })
@@ -49,7 +49,7 @@ describe("end-to-end tests resource data", () => {
   test("should get resource data", async () => {
     const response = await request
       .agent(app)
-      .get(`${API_ROUTE}${DATA_ROUTE}/?resourceId=${createdResource.resource}`)
+      .get(`${DATA_ROUTE}/?resourceId=${createdResource.resource}`)
       .set("Authorization", "bearer " + token);
 
     expect(response.status).toBe(200);
@@ -60,7 +60,7 @@ describe("end-to-end tests resource data", () => {
   test("should edit resource data", async () => {
     const response = await request
       .agent(app)
-      .put(`${API_ROUTE}${DATA_ROUTE}`)
+      .put(`${DATA_ROUTE}`)
       .send({
         ...createdResource,
         data: {
@@ -77,7 +77,7 @@ describe("end-to-end tests resource data", () => {
   test("should delete resource data", async () => {
     const response = await request
       .agent(app)
-      .delete(`${API_ROUTE}${DATA_ROUTE}/?id=${createdResource._id}`)
+      .delete(`${DATA_ROUTE}/?id=${createdResource._id}`)
       .set("Authorization", "bearer " + token);
 
     expect(response.status).toBe(200);

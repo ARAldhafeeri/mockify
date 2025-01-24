@@ -8,7 +8,6 @@ import { useAppSelector } from "redux/hooks";
 const  GlobalTabsResource : React.FC<GlobalTabsProjectsProps> = ({content, createBtn, withCreateBtn, tabKey, handleTabChange})  => {
   const { resource, loading } = useAppSelector(state => state.resource);
 
-  console.log("project key", tabKey)
   return (
     <>
       {loading ? <MockifyLoader /> : (

@@ -1,11 +1,11 @@
 {
   "resources": ["data", "policy", "project", "resource", "user", "mock", "endpoint", "edge","clientCred"],
-  "actions": ["delete", "create", "update", "read"],
+  "actions": ["delete", "write", "update", "read"],
   "roles": ["user", "admin", "super-admin"],
   "policies": [
       {
           "role": "user",
-          "can": ["delete", "create", "update", "read"],
+          "can": ["delete", "write", "update", "read"],
           "on": ["mock"]
       },
 

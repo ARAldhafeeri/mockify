@@ -36,7 +36,7 @@ describe("end-to-end tests curd edge functions", () => {
 
     const response = await request
       .agent(app)
-      .post(`${API_ROUTE}${EDGE_ROUTE}`)
+      .post(`${EDGE_ROUTE}`)
       .send({
         ...mockEdge,
       })
@@ -54,7 +54,7 @@ describe("end-to-end tests curd edge functions", () => {
   test("should get resource edge", async () => {
     const response = await request
       .agent(app)
-      .get(`${API_ROUTE}/edge/${createdResource.resource}`)
+      .get(`/edge/${createdResource.resource}`)
       .set("Authorization", "bearer " + token);
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -65,7 +65,7 @@ describe("end-to-end tests curd edge functions", () => {
     let rand = genRandomName();
     const response = await request
       .agent(app)
-      .put(`${API_ROUTE}/edge/${createdResource.resource}`)
+      .put(`/edge/${createdResource.resource}`)
       .send({
         ...createdResource,
         name: rand,
@@ -80,9 +80,7 @@ describe("end-to-end tests curd edge functions", () => {
   test("should delete resource edge", async () => {
     const response = await request
       .agent(app)
-      .delete(
-        `${API_ROUTE}/edge/${createdResource.resource}/?id=${createdResource._id}`
-      )
+      .delete(`/edge/${createdResource.resource}/?id=${createdResource._id}`)
       .set("Authorization", "bearer " + token);
 
     expect(response.status).toBe(200);
@@ -116,7 +114,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
     const edgeId = newEdge._id.toString();
     const response = await request
       .agent(app)
-      .get(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
+      .get(`/edge/mock/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(200);
@@ -133,7 +131,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
 
     const response = await request
       .agent(app)
-      .post(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
+      .post(`/edge/mock/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(200);
@@ -150,7 +148,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
 
     const response = await request
       .agent(app)
-      .delete(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
+      .delete(`/edge/mock/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(200);
@@ -166,7 +164,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
     const edgeId = newEdge._id.toString();
     const response = await request
       .agent(app)
-      .put(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
+      .put(`/edge/mock/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(200);
@@ -186,7 +184,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
     const edgeId = newEdge._id.toString();
     const response = await request
       .agent(app)
-      .get(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
+      .get(`/edge/mock/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(200);
@@ -213,7 +211,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
     const edgeId = newEdge._id.toString();
     const response = await request
       .agent(app)
-      .get(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
+      .get(`/edge/mock/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(200);
@@ -242,7 +240,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
     const edgeId = newEdge._id.toString();
     const response = await request
       .agent(app)
-      .get(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
+      .get(`/edge/mock/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(201);
@@ -267,7 +265,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
     const edgeId = newEdge._id.toString();
     const response = await request
       .agent(app)
-      .get(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
+      .get(`/edge/mock/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(200);
@@ -290,7 +288,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
     const edgeId = newEdge._id.toString();
     const response = await request
       .agent(app)
-      .get(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`);
+      .get(`/edge/mock/${edgeId}/${createdResource._id}`);
 
     expect(response.status).toBe(403);
   });
@@ -307,7 +305,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
     const edgeId = newEdge._id.toString();
     const response = await request
       .agent(app)
-      .get(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
+      .get(`/edge/mock/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, "invalid api key");
 
     expect(response.status).toBe(403);
@@ -328,7 +326,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
     const edgeId = newEdge._id.toString();
     const response = await request
       .agent(app)
-      .get(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
+      .get(`/edge/mock/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(200);
@@ -351,7 +349,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
     const edgeId = newEdge._id.toString();
     const response = await request
       .agent(app)
-      .get(`${API_ROUTE}/edge/mock/${edgeId}/${createdResource._id}`)
+      .get(`/edge/mock/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(200);

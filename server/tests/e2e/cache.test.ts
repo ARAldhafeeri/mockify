@@ -5,7 +5,6 @@ import { DATABASE_URL } from "../../getEnv";
 import mongoose from "mongoose";
 import TestUtils from "./TestUtils";
 import redisClient from "../../config/redis";
-
 const mockKey = "testKey";
 const mockValue = "testValue";
 describe("end-to-end tests project cache", () => {

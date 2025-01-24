@@ -5,33 +5,39 @@ import { DATABASE_URL } from "../../getEnv";
 import mongoose from "mongoose";
 import TestUtils from "./TestUtils";
 import { makeRandomString } from "../utils";
-import { projectService } from "../../services";
+import { cryptoService, projectService } from "../../services";
 
-const mockData = {
-  project: "string",
-  name: makeRandomString(10),
-};
+cryptoService.generateAPIKey();
 
 describe("end-to-end tests project endpoint", () => {
   let token: string;
   let created: any;
   let projectObj: any;
+  let projectId: any;
+  let mockData: any;
 
   beforeAll(async () => {
     await mongoose.connect(DATABASE_URL);
+
     token = await TestUtils.login();
+    mockData = {
+      project: "string",
+      name: makeRandomString(10),
+      id: await cryptoService.generateAPIKey(),
+      secret: await cryptoService.generateAPIKey(),
+    };
   });
 
   test("should create client", async () => {
     projectObj = await projectService.findOne({ name: "default" });
 
-    mockData.project = projectObj._id;
-
+    projectId = projectObj._id.toString();
     const response = await request
       .agent(app)
       .post(`${CLIENT_ROUTE}`)
       .send({
         ...mockData,
+        project: projectId,
       })
       .set("Authorization", "bearer " + token);
 
@@ -45,7 +51,6 @@ describe("end-to-end tests project endpoint", () => {
   });
 
   test("should get clients related to user projects", async () => {
-    let projectId = projectObj._id.toString();
     const response = await request
       .agent(app)
       .get(`${CLIENT_ROUTE}?projectId=${projectId}`)
@@ -55,7 +60,7 @@ describe("end-to-end tests project endpoint", () => {
     const clients = response.body.data;
 
     for (const client of clients) {
-      expect(client.project.toString()).toBe(projectId);
+      expect(client.project).toBe(projectId);
     }
 
     expect(response.status).toBe(200);
@@ -69,7 +74,7 @@ describe("end-to-end tests project endpoint", () => {
       .agent(app)
       .put(`${CLIENT_ROUTE}`)
       .send({
-        project: created.project,
+        _id: created._id,
         name: "newName",
       })
       .set("Authorization", "bearer " + token);

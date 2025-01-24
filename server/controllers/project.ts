@@ -1,12 +1,13 @@
 import { Response, Request } from "express";
 import { Types } from "mongoose";
-import { getUserRoleFromToken } from "../middleware/authorization";
 import { asyncController } from "../utils/handlers";
 import { superAdmin } from "../config/roles";
 import Controller from "./generic";
 import { IProjectController } from "../entities/project";
 import { IProjectService } from "../entities/project";
 import CryptoService from "../services/crypto";
+import { SECRET_KEY } from "../getEnv";
+import jwt from "jsonwebtoken";
 
 const { ObjectId } = Types;
 
@@ -22,24 +23,31 @@ class ProjectController
   }
 
   fetch = asyncController(async (req: Request, res: Response) => {
-    const token = req.headers["authorization"]?.split(" ")[1];
-    const authenticatedUserData = await getUserRoleFromToken(token as string);
+    const token = req.headers["authorization"]?.split(" ")[1] as string;
+    let authenticatedUserData = jwt.verify(token, SECRET_KEY);
+    let userRoleFromToken;
+    if (
+      typeof authenticatedUserData !== "string" &&
+      "role" in authenticatedUserData
+    ) {
+      userRoleFromToken = authenticatedUserData.role;
 
-    const isSuperAdmin = authenticatedUserData.role === superAdmin;
-    const filter = isSuperAdmin
-      ? {}
-      : { user: new ObjectId(authenticatedUserData.id) };
+      const isSuperAdmin = authenticatedUserData.role === superAdmin;
+      const filter = isSuperAdmin
+        ? {}
+        : { user: new ObjectId(authenticatedUserData.id) };
 
-    const foundProjects = await this.service.find(filter);
-    if (!foundProjects) {
-      throw new Error("Projects not found");
+      const foundProjects = await this.service.find(filter);
+      if (!foundProjects) {
+        throw new Error("Projects not found");
+      }
+
+      return res.status(200).json({
+        data: foundProjects,
+        status: true,
+        message: "Fetching projects was successful",
+      });
     }
-
-    return res.status(200).json({
-      data: foundProjects,
-      status: true,
-      message: "Fetching projects was successful",
-    });
   });
 
   create = asyncController(async (req: Request, res: Response) => {
@@ -76,8 +84,6 @@ class ProjectController
       message: "Project updated successfully",
     });
   });
-
-
 }
 
 export default ProjectController;

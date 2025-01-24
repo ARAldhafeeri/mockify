@@ -28,7 +28,6 @@ const ResourceService = () => {
   }
   
   const handleResourceTabChange = (key : string, projects : IFetchedProjectData[]) => {
-    console.log(key)
     setKey(parseInt(key))
     setProject(projects[parseInt(key)]);
   }

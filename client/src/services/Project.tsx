@@ -90,7 +90,6 @@ const ProjectService = () => {
 
   const handleFilterProjectTabsBasedOnKeyWord = (e : any) => {
     e.preventDefault();
-    console.log( typeof e.target.value);
     setKeyword(e.target.value);
     if (!e.target.value ) {
       setProjects(project);

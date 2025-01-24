@@ -7,11 +7,11 @@ class Controller<T> {
   }
 
   fetch = asyncController(async (req: Request, res: Response) => {
-    const { projectId, resourceId } = req.query;
-    const query = projectId
-      ? { project: projectId, userUID: req.userUID }
-      : { resource: resourceId, userUID: req.userUID };
-    const data = await (this.service as any).find(query);
+    const { projectId, resourceId } = req.params;
+    const params = projectId
+      ? { project: projectId }
+      : { resource: resourceId };
+    const data = await (this.service as any).find(params);
     res.status(200).json({ data, status: true, message: "Data fetched" });
   });
 
@@ -30,16 +30,12 @@ class Controller<T> {
       req.userUID as string
     );
     res
-      .status(201)
+      .status(200)
       .json({ data, status: true, message: "Created successfully" });
   });
 
   update = asyncController(async (req: Request, res: Response) => {
-    const data = await (this.service as any).update(
-      req.body,
-      req.userUID as string,
-      req.query.id as string
-    );
+    const data = await (this.service as any).update(req.body);
     res
       .status(200)
       .json({ data, status: true, message: "Updated successfully" });

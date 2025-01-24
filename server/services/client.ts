@@ -1,19 +1,9 @@
-import Data from "../models/data";
-import ClientCredModel from "../models/client";
 import { ObjectId, Types } from "mongoose";
-import {
-  IClient,
-  IClientInputDTO,
-  IClientService,
-  IClientRepository,
-} from "../entities/client";
+import { IClient, IClientService } from "../entities/client";
 import { ICryptoService } from "../entities/auth";
 import CryptoService from "./crypto";
-import ProjectService from "./project";
 import { Service } from "./generic";
 import ClientRepository from "../repositories/client";
-
-const { ObjectId } = Types;
 
 class ClientService extends Service<IClient> implements IClientService {
   private cryptoService: ICryptoService;

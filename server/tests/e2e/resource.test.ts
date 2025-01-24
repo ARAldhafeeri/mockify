@@ -45,7 +45,7 @@ describe("end-to-end tests project endpoint", () => {
 
     const response = await request
       .agent(app)
-      .post(`${API_ROUTE}${RESOURCE_ROUTE}`)
+      .post(`${RESOURCE_ROUTE}`)
       .send({
         ...mockData,
       })
@@ -64,7 +64,7 @@ describe("end-to-end tests project endpoint", () => {
     let projectId = projectObj._id.toString();
     const response = await request
       .agent(app)
-      .get(`${API_ROUTE}${RESOURCE_ROUTE}?projectId=${projectId}`)
+      .get(`${RESOURCE_ROUTE}?projectId=${projectId}`)
       .set("Authorization", "bearer " + token);
 
     // check all resources are related to the project
@@ -83,7 +83,7 @@ describe("end-to-end tests project endpoint", () => {
     delete createdResource.apiKey;
     const response = await request
       .agent(app)
-      .put(`${API_ROUTE}${RESOURCE_ROUTE}`)
+      .put(`${RESOURCE_ROUTE}`)
       .send({
         ...createdResource,
         name: "newName",
@@ -98,7 +98,7 @@ describe("end-to-end tests project endpoint", () => {
   test("should delete resource", async () => {
     const response = await request
       .agent(app)
-      .delete(`${API_ROUTE}${RESOURCE_ROUTE}/?id=${createdResource._id}`)
+      .delete(`${RESOURCE_ROUTE}/?id=${createdResource._id}`)
       .set("Authorization", "bearer " + token);
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);

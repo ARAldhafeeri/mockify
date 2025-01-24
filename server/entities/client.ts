@@ -5,7 +5,7 @@ export interface IClient extends IBaseEntity {
   name?: string;
   id: string;
   secret: string;
-  project: Types.ObjectId;
+  project: string;
 }
 
 export interface IClientInputDTO {

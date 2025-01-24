@@ -8,6 +8,7 @@ const clientCredSchema = new Schema<IClient>(
     id: { type: String, unique: true },
     secret: { type: String },
     userUID: { type: String, maxlength: 100 },
+    project: { type: String },
   },
   { timestamps: true }
 );

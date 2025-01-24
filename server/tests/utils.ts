@@ -1,9 +1,16 @@
-export const makeRandomString = (length: number) => {
-  return Math.random().toString(36).substring(length);
+export const makeRandomString = (
+  length: number = 8,
+  min: number = 5,
+  max: number = 12
+) => {
+  const clampedLength = Math.max(min, Math.min(length, max)); // Ensure length is between min and max
+  return Math.random()
+    .toString(36)
+    .substring(2, 2 + clampedLength);
 };
 
-export const generateDataBasedOnType = (type : string) => {
-  switch(type) {
+export const generateDataBasedOnType = (type: string) => {
+  switch (type) {
     case "string":
       return "a";
     case "number":
@@ -15,8 +22,8 @@ export const generateDataBasedOnType = (type : string) => {
     case "array":
       return ["a"];
     case "object":
-      return {a: "a"};
+      return { a: "a" };
     default:
       return "a";
   }
-}
+};

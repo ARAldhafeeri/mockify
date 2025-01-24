@@ -15,45 +15,46 @@ let AC = new AccessControl(globalPolicy);
 
 AC = AC.enforce();
 
-export const getUserRoleFromToken = async (
-  token: string
-): Promise<ITokenPayload> => {
-  // get user id from signed jwt token
-  let user = jwt.verify(token, SECRET_KEY) as IToken;
-
-  let decrypted = await cryptoService.decryptObj(user.secret);
-
-  return decrypted as ITokenPayload;
-};
-
 const authorization = (resources: Array<string>, actions: Array<string>) => {
   return async (req: Request, res: Response, next: NextFunction) => {
-    // get user id from signed jwt token
-    let token: string | undefined = req.headers["authorization"];
+    try {
+      // Get token from headers
+      let token: string | undefined = req.headers["authorization"];
 
-    if (!token) {
-      res.status(403).send("unauthorized");
-    }
+      if (!token) {
+        return next(new Error("Authorization token is missing"));
+      }
 
-    token = token?.split(" ")[1];
+      token = token?.split(" ")[1];
 
-    let payload = await getUserRoleFromToken(token as string);
+      // Extract user role from token
+      let decoded = jwt.verify(token, SECRET_KEY);
+      let userRoleFromToken;
+      if (typeof decoded !== "string" && "role" in decoded) {
+        userRoleFromToken = decoded.role;
+      }
+      if (!userRoleFromToken) {
+        return next(new Error("Invalid or missing role in token"));
+      }
 
-    let userRoleFromToken = payload.role;
+      // Check if user is authorized
+      const isAuthorized = new GrantQuery(AC)
+        .role(userRoleFromToken)
+        .can(actions)
+        .on(resources)
+        .grant();
 
-    if (!userRoleFromToken) {
-      res.status(403).send("unauthorized");
-    }
-    const isAuthorized = new GrantQuery(AC)
-      .role(userRoleFromToken)
-      .can(actions)
-      .on(resources)
-      .grant();
-
-    if (isAuthorized) {
-      next();
-    } else {
-      res.status(403).send("unauthorized");
+      if (isAuthorized) {
+        return next();
+      } else {
+        return next(new Error("You are not authorized to perform this action"));
+      }
+    } catch (e: any) {
+      return next(
+        new Error(
+          e.message || "An unexpected error occurred during authorization"
+        )
+      );
     }
   };
 };

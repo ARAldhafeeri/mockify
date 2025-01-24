@@ -35,7 +35,7 @@ describe("end-to-end tests project endpoint", () => {
     mockUserData.user = userObj[0]._id;
     const response = await request
       .agent(app)
-      .post(`${API_ROUTE}${PROJECT_ROUTE}`)
+      .post(`${PROJECT_ROUTE}`)
       .send({
         ...mockUserData,
       })
@@ -53,7 +53,7 @@ describe("end-to-end tests project endpoint", () => {
   test("should get projects", async () => {
     const response = await request
       .agent(app)
-      .get(`${API_ROUTE}${PROJECT_ROUTE}`)
+      .get(`${PROJECT_ROUTE}`)
       .set("Authorization", "bearer " + token);
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -64,7 +64,7 @@ describe("end-to-end tests project endpoint", () => {
     delete createdProject.apiKey;
     const response = await request
       .agent(app)
-      .put(`${API_ROUTE}${PROJECT_ROUTE}`)
+      .put(`${PROJECT_ROUTE}`)
       .send({
         ...createdProject,
         name: "newName",
@@ -79,7 +79,7 @@ describe("end-to-end tests project endpoint", () => {
   test("should delete project", async () => {
     const response = await request
       .agent(app)
-      .delete(`${API_ROUTE}${PROJECT_ROUTE}/?id=${createdProject._id}`)
+      .delete(`${PROJECT_ROUTE}/?id=${createdProject._id}`)
       .set("Authorization", "bearer " + token);
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -88,7 +88,7 @@ describe("end-to-end tests project endpoint", () => {
   test("super admin should be able to view default, default2 he's owner of all projects", async () => {
     const response = await request
       .agent(app)
-      .get(`${API_ROUTE}${PROJECT_ROUTE}`)
+      .get(`${PROJECT_ROUTE}`)
       .set("Authorization", "bearer " + token);
 
     expect(response.status).toBe(200);
@@ -107,7 +107,7 @@ describe("end-to-end tests project endpoint", () => {
   test("admin, user should only be able to view default2 he's owner of default2", async () => {
     const response = await request
       .agent(app)
-      .get(`${API_ROUTE}${PROJECT_ROUTE}`)
+      .get(`${PROJECT_ROUTE}`)
       .set("Authorization", "bearer " + regAdminToken);
 
     expect(response.status).toBe(200);

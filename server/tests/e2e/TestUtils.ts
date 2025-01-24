@@ -28,7 +28,7 @@ class TestUtils {
     // login logic
     const response = await request
       .agent(app)
-      .post(`${API_ROUTE}${USER_LOGIN_ROUTE}`)
+      .post(`${USER_LOGIN_ROUTE}`)
       .send({
         username: `${ADMIN_USERNAME}`,
         password: `${ADMIN_PSWD}`,

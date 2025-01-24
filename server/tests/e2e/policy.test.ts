@@ -44,7 +44,7 @@ describe("end-to-end tests project policy", () => {
 
     const response = await request
       .agent(app)
-      .post(`${API_ROUTE}${POLICY_ROUTE}`)
+      .post(`${POLICY_ROUTE}`)
       .send({
         ...mockPolicy,
       })
@@ -61,7 +61,7 @@ describe("end-to-end tests project policy", () => {
   test("should get project policy", async () => {
     const response = await request
       .agent(app)
-      .get(`${API_ROUTE}${POLICY_ROUTE}/?projectID=${createdPolicy.project}`)
+      .get(`${POLICY_ROUTE}/?projectID=${createdPolicy.project}`)
       .set("Authorization", "bearer " + token);
 
     expect(response.status).toBe(200);
@@ -72,7 +72,7 @@ describe("end-to-end tests project policy", () => {
   test("should edit project policy", async () => {
     const response = await request
       .agent(app)
-      .put(`${API_ROUTE}${POLICY_ROUTE}`)
+      .put(`${POLICY_ROUTE}`)
       .send({
         ...createdPolicy,
         actions: ["action1", "action2", "action3"],
@@ -87,7 +87,7 @@ describe("end-to-end tests project policy", () => {
   test("should delete project policy", async () => {
     const response = await request
       .agent(app)
-      .delete(`${API_ROUTE}${POLICY_ROUTE}/?id=${createdPolicy._id}`)
+      .delete(`${POLICY_ROUTE}/?id=${createdPolicy._id}`)
       .set("Authorization", "bearer " + token);
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
