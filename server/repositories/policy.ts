@@ -1,4 +1,5 @@
 import { IPolicy, IPolicyRepository } from "../entities/policy";
+
 import { Repository } from "./generic";
 
 class PolicyRepository

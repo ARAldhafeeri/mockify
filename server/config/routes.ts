@@ -1,5 +1,5 @@
 export const API_ROUTE: string = "/v1";
-const withAPiRoute = (route: string) => `${API_ROUTE}/${route}`;
+export const withAPiRoute = (route: string) => `${API_ROUTE}/${route}`;
 export const USER_ROUTE: string = withAPiRoute("user");
 export const USER_LOGIN_ROUTE: string = "/login";
 export const POLICY_ROUTE: string = withAPiRoute("policy");

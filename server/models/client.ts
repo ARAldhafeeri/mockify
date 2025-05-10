@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose";
-
 import { IClient } from "../entities/client";
 
 const clientCredSchema = new Schema<IClient>(

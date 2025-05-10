@@ -1,6 +1,6 @@
 import request, { Request } from "supertest";
 import app from "../../app";
-import { API_ROUTE, USER_LOGIN_ROUTE } from "../../config/routes";
+import { API_ROUTE, USER_LOGIN_ROUTE, withAPiRoute } from "../../config/routes";
 import {
   SUPER_ADMIN_USERNAME,
   SUPER_ADMIN_PSWD,
@@ -8,6 +8,7 @@ import {
 } from "../../getEnv";
 import mongoose from "mongoose";
 
+const LOGIN_BASE_ROUTE = withAPiRoute(USER_LOGIN_ROUTE);
 describe("end-to-end tests user endpoint", () => {
   beforeEach(async () => {
     await mongoose.connect(DATABASE_URL);
@@ -16,7 +17,7 @@ describe("end-to-end tests user endpoint", () => {
   test("should return 200 status code", async () => {
     const response = await request
       .agent(app)
-      .post(`${USER_LOGIN_ROUTE}`)
+      .post(LOGIN_BASE_ROUTE)
       .send({
         username: `${SUPER_ADMIN_USERNAME}`,
         password: `${SUPER_ADMIN_PSWD}`,
@@ -29,7 +30,7 @@ describe("end-to-end tests user endpoint", () => {
   test("should validate incorrect username", async () => {
     const response = await request
       .agent(app)
-      .post(`${USER_LOGIN_ROUTE}`)
+      .post(LOGIN_BASE_ROUTE)
       .send({
         username: "incorrect_username",
         password: `${SUPER_ADMIN_PSWD}`,
@@ -44,7 +45,7 @@ describe("end-to-end tests user endpoint", () => {
   test("should validate incorrect password", async () => {
     const response = await request
       .agent(app)
-      .post(`${USER_LOGIN_ROUTE}`)
+      .post(LOGIN_BASE_ROUTE)
       .send({
         username: `${SUPER_ADMIN_USERNAME}`,
         password: "incorrect_password",

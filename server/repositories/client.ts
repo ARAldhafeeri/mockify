@@ -1,4 +1,5 @@
 import { IClient, IClientRepository } from "../entities/client";
+
 import { Repository } from "./generic";
 
 class ClientRepository

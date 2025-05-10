@@ -1,4 +1,5 @@
 import { IProject, IProjectRepository } from "../entities/project";
+
 import { Repository } from "./generic";
 
 class ProjectRepository

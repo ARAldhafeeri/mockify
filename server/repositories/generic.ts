@@ -1,4 +1,5 @@
 import { ICreatePayLoad, IRepository } from "../entities/generic";
+
 import { Model, Document, UpdateQuery, QueryOptions } from "mongoose";
 import { FilterQuery, ProjectionType, Types } from "mongoose";
 
