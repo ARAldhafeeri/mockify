@@ -103,7 +103,7 @@ export const AccessKeyAuthorization = async (
   // verify access key exists in database
   const apiKey = req.headers[apiKeyHeader];
   const authorized = await projectService.findOne({ apiKey: apiKey });
-  if (!authorized) return res.status(403).send("invalid access key");
+  if (!authorized) return next(Error("not authorized"));
   next();
 };
 

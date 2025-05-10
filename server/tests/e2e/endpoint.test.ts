@@ -1,6 +1,6 @@
 import request, { Request } from "supertest";
 import app from "../../app";
-import { API_ROUTE, ENDPOINT_ROUTE } from "../../config/routes";
+import { ENDPOINT_ROUTE } from "../../config/routes";
 import { DATABASE_URL } from "../../getEnv";
 import mongoose from "mongoose";
 import TestUtils from "./TestUtils";
@@ -15,12 +15,17 @@ describe("end-to-end tests project endpoint", () => {
   });
 
   test("should return endpoints", async () => {
-    let resource = await resourceService.find({ name: "default" });
-    resource = resource[0];
+    const resource = await resourceService.findOne({ name: "default" });
     const response = await request
       .agent(app)
       .post(`${ENDPOINT_ROUTE}`)
-      .send({ ...resource })
+      .send({
+        features: resource?.features,
+        _id: resource?._id,
+        name: resource?.name,
+        project: resource?.project,
+        fields: resource?.fields,
+      })
       .set("Authorization", "bearer " + token);
 
     expect(response.status).toBe(200);

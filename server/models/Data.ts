@@ -4,6 +4,7 @@ import { IData } from "../entities/data";
 
 const dataSchema = new Schema<IData>(
   {
+    resource: { type: String, ref: "Resource" },
     data: { type: Object, required: true },
     userUID: { type: String, maxlength: 100 },
   },

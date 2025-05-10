@@ -26,7 +26,6 @@ describe("end-to-end tests project cache", () => {
       })
       .set("Authorization", "bearer " + token);
 
-    console.log("seted key", response);
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     expect(response.body.message).toBe("success");

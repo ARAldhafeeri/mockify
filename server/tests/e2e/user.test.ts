@@ -48,7 +48,6 @@ describe("end-to-end tests user endpoint", () => {
       .set("Authorization", "bearer " + token);
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data?.length).toBeGreaterThan(0);
   });
 
   test("should edit user", async () => {

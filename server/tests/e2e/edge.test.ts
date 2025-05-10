@@ -1,6 +1,10 @@
 import request, { Request } from "supertest";
 import app from "../../app";
-import { API_ROUTE, EDGE_ROUTE } from "../../config/routes";
+import {
+  API_ROUTE,
+  EDGE_ROUTE,
+  EDGE_ROUTE_WITH_PARAMS,
+} from "../../config/routes";
 import { DATABASE_URL } from "../../getEnv";
 import mongoose from "mongoose";
 import TestUtils from "./TestUtils";
@@ -54,7 +58,7 @@ describe("end-to-end tests curd edge functions", () => {
   test("should get resource edge", async () => {
     const response = await request
       .agent(app)
-      .get(`/edge/${createdResource.resource}`)
+      .get(`${EDGE_ROUTE}/${createdResource.resource}`)
       .set("Authorization", "bearer " + token);
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
@@ -65,7 +69,7 @@ describe("end-to-end tests curd edge functions", () => {
     let rand = genRandomName();
     const response = await request
       .agent(app)
-      .put(`/edge/${createdResource.resource}`)
+      .put(`${EDGE_ROUTE}`)
       .send({
         ...createdResource,
         name: rand,
@@ -80,7 +84,7 @@ describe("end-to-end tests curd edge functions", () => {
   test("should delete resource edge", async () => {
     const response = await request
       .agent(app)
-      .delete(`/edge/${createdResource.resource}/?id=${createdResource._id}`)
+      .delete(`${EDGE_ROUTE}/?id=${createdResource._id}`)
       .set("Authorization", "bearer " + token);
 
     expect(response.status).toBe(200);
@@ -114,7 +118,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
     const edgeId = newEdge._id.toString();
     const response = await request
       .agent(app)
-      .get(`/edge/mock/${edgeId}/${createdResource._id}`)
+      .get(`${EDGE_ROUTE_WITH_PARAMS}/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(200);
@@ -123,7 +127,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
   });
 
   test("should run postx function", async () => {
-    const newEdge = await edgeService.findOne({
+    const newEdge = await edgeService.create({
       resource: createdResource._id,
       method: "POST",
     });
@@ -131,7 +135,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
 
     const response = await request
       .agent(app)
-      .post(`/edge/mock/${edgeId}/${createdResource._id}`)
+      .post(`${EDGE_ROUTE_WITH_PARAMS}/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(200);
@@ -140,7 +144,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
   });
 
   test("should run delete function", async () => {
-    const newEdge = await edgeService.findOne({
+    const newEdge = await edgeService.create({
       resource: createdResource._id,
       method: "DELETE",
     });
@@ -148,7 +152,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
 
     const response = await request
       .agent(app)
-      .delete(`/edge/mock/${edgeId}/${createdResource._id}`)
+      .delete(`${EDGE_ROUTE_WITH_PARAMS}/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(200);
@@ -157,14 +161,14 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
   });
 
   test("should run put function", async () => {
-    const newEdge = await edgeService.findOne({
+    const newEdge = await edgeService.create({
       resource: createdResource._id,
       method: "PUT",
     });
     const edgeId = newEdge._id.toString();
     const response = await request
       .agent(app)
-      .put(`/edge/mock/${edgeId}/${createdResource._id}`)
+      .put(`${EDGE_ROUTE_WITH_PARAMS}/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(200);
@@ -184,7 +188,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
     const edgeId = newEdge._id.toString();
     const response = await request
       .agent(app)
-      .get(`/edge/mock/${edgeId}/${createdResource._id}`)
+      .get(`${EDGE_ROUTE_WITH_PARAMS}/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(200);
@@ -211,7 +215,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
     const edgeId = newEdge._id.toString();
     const response = await request
       .agent(app)
-      .get(`/edge/mock/${edgeId}/${createdResource._id}`)
+      .get(`${EDGE_ROUTE_WITH_PARAMS}/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(200);
@@ -240,7 +244,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
     const edgeId = newEdge._id.toString();
     const response = await request
       .agent(app)
-      .get(`/edge/mock/${edgeId}/${createdResource._id}`)
+      .get(`${EDGE_ROUTE_WITH_PARAMS}/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(201);
@@ -265,7 +269,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
     const edgeId = newEdge._id.toString();
     const response = await request
       .agent(app)
-      .get(`/edge/mock/${edgeId}/${createdResource._id}`)
+      .get(`${EDGE_ROUTE_WITH_PARAMS}/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(200);
@@ -288,9 +292,9 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
     const edgeId = newEdge._id.toString();
     const response = await request
       .agent(app)
-      .get(`/edge/mock/${edgeId}/${createdResource._id}`);
+      .get(`${EDGE_ROUTE_WITH_PARAMS}/${edgeId}/${createdResource._id}`);
 
-    expect(response.status).toBe(403);
+    expect(response.status).toBe(500);
   });
 
   test("invlid api key should fail", async () => {
@@ -305,10 +309,10 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
     const edgeId = newEdge._id.toString();
     const response = await request
       .agent(app)
-      .get(`/edge/mock/${edgeId}/${createdResource._id}`)
+      .get(`${EDGE_ROUTE_WITH_PARAMS}/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, "invalid api key");
 
-    expect(response.status).toBe(403);
+    expect(response.status).toBe(500);
   });
 
   test("user can set, get from cache with ttl", async () => {
@@ -326,7 +330,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
     const edgeId = newEdge._id.toString();
     const response = await request
       .agent(app)
-      .get(`/edge/mock/${edgeId}/${createdResource._id}`)
+      .get(`${EDGE_ROUTE_WITH_PARAMS}/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(200);
@@ -349,7 +353,7 @@ describe("end-to-end tests running  functions with post, get, delete, put reques
     const edgeId = newEdge._id.toString();
     const response = await request
       .agent(app)
-      .get(`/edge/mock/${edgeId}/${createdResource._id}`)
+      .get(`${EDGE_ROUTE_WITH_PARAMS}/${edgeId}/${createdResource._id}`)
       .set(apiKeyHeader, apiKey);
 
     expect(response.status).toBe(200);

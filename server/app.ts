@@ -3,16 +3,19 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import {
   API_ROUTE,
+  AUTH_ROUTE,
   CACHE_ROUTE,
   CLIENT_ROUTE,
   DATA_ROUTE,
   EDGE_ROUTE,
+  EDGE_ROUTE_WITH_PARAMS,
   ENDPOINT_ROUTE,
   EVENT_ROUTE,
   MOCK_ROUTE,
   POLICY_ROUTE,
   PROJECT_ROUTE,
   RESOURCE_ROUTE,
+  USER_ROUTE,
 } from "./config/routes";
 import applyServerHardening from "./middleware/security";
 import policyRouter from "./routes/policy";
@@ -26,7 +29,7 @@ import resourceRouter from "./routes/resource";
 import dataRouter from "./routes/data";
 import endpointRouter from "./routes/endpoint";
 import mockRouter from "./routes/mock";
-import edgeRouter from "./routes/edge";
+import { ManagementEdgeRouter, PublicEdgeRouter } from "./routes/edge";
 import cacheRouter from "./routes/cache";
 import eventRouter from "./routes/event";
 import clientRouter from "./routes/client";
@@ -56,9 +59,9 @@ app.use(async (req, res, next) => {
 app.use(morgan("combined"));
 app.use(bodyParser.json());
 
-app.use(API_ROUTE, authRouter);
+app.use(AUTH_ROUTE, authRouter);
 
-app.use(API_ROUTE, userRouter);
+app.use(USER_ROUTE, userRouter);
 
 app.use(POLICY_ROUTE, policyRouter);
 
@@ -72,7 +75,8 @@ app.use(ENDPOINT_ROUTE, endpointRouter);
 
 app.use(MOCK_ROUTE, mockRouter);
 
-app.use(EDGE_ROUTE, edgeRouter);
+app.use(EDGE_ROUTE, ManagementEdgeRouter);
+app.use(EDGE_ROUTE_WITH_PARAMS, PublicEdgeRouter);
 
 app.use(CACHE_ROUTE, cacheRouter);
 

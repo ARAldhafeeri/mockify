@@ -19,7 +19,7 @@ class DataService extends Service<IData> implements IDataService {
   }
 
   create = async (d: IData): Promise<any> => {
-    let resource = await this.resourceService.findOne({ resource: d.resource });
+    let resource = await this.resourceService.findOne({ _id: d.resource });
 
     if (!resource) return false;
 

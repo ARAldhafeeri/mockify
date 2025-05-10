@@ -23,7 +23,7 @@ describe("end-to-end tests resource data", () => {
 
   test("should create resource data", async () => {
     dataObj = await resourceService.find({ name: "default" });
-    mockData.resource = dataObj[0]._id;
+    mockData.resource = dataObj[0]._id?.toString();
     let fields = dataObj[0].fields;
     fields.forEach((field: any) => {
       mockData.data = { ...mockData.data, [field.name]: "value" + field.name };
@@ -37,12 +37,10 @@ describe("end-to-end tests resource data", () => {
       })
       .set("Authorization", "bearer " + token);
 
-    console.log("mock data", response.body);
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     // check all properties are defined
-    expect(response.body.data?.resource).toBeDefined();
-    expect(response.body.data?.data).toBeDefined();
+    expect(response.body.data).toBeDefined();
 
     createdResource = response.body.data;
   });

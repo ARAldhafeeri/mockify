@@ -4,9 +4,9 @@ import { IEdge } from "../entities/edge";
 const edgeSchema = new Schema<IEdge>(
   {
     resource: { type: Schema.Types.ObjectId, ref: "Resource", required: true },
-    name: { type: String, required: true },
-    code: { type: String, required: true },
-    method: { type: String, required: true },
+    name: { type: String },
+    code: { type: String },
+    method: { type: String },
     userUID: { type: String, maxlength: 100 },
   },
   { timestamps: true }

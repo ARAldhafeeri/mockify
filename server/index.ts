@@ -44,24 +44,6 @@ connect(DATABASE_URL)
       console.log("Redis error: ", err);
     });
 
-    redisClient.on("connect", async () => {
-      console.log("Redis client connected");
-
-      const key = "project:123";
-      const value = "exampleValue";
-
-      // Set a key with an expiration time of 60 seconds
-      const setResult = await cacheService.set(key, value);
-      console.log(`Set result: ${setResult}`); // Should log `true`
-
-      // Get the value for the key
-      const getResult = await cacheService.get(key);
-      console.log(`Get result: ${getResult}`); // Should log `exampleValue`
-
-      // Get all project data
-      const projectData = await cacheService.getAllProjectDataJSON("project");
-      console.log(`Project data: ${JSON.stringify(projectData)}`);
-    });
     // init default data
     await initDefaultData();
     // gracefully update runtime with events

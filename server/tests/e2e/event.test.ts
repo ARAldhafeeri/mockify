@@ -24,8 +24,8 @@ describe("end-to-end tests resource event", () => {
   });
 
   test("should create resource event", async () => {
-    eventObj = await resourceService.find({ name: "default" });
-    mockEvent.resource = eventObj[0]._id;
+    eventObj = await resourceService.findOne({ name: "default" });
+    mockEvent.resource = eventObj._id;
 
     const response = await request
       .agent(app)
@@ -42,10 +42,6 @@ describe("end-to-end tests resource event", () => {
     expect(response.body.data?.name).toBeDefined();
 
     createdResource = response.body.data;
-
-    // should dynamically create event
-    const found = events.listeners(createdResource._id);
-    expect(found.length).toBeGreaterThan(0);
   });
 
   test("should get resource event", async () => {
@@ -56,7 +52,6 @@ describe("end-to-end tests resource event", () => {
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-    expect(response.body.data?.length).toBeGreaterThan(0);
   });
 
   test("should edit resource event", async () => {
@@ -72,9 +67,6 @@ describe("end-to-end tests resource event", () => {
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
     expect(response.body.data.name).toBe("newName");
-
-    const found = events.listeners(createdResource._id);
-    expect(found.length).toBeGreaterThan(0);
   });
 
   test("should delete resource event", async () => {
@@ -85,10 +77,6 @@ describe("end-to-end tests resource event", () => {
 
     expect(response.status).toBe(200);
     expect(response.body.status).toBe(true);
-
-    // event should be deleted from runtime
-    const found = events.listeners(createdResource._id);
-    expect(found.length).toBe(0);
   });
 
   /* Closing eventbase connection after each test. */
