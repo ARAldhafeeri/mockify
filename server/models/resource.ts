@@ -1,5 +1,4 @@
 import { Document, Schema, Types, model } from "mongoose";
-
 import { IResource, ISchemaField } from "../entities/resource";
 
 const resourceSchema = new Schema<IResource>(

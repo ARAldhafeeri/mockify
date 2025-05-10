@@ -1,5 +1,4 @@
 import { Document, Schema, model, Types } from "mongoose";
-
 import { IEdge } from "../entities/edge";
 
 const edgeSchema = new Schema<IEdge>(

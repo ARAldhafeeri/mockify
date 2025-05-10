@@ -1,4 +1,5 @@
 import { Document, Schema, Types, model } from "mongoose";
+
 import { IData } from "../entities/data";
 
 const dataSchema = new Schema<IData>(

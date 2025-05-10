@@ -1,5 +1,4 @@
 import { Document, Schema, model, Types } from "mongoose";
-
 import { IPolicy } from "../entities/policy";
 
 const policySchema = new Schema<IPolicy>(

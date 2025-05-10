@@ -1,5 +1,4 @@
 import { Document, Schema, model } from "mongoose";
-
 import { IProject } from "../entities/project";
 
 const projectSchema = new Schema<IProject>(

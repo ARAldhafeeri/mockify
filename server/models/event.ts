@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+
 import { IEvent } from "../entities/event";
 
 const eventSchema = new Schema<IEvent>(
