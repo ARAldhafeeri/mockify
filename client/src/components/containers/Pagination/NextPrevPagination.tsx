@@ -14,12 +14,12 @@ const NextPrevPagination: React.FC<INextPrevPaginationProps<any>> = ({ data, ite
   }, [currentPage, data, itemsPerPage]);
 
   const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1)); // Prevent going below page 1
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1)); 
   };
 
   const handleNextPage = () => {
     const maxPages = Math.ceil(data.length / itemsPerPage);
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, maxPages)); // Prevent going past the last page
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, maxPages)); 
   };
 
   return (

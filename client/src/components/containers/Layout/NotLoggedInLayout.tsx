@@ -21,7 +21,7 @@ const NotLoggedInLayout: React.FC = () => {
     <Layout
       style={{
         minHeight: '100vh',
-        backgroundColor: "#217dbb", 
+        backgroundColor: "#fff", 
         justifyContent: "center", 
         alignItems: "center"}}>
       <ToastContainer
@@ -31,8 +31,8 @@ const NotLoggedInLayout: React.FC = () => {
         style={{ width: "450px" }}
       />
       <MockifyCard classes={["mockify-card-login-page"]}>
-       <div className="card-content">
-        <h3 className='card-header'>Login into mockify.io</h3>
+       <div className="flex flex-col justify-center">
+        <h3 className='text-center'>Login into mockify.io</h3>
         <LoginForm />
        </div>
       </MockifyCard>

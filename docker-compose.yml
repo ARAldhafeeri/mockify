@@ -1,17 +1,5 @@
 version: '3'
 services:
-  nginx:
-    container_name: ReverseProxy
-    image: nginx:latest
-    ports:
-      - '80:80'
-    build:
-      context: ./dev
-      dockerfile: Dockerfile
-    depends_on:
-      - backend
-      - mockifymongo
-      - redis
   backend:
     container_name: Backend
     build:
