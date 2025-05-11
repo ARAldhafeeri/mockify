@@ -19,10 +19,7 @@ class UserController {
   }
 
   getUsers = asyncController(async (req: Request, res: Response) => {
-    const foundUsers = await this.service.find({
-      hashedPassword: 0,
-      salt: 0,
-    });
+    const foundUsers = await this.service.find({});
 
     if (!foundUsers) return ErrorResponse(res, "users not found", 400);
 

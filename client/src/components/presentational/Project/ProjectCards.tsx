@@ -1,63 +1,80 @@
 import React from 'react';
-import MockifyCard from 'components/commons/Card/Card';
-import { ICardsProps, IProjectCardProps } from 'types/Cards';
+import { Card, Space, Typography, Tag, Divider } from 'antd';
+import { AiFillProject, AiOutlineKey, AiOutlineUser } from 'react-icons/ai';
 import CardTitleWithIcon from 'components/commons/Card/CardTitleWithIcon';
-import { AiFillProject } from 'react-icons/ai';
 import CardActions from 'components/commons/CardAction/CardActions';
 import { Invisible } from 'components/commons/Invisible/Invisible';
-import Tag from 'components/commons/Tag/Tag';
-import Horz from 'components/commons/Dividers/Horz';
+import type { ICardsProps, IProjectCardProps } from 'types/Cards';
 
+const { Text } = Typography;
 
-const ProjectCard  : React.FC<IProjectCardProps> = (
-  {
-    apiKey,
-    name,
-    user,  
-    _id,
-    actions,
-  }
-) => {
+const ProjectCard: React.FC<IProjectCardProps> = ({
+  apiKey,
+  name,
+  user,
+  _id,
+  actions
+}) => {
+  const cardData = [
+    {
+      icon: <AiOutlineKey />,
+      label: 'API Key',
+      value: Invisible(apiKey),
+      className: 'api-key-value'
+    },
+    {
+      icon: <AiOutlineUser />,
+      label: 'User',
+      value: user
+    }
+  ];
 
   return (
-    <div>
-      <div className="flex flex-col ml-10">
-        <div className="flex flex-row space-x-5 my-1">
-          <p className='font-bold'>API key</p>
-          <p className='text-xs'>{Invisible(apiKey)}</p>
-        </div>
-        <div className="flex flex-row space-x-5 my-1">
-          <p className='font-bold'>User</p>
-          <p className='text-xs'>{user}</p>
-        </div>
+    <>
+      <div className="project-card-details">
+        {cardData.map((item, index) => (
+          <div key={index} className="project-card-detail-row">
+            <Space size="small" align="start">
+              <span className="project-card-icon">{item.icon}</span>
+              <Text strong>{item.label}:</Text>
+              <Text type="secondary" className={item.className}>
+                {item.value}
+              </Text>
+            </Space>
+          </div>
+        ))}
       </div>
-      <Horz />
-      <CardActions actions={actions} record={{
-        name,
-        apiKey,
-        user,
-        _id,
-      }} classes={["card-action"]} />
-    </div>
-  )
-}
+      <Divider style={{ margin: '12px 0' }} />
+      <CardActions
+        actions={actions}
+        record={{ name, apiKey, user, _id }}
+        classes={["card-action"]}
+      />
+    </>
+  );
+};
 
-const ProjectCards :  React.FC<ICardsProps> = ({ currentItems, actions }) => {
+const ProjectCards: React.FC<ICardsProps> = ({ currentItems, actions }) => {
   return (
-    <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>      
-    {currentItems?.map((item : any) => (
-          <MockifyCard 
-            title={
-            <CardTitleWithIcon 
-              title={<p className='text-md'>{item.name}</p>} 
-              extra={<Tag text={item._id} />}
-            /> }
-            children={<ProjectCard  { ...item } actions={actions} /> }
-            classes={['mockify-card']}
-          />
+    <div className="grid grid-cols-3 gap-3">
+      {currentItems?.map((item) => (
+        <Card
+          key={item._id}
+          className="w-[300px]"
+          title={
+            <CardTitleWithIcon
+              icon={<AiFillProject className="project-icon" />}
+              title={<span className="project-name">{item.name}</span>}
+              extra={<Tag className="project-id-tag">{item._id}</Tag>}
+            />
+          }
+          hoverable
+        >
+          <ProjectCard {...item} actions={actions} />
+        </Card>
       ))}
     </div>
-  )
-}
+  );
+};
 
 export default ProjectCards;

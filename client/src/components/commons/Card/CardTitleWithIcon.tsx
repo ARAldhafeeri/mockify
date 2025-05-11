@@ -1,24 +1,16 @@
-import Icon from '@ant-design/icons/lib/components/Icon'
-import { Header } from 'antd/es/layout/layout'
-import React, { ReactNode } from 'react'
-import { ICardTitle } from './Card.types'
-import Horz from '../Dividers/Horz'
+import React, { ReactNode } from 'react';
+import { ICardTitle } from './Card.types';
 
-const  CardTitleWithIcon : React.FC<ICardTitle> = ({title, icon, extra}) =>  {
-  
-  
+const CardTitleWithIcon: React.FC<ICardTitle> = ({ title, icon, extra }) => {
   return (
-    <>
-      <div className='flex flex-row justify-center'>
-          {icon}
-          <div className='flex flex-col'>
-          <span>{title}</span>
-          <span className='text-xs'>{extra}</span>
-          </div>   
+    <div className="flex flex-col items-center justify-center gap-2 ">
+      <div className="flex items-center justify-center gap-2">
+        {icon && <span className="flex-shrink-0">{icon}</span>}
+        <h2 className="text-xl font-semibold text-center">{title}</h2>
       </div>
-      <Horz />
-    </>
-  )
-}
+      {extra && <div className="text-sm text-gray-500">{extra}</div>}
+    </div>
+  );
+};
 
 export default CardTitleWithIcon;
