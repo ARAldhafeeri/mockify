@@ -1,88 +1,18 @@
 openapi: 3.0.0
 info:
-  title: Mock API with JWT Auth
-  version: 0.1.0
+  title: API Documentation
+  version: 1.0.0
+  description: API for managing users, projects, resources, data, and more
+servers:
+  - url: /v1
+    description: API version 1
+
 paths:
-  /api/resources:
-    get:
-      summary: Get a list of resources ( user role required )
-      responses:
-        "200":
-          description: List of resources
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SuccessResponse"
+  /login:
     post:
-      summary: Create a new resource ( user role required )
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Resource"
-      responses:
-        "201":
-          description: Resource created successfully
-
-  /api/resources/{resourceId}:
-    get:
-      summary: Get resource by ID ( user role required )
-      security:
-        - jwt: []
-      parameters:
-        - name: resourceId
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: Resource details
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SuccessResponse"
-    put:
-      summary: Update resource by ID ( user role required )
-      security:
-        - jwt: []
-      parameters:
-        - name: resourceId
-          in: path
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Resource"
-      responses:
-        "200":
-          description: "edit resource"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SuccessResponse"
-    delete:
-      summary: Delete resource by ID ( user role required )
-      parameters:
-        - name: resourceId
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        "204":
-          description: Resource deleted successfully
-
-  /api/auth/login:
-    post:
-      summary: Authenticate user and get JWT token
-      security:
-        - jwt: []
+      tags:
+        - Authentication
+      summary: User login
       requestBody:
         required: true
         content:
@@ -94,518 +24,1054 @@ paths:
                   type: string
                 password:
                   type: string
+              required:
+                - username
+                - password
       responses:
         "200":
           description: Successful login
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SuccessResponse"
+                $ref: "#/components/schemas/Token"
+        "401":
+          description: Unauthorized
 
-  /api/users:
+  /user:
     get:
-      summary: Get a list of users (Superadmin role required)
+      tags:
+        - Users
+      summary: Get all users
       security:
-        - jwt: []
+        - bearerAuth: []
       responses:
         "200":
           description: List of users
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SuccessResponse"
+                $ref: "#/components/schemas/BaseResponse"
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/User"
     post:
-      summary: Create a new user (Superadmin role required)
+      tags:
+        - Users
+      summary: Create a new user
       security:
-        - jwt: []
+        - bearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
+              $ref: "#/components/schemas/UserInput"
       responses:
         "201":
           description: User created successfully
-
-  /api/users/{userId}:
-    get:
-      summary: Get user by ID (Superadmin role required)
-      security:
-        - jwt: []
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: User details
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SuccessResponse"
+                $ref: "#/components/schemas/User"
     put:
-      summary: Update user by ID (Superadmin role required)
+      tags:
+        - Users
+      summary: Update a user
       security:
-        - jwt: []
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: integer
+        - bearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
+              $ref: "#/components/schemas/UserInput"
       responses:
         "200":
           description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
     delete:
-      summary: Delete user by ID (Superadmin role required)
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: integer
+      tags:
+        - Users
+      summary: Delete a user
+      security:
+        - bearerAuth: []
       responses:
         "204":
           description: User deleted successfully
 
-  "/mock/{name}":
-    parameters:
-      - name: name
-        in: path
-        required: true
-        schema:
-          type: string
+  /policy:
     get:
-      summary: Process requests based on resource attributes
+      tags:
+        - Policies
+      summary: Get all policies
+      security:
+        - bearerAuth: []
       responses:
         "200":
-          description: Processed response
+          description: List of policies
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SuccessResponse"
+                $ref: "#/components/schemas/BaseResponse"
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Policy"
     post:
-      summary: Process POST requests based on resource attributes
+      tags:
+        - Policies
+      summary: Create a new policy
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/SuccessResponse"
+              $ref: "#/components/schemas/PolicyInput"
+      responses:
+        "201":
+          description: Policy created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Policy"
+    put:
+      tags:
+        - Policies
+      summary: Update a policy
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PolicyInput"
+      responses:
+        "200":
+          description: Policy updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Policy"
+    delete:
+      tags:
+        - Policies
+      summary: Delete a policy
+      security:
+        - bearerAuth: []
+      responses:
+        "204":
+          description: Policy deleted successfully
+
+  /project:
+    get:
+      tags:
+        - Projects
+      summary: Get all projects
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: List of projects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Project"
+    post:
+      tags:
+        - Projects
+      summary: Create a new project
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectInput"
+      responses:
+        "201":
+          description: Project created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+    put:
+      tags:
+        - Projects
+      summary: Update a project
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectInput"
+      responses:
+        "200":
+          description: Project updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+    delete:
+      tags:
+        - Projects
+      summary: Delete a project
+      security:
+        - bearerAuth: []
+      responses:
+        "204":
+          description: Project deleted successfully
+
+  /resource:
+    get:
+      tags:
+        - Resources
+      summary: Get all resources
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: List of resources
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Resource"
+    post:
+      tags:
+        - Resources
+      summary: Create a new resource
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResourceInput"
       responses:
         "201":
           description: Resource created successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SuccessResponse"
-
+                $ref: "#/components/schemas/Resource"
     put:
-      summary: Process PUT requests based on resource attributes
+      tags:
+        - Resources
+      summary: Update a resource
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/SuccessResponse"
+              $ref: "#/components/schemas/ResourceInput"
       responses:
         "200":
           description: Resource updated successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SuccessResponse"
-
+                $ref: "#/components/schemas/Resource"
     delete:
-      summary: Process DELETE requests based on resource attributes
+      tags:
+        - Resources
+      summary: Delete a resource
+      security:
+        - bearerAuth: []
       responses:
         "204":
           description: Resource deleted successfully
 
-  "/mock/{name}/validate":
-    parameters:
-      - name: name
-        in: path
-        required: true
-        schema:
-          type: string
-    post:
-      summary: Process POST requests based on resource attributes
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/SuccessResponse"
-      responses:
-        "201":
-          description: Resource created successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SuccessResponse"
-
-    put:
-      summary: Process PUT requests based on resource attributes
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/SuccessResponse"
-      responses:
-        "200":
-          description: Resource updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SuccessResponse"
-  "/data/":
+  /data:
     get:
-      summary: List mock data related to a resource
+      tags:
+        - Data
+      summary: Get all data
+      security:
+        - bearerAuth: []
       responses:
         "200":
-          description: Processed response
+          description: List of data
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SuccessResponse"
-
+                $ref: "#/components/schemas/BaseResponse"
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Data"
     post:
-      summary: Process POST requests based on resource attributes
+      tags:
+        - Data
+      summary: Create new data
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/SuccessResponse"
+              $ref: "#/components/schemas/DataInput"
       responses:
         "201":
-          description: Resource mock data created successfully
+          description: Data created successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SuccessResponse"
+                $ref: "#/components/schemas/Data"
     put:
-      summary: Process PUT requests to edit mock data for a resource
+      tags:
+        - Data
+      summary: Update data
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/SuccessResponse"
+              $ref: "#/components/schemas/DataInput"
       responses:
         "200":
-          description: Resource updated successfully
+          description: Data updated successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SuccessResponse"
-
+                $ref: "#/components/schemas/Data"
     delete:
-      summary: Process DELETE requests based on resource attributes
+      tags:
+        - Data
+      summary: Delete data
+      security:
+        - bearerAuth: []
       responses:
         "204":
-          description: Resource deleted successfully
+          description: Data deleted successfully
 
-  "/mock/{name}/paginate":
-    parameters:
-      - name: name
-        in: path
-        required: true
-        schema:
-          type: number
-      - name: page
-        in: query
-        required: true
-        schema:
-          type: string
-      - name: limit
-        in: query
-        required: true
-        schema:
-          type: number
-
-    get:
-      summary: Process requests based on resource attributes
-      responses:
-        "200":
-          description: Processed response
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SuccessResponse"
-
-  "/mock/{name}/filter":
-    parameters:
-      - name: name
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: name
-        in: query
-        required: true
-        schema:
-          type: string
-      - name: value
-        in: query
-        required: true
-        schema:
-          type: number
-    get:
-      summary: Process requests based on resource attributes
-      responses:
-        "200":
-          description: Processed response
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SuccessResponse"
-
-  "/mock/{name}/search":
-    parameters:
-      - name: name
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: search
-        in: query
-        required: true
-        schema:
-          type: string
-    get:
-      summary: Process requests based on resource attributes
-      responses:
-        "200":
-          description: Processed response
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SuccessResponse"
-
-  "/project/refresh":
+  /endpoint:
     post:
-      summary: refresh API key
+      tags:
+        - Endpoints
+      summary: Create a new endpoint
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Project"
+              $ref: "#/components/schemas/EndpointInput"
       responses:
         "201":
-          description: Resource mock data created successfully
+          description: Endpoint created successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SuccessResponse"
-  "/project/":
+                $ref: "#/components/schemas/Endpoint"
+
+  /mock/{resourceId}:
     get:
-      summary: List all user projects
+      tags:
+        - Mock
+      summary: Get mock data for a resource
+      security:
+        - apiKeyAuth: []
+      parameters:
+        - name: resourceId
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         "200":
-          description: Processed response
+          description: Mock data retrieved successfully
           content:
             application/json:
               schema:
                 type: object
+    post:
+      tags:
+        - Mock
+      summary: Create mock data for a resource
+      security:
+        - apiKeyAuth: []
+      parameters:
+        - name: resourceId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "201":
+          description: Mock data created successfully
+    put:
+      tags:
+        - Mock
+      summary: Update mock data for a resource
+      security:
+        - apiKeyAuth: []
+      parameters:
+        - name: resourceId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Mock data updated successfully
+    delete:
+      tags:
+        - Mock
+      summary: Delete mock data for a resource
+      security:
+        - apiKeyAuth: []
+      parameters:
+        - name: resourceId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Mock data deleted successfully
+
+  /mock/{resourceId}/paginate:
+    get:
+      tags:
+        - Mock
+      summary: Get paginated mock data for a resource
+      security:
+        - apiKeyAuth: []
+      parameters:
+        - name: resourceId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Paginated mock data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedResponse"
+
+  /mock/{resourceId}/filter:
+    get:
+      tags:
+        - Mock
+      summary: Get filtered mock data for a resource
+      security:
+        - apiKeyAuth: []
+      parameters:
+        - name: resourceId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: query
+          schema:
+            type: string
+        - name: value
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Filtered mock data retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+
+  /mock/{resourceId}/validate:
+    post:
+      tags:
+        - Mock
+      summary: Validate mock data for a resource
+      security:
+        - apiKeyAuth: []
+      parameters:
+        - name: resourceId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: validate
+          in: query
+          schema:
+            type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Mock data validated successfully
+    put:
+      tags:
+        - Mock
+      summary: Validate and update mock data for a resource
+      security:
+        - apiKeyAuth: []
+      parameters:
+        - name: resourceId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: validate
+          in: query
+          schema:
+            type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Mock data validated and updated successfully
+
+  /edge:
+    get:
+      tags:
+        - Edge
+      summary: Get all edges
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: List of edges
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
                 properties:
-                  message:
-                    type: string
                   data:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Project"
-
+                      $ref: "#/components/schemas/Edge"
     post:
-      summary: create user project
+      tags:
+        - Edge
+      summary: Create a new edge
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Project"
+              $ref: "#/components/schemas/EdgeInput"
       responses:
         "201":
-          description: project created successfully
+          description: Edge created successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SuccessResponse"
-
+                $ref: "#/components/schemas/Edge"
     put:
-      summary: Process PUT requests to edit user projects, can't update API key
+      tags:
+        - Edge
+      summary: Update an edge
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Project"
-
+              $ref: "#/components/schemas/EdgeInput"
       responses:
         "200":
-          description: Resource updated successfully
+          description: Edge updated successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SuccessResponse"
-
+                $ref: "#/components/schemas/Edge"
     delete:
-      summary: Process DELETE project
+      tags:
+        - Edge
+      summary: Delete an edge
+      security:
+        - bearerAuth: []
       responses:
         "204":
-          description: Resource deleted successfully
+          description: Edge deleted successfully
 
-  "/policy/":
+  /edgeMock/{edgeId}/{resourceId}:
     get:
-      summary: List all policies
+      tags:
+        - Edge
+      summary: Execute GET edge function
+      security:
+        - apiKeyAuth: []
+      parameters:
+        - name: edgeId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: resourceId
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         "200":
-          description: Processed response
+          description: Edge function executed successfully
           content:
             application/json:
               schema:
                 type: object
+    post:
+      tags:
+        - Edge
+      summary: Execute POST edge function
+      security:
+        - apiKeyAuth: []
+      parameters:
+        - name: edgeId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: resourceId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Edge function executed successfully
+    put:
+      tags:
+        - Edge
+      summary: Execute PUT edge function
+      security:
+        - apiKeyAuth: []
+      parameters:
+        - name: edgeId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: resourceId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Edge function executed successfully
+    delete:
+      tags:
+        - Edge
+      summary: Execute DELETE edge function
+      security:
+        - apiKeyAuth: []
+      parameters:
+        - name: edgeId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: resourceId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Edge function executed successfully
+
+  /cache/{projectId}:
+    get:
+      tags:
+        - Cache
+      summary: Get cache for a project
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Cache retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+    post:
+      tags:
+        - Cache
+      summary: Set cache key for a project
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                key:
+                  type: string
+                value:
+                  type: object
+              required:
+                - key
+                - value
+      responses:
+        "200":
+          description: Cache key set successfully
+    delete:
+      tags:
+        - Cache
+      summary: Delete cache key for a project
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Cache key deleted successfully
+
+  /event:
+    get:
+      tags:
+        - Events
+      summary: Get all events
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: List of events
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
                 properties:
-                  message:
-                    type: string
                   data:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Project"
-
+                      $ref: "#/components/schemas/Event"
     post:
-      summary: create user project policy
+      tags:
+        - Events
+      summary: Create a new event
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Project"
+              $ref: "#/components/schemas/EventInput"
       responses:
         "201":
-          description: policy created successfully
+          description: Event created successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SuccessResponse"
-
+                $ref: "#/components/schemas/Event"
     put:
-      summary: edit a policy
+      tags:
+        - Events
+      summary: Update an event
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Project"
+              $ref: "#/components/schemas/EventInput"
       responses:
         "200":
-          description: Resource updated successfully
+          description: Event updated successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SuccessResponse"
-
+                $ref: "#/components/schemas/Event"
     delete:
-      summary: Process DELETE policy
+      tags:
+        - Events
+      summary: Delete an event
+      security:
+        - bearerAuth: []
       responses:
         "204":
-          description: Resource deleted successfully
+          description: Event deleted successfully
+
+  /client:
+    get:
+      tags:
+        - Clients
+      summary: Get all clients
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: List of clients
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Client"
+    post:
+      tags:
+        - Clients
+      summary: Create a new client
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClientInput"
+      responses:
+        "201":
+          description: Client created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+    put:
+      tags:
+        - Clients
+      summary: Update a client
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClientInput"
+      responses:
+        "200":
+          description: Client updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+    delete:
+      tags:
+        - Clients
+      summary: Delete a client
+      security:
+        - bearerAuth: []
+      responses:
+        "204":
+          description: Client deleted successfully
 
 components:
-  securitySchemes:
-    jwt:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
   schemas:
+    BaseEntity:
+      type: object
+      properties:
+        _id:
+          type: string
+        userUID:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    BaseResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+        page:
+          type: integer
+        pageSize:
+          type: integer
+        data:
+          type: array
+          items:
+            type: object
+
+    PaginatedResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+        data:
+          type: array
+          items:
+            type: object
+
+    Token:
+      type: object
+      properties:
+        token:
+          type: string
+        expiresIn:
+          type: integer
+
     User:
+      allOf:
+        - $ref: "#/components/schemas/BaseEntity"
+        - type: object
+          properties:
+            username:
+              type: string
+            hashedPassword:
+              type: string
+            salt:
+              type: string
+            role:
+              type: string
+            email:
+              type: string
+
+    UserInput:
       type: object
       properties:
         username:
           type: string
         password:
           type: string
+        role:
+          type: string
+        email:
+          type: string
       required:
-        - name
-        - method
         - username
         - password
+        - role
+        - email
 
-    Resource:
-      type: object
-      properties:
-        project:
-          $ref: "#/components/schemas/Project"
-        name:
-          type: string
-        endpoint:
-          type: string
-        filter:
-          type: boolean
-        pagination:
-          type: boolean
-        search:
-          type: boolean
-        validation:
-          type: boolean
-        webhook:
-          type: boolean
-        sse:
-          type: boolean
-        wss:
-          type: boolean
-        get:
-          type: boolean
-        post:
-          type: boolean
-        put:
-          type: boolean
-        delete:
-          type: boolean
-        consumer:
-          type: boolean
-        producer:
-          type: boolean
-        funcs:
-          type: object
-          properties:
-            name:
-              type: string
-            code:
-              type: string
-
-      required:
-        - name
-        - method
-
-    Project:
-      type: object
-      properties:
-        name:
-          type: string
-        _id:
-          type: string
-        user:
-          type: string
-        apiKey:
-          type: string
     Policy:
+      allOf:
+        - $ref: "#/components/schemas/BaseEntity"
+        - type: object
+          properties:
+            project:
+              type: string
+            resources:
+              type: array
+              items:
+                type: string
+            actions:
+              type: array
+              items:
+                type: string
+            roles:
+              type: array
+              items:
+                type: string
+            policies:
+              type: array
+              items:
+                type: object
+                properties:
+                  role:
+                    type: string
+                  can:
+                    type: array
+                    items:
+                      type: string
+                  on:
+                    type: array
+                    items:
+                      type: string
+
+    PolicyInput:
       type: object
       properties:
         project:
-          $ref: "#/components/schemas/Project"
+          type: string
         resources:
           type: array
           items:
@@ -634,22 +1100,206 @@ components:
                 items:
                   type: string
 
-    SuccessResponse:
-      type: object
-      properties:
-        message:
-          type: string
-        status:
-          type: boolean
-        data:
-          type: object
+    Project:
+      allOf:
+        - $ref: "#/components/schemas/BaseEntity"
+        - type: object
+          properties:
+            name:
+              type: string
+            apiKey:
+              type: string
 
-    FailResponse:
+    ProjectInput:
       type: object
       properties:
-        message:
+        name:
           type: string
-        status:
+      required:
+        - name
+
+    Resource:
+      allOf:
+        - $ref: "#/components/schemas/BaseEntity"
+        - type: object
+          properties:
+            name:
+              type: string
+            fields:
+              type: array
+              items:
+                $ref: "#/components/schemas/SchemaField"
+            features:
+              $ref: "#/components/schemas/EndpointFeatures"
+            funcs:
+              type: array
+              items:
+                type: string
+            project:
+              type: string
+
+    SchemaField:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        required:
           type: boolean
+
+    EndpointFeatures:
+      type: object
+      properties:
+        filter:
+          type: boolean
+        pagination:
+          type: boolean
+        search:
+          type: boolean
+        validation:
+          type: boolean
+        getx:
+          type: boolean
+        postx:
+          type: boolean
+        putx:
+          type: boolean
+        deletex:
+          type: boolean
+        functions:
+          type: boolean
+
+    ResourceInput:
+      type: object
+      properties:
+        name:
+          type: string
+        fields:
+          type: array
+          items:
+            $ref: "#/components/schemas/SchemaField"
+        features:
+          $ref: "#/components/schemas/EndpointFeatures"
+        funcs:
+          type: array
+          items:
+            type: string
+        project:
+          type: string
+      required:
+        - name
+        - project
+
+    Data:
+      allOf:
+        - $ref: "#/components/schemas/BaseEntity"
+        - type: object
+          properties:
+            resource:
+              type: string
+            data:
+              type: object
+
+    DataInput:
+      type: object
+      properties:
+        resource:
+          type: string
         data:
           type: object
+      required:
+        - resource
+        - data
+
+    Edge:
+      allOf:
+        - $ref: "#/components/schemas/BaseEntity"
+        - type: object
+          properties:
+            resource:
+              type: string
+            name:
+              type: string
+            code:
+              type: string
+            method:
+              type: string
+
+    EdgeInput:
+      type: object
+      properties:
+        resource:
+          type: string
+        name:
+          type: string
+        code:
+          type: string
+        method:
+          type: string
+      required:
+        - resource
+        - name
+        - code
+        - method
+
+    Event:
+      allOf:
+        - $ref: "#/components/schemas/BaseEntity"
+        - type: object
+          properties:
+            resource:
+              type: string
+            name:
+              type: string
+            handler:
+              type: string
+
+    EventInput:
+      type: object
+      properties:
+        resource:
+          type: string
+        name:
+          type: string
+        handler:
+          type: string
+      required:
+        - resource
+        - name
+        - handler
+
+    Client:
+      allOf:
+        - $ref: "#/components/schemas/BaseEntity"
+        - type: object
+          properties:
+            name:
+              type: string
+            id:
+              type: string
+            secret:
+              type: string
+            project:
+              type: string
+
+    ClientInput:
+      type: object
+      properties:
+        name:
+          type: string
+        project:
+          type: string
+      required:
+        - name
+        - project
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY

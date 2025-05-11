@@ -4,7 +4,6 @@ import { SUPER_ADMIN_USERNAME } from "../getEnv";
 import PasswordService from "../services/password";
 import { Types } from "mongoose";
 import { SuccessResponse, ErrorResponse } from "../utils/responses";
-import Controller from "./generic";
 import { asyncController } from "../utils/handlers";
 import { IUserService } from "../entities/user";
 

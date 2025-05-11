@@ -16,6 +16,7 @@ import {
   PROJECT_ROUTE,
   RESOURCE_ROUTE,
   USER_ROUTE,
+  withAPiRoute,
 } from "./config/routes";
 import applyServerHardening from "./middleware/security";
 import policyRouter from "./routes/policy";
@@ -34,12 +35,26 @@ import cacheRouter from "./routes/cache";
 import eventRouter from "./routes/event";
 import clientRouter from "./routes/client";
 
+// swagger docs
+import swaggerUi from "swagger-ui-express";
+import YAML from "yamljs";
+import path from "path";
+
 const app = express();
 
 app.use(cors());
 
 app.use(morgan("combined"));
 app.use(bodyParser.json());
+
+// swagger
+const swaggerDocument = YAML.load(path.join(__dirname, "swagger.yaml"));
+app.use(
+  withAPiRoute("docs"),
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument)
+);
+// core routes
 
 app.use(AUTH_ROUTE, authRouter);
 

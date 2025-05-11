@@ -1,9 +1,0 @@
-FROM nginx:1.16.1-alpine
-
-# Add config files
-COPY ./conf/nginx.conf /etc/nginx/
-COPY ./conf/conf.d /etc/nginx/conf.d
-RUN ln -sf /dev/stdout /var/log/modsec_audit.log
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]

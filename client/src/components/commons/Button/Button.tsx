@@ -2,20 +2,50 @@ import React from "react";
 import { addtionalClasses } from "utils/index";
 import ButtonProps from "./Button.types";
 
-const MockifyButton : React.FC<ButtonProps> = (props :ButtonProps) => {
-    const { text, classes, onClick, htmlType, icon } = props;
-    const cls = 'bg-light-primary m-2  hover:bg-light-bg  text-bg-light py-1 px-2 rounded-lg shadow' + addtionalClasses({classes: classes});
-    let content = text || icon;
-    if ( text && icon ) content = <>{icon} {text}</>;
+const MockifyButton: React.FC<ButtonProps> = (props: ButtonProps) => {
+    const { 
+        text, 
+        classes, 
+        onClick, 
+        htmlType = "button", 
+        icon,
+    } = props;
+    
+    const baseClasses = `
+        font-medium
+        p-2
+        m-3
+        rounded-md
+        shadow-sm
+        transition-all
+        duration-200
+        ease-in-out
+        flex items-center justify-center
+        space-x-2
+        border border-transparent
+   
+        bg-light-primary dark:bg-dark-primary text-white hover:bg-light-primary/90 dark:hover:bg-dark-primary/90
+    `;
+    
+    const cls = baseClasses + addtionalClasses({classes: classes});
+    
+    const content = (
+        <>
+            {icon && <span className={text ? 'mr-2' : ''}>{icon}</span>}
+            {text && <span>{text}</span>}
+        </>
+    );
+    
     return (
         <button 
             type={htmlType}
             className={cls}
             onClick={onClick}
-            >
-                {content} 
+
+        >
+            {content} 
         </button>
     );
-}
+};
 
 export default MockifyButton;

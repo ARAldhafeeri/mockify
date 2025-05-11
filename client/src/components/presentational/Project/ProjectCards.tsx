@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Space, Typography, Tag, Divider } from 'antd';
+import { Card, Space, Typography, Divider, Tag } from 'antd';
 import { AiFillProject, AiOutlineKey, AiOutlineUser } from 'react-icons/ai';
 import CardTitleWithIcon from 'components/commons/Card/CardTitleWithIcon';
 import CardActions from 'components/commons/CardAction/CardActions';
@@ -30,12 +30,12 @@ const ProjectCard: React.FC<IProjectCardProps> = ({
   ];
 
   return (
-    <>
-      <div className="project-card-details">
+    <Space direction="vertical" size="middle">
+      <div className="user-card-details">
         {cardData.map((item, index) => (
-          <div key={index} className="project-card-detail-row">
+          <div key={index} className="user-card-detail-row">
             <Space size="small" align="start">
-              <span className="project-card-icon">{item.icon}</span>
+              <span className="detail-icon">{item.icon}</span>
               <Text strong>{item.label}:</Text>
               <Text type="secondary" className={item.className}>
                 {item.value}
@@ -50,24 +50,24 @@ const ProjectCard: React.FC<IProjectCardProps> = ({
         record={{ name, apiKey, user, _id }}
         classes={["card-action"]}
       />
-    </>
+    </Space>
   );
 };
 
 const ProjectCards: React.FC<ICardsProps> = ({ currentItems, actions }) => {
   return (
-    <div className="grid grid-cols-3 gap-3">
-      {currentItems?.map((item) => (
+    <div className="user-cards-grid">
+      {currentItems?.map((item: any) => (
         <Card
           key={item._id}
-          className="w-[300px]"
+          className="user-card"
           title={
             <CardTitleWithIcon
-              icon={<AiFillProject className="project-icon" />}
-              title={<span className="project-name">{item.name}</span>}
-              extra={<Tag className="project-id-tag">{item._id}</Tag>}
+              title={<span className="card-title">{item.name}</span>}
+              icon={<AiFillProject size={20} className="card-title-icon" />}
             />
           }
+          extra={item._id && <Tag color="blue">{item._id}</Tag>}
           hoverable
         >
           <ProjectCard {...item} actions={actions} />
